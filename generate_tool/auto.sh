@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_DIR="EgoGazeVQA"
+BASE_DIR="/workspace/EgoGazeVQA"
 
 for sub_dir in "$BASE_DIR"/*; do
     if [ -d "$sub_dir" ]; then

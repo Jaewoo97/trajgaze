@@ -87,8 +87,19 @@ ablation/
 *.pth
 *.pt
 *.h5
+*.safetensors
+*.bin
 checkpoints/
 weights/
+
+# AutoGaze experiment outputs and large model files
+AutoGaze/exps/
+AutoGaze/exps_old/
+AutoGaze/ckpt/
+AutoGaze/VideoMAE_AutoGaze/
+
+# TrajGaze logs
+TrajGaze/logs/
 
 # Others
 *.tar.gz

@@ -1,0 +1,7 @@
+[submodule "AutoGaze"]
+	path = AutoGaze
+	url = https://github.com/Jaewoo97/AutoGaze_jw.git
+
+[submodule "hand_object_detector"]
+	path = hand_object_detector
+	url = https://github.com/ddshan/hand_object_detector.git
