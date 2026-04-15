@@ -293,7 +293,7 @@ class VLMOracle:
 
     def _load_qwen(self):
         from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
-        MODEL_PATH = "/home/irteam/.cache/huggingface/hub/Qwen_Qwen2.5-VL-7B-Instruct"
+        MODEL_PATH = "/home/irteam/.cache/huggingface/hub/models--Qwen--Qwen2.5-VL-7B-Instruct/snapshots/cc594898137f460bfe9f0759e9844b3ce807cfb5"
         print(f"[rank {self.local_rank}] Loading Qwen2.5-VL-7B ...")
         self.processor = AutoProcessor.from_pretrained(MODEL_PATH)
         self.model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
