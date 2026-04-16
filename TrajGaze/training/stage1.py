@@ -123,8 +123,10 @@ class TrajGazeModel(nn.Module):
 
     def __init__(self, cfg: argparse.Namespace):
         super().__init__()
+        use_query = getattr(cfg, 'use_query', False)
         self.tokenizer     = TrajectoryTokenizer()
-        self.selector      = FrameSelector(threshold=ATTEND_THRESH)
+        self.selector      = FrameSelector(threshold=ATTEND_THRESH,
+                                           use_query=use_query)
         self.traj_enc      = TwoLevelTrajectoryEncoder()
         self.video_enc     = VideoEncoder()
         self.decoder       = ARPatchDecoder()
@@ -186,9 +188,23 @@ def training_step(
     T = tok_interact.shape[1]
 
     # ── Step 2: Frame selector ────────────────────────────────────────────────
-    scores = model.selector(tok_interact)   # (1, T) ∈ (0, 1)
+    query_sim = to(item.get("query_sim", None))  # (1, T, 1) or None
+    scores = model.selector(tok_interact, query_sim=query_sim)  # (1, T) ∈ (0, 1)
     attend_labels = to(item["attend"]).float().unsqueeze(0)   # (1, T)
     pad_mask_1d   = torch.ones(1, T, device=device, dtype=torch.bool)
+
+    # Query-aware attend label modulation:
+    # Blend original interaction label with query relevance so that
+    # frames relevant to the question get boosted attend targets.
+    #   attend' = (1-α)·attend + α·norm(query_sim)
+    # BCE naturally handles soft [0,1] targets.
+    if query_sim is not None:
+        q = query_sim.squeeze(-1)       # (1, T)
+        q_min = q.min()
+        q_range = q.max() - q_min + 1e-8
+        q_norm = (q - q_min) / q_range  # normalize to [0, 1]
+        alpha = 0.3
+        attend_labels = (1 - alpha) * attend_labels + alpha * q_norm
 
     if mode == "no_frame_selector":
         # All frames attended
@@ -373,6 +389,8 @@ def main():
                                  "no_traj_loss", "no_ntp", "no_gaze", "no_hand",
                                  "baseline=autogaze"],
                         help="Ablation mode")
+    parser.add_argument("--use-query",      action="store_true",
+                        help="Enable query-aware frame selection (Talk2DINO sim)")
     parser.add_argument("--save-every",     type=int, default=10)
     parser.add_argument("--val-every",      type=int, default=10,
                         help="Run validation every N epochs (0 = skip)")

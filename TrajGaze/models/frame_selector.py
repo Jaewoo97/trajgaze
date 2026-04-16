@@ -100,10 +100,13 @@ class FrameSelector(nn.Module):
         n_layers:  int = 2,
         dropout:   float = 0.1,
         threshold: float = 0.5,
+        use_query: bool = False,
+        d_query:   int = 1,
     ):
         super().__init__()
         self.d_model   = d_model
         self.threshold = threshold
+        self.use_query = use_query
 
         self.pos_enc = SinusoidalPE(d_model)
         self.layers  = nn.ModuleList([
@@ -118,16 +121,33 @@ class FrameSelector(nn.Module):
             nn.Linear(64, 1),
         )
 
-    def forward(self, tok_interact: torch.Tensor) -> torch.Tensor:
+        # Query-aware projection: scalar similarity → d_model embedding
+        if use_query:
+            self.query_proj = nn.Sequential(
+                nn.Linear(d_query, d_model),
+                nn.LayerNorm(d_model),
+            )
+
+    def forward(
+        self,
+        tok_interact: torch.Tensor,
+        query_sim: torch.Tensor | None = None,
+    ) -> torch.Tensor:
         """
         Args:
             tok_interact: (B, T, d_model) — interaction tokens for all T frames
+            query_sim:    (B, T, 1) — precomputed query-frame similarity, or None
 
         Returns:
             scores: (B, T) float — per-frame attend probabilities ∈ (0, 1)
         """
         B, T, _ = tok_interact.shape
-        x = self.pos_enc(tok_interact)
+        x = tok_interact
+
+        if self.use_query and query_sim is not None:
+            x = x + self.query_proj(query_sim)  # additive fusion
+
+        x = self.pos_enc(x)
 
         mask = _causal_mask(T, tok_interact.device)
         for layer in self.layers:
@@ -143,6 +163,7 @@ class FrameSelector(nn.Module):
         tok_interact: torch.Tensor,
         ratio: float | None = None,
         threshold: float | None = None,
+        query_sim: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, list[list[int]]]:
         """
         Hard frame selection at inference time.
@@ -154,12 +175,13 @@ class FrameSelector(nn.Module):
             tok_interact: (B, T, d_model)
             ratio:        select exactly this fraction of frames (e.g. 0.50)
             threshold:    fallback — select frames with score ≥ threshold
+            query_sim:    (B, T, 1) optional query-frame similarity
 
         Returns:
             scores:       (B, T) attend probabilities
             attended_idx: list of lists — attended frame indices per batch item
         """
-        scores = self.forward(tok_interact)   # (B, T)
+        scores = self.forward(tok_interact, query_sim=query_sim)   # (B, T)
         B, T = scores.shape
 
         if ratio is not None:

@@ -82,7 +82,12 @@ def evaluate(
         with torch.no_grad():
             tok_in = {k: item[k].to(device) for k in tokenizer_keys}
             _, _, _, tok_interact = model.tokenizer(**tok_in)
-            _, attended_idx_list  = model.selector.select_frames(tok_interact)
+            query_sim = item.get("query_sim")
+            if query_sim is not None:
+                query_sim = query_sim.to(device)
+            _, attended_idx_list  = model.selector.select_frames(
+                tok_interact, query_sim=query_sim
+            )
             attended_idx = attended_idx_list[0]
 
         token_ratio = len(attended_idx) / max(1, T)
@@ -111,7 +116,7 @@ def evaluate(
         else:
             # Proxy: attend label accuracy
             attend = item["attend"].float().to(device)
-            scores = model.selector(tok_interact)[0]
+            scores = model.selector(tok_interact, query_sim=query_sim)[0]
             att = (scores >= ATTEND_THRESH).float()
             correct = float((att == attend).float().mean().item())
 

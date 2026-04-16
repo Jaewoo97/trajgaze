@@ -64,9 +64,9 @@ def extract_choice(text: str) -> str:
     text = text.strip()
     # Match patterns like: "A", "A.", "A)", "(A)", "Answer: A", "The answer is A"
     patterns = [
-        r"\b([ABCD])\b",
-        r"([ABCD])[.)]",
-        r"\(([ABCD])\)",
+        r"\b([ABCDE])\b",
+        r"([ABCDE])[.)]",
+        r"\(([ABCDE])\)",
     ]
     for pat in patterns:
         m = re.search(pat, text, re.IGNORECASE)

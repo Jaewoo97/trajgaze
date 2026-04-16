@@ -717,7 +717,10 @@ def rollout_group(
 
     tok_gaze, tok_left, tok_right, tok_interact = model.tokenizer(**tok_in)
     present = tok_in["gaze_mask"] | tok_in["left_mask"] | tok_in["right_mask"]  # (1, T)
-    scores = model.selector(tok_interact)  # (1, T)
+    query_sim = item.get("query_sim")
+    if query_sim is not None:
+        query_sim = query_sim.to(device)
+    scores = model.selector(tok_interact, query_sim=query_sim)  # (1, T)
 
     rollouts = []
     for k in range(group_size):
@@ -794,7 +797,10 @@ def grpo_loss(
     ]
     tok_in = {k: item[k].to(device) for k in tokenizer_keys}
     _, _, _, tok_interact = model.tokenizer(**tok_in)
-    scores = model.selector(tok_interact)  # (1, T) — has grad_fn
+    query_sim = item.get("query_sim")
+    if query_sim is not None:
+        query_sim = query_sim.to(device)
+    scores = model.selector(tok_interact, query_sim=query_sim)  # (1, T) — has grad_fn
     s = scores[0]                          # (T,)
 
     rewards   = torch.tensor([r["reward"] for r in rollouts])
@@ -849,6 +855,10 @@ def main():
     parser.add_argument("--group-size",   type=int,   default=GROUP_SIZE)
     parser.add_argument("--delta-token",  type=float, default=DELTA_TOKEN)
     parser.add_argument("--save-every",   type=int,   default=1)
+    parser.add_argument("--use-query",   action="store_true",
+                        help="Enable query-aware frame selection")
+    parser.add_argument("--query-sim-dir", default=None,
+                        help="Directory with precomputed query similarities")
     args = parser.parse_args()
 
     # ── Distributed init ────────────────────────────────────────────────────────
@@ -1107,8 +1117,13 @@ def _validate(
         tok_in = {k: item[k].to(device) for k in tokenizer_keys}
         tok_gaze, tok_left, tok_right, tok_interact = model.tokenizer(**tok_in)
         present = tok_in["gaze_mask"] | tok_in["left_mask"] | tok_in["right_mask"]
+        query_sim = item.get("query_sim")
+        if query_sim is not None:
+            query_sim = query_sim.to(device)
         # Top-k frame selection (exact 50% budget, same as inference)
-        _, attended_idx = model.selector.select_frames(tok_interact, ratio=0.50)
+        _, attended_idx = model.selector.select_frames(
+            tok_interact, ratio=0.50, query_sim=query_sim
+        )
         attended_idx = attended_idx[0]
 
         if oracle.model is not None and attended_idx:
