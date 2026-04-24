@@ -36,6 +36,12 @@ import time
 import traceback
 
 import torch
+
+# Shim for torch < 2.3: transformers ≥ 4.54 calls torch.compiler.is_compiling()
+# inside fast image/video processors. Returning False is correct outside of
+# torch.compile, so this is semantically safe.
+if not hasattr(torch.compiler, "is_compiling"):
+    torch.compiler.is_compiling = lambda: False
 import torch.distributed as dist
 import torch.nn.functional as F
 from torch.nn.parallel import DistributedDataParallel as DDP
