@@ -1,14 +1,14 @@
 """
 AutoGaze + Qwen2.5-VL-7B LoRA fine-tuning on StreamGaze_v2.
 
-Token selection: AutoGaze selects ~10% of visual tokens (gazing_ratio=0.10).
+Token selection: AutoGaze (frozen GRPO ckpt) selects ~10% of visual tokens (gazing_ratio=0.10).
 Loss: CrossEntropy over 4 MCQ option logits at last prompt position.
-Train: egoexolearn + holoassist
-Val:   egtea
-GPUs:  2 via torchrun
+Train: egoexolearn + holoassist (all MCQ)
+Val:   egtea (full 526-item val set evaluated after every epoch)
+GPUs:  4 via torchrun
 
 Usage:
-    CUDA_VISIBLE_DEVICES=2,3 torchrun --nproc_per_node=2 \
+    CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=4 \
         -m TrajGazeMerge.training.train_autogaze_lora \
         --output-dir /workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/autogaze_lora \
         --epochs 3 --lr 1e-4 --grad-accum 4
@@ -17,6 +17,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
 import os
 import re
@@ -37,12 +38,13 @@ sys.path.insert(0, "/workspace/EgoGazeVQA")
 sys.path.insert(0, "/workspace/EgoGazeVQA/AutoGaze")
 
 from TrajGazeMerge.models.model import (
-    load_qwen_lora, get_option_ids, preprocess_item, forward_logits
+    load_qwen_lora, get_option_ids, preprocess_item, forward_logits, build_merged_inputs
 )
+from TrajGazeMerge.models.merge import gaze_weighted_merge
 
 # ── Constants ────────────────────────────────────────────────────────────────
 AUTOGAZE_CKPT = (
-    "/workspace/EgoGazeVQA/AutoGaze/exps/streamgaze_fold_c_ntp/checkpoint_latest_gaze"
+    "/workspace/EgoGazeVQA/AutoGaze/exps/streamgaze_fold_c_grpo/checkpoint_ep0_iter18000/checkpoint_gaze"
 )
 FRAMES_BASE   = "/workspace/datasets/StreamGaze_v2/frames"
 QA_BASE       = "/workspace/datasets/StreamGaze_v2/qa"
@@ -185,27 +187,24 @@ def load_autogaze(device: torch.device):
     return ag_transform, ag_model
 
 
-def compute_keep_mask(
+def compute_ag_scores(
     ag_frames_pil: list,
     ag_model,
     ag_transform,
     T_merged: int,
     n_spatial: int,
-    device: torch.device,
 ) -> torch.Tensor:
     """
-    Run AutoGaze on ag_frames_pil (16 PIL images) and produce a boolean keep_mask
-    of shape (T_merged * n_spatial,) aligned to Qwen's merged video token sequence.
+    Run AutoGaze and return continuous importance scores for all Qwen visual tokens.
 
-    Args:
-        ag_frames_pil : 16 PIL images (224×224)
-        T_merged      : temporal dimension of Qwen video token grid (grid_thw[0,0])
-        n_spatial     : spatial tokens per timestep after Qwen merge (grid_thw h*w / 4)
+    Uses only the finest-scale mask (AG_SCALES[-1]=224 → 16×16=256 tokens/frame)
+    averaged across frames, then interpolated to Qwen's spatial grid.
+    Keeps exactly (1-GAZING_RATIO) fraction of tokens via gaze_weighted_merge.
+
     Returns:
-        keep_mask : (T_merged * n_spatial,) bool on device
+        scores_all : (T_merged * n_spatial,) float on CPU
     """
-    # Process frames through AutoGaze image processor
-    out  = ag_transform(list(ag_frames_pil))
+    out = ag_transform(list(ag_frames_pil))
     imgs = out.pixel_values
     inner = imgs[0] if isinstance(imgs[0], list) else imgs
     if isinstance(inner[0], torch.Tensor):
@@ -225,106 +224,25 @@ def compute_keep_mask(
             target_patch_size=AG_PATCH_SIZE,
         )
 
-    T      = len(ag_frames_pil)     # 16
-    H_q    = W_q = FRAME_SIZE // AG_PATCH_SIZE   # 224/14 = 16
+    # Finest scale: AG_SCALES[-1]=224 → 16×16=256 tokens per frame
+    mask_fine = gaze_out["gazing_mask"][-1]            # (1, T=16, 256)
+    scores_fine = mask_fine.float().squeeze(0).mean(dim=0).cpu()  # (256,)
 
-    scale_grids = [
-        (0, 4,  4),    # scale=56  → 4×4
-        (1, 8,  8),    # scale=112 → 8×8
-        (2, 14, 14),   # scale=196 → 14×14
-        (3, 16, 16),   # scale=224 → 16×16
-    ]
-
-    full_mask = torch.zeros(T, H_q, W_q, dtype=torch.bool)
-    for scale_idx, H_s, W_s in scale_grids:
-        m = gaze_out["gazing_mask"][scale_idx][0].bool().cpu()   # (T, H_s*W_s)
-        m2d = m.view(T, H_s, W_s)
-        if H_s == H_q:
-            up = m2d
-        elif H_q % H_s == 0:
-            up = (m2d.repeat_interleave(H_q // H_s, dim=1)
-                     .repeat_interleave(W_q // W_s, dim=2))
-        else:
-            up = F.interpolate(
-                m2d.float().unsqueeze(0), size=(H_q, W_q), mode="nearest"
-            ).squeeze(0).bool()
-        full_mask |= up   # (T, 16, 16)
-
-    # Qwen temporal_patch_size=2: merge pairs of frames
-    gaze_t = full_mask[0::2] | full_mask[1::2]   # (T//2, 16, 16)  = (8, 16, 16)
-
-    # Qwen spatial_merge_size=2: 2×2 max pool → 8×8
-    gaze_s = F.max_pool2d(
-        gaze_t.float().unsqueeze(0), kernel_size=2, stride=2
-    ).squeeze(0).bool()   # (8, 8, 8)
-
-    T_ag = gaze_s.shape[0]   # 8 for N_AG_FRAMES=16
-
-    # Tile temporally to match T_merged from VLM
-    if T_merged == T_ag:
-        tiled = gaze_s
-    elif T_merged % T_ag == 0:
-        tiled = gaze_s.repeat_interleave(T_merged // T_ag, dim=0)
+    # Map 16×16 → Qwen's spatial grid (typically 8×8=64 after 2×2 spatial merge)
+    s16 = scores_fine.reshape(1, 1, 16, 16)
+    side = int(round(n_spatial ** 0.5))
+    if side * side == n_spatial and 16 % side == 0:
+        # Integer downsampling: avg pool
+        factor = 16 // side
+        scores_q = F.avg_pool2d(s16, kernel_size=factor, stride=factor).flatten()
     else:
-        reps  = (T_merged + T_ag - 1) // T_ag
-        tiled = gaze_s.repeat(reps, 1, 1)[:T_merged]   # (T_merged, 8, 8)
+        scores_q = F.interpolate(
+            s16, size=(side, side), mode="bilinear", align_corners=False
+        ).flatten()
 
-    # Flatten and handle n_spatial != 64 edge case
-    keep_flat = tiled.flatten()   # (T_merged * 64,)
-    n_video   = T_merged * n_spatial
-    if keep_flat.shape[0] > n_video:
-        keep_flat = keep_flat[:n_video]
-    elif keep_flat.shape[0] < n_video:
-        reps = (n_video + keep_flat.shape[0] - 1) // keep_flat.shape[0]
-        keep_flat = keep_flat.repeat(reps)[:n_video]
-
-    # Guarantee at least one token is kept
-    if not keep_flat.any():
-        keep_flat[0] = True
-
-    return keep_flat.to(device)
-
-
-def build_autogaze_inputs(base_qwen, cached: dict, keep_mask: torch.Tensor) -> dict:
-    """
-    Build shortened input sequence keeping only AutoGaze-selected visual tokens.
-
-    Args:
-        keep_mask : (n_video,) bool — True = keep token
-    Returns:
-        inputs_embeds, attention_mask, position_ids, rope_deltas
-    """
-    input_ids       = cached["input_ids"]
-    attention_mask  = cached["attention_mask"]
-    position_ids    = cached["position_ids"]
-    rope_deltas     = cached["rope_deltas"]
-    video_embeds    = cached["video_embeds"]     # (n_video, d)
-    video_positions = cached["video_positions"]  # (n_video,) positions in full seq
-    emb_dev         = cached["emb_dev"]
-
-    # Positions of dropped video tokens in full sequence
-    dropped_pos = video_positions[~keep_mask]
-    keep_seq    = torch.ones(input_ids.shape[1], dtype=torch.bool, device=emb_dev)
-    keep_seq[dropped_pos] = False
-
-    new_input_ids      = input_ids[:, keep_seq]
-    new_attention_mask = attention_mask[:, keep_seq]
-    new_position_ids   = position_ids[:, :, keep_seq]
-
-    new_inputs_embeds  = base_qwen.get_input_embeddings()(new_input_ids)
-
-    # Inject selected video embeddings
-    video_embeds_kept = video_embeds[keep_mask]
-    video_token_id    = base_qwen.config.video_token_id
-    new_is_video      = (new_input_ids[0] == video_token_id)
-    new_inputs_embeds[0, new_is_video] = video_embeds_kept.to(new_inputs_embeds.dtype)
-
-    return {
-        "inputs_embeds":  new_inputs_embeds,
-        "attention_mask": new_attention_mask,
-        "position_ids":   new_position_ids,
-        "rope_deltas":    rope_deltas,
-    }
+    # Tile across T_merged frames → (T_merged * n_spatial,)
+    scores_all = scores_q.unsqueeze(0).expand(T_merged, -1).reshape(-1)
+    return scores_all
 
 
 # ── Training helpers ──────────────────────────────────────────────────────────
@@ -340,11 +258,15 @@ def parse_args():
     p.add_argument("--log-every",     type=int,   default=20)
     p.add_argument("--eval-every",    type=int,   default=200)
     p.add_argument("--n-frames",      type=int,   default=128)
+    p.add_argument("--start-epoch",   type=int,   default=0,
+                   help="Resume from this epoch (0=start fresh). Loads epoch_XX.pth.")
+    p.add_argument("--resume-ckpt",   type=str,   default=None,
+                   help="Path to LoRA checkpoint to resume from.")
     return p.parse_args()
 
 
 def setup_ddp():
-    dist.init_process_group("nccl")
+    dist.init_process_group("nccl", timeout=datetime.timedelta(hours=3))
     rank       = dist.get_rank()
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
     torch.cuda.set_device(local_rank)
@@ -352,15 +274,17 @@ def setup_ddp():
 
 
 def evaluate(processor, model, base_qwen, ag_model, ag_transform,
-             option_ids, device, max_items=200):
-    """Evaluate AutoGaze+LoRA on egtea test split; returns accuracy."""
+             option_ids, device, max_items=None):
+    """Evaluate AutoGaze+LoRA on full egtea test split; returns (accuracy, n_samples, per_task)."""
     from PIL import Image
     test_ds = StreamGazeSimpleDataset(split="test", n_vlm_frames=128)
-    test_ds.items = test_ds.items[:max_items]
+    if max_items is not None:
+        test_ds.items = test_ds.items[:max_items]
 
     model.eval()
-    correct = 0
-    total   = 0
+    correct  = 0
+    total    = 0
+    by_task: dict[str, list] = {}
 
     with torch.no_grad():
         for item in test_ds:
@@ -383,22 +307,30 @@ def evaluate(processor, model, base_qwen, ag_model, ag_transform,
                     Image.open(p).convert("RGB").resize((FRAME_SIZE, FRAME_SIZE))
                     for p in ag_paths
                 ]
-                keep_mask = compute_keep_mask(
-                    ag_frames, ag_model, ag_transform, T_merged, n_spatial, device
+                scores_all = compute_ag_scores(
+                    ag_frames, ag_model, ag_transform, T_merged, n_spatial
                 )
-
-                inputs_dict   = build_autogaze_inputs(base_qwen, cached, keep_mask)
+                r = max(1, int(0.90 * n_video))
+                merged_video, receiver_idx = gaze_weighted_merge(
+                    cached["video_embeds"], scores_all.to(device), r
+                )
+                inputs_dict = build_merged_inputs(
+                    base_qwen, cached, merged_video, receiver_idx
+                )
                 logits        = forward_logits(model, inputs_dict)
                 option_logits = logits[option_ids]
                 pred_idx      = option_logits.argmax().item()
                 gt_idx        = ["A", "B", "C", "D"].index(item["answer"])
-                correct      += int(pred_idx == gt_idx)
-                total        += 1
+                ok = int(pred_idx == gt_idx)
+                correct += ok
+                total   += 1
+                by_task.setdefault(item["task"], []).append(ok)
             except Exception:
                 pass
 
     model.train()
-    return 100.0 * correct / max(1, total), total
+    per_task = {t: 100.0 * sum(v) / max(1, len(v)) for t, v in sorted(by_task.items())}
+    return 100.0 * correct / max(1, total), total, per_task
 
 
 # ── Main ─────────────────────────────────────────────────────────────────────
@@ -441,6 +373,18 @@ def main():
     loader   = DataLoader(train_ds, batch_size=1, sampler=sampler,
                           collate_fn=lambda b: b[0], num_workers=2)
 
+    # ── Resume from checkpoint ─────────────────────────────────────────────────
+    resume_path = args.resume_ckpt
+    if resume_path is None and args.start_epoch > 0:
+        resume_path = os.path.join(args.output_dir, f"epoch_{args.start_epoch:02d}.pth")
+    if resume_path and os.path.isfile(resume_path):
+        ckpt = torch.load(resume_path, map_location="cpu")
+        state = ckpt.get("lora_state", ckpt)
+        missing, unexpected = model.module.load_state_dict(state, strict=False)
+        if is_main:
+            print(f"Resumed from {resume_path} "
+                  f"(missing={len(missing)}, unexpected={len(unexpected)})")
+
     # ── Optimizer: LoRA params only ───────────────────────────────────────────
     lora_params = [p for p in model.parameters() if p.requires_grad]
     optimizer   = AdamW(lora_params, lr=args.lr, weight_decay=1e-4)
@@ -449,7 +393,7 @@ def main():
     best_acc    = 0.0
     global_step = 0
 
-    for epoch in range(args.epochs):
+    for epoch in range(args.start_epoch, args.epochs):
         sampler.set_epoch(epoch)
         model.train()
         optimizer.zero_grad()
@@ -478,20 +422,23 @@ def main():
                 T_merged  = int(cached["grid_thw"][0, 0].item())
                 n_spatial = n_video // max(1, T_merged)
 
-                # ── AutoGaze keep_mask (no grad) ──────────────────────────────
+                # ── AutoGaze scores → weighted merge (no grad) ───────────────
                 with torch.no_grad():
                     ag_paths  = _sample_paths(item["vlm_frame_paths"], N_AG_FRAMES)
                     ag_frames = [
                         _PIL_Image.open(p).convert("RGB").resize((FRAME_SIZE, FRAME_SIZE))
                         for p in ag_paths
                     ]
-                    keep_mask = compute_keep_mask(
-                        ag_frames, ag_model, ag_transform, T_merged, n_spatial, device
+                    scores_all = compute_ag_scores(
+                        ag_frames, ag_model, ag_transform, T_merged, n_spatial
                     )
-
-                # ── Build filtered inputs (no grad for embed lookup) ──────────
-                with torch.no_grad():
-                    inputs_dict = build_autogaze_inputs(base_qwen, cached, keep_mask)
+                    r = max(1, int(0.90 * n_video))
+                    merged_video, receiver_idx = gaze_weighted_merge(
+                        cached["video_embeds"], scores_all.to(device), r
+                    )
+                    inputs_dict = build_merged_inputs(
+                        base_qwen, cached, merged_video, receiver_idx
+                    )
 
                 # ── Forward through LoRA model ────────────────────────────────
                 logits = forward_logits(model, inputs_dict)   # (vocab_size,)
@@ -518,7 +465,7 @@ def main():
                 if is_main and n_steps % args.log_every == 0:
                     avg_loss = epoch_loss / n_steps
                     elapsed  = time.time() - t_start
-                    n_kept   = int(keep_mask.sum().item())
+                    n_kept   = n_video - r
                     pct_kept = 100.0 * n_kept / max(1, n_video)
                     print(f"Epoch {epoch+1} | step {n_steps}/{len(loader)} | "
                           f"loss={avg_loss:.4f} | kept={pct_kept:.1f}% | t={elapsed:.0f}s")
@@ -528,20 +475,7 @@ def main():
                             "loss": avg_loss, "pct_kept": pct_kept, "elapsed": elapsed,
                         }) + "\n")
 
-                if is_main and n_steps % args.eval_every == 0:
-                    acc, n_eval = evaluate(
-                        processor, model.module, base_qwen,
-                        ag_model, ag_transform, option_ids, device
-                    )
-                    print(f"  → eval egtea: {acc:.2f}% (n={n_eval})")
-                    if acc > best_acc:
-                        best_acc = acc
-                        torch.save({
-                            "epoch": epoch, "step": n_steps,
-                            "lora_state": model.module.state_dict(),
-                            "acc": acc,
-                        }, os.path.join(args.output_dir, "best.pth"))
-                        print(f"  → saved best (acc={acc:.2f}%)")
+                pass  # epoch-end eval only
 
             except Exception:
                 if is_main:
@@ -554,9 +488,9 @@ def main():
             optimizer.step()
             optimizer.zero_grad()
 
+        avg_loss = epoch_loss / max(1, n_steps)
+        elapsed  = time.time() - t_start
         if is_main:
-            avg_loss = epoch_loss / max(1, n_steps)
-            elapsed  = time.time() - t_start
             print(f"\n=== Epoch {epoch+1}/{args.epochs} | "
                   f"avg_loss={avg_loss:.4f} | time={elapsed:.0f}s ===")
             torch.save({
@@ -565,13 +499,31 @@ def main():
                 "loss": avg_loss,
             }, os.path.join(args.output_dir, f"epoch_{epoch+1:02d}.pth"))
 
-    # Final evaluation
-    if is_main:
-        acc, n_eval = evaluate(
-            processor, model.module, base_qwen,
-            ag_model, ag_transform, option_ids, device, max_items=500
-        )
-        print(f"\n[Final] egtea accuracy: {acc:.2f}% (n={n_eval})")
+        # ── Full val-set evaluation after every epoch (rank 0 only) ──────────
+        dist.barrier()
+        if is_main:
+            print(f"Evaluating epoch {epoch+1} on full EGTEA val set ...")
+            acc, n_eval, per_task = evaluate(
+                processor, model.module, base_qwen,
+                ag_model, ag_transform, option_ids, device,
+            )
+            print(f"  Overall: {acc:.2f}%  (n={n_eval})")
+            for task, task_acc in per_task.items():
+                print(f"    {task}: {task_acc:.2f}%")
+            with open(log_path, "a") as f:
+                f.write(json.dumps({
+                    "epoch": epoch + 1, "eval_acc": acc,
+                    "n_eval": n_eval, "per_task": per_task,
+                }) + "\n")
+            if acc > best_acc:
+                best_acc = acc
+                torch.save({
+                    "epoch": epoch,
+                    "lora_state": model.module.state_dict(),
+                    "acc": acc,
+                }, os.path.join(args.output_dir, "best.pth"))
+                print(f"  → saved best (acc={acc:.2f}%)")
+        dist.barrier()
 
     dist.destroy_process_group()
 
