@@ -4,6 +4,7 @@
 #   OUTDIR   : checkpoint output dir
 #   NPROC    : number of GPUs (default 2 for 2×H200)
 #   ACCEL    : accelerate config (default singlegpu — use multigpu if NPROC>1)
+#   CONFIG   : training config py path (default tasks/train/config_pllava_streamgaze.py)
 set -e
 cd /home/yujin/gaze/PruneVid
 
@@ -16,13 +17,14 @@ else
     ACCEL=${ACCEL:-scripts/accel_config_singlegpu.yaml}
 fi
 ACCELERATE_BIN=${ACCELERATE_BIN:-/opt/conda/envs/prunevid/bin/accelerate}
+CONFIG=${CONFIG:-tasks/train/config_pllava_streamgaze.py}
 
-echo "FRAMES=${FRAMES}  OUTDIR=${OUTDIR}  NPROC=${NPROC}  ACCEL=${ACCEL}  BIN=${ACCELERATE_BIN}"
+echo "FRAMES=${FRAMES}  OUTDIR=${OUTDIR}  NPROC=${NPROC}  ACCEL=${ACCEL}  CONFIG=${CONFIG}  BIN=${ACCELERATE_BIN}"
 
 ${ACCELERATE_BIN} launch \
     --config_file ${ACCEL} \
     --num_processes ${NPROC} \
     -m tasks.train.train_pllava_nframe_accel \
-    tasks/train/config_pllava_streamgaze.py \
+    ${CONFIG} \
     num_frames ${FRAMES} \
     output_dir ${OUTDIR}

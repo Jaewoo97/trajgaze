@@ -269,6 +269,32 @@ def load_pllava(repo_id, num_frames, use_lora=False, weight_dir=None, lora_alpha
         else:
             use_full= True
 
+        # If we are loading a small adapter (LoRA + projector only) on top of
+        # a separate base PLLaVA-7B repo, prefetch the base sharded safetensors
+        # FIRST so that the wrapped-LoRA key prefix (language_model.base_model.model.*)
+        # gets populated. Without this step, PllavaForConditionalGeneration.from_pretrained
+        # at L199 silently leaves the LM randomly initialized because the HF release
+        # safetensors keys don't match the unwrapped model's expected prefix.
+        if use_lora and not use_full and repo_id != weight_dir:
+            base_fnames = sorted(os.listdir(repo_id))
+            base_shards = [fn for fn in base_fnames if fn.startswith('model-0') and fn.endswith('.safetensors')]
+            if base_shards:
+                print(f"Loading base LM weights from {repo_id} ({len(base_shards)} shards) before adapter")
+                live_keys = set(model.state_dict().keys())
+                for fn in base_shards:
+                    with safe_open(f"{repo_id}/{fn}", framework="pt", device="cpu") as f:
+                        for k in f.keys():
+                            # PLLaVA-7B base ships LoRA on q_proj/v_proj only, so its
+                            # k_proj/o_proj are saved as `.weight`. Our config wraps
+                            # k_proj/o_proj too → live model expects `.base_layer.weight`.
+                            # Rewrite the key when needed.
+                            target_k = k
+                            if k not in live_keys:
+                                cand = k.replace('.weight', '.base_layer.weight')
+                                if cand in live_keys:
+                                    target_k = cand
+                            state_dict[target_k] = f.get_tensor(k)
+
         if not use_full:
             print("Loading weight from", weight_dir, "model.safetensors")
             with safe_open(f"{weight_dir}/model.safetensors", framework="pt", device="cpu") as f:
@@ -287,7 +313,19 @@ def load_pllava(repo_id, num_frames, use_lora=False, weight_dir=None, lora_alpha
         if 'model' in state_dict.keys():
             msg = model.load_state_dict(state_dict['model'], strict=False)
         else:
-            msg = model.load_state_dict(state_dict, strict=False)
+            # Filter shape-mismatch keys (e.g. base PLLaVA-7B ships r=128 LoRA
+            # in its safetensors; we wrap with r=16 → reuse fresh LoRA init).
+            live_state = model.state_dict()
+            filtered = {}
+            skipped = 0
+            for k, v in state_dict.items():
+                if k in live_state and live_state[k].shape != v.shape:
+                    skipped += 1
+                    continue
+                filtered[k] = v
+            if skipped:
+                print(f"Skipped {skipped} ckpt keys with shape mismatch (LoRA r difference)")
+            msg = model.load_state_dict(filtered, strict=False)
         print('model load state:', msg)
     # dispatch model weight
     if use_multi_gpus:

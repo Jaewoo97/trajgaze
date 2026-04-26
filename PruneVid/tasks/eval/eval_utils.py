@@ -189,6 +189,18 @@ conv_eval_mvbench = Conversation(
     mm_token='<image>\n',
     mm_style=MultiModalConvStyle.MM_ALONE,
 )
+# Mirror config_pllava_streamgaze.preprocess: system has trailing space,
+# image token interleaves into the question's USER turn (mm_alone=False).
+# Use this conv_mode for evaluating LoRA adapters trained with that config —
+# MM_ALONE causes immediate-EOS collapse on a heavily-finetuned model.
+conv_eval_mvbench_streamgaze = Conversation(
+    system=SYSTEM_MVBENCH[:-1] + "\n ",
+    roles=("USER: ", "ASSISTANT:"),
+    messages=[],
+    sep=[" ","</s>"],
+    mm_token='<image>\n',
+    mm_style=MultiModalConvStyle.MM_INTERLEAF,
+)
 SYSTEM_VIDEOMME="Select the best answer to the following multiple-choice question based on the video. Respond with only the letter (A, B, C, or D) of the correct option.\n"
 conv_eval_videomme = Conversation(
     system=SYSTEM_VIDEOMME,
@@ -268,6 +280,7 @@ conv_templates = {
     "eval_vcg_llavanext": conv_eval_vcg_llavanext,
     "eval_videomme": conv_eval_videomme,
     "eval_mvbench": conv_eval_mvbench,
+    "eval_mvbench_streamgaze": conv_eval_mvbench_streamgaze,
     "eval_mvbench_llavanext": conv_eval_mvbench_llavanext,
     "eval_videoqabench": conv_eval_videoqabench,
     "eval_videoqa_llavanext": conv_eval_videoqa_llavanext,

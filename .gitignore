@@ -101,11 +101,12 @@ AutoGaze/VideoMAE_AutoGaze/
 # TrajGaze logs
 TrajGaze/logs/
 
-# PruneVid runtime artifacts (training outputs, datasets, model weights)
-PruneVid/DATAS/
-PruneVid/MODELS/
-PruneVid/test_results/
-PruneVid/logs/
+# PruneVid runtime artifacts (training outputs, datasets, model weights).
+# No trailing slash so symlinks pointing outside the repo are also ignored.
+PruneVid/DATAS
+PruneVid/MODELS
+PruneVid/test_results
+PruneVid/logs
 
 # Others
 *.tar.gz

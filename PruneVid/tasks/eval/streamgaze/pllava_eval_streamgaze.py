@@ -54,6 +54,13 @@ def parse_args():
                         help="Truncate dataset for smoke testing. Default: full 526 QA.")
     parser.add_argument("--multiprocess", type=int, default=1,
                         help="1 to shard across all visible GPUs (default), 0 for single-process debug.")
+    parser.add_argument("--answer_prompt", type=str, default="Best option:(",
+                        help="Forced ASSISTANT prefix for generation. "
+                             "Pass 'none' to disable (e.g. for LoRA models trained "
+                             "to emit '(X) ...' from a bare ASSISTANT: turn).")
+    parser.add_argument("--return_prompt", type=str, default="(",
+                        help="String prepended to model output before parsing. "
+                             "Pass 'none' to disable.")
     return parser.parse_args()
 
 
@@ -159,14 +166,17 @@ def run(rank, args, world_size):
         acc_dict[task_type][1] += 1
         total += 1
 
+        answer_prompt = None if args.answer_prompt.lower() == 'none' else args.answer_prompt
+        return_prompt = None if args.return_prompt.lower() == 'none' else args.return_prompt
+
         try:
             pred = infer_mvbench(
                 args, model, processor, example,
                 conv_mode=conv_mode,
                 pre_query_prompt=pre_query_prompt,
                 post_query_prompt=post_query_prompt,
-                answer_prompt="Best option:(",
-                return_prompt='(',
+                answer_prompt=answer_prompt,
+                return_prompt=return_prompt,
                 print_res=False,
             )
         except Exception as e:

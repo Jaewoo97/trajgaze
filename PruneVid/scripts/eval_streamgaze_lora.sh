@@ -22,6 +22,7 @@ ${PYTHON_BIN} -m tasks.eval.streamgaze.pllava_eval_streamgaze \
     --lora_r 16 --lora_alpha 32 --lora_dropout 0.05 \
     --lora_target_modules q_proj,k_proj,v_proj,o_proj \
     --pooling_shape 16-12-12 \
-    --conv_mode eval_mvbench \
+    --conv_mode eval_mvbench_streamgaze \
     --tau 1.0 --temporal_segment_ratio 1.0 --cluster_ratio 1.0 \
-    --top_p 1.0 --temperature 1.0
+    --top_p 1.0 --temperature 1.0 \
+    --answer_prompt none --return_prompt none
