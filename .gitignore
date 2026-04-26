@@ -114,3 +114,6 @@ TrajGaze/logs/
 .DS_Store
 
 
+
+# TrajGaze_v2 large checkpoints (HF-distributed; not tracked in repo)
+TrajGaze_v2/checkpoints/

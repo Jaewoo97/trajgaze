@@ -348,15 +348,24 @@ def get_patch_scores_with_extras(
     traj_batch = {k: v.unsqueeze(0).to(device) for k, v in item["traj"].items()}
     query_emb   = traj_encoder.query_encoder([item["question"]], device)
     visual_feat = traj_encoder.visual_encoder([item["traj_frame_paths"]], device)
-    out = traj_encoder.encoder(traj_batch, query_emb, visual_feat)
+    # Try the new (return_extras=True) interface first; fall back to legacy if the
+    # encoder build doesn't support the kwarg yet.
+    try:
+        out = traj_encoder.encoder(
+            traj_batch, query_emb, visual_feat, return_extras=True
+        )
+    except TypeError:
+        out = traj_encoder.encoder(traj_batch, query_emb, visual_feat)
+
     if isinstance(out, tuple):
         scores_raw = out[0]
-        rest = out[1] if len(out) > 1 else None
+        # Locate the dict-typed extras anywhere in the tuple (legacy: not present;
+        # new: 3rd position).
+        extras = next((x for x in out[1:] if isinstance(x, dict)), None)
     else:
         scores_raw = out
-        rest = None
+        extras = None
     scores_raw = scores_raw.squeeze(0)
-    extras = rest if isinstance(rest, dict) else None
     return scores_raw, extras
 
 
@@ -400,6 +409,43 @@ def load_traj_encoder(ckpt_path: str, device: torch.device) -> TrajGazeV2:
     else:
         print(f"[TrajEnc] WARNING: ckpt not found: {ckpt_path}, using random init")
     return model
+
+
+def _topk_traj_hint(extras: dict | None, k_tokens: int, hidden: int,
+                    device, dtype=torch.float32) -> torch.Tensor:
+    """
+    Reduce encoder ``extras['traj_embeds']`` (B, T, 4, D) into the (K, D)
+    shape that ``TrajHintProjection`` expects.
+
+    Selection: top-k frames by ``extras['frame_attend']`` saliency,
+    mean-pooled across the 4 trajectory-token slots. Falls back to a
+    zero (D,) tensor when extras are missing.
+    """
+    if extras is None or not isinstance(
+        extras.get("traj_embeds", None), torch.Tensor
+    ):
+        return torch.zeros(hidden, device=device, dtype=dtype)
+
+    te = extras["traj_embeds"].to(device).float()  # (B, T, 4, D)
+    if te.dim() == 4 and te.shape[0] == 1:
+        te = te.squeeze(0)                         # (T, 4, D)
+    elif te.dim() != 3:
+        return torch.zeros(hidden, device=device, dtype=dtype)
+    frame_pool = te.mean(dim=1)                    # (T, D)
+    T = frame_pool.shape[0]
+    K = min(k_tokens, T) if k_tokens > 0 else T
+
+    fa = extras.get("frame_attend", None)
+    if isinstance(fa, torch.Tensor):
+        fa = fa.to(device).float()
+        if fa.dim() > 1:
+            fa = fa.squeeze(0)
+        if fa.shape[0] == T and K < T:
+            top_idx = torch.topk(fa, k=K).indices.sort().values
+            frame_pool = frame_pool[top_idx]       # (K, D)
+            return frame_pool.to(dtype)
+    # Fallback: take first K frames
+    return frame_pool[:K].to(dtype)
 
 
 def get_patch_scores(
@@ -476,15 +522,11 @@ def evaluate(processor, qwen_model, base_qwen, traj_encoder,
 
                 hint_embeds_llm = None
                 if hint_proj is not None:
-                    if (extras is not None
-                            and isinstance(extras.get("traj_embeds", None), torch.Tensor)):
-                        traj_feat = extras["traj_embeds"].to(device)
-                        if traj_feat.dim() > 1 and traj_feat.shape[0] == 1:
-                            traj_feat = traj_feat.squeeze(0)
-                    else:
-                        traj_feat = torch.zeros(
-                            aux_traj_hidden, device=device, dtype=torch.float32
-                        )
+                    inner = hint_proj.module if hasattr(hint_proj, "module") else hint_proj
+                    traj_feat = _topk_traj_hint(
+                        extras, k_tokens=inner.n_tokens,
+                        hidden=aux_traj_hidden, device=device,
+                    )
                     hint_embeds_llm = hint_proj(traj_feat.to(torch.bfloat16))
 
                 frame_scores_enc = None
@@ -785,17 +827,11 @@ def main():
                 # encoder exposes traj_embeds.
                 hint_embeds_llm = None
                 if hint_proj is not None:
-                    if (extras is not None
-                            and isinstance(extras.get("traj_embeds", None), torch.Tensor)):
-                        traj_feat = extras["traj_embeds"].to(device)
-                        if traj_feat.dim() > 1 and traj_feat.shape[0] == 1:
-                            traj_feat = traj_feat.squeeze(0)
-                    else:
-                        # Fallback: silent zero-vector → hint_proj(0) with zero-init
-                        # weights yields (approximately) zero embeddings, i.e., neutral.
-                        traj_feat = torch.zeros(
-                            args.aux_traj_hidden, device=device, dtype=torch.float32
-                        )
+                    inner = hint_proj.module if hasattr(hint_proj, "module") else hint_proj
+                    traj_feat = _topk_traj_hint(
+                        extras, k_tokens=inner.n_tokens,
+                        hidden=args.aux_traj_hidden, device=device,
+                    )
                     hint_embeds_llm = hint_proj(traj_feat.to(torch.bfloat16))  # (K, d)
 
                 # Optional frame-attend prob for global budget (축 1)
