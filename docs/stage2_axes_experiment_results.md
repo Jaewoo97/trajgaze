@@ -94,35 +94,67 @@ axis 1+5a 회귀의 가설:
 
 ## 결론
 
-1. **axes23 가 plan 의 axes 조합 중 가장 강력한 production 모델.** OVERALL +2.09pt, scene-recall +8.11pt 회복.
+1. **axes23 는 한때 production best 였으나 (66.54%), 2026-04-27 의 A1 (66.92%) 으로 갱신됨.**
 2. **axis 1+5a 추가는 현 형태로는 도움 안 됨.** 단독 ablation 또는 다른 hyperparameter
    (예: `--aux-traj-tokens 1~2`, `--merge-scope global` 만) 로 재검증 필요.
-3. **plan 의 단계 4 (Stage 1 supervision 재설계)** 는 본 실험으로는 불필요 — `past_scene_recall`
-   gap 이 `−21.62 → −13.51` 로 plan 의 −10pp 임계에 거의 도달했고, 추가 ablation 이 더 저비용.
-
-### 권장 다음 액션
-
-| 우선순위 | 액션 | 비용 | 기대 |
-|:-:|---|:-:|---|
-| 1 | **axes23 를 production base 로 고정** ([axes23/best.pth](../TrajGazeMerge/checkpoints/axes23/best.pth)) | 0 | 안정 운영 |
-| 2 | axis 1 only / 5a only 단독 ablation (각 9h) | ~18h | axis 1 또는 5a 의 부분 효과 분리 검증 |
-| 3 | `--aux-traj-tokens 1` 로 5a 약화 + axes23 와 결합 | ~9h | 5a 의 부작용 완화 가능성 |
-| 4 | (선택) plan 단계 4 — Stage 1 supervision 재설계 | 大 | scene_recall 의 −13.51pp 잔여 격차 해소 시도 |
+3. **plan 의 단계 4 (Stage 1 supervision 재설계)** 는 본 실험으로는 불필요 — A1 에서 `past_scene_recall`
+   gap 이 `−21.62 → −8.11pp` 로 plan 의 −10pp 임계 통과, scene_recall 56.76 까지 회복됨.
 
 ---
 
-## 산출물 파일 위치
+# 2026-04-27 추가 실험 — A1 (baseline + feat-KD)
 
-- **Best 모델**: [TrajGazeMerge/checkpoints/axes23/best.pth](../TrajGazeMerge/checkpoints/axes23/best.pth) (16GB)
-- **Per-task 로그 (axes23)**: [axes23/per_task_eval_best.log](../TrajGazeMerge/checkpoints/axes23/per_task_eval_best.log)
+## 핵심 결과
+
+**A1 = baseline params + feature-level MSE KD only** (ViT LoRA 없음, axis 3 없음) 가 **66.92%** 로 axes23 (66.54%) 를 +0.38pt 추월. 동일한 학습 비용, 추가 trainable params **0**.
+
+## Per-task 비교 (n=526)
+
+| # | Task | N | baseline | axes23 | axis3-only | **A1** | A1 vs axes23 |
+|:-:|------|:-:|:-:|:-:|:-:|:-:|:-:|
+| 1 | past_gaze_sequence_matching | 64 | 68.75 | 73.44 | 64.06 | 71.88 | −1.56 |
+| 2 | past_non_fixated_object_id | 68 | 63.24 | 58.82 | 66.18 | **63.24** | **+4.42** 🟢 |
+| 3 | past_object_transition_pred | 2 | 50.00 | 0.00 | 50.00 | 50.00 | (n=2 무의미) |
+| 4 | **past_scene_recall** | 37 | 43.24 | 51.35 | 48.65 | **56.76** ⭐ | **+5.41** 🟢 |
+| 5 | present_future_action_pred | 94 | 51.06 | 52.13 | 46.81 | 52.13 | 0.00 |
+| 6 | present_obj_attr_recog | 96 | 90.62 | 92.71 | 90.62 | 91.67 | −1.04 |
+| 7 | present_obj_id_easy | 101 | 59.41 | 62.38 | 61.39 | 58.42 | −3.96 🔴 |
+| 8 | **present_obj_id_hard** | 64 | 62.50 | 65.62 | 56.25 | **70.31** ⭐ | **+4.69** 🟢 |
+| | **OVERALL** | **526** | 64.45 | 66.54 | 63.50 | **66.92** ⭐ | **+0.38** |
+
+## 새 결론
+
+1. **`--kd-feat-layers=-1,-2 --kd-feat-weight 0.3` 만으로 axes23 초과** — feature-level MSE KD (마지막 2 LLM layer hidden state) 가 ViT LoRA capacity 보다 더 효과적.
+2. **Efficient training 컨셉의 정당성 입증**: 동일 trainable params (LLM LoRA q/k/v/o only), 동일 학습 비용 (~9h), 더 좋은 성능.
+3. **`past_scene_recall` 56.76 ⭐**: plan 의 main target task. teacher gap −21.62 → −8.11pp 로 plan 의 −10pp 임계 돌파.
+4. **`present_obj_id_hard` 70.31 ⭐**: ViT LoRA 없이도 visual reasoning 향상 가능.
+5. **axis 3 (alpha-schedule + kd-gate) 단독은 baseline 보다 나쁨** (63.50%). axis 3 의 효과는 ViT LoRA 와 시너지로만 발현됨.
+
+## 권장 다음 액션 (2026-04-27 기준)
+
+| 우선순위 | 액션 | 비용 | 기대 |
+|:-:|---|:-:|---|
+| 1 | **A1 을 production base 로 고정** ([a1_baseline_feat/best.pth](../TrajGazeMerge/checkpoints/a1_baseline_feat/best.pth)) | 0 | 새 baseline |
+| 2 | **A1 + A2** (`--kd-seq answer_full` 추가) — KD 영역 last 1 → answer 8 토큰 | ~9h | overall +0.5~1pt |
+| 3 | **A1 + A4** (`--merge-scope global --k-min 1` 추가) — frame-level budget | ~9h | scene 추가 회복 시도 |
+| 4 | **A1 + A2 + A4 stack** — methodology 누적 | ~9h | 67%+ 시도 |
+| 5 | **B2 soft-merge** — hard-delete 제거, scene_recall 의 본질 lever | 1-2일 + 9h | scene +1~2pt |
+| 6 | (선택) Stage 1 supervision 재설계 | 大 | 본 plan 외 |
+
+## 산출물 파일 위치 (A1 production)
+
+- **Best 모델**: [TrajGazeMerge/checkpoints/a1_baseline_feat/best.pth](../TrajGazeMerge/checkpoints/a1_baseline_feat/best.pth) (16GB)
+- **Per-task 로그 (A1)**: [a1_baseline_feat/per_task_eval_best.log](../TrajGazeMerge/checkpoints/a1_baseline_feat/per_task_eval_best.log)
+- **학습 stdout (A1)**: [a1_baseline_feat/stdout.log](../TrajGazeMerge/checkpoints/a1_baseline_feat/stdout.log)
+- **Per-task 로그 (이전 best, axes23)**: [axes23/per_task_eval_best.log](../TrajGazeMerge/checkpoints/axes23/per_task_eval_best.log)
 - **Per-task 로그 (axes1235a)**: [axes1235a/per_task_eval_best.log](../TrajGazeMerge/checkpoints/axes1235a/per_task_eval_best.log)
-- **학습 stdout**:
-  - [axes23/stdout.log](../TrajGazeMerge/checkpoints/axes23/stdout.log)
-  - [axes1235a/stdout.log](../TrajGazeMerge/checkpoints/axes1235a/stdout.log)
-- **Plan 원본**: `~/.claude/plans/linked-enchanting-hennessy.md`
+- **Per-task 로그 (axis 3 only ablation)**: [ablation_no_vitlora/per_task_eval_best.log](../TrajGazeMerge/checkpoints/ablation_no_vitlora/per_task_eval_best.log)
+- **A1 launch script**: [TrajGazeMerge/eval/run_a1_baseline_feat_detached.sh](../TrajGazeMerge/eval/run_a1_baseline_feat_detached.sh)
+- **Plan 원본**: `~/.claude/plans/linked-enchanting-hennessy.md`, `~/.claude/plans/indexed-humming-scone.md`
 - **평가 스크립트**: [TrajGazeMerge/eval/eval_per_task.py](../TrajGazeMerge/eval/eval_per_task.py)
 - **회귀 테스트** (encoder return_extras 호환성): [TrajGazeMerge/tests/test_encoder_compat.py](../TrajGazeMerge/tests/test_encoder_compat.py)
 
 ---
 
-*작성: 2026-04-25, axes23 실험 종료 후*
+*작성: 2026-04-25, axes23 실험 종료 후*  
+*갱신: 2026-04-27, A1 (baseline + feat-KD) 이 axes23 추월 — production 갱신*
