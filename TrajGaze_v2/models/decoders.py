@@ -20,6 +20,42 @@ T_FUTURE_MAX = 32   # max future steps (equals T_SAMPLE)
 N_PATCHES    = 196
 
 
+class _DecoderLayerTracked(nn.Module):
+    """Pre-norm transformer decoder layer that exposes cross-attention weights."""
+
+    def __init__(self, d_model: int, n_heads: int, dim_ff: int, dropout: float = 0.1):
+        super().__init__()
+        self.self_attn  = nn.MultiheadAttention(d_model, n_heads, dropout=dropout, batch_first=True)
+        self.cross_attn = nn.MultiheadAttention(d_model, n_heads, dropout=dropout, batch_first=True)
+        self.ff = nn.Sequential(
+            nn.Linear(d_model, dim_ff),
+            nn.GELU(),
+            nn.Linear(dim_ff, d_model),
+        )
+        self.norm1   = nn.LayerNorm(d_model)
+        self.norm2   = nn.LayerNorm(d_model)
+        self.norm3   = nn.LayerNorm(d_model)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(
+        self,
+        tgt:    torch.Tensor,
+        memory: torch.Tensor,
+        return_cross_weights: bool = False,
+    ):
+        x = tgt + self.dropout(self.self_attn(self.norm1(tgt), self.norm1(tgt), self.norm1(tgt))[0])
+        normed = self.norm2(x)
+        cross_out, cross_w = self.cross_attn(
+            normed, memory, memory,
+            need_weights=True, average_attn_weights=True,
+        )
+        x = x + self.dropout(cross_out)
+        x = x + self.dropout(self.ff(self.norm3(x)))
+        if return_cross_weights:
+            return x, cross_w   # cross_w: (B, T_q, T_kv)
+        return x
+
+
 class CrossAttentionDecoder(nn.Module):
     """
     Non-autoregressive decoder using cross-attention.
@@ -79,6 +115,63 @@ class CrossAttentionDecoder(nn.Module):
 
         x = self.norm(x)                  # (B, T_future, D)
         return self.head(x)               # (B, T_future, out_dim)
+
+
+class CrossAttentionDecoderTracked(nn.Module):
+    """
+    Identical to CrossAttentionDecoder but uses _DecoderLayerTracked so the
+    last layer's cross-attention weights can be returned.
+
+    The cross-attention weights (B, T_future, T_past*4) record which past
+    trajectory tokens each future-step query attended to — used to derive
+    trajectory-prediction-driven visual patch importance in the encoder.
+    """
+
+    def __init__(
+        self,
+        d_model:  int,
+        out_dim:  int,
+        n_future: int = T_FUTURE_MAX,
+        n_layers: int = 3,
+        n_heads:  int = 8,
+    ):
+        super().__init__()
+        self.n_future = n_future
+        self.future_queries = nn.Parameter(torch.randn(n_future, d_model) * 0.02)
+        self.layers = nn.ModuleList([
+            _DecoderLayerTracked(d_model, n_heads, d_model * 4)
+            for _ in range(n_layers)
+        ])
+        self.norm = nn.LayerNorm(d_model)
+        self.head = nn.Linear(d_model, out_dim)
+
+    def forward(
+        self,
+        context:             torch.Tensor,
+        T_future:            int,
+        return_cross_weights: bool = False,
+    ):
+        """
+        Returns (B, T_future, out_dim) and optionally (B, T_future, T_past*4)
+        cross-attention weights from the last decoder layer.
+        """
+        B      = context.shape[0]
+        memory = context.reshape(B, -1, context.shape[-1])
+        x      = self.future_queries[:T_future].unsqueeze(0).expand(B, -1, -1)
+
+        for i, layer in enumerate(self.layers):
+            is_last = (i == len(self.layers) - 1)
+            if is_last and return_cross_weights:
+                x, cross_w = layer(x, memory, return_cross_weights=True)
+            else:
+                x = layer(x, memory)
+
+        x = self.norm(x)
+        out = self.head(x)
+
+        if return_cross_weights:
+            return out, cross_w   # cross_w: (B, T_future, T_past*4)
+        return out
 
 
 class TrajectoryDecoder(nn.Module):

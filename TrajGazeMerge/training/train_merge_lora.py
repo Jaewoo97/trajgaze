@@ -82,7 +82,8 @@ def parse_args():
 
 
 def setup_ddp():
-    dist.init_process_group("nccl")
+    from datetime import timedelta
+    dist.init_process_group("nccl", timeout=timedelta(minutes=60))
     rank       = dist.get_rank()
     local_rank = int(os.environ.get("LOCAL_RANK", 0))
     torch.cuda.set_device(local_rank)
@@ -140,12 +141,13 @@ def get_patch_scores(
 
 
 def evaluate(processor, qwen_model, base_qwen, traj_encoder,
-             option_ids, device, merge_ratio, max_items=200,
+             option_ids, device, merge_ratio, max_items=None,
              teacher_model=None):
     """Evaluate TrajGazeMerge on egtea test split; returns (merge_acc, full_acc, n)."""
     from TrajGazeMerge.data.dataset import StreamGazeMergeDataset
     test_ds = StreamGazeMergeDataset(split="test", n_vlm_frames=128, n_traj_frames=32)
-    test_ds.items = test_ds.items[:max_items]
+    if max_items is not None:
+        test_ds.items = test_ds.items[:max_items]
 
     qwen_model.eval()
     traj_encoder.eval()
@@ -392,22 +394,25 @@ def main():
                             "loss": avg_l, "ce": avg_ce, "kl": avg_kl,
                         }) + "\n")
 
-                if is_main and steps_this_epoch % args.eval_every == 0:
-                    acc_m, acc_f, n_eval = evaluate(
-                        processor, qwen_model.module, base_qwen, traj_encoder.module,
-                        option_ids, device, args.merge_ratio,
-                        teacher_model=teacher_model,
-                    )
-                    print(f"  → eval egtea: merge={acc_m:.2f}% full={acc_f:.2f}% (n={n_eval})")
-                    if acc_m > best_acc:
-                        best_acc = acc_m
-                        torch.save({
-                            "epoch": epoch, "step": steps_this_epoch,
-                            "lora_state": qwen_model.module.state_dict(),
-                            "encoder_state": traj_encoder.module.state_dict(),
-                            "acc_merge": acc_m, "acc_full": acc_f,
-                        }, os.path.join(args.output_dir, "best.pth"))
-                        print(f"  → saved best (merge={acc_m:.2f}%)")
+                if steps_this_epoch % args.eval_every == 0:
+                    dist.barrier()
+                    if is_main:
+                        acc_m, acc_f, n_eval = evaluate(
+                            processor, qwen_model.module, base_qwen, traj_encoder.module,
+                            option_ids, device, args.merge_ratio,
+                            teacher_model=teacher_model,
+                        )
+                        print(f"  → eval egtea: merge={acc_m:.2f}% full={acc_f:.2f}% (n={n_eval})")
+                        if acc_m > best_acc:
+                            best_acc = acc_m
+                            torch.save({
+                                "epoch": epoch, "step": steps_this_epoch,
+                                "lora_state": qwen_model.module.state_dict(),
+                                "encoder_state": traj_encoder.module.state_dict(),
+                                "acc_merge": acc_m, "acc_full": acc_f,
+                            }, os.path.join(args.output_dir, "best.pth"))
+                            print(f"  → saved best (merge={acc_m:.2f}%)")
+                    dist.barrier()
 
             except Exception:
                 if is_main:
@@ -433,6 +438,7 @@ def main():
             }, os.path.join(args.output_dir, f"epoch_{epoch+1:02d}.pth"))
 
     # Final evaluation
+    dist.barrier()
     if is_main:
         acc_m, acc_f, n_eval = evaluate(
             processor, qwen_model.module, base_qwen, traj_encoder.module,
@@ -440,6 +446,7 @@ def main():
             teacher_model=teacher_model,
         )
         print(f"\n[Final] egtea: merge={acc_m:.2f}%  full={acc_f:.2f}%  (n={n_eval})")
+    dist.barrier()
 
     dist.destroy_process_group()
 
