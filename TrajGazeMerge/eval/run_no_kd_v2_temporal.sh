@@ -4,7 +4,10 @@
 #
 # --alpha 0.0   : logit KL OFF
 # (no mr-cons)  : just CE on answer token
-# Teacher loaded but unused in loss (kept for reproducibility / parity).
+#
+# With α=0 the trainer skips teacher load + per-step forward (~25%% faster,
+# ~16GB GPU saved), so we omit --teacher-ckpt below.  The per-task eval
+# below still uses the teacher for full-token baseline reporting.
 
 set -euo pipefail
 
@@ -22,7 +25,6 @@ PYTHONPATH=$REPO \
 /opt/conda/envs/gaze/bin/torchrun --nproc_per_node=2 --master_port=29510 \
     -m TrajGazeMerge.training.train_merge_lora_temporal \
     --stage1-ckpt  /workspace/trajgaze_msk/temporal_best.pth \
-    --teacher-ckpt /workspace/trajgaze_msk/king_ms.pth \
     --output-dir   "$OUT" \
     --epochs       3 \
     --lr-lora      1e-4 \

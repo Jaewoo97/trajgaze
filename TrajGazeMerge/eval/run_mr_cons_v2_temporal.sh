@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 # mr-cons (KD-free, axis 6) on TrajGazeV2 temporal.
 #
-# --alpha 0.0                  : logit KL OFF (No-KD baseline)
+# --alpha 0.0                  : logit KL OFF (no external teacher in loss)
 # --mr-cons-weight 0.5         : multi-ratio consistency loss
 # --mr-cons-keep   0.15        : aux forward keeps 15%% (vs primary 10%%)
 # --mr-cons-mode   kl_to_anchor: primary imitates detached aux
 #
-# Same TrajGazeV2Temporal stage1 ckpt as no_kd_v2_temporal.
+# With α=0 the trainer skips loading + per-step forwarding the teacher
+# entirely (~25%% wall-clock and ~16GB GPU saved), so we omit --teacher-ckpt
+# below.  The per-task eval below still uses the teacher to report a
+# full-token baseline number alongside the merged-token student accuracy.
 
 set -euo pipefail
 
@@ -24,7 +27,6 @@ PYTHONPATH=$REPO \
 /opt/conda/envs/gaze/bin/torchrun --nproc_per_node=2 --master_port=29511 \
     -m TrajGazeMerge.training.train_merge_lora_temporal \
     --stage1-ckpt  /workspace/trajgaze_msk/temporal_best.pth \
-    --teacher-ckpt /workspace/trajgaze_msk/king_ms.pth \
     --output-dir   "$OUT" \
     --epochs       3 \
     --lr-lora      1e-4 \
