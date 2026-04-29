@@ -40,6 +40,11 @@ import traceback
 from datetime import timedelta
 
 import torch
+# Compatibility shim for older torch with newer transformers (qwen2_vl video
+# processor calls torch.compiler.is_compiling, which doesn't exist in some
+# torch versions).  Mirrors /workspace/trajgaze_msk's shim.
+if not hasattr(torch.compiler, "is_compiling"):
+    torch.compiler.is_compiling = lambda: False
 import torch.distributed as dist
 import torch.nn.functional as F
 from torch.nn.parallel import DistributedDataParallel as DDP
@@ -85,6 +90,20 @@ def parse_args():
     p.add_argument("--start-epoch",    type=int,   default=0)
     p.add_argument("--resume-step",    type=int,   default=0,
                    help="Skip this many steps at the start of start-epoch (already completed)")
+
+    # ── axis 6 (KD-free): Multi-ratio consistency ────────────────────────────
+    # Run the student at TWO different keep ratios per step and pull the
+    # primary view toward the auxiliary (more-tokens) view.  Self-distill —
+    # no external teacher needed.
+    p.add_argument("--mr-cons-weight", type=float, default=0.0,
+                   help="Weight of multi-ratio consistency loss (0=off).")
+    p.add_argument("--mr-cons-keep",   type=float, default=0.15,
+                   help="Keep ratio for the auxiliary forward (e.g. 0.15 = "
+                        "15%% tokens vs primary 10%%).")
+    p.add_argument("--mr-cons-mode",   type=str,   default="kl_to_anchor",
+                   choices=["kl_to_anchor", "js_symmetric"],
+                   help="kl_to_anchor: primary KL→stop_grad(aux). "
+                        "js_symmetric: 0.5*(KL(p||m)+KL(q||m)).")
     return p.parse_args()
 
 
@@ -263,16 +282,28 @@ def main():
     is_main = rank == 0
     device  = torch.device(f"cuda:{local_rank}")
 
+    # Teacher is only used when α > 0 (logit-KD term).  For self-KD / pure CE
+    # runs (α = 0), skip loading + per-step forward entirely → ~25% wall-clock
+    # savings + ~16GB GPU memory freed.
+    need_teacher = args.alpha > 0.0
+
     if is_main:
         os.makedirs(args.output_dir, exist_ok=True)
         print(f"[TrajGazeMergeTemporal] output: {args.output_dir}")
         print(f"  GPUs={world_size}  epochs={args.epochs}  merge_ratio={args.merge_ratio}")
+        print(f"  alpha={args.alpha}  lr_lora={args.lr_lora}  lr_enc={args.lr_enc}")
         print(f"  n_traj_frames={args.n_traj_frames}  n_vis_keyframes={args.n_vis_keyframes}")
-        print(f"  teacher_ckpt={args.teacher_ckpt}")
+        print(f"  mr_cons_weight={args.mr_cons_weight}  mr_cons_keep={args.mr_cons_keep}  "
+              f"mr_cons_mode={args.mr_cons_mode}")
+        print(f"  teacher_ckpt={args.teacher_ckpt}  need_teacher={need_teacher}")
 
     # Models
-    if is_main: print("Loading teacher ...")
-    teacher_model = load_teacher(args.teacher_ckpt, device)
+    if need_teacher:
+        if is_main: print("Loading teacher ...")
+        teacher_model = load_teacher(args.teacher_ckpt, device)
+    else:
+        if is_main: print("Skipping teacher load (alpha=0).")
+        teacher_model = None
     if is_main: print("Loading TrajGaze temporal encoder ...")
     traj_encoder = load_traj_encoder(args.stage1_ckpt, device, args.n_vis_keyframes)
     traj_encoder = DDP(traj_encoder, device_ids=[local_rank], find_unused_parameters=True)
@@ -316,6 +347,7 @@ def main():
         optimizer.zero_grad()
 
         epoch_loss = epoch_ce = epoch_kl = 0.0
+        epoch_cons = 0.0
         steps = 0
         t_start = time.time()
 
@@ -342,11 +374,15 @@ def main():
                     [["A","B","C","D"].index(item["answer"])], device=device
                 )
 
-                # Teacher: full tokens, frozen
-                with torch.no_grad():
-                    logits_teacher = forward_logits(
-                        teacher_model, build_full_inputs(base_qwen, cached)
-                    )[option_ids].detach()
+                # Teacher: full tokens, frozen.  Skip entirely when α = 0
+                # (logit KL has no effect, so no point running this forward).
+                if teacher_model is not None:
+                    with torch.no_grad():
+                        logits_teacher = forward_logits(
+                            teacher_model, build_full_inputs(base_qwen, cached)
+                        )[option_ids].detach()
+                else:
+                    logits_teacher = None
 
                 # TrajGaze temporal scores: (T_traj, 196) → (n_video,)
                 scores     = get_patch_scores_temporal(traj_encoder.module, item, device)
@@ -358,7 +394,7 @@ def main():
                             (n_video + scores_all.shape[0] - 1) // scores_all.shape[0]
                         )[:n_video]
 
-                # Merge + student forward
+                # Merge + student forward (primary, eval-setting keep ratio)
                 video_embeds_detached = cached["video_embeds"].detach()
                 merged_video, receiver_idx = gaze_weighted_merge(
                     video_embeds_detached, scores_all, r,
@@ -367,19 +403,59 @@ def main():
                     qwen_model, build_merged_inputs(base_qwen, cached, merged_video, receiver_idx)
                 )[option_ids]
 
+                # axis 6: second student forward at different keep ratio
+                logits_student_aux = None
+                if args.mr_cons_weight > 0.0:
+                    r_aux = max(1, int((1.0 - float(args.mr_cons_keep)) * n_video))
+                    merged_video2, receiver_idx2 = gaze_weighted_merge(
+                        video_embeds_detached, scores_all, r_aux,
+                    )
+                    logits_student_aux = forward_logits(
+                        qwen_model,
+                        build_merged_inputs(base_qwen, cached, merged_video2, receiver_idx2),
+                    )[option_ids]
+
                 # Loss
                 loss_ce = F.cross_entropy(logits_student.unsqueeze(0), gt_tensor)
-                loss_kl = F.kl_div(
-                    F.log_softmax(logits_student, dim=-1),
-                    F.softmax(logits_teacher,     dim=-1),
-                    reduction="batchmean",
-                )
-                loss = (args.alpha * loss_kl + (1.0 - args.alpha) * loss_ce) / args.grad_accum
+                if logits_teacher is not None:
+                    loss_kl = F.kl_div(
+                        F.log_softmax(logits_student, dim=-1),
+                        F.softmax(logits_teacher,     dim=-1),
+                        reduction="batchmean",
+                    )
+                else:
+                    # No teacher → skip KL term (alpha is 0 anyway).
+                    loss_kl = torch.tensor(0.0, device=device)
+                loss_unscaled = args.alpha * loss_kl + (1.0 - args.alpha) * loss_ce
+
+                # axis 6: multi-ratio consistency loss (KD-free)
+                loss_cons_val = 0.0
+                if args.mr_cons_weight > 0.0 and logits_student_aux is not None:
+                    if args.mr_cons_mode == "kl_to_anchor":
+                        anchor = logits_student_aux.detach()
+                        loss_cons = F.kl_div(
+                            F.log_softmax(logits_student, dim=-1),
+                            F.softmax(anchor, dim=-1),
+                            reduction="batchmean",
+                        )
+                    else:  # js_symmetric
+                        p_dist = F.softmax(logits_student,     dim=-1)
+                        q_dist = F.softmax(logits_student_aux, dim=-1)
+                        m_dist = (0.5 * (p_dist + q_dist)).clamp(min=1e-12)
+                        log_m = m_dist.log()
+                        kl_pm = F.kl_div(log_m, p_dist, reduction="batchmean")
+                        kl_qm = F.kl_div(log_m, q_dist, reduction="batchmean")
+                        loss_cons = 0.5 * (kl_pm + kl_qm)
+                    loss_unscaled = loss_unscaled + args.mr_cons_weight * loss_cons
+                    loss_cons_val = float(loss_cons.detach().item())
+
+                loss = loss_unscaled / args.grad_accum
                 loss.backward()
 
                 epoch_loss += loss.item() * args.grad_accum
                 epoch_ce   += loss_ce.item()
                 epoch_kl   += loss_kl.item()
+                epoch_cons += loss_cons_val
                 steps      += 1
 
                 if steps % args.grad_accum == 0:
@@ -388,14 +464,18 @@ def main():
                     optimizer.zero_grad()
 
                 if is_main and steps % args.log_every == 0:
-                    avg_l, avg_ce, avg_kl = epoch_loss/steps, epoch_ce/steps, epoch_kl/steps
+                    avg_l    = epoch_loss / steps
+                    avg_ce   = epoch_ce   / steps
+                    avg_kl   = epoch_kl   / steps
+                    avg_cons = epoch_cons / steps
                     print(f"Epoch {epoch+1} | step {steps}/{len(loader)} | "
-                          f"loss={avg_l:.4f} ce={avg_ce:.4f} kl={avg_kl:.4f} | "
-                          f"t={time.time()-t_start:.0f}s")
+                          f"loss={avg_l:.4f} ce={avg_ce:.4f} kl={avg_kl:.4f} "
+                          f"cons={avg_cons:.4f} | t={time.time()-t_start:.0f}s")
                     with open(log_path, "a") as f:
                         f.write(json.dumps({
                             "epoch": epoch+1, "step": steps,
                             "loss": avg_l, "ce": avg_ce, "kl": avg_kl,
+                            "cons": avg_cons,
                         }) + "\n")
 
                 if steps % args.eval_every == 0:

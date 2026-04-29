@@ -165,9 +165,14 @@ def preprocess_item(
     pv_vid         = inputs["pixel_values_videos"].to(vis_dev, torch.bfloat16)
     grid_thw       = inputs["video_grid_thw"].to(vis_dev)
 
-    # Extract visual features from frozen ViT (already in LLM embedding space)
+    # Extract visual features from frozen ViT (already in LLM embedding space).
+    # transformers ≥ 4.54 returns a tuple (one tensor per video via torch.split);
+    # older versions returned a single tensor. Normalize to a single (N_video, d) tensor.
     with torch.no_grad():
-        video_embeds = base_qwen.model.get_video_features(pv_vid, grid_thw).to(emb_dev)
+        ve = base_qwen.model.get_video_features(pv_vid, grid_thw)
+        if isinstance(ve, (tuple, list)):
+            ve = torch.cat(ve, dim=0)
+        video_embeds = ve.to(emb_dev)
 
         # 3D-RoPE position IDs for the original (full) sequence
         position_ids, rope_deltas = base_qwen.model.get_rope_index(
