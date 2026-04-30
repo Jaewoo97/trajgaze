@@ -1,0 +1,95 @@
+\section{Related Work}
+
+\subsection{Efficient Visual Token Reduction}
+
+The quadratic complexity of self-attention with respect to sequence length has motivated a
+substantial body of work on reducing the number of visual tokens processed by vision transformers.
+Early approaches learn to \emph{prune} uninformative tokens during inference.
+DynamicViT~\cite{rao2021dynamicvit} trains a lightweight prediction network to hierarchically
+discard tokens at multiple stages of a ViT, guided by a differentiable token sparsification loss.
+EViT~\cite{liang2022evit} identifies inattentive tokens via attention scores to the
+\texttt{[CLS]} token and fuses them into a single representative token rather than discarding
+them outright, preserving global context.
+A-ViT~\cite{yin2022avit} extends this idea by introducing adaptive token halting with an
+ACT-style~\cite{graves2016act} mechanism, halting each token's computation individually based
+on its predicted informativeness.
+
+A complementary strategy is \emph{token merging}, which combines redundant tokens rather than
+removing them.
+ToMe~\cite{bolya2023tome} greedily matches and averages the most similar token pairs via bipartite
+soft matching, achieving significant throughput gains with minimal accuracy loss on image
+classification and video tasks.
+Our bipartite token merging in Section~\ref{sec:merge} directly builds on this mechanism,
+replacing the similarity-based matching criterion with trajectory-guided importance scores so that
+merging decisions are informed by egocentric behavioral context.
+
+\subsection{Efficient Video Understanding with Large Language Models}
+
+Adapting large language models (LLMs) to video requires compressing temporally extended visual
+sequences into a token budget compatible with the LLM's context window.
+Video-LLaVA~\cite{lin2023videollava} projects visual frames into a unified representation space
+before feeding them to an LLM, but uses dense per-frame tokens that scale poorly with clip length.
+LLaMA-VID~\cite{li2023llamavid} addresses this by representing each frame with only two tokens—a
+context token summarizing global content and a content token encoding local detail—enabling
+hour-long video understanding within fixed context limits.
+Chat-UniVi~\cite{jin2024chatunivi} clusters visual tokens dynamically across frames, merging
+spatiotemporally similar regions to reduce redundancy.
+Qwen2-VL~\cite{wang2024qwen2vl}, our base model, employs a Naive Dynamic Resolution mechanism and
+temporal compression via 3D convolution to control token count, but still relies on uniform
+spatial coverage rather than semantic salience.
+
+These works reduce visual tokens through generic compression strategies—uniform subsampling,
+clustering, or resolution scaling—without access to behavioral priors about where a human agent
+directs attention.
+TrajGazeMerge is complementary: rather than compressing visual representations post-hoc, we use
+egocentric gaze and hand trajectories to \emph{selectively preserve} the tokens most likely to
+contain task-relevant information before the VLM even processes them.
+
+\subsection{Egocentric Video Understanding}
+
+Egocentric video understanding has been advanced by large-scale datasets capturing diverse
+first-person activities.
+Ego4D~\cite{grauman2022ego4d} provides 3,670 hours of egocentric footage annotated for
+episodic memory, forecasting, and social interaction tasks.
+EgoExo4D~\cite{grauman2024egoexo4d} extends this to paired egocentric and exocentric views of
+skilled activities, enabling cross-view learning.
+EPIC-Kitchens~\cite{damen2022rescaling} offers densely annotated kitchen activity videos with
+fine-grained action labels.
+EGTEA~\cite{li2018egtea} is notable for providing simultaneous eye-tracking data alongside
+activity annotations, directly linking gaze behavior to action recognition.
+HoloAssist~\cite{wang2023holoassist} focuses on procedural assistance, recording participants
+performing tasks while receiving real-time guidance.
+
+StreamGaze\_v2, the benchmark used in this work, is built upon EGTEA, EgoExo4D, and HoloAssist
+clips and targets multiple-choice video QA requiring spatial, temporal, and gaze-predictive
+reasoning.
+
+Vision-language pretraining on egocentric data has emerged as a powerful paradigm for
+learning grounded representations.
+EgoVLP~\cite{lin2022egovlp} performs video-text contrastive pretraining on Ego4D, producing
+egocentric representations that transfer well to downstream tasks including action recognition
+and natural language query localization.
+EgoVLPv2~\cite{pramanick2023egovlpv2} improves upon this by fusing cross-modal attention
+directly into the video and text backbones rather than applying it as a separate late-fusion step.
+EgoSchema~\cite{mangalam2024egoschema} introduces a challenging long-form VideoQA benchmark
+that requires multi-minute temporal reasoning over egocentric clips, exposing limitations of
+short-clip VLMs.
+
+\subsection{Gaze and Hand Attention in Egocentric Video}
+
+Gaze has long been recognized as a privileged supervisory signal in egocentric settings.
+Li et al.~\cite{li2018egtea} demonstrate that joint modeling of gaze and hand action improves
+first-person activity recognition, as gaze fixations strongly correlate with objects being
+manipulated.
+Huang et al.~\cite{huang2018predicting} predict future gaze positions from past context using a
+task-dependent attention transition model, showing that gaze is structured and predictable from
+activity context.
+Nagarajan et al.~\cite{nagarajan2020ego} use egocentric gaze and motion to discover affordance
+hotspots in the environment, demonstrating that gaze reveals task-relevant scene regions without
+explicit annotation.
+
+These works treat gaze as an \emph{output} to be predicted or a supervisory signal for
+learning visual representations.
+In contrast, TrajGazeMerge treats recorded gaze and hand trajectories as \emph{inputs} that
+actively guide visual token selection inside a VLM, directly connecting egocentric behavioral
+signals to efficient video language modeling.

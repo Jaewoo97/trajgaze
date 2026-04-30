@@ -1,0 +1,320 @@
+\section{Method}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Problem Formulation}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Let $V = \{I_t\}_{t=1}^{T}$ denote a $T$-frame egocentric video clip.
+Each frame is accompanied by a gaze position $g_t \in \mathbb{R}^2$
+(normalized image coordinates in $[0,1]^2$, absent if tracking fails),
+left-hand position $h_t^L \in \mathbb{R}^2$ with frame-to-frame velocity
+$\dot{h}_t^L \in \mathbb{R}^2$ and visibility flag $m_t^L \in \{0,1\}$,
+and analogous right-hand signals $(h_t^R, \dot{h}_t^R, m_t^R)$.
+Given a natural-language question $q$ and $K$ candidate answers
+$\mathcal{O} = \{o_k\}_{k=1}^{K}$, the task is to predict the correct answer index $k^*$.
+
+A frozen visual backbone encodes each frame into $P{=}196$ spatial patch tokens
+(a $14{\times}14$ grid), giving $N = T \cdot P$ visual tokens in total.
+A 128-frame clip produces over 25{,}000 tokens, far exceeding current VLM context budgets.
+Our goal is to select a compact subset of $\lfloor \rho N \rfloor$ tokens
+($\rho = 0.10$, retaining 10\% of the original count) guided by behavioral trajectory
+signals, then pass the compressed sequence to the VLM.
+The core challenge is to learn which spatial positions are task-relevant using only
+the trajectory $(G, H^L, H^R)$ and the query $q$, without access to the VLM's
+internal representations at selection time.
+
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{TrajGaze Model}
+\label{sec:model}
+% ─────────────────────────────────────────────────────────────────────────────
+
+The TrajGaze model maps the past trajectory prefix
+$\bigl(G_{1:T_p}, H^L_{1:T_p}, H^R_{1:T_p}\bigr)$
+and an optional text query $q$ to a per-patch importance score
+$\mathbf{s} \in [0,1]^P$.
+Figure~\ref{fig:arch} illustrates the full pipeline.
+
+% ──────────────────────────────────────────
+\subsubsection{Gaze and Hand Trajectory Encoder}
+\label{sec:traj_enc}
+% ──────────────────────────────────────────
+
+\paragraph{Per-Modality Tokenization.}
+For each past frame $t \in \{1,\ldots,T_p\}$ we independently project each input
+stream to a $d{=}128$-dimensional token via a learned linear projection followed by
+layer normalization:
+\begin{align}
+    z_t^{g}    &= \mathrm{LN}\!\bigl(W_g\,[g_t;\,\dot{g}_t]\bigr),             \label{eq:tok_gaze} \\
+    z_t^{L}    &= \mathrm{LN}\!\bigl(W_L\,[h_t^L;\,\dot{h}_t^L;\,m_t^L]\bigr), \label{eq:tok_left} \\
+    z_t^{R}    &= \mathrm{LN}\!\bigl(W_R\,[h_t^R;\,\dot{h}_t^R;\,m_t^R]\bigr), \label{eq:tok_right}\\
+    z_t^{\phi} &= \mathrm{LN}\!\bigl(W_\phi\,\phi(g_t, h_t^L, h_t^R)\bigr),    \label{eq:tok_int}
+\end{align}
+where $\dot{g}_t \in \mathbb{R}$ is the frame-to-frame gaze speed and
+$[\cdot;\cdot]$ denotes vector concatenation.
+Raw feature dimensions are 3 (gaze), 5 (each hand), and 12 (interaction).
+The interaction feature $\phi \in \mathbb{R}^{12}$ encodes pairwise geometric and
+kinematic relations: gaze-to-hand displacement vectors $(d^L, d^R)$, relative velocities
+$(v_{\mathrm{rel}}^L, v_{\mathrm{rel}}^R)$, a scalar gaze--hand convergence score,
+and a scalar temporal lead-lag indicator.
+When a modality is absent (tracking failure or hand off-screen), its projected token is
+replaced by a dedicated learnable \emph{missing embedding} $e_{\mathrm{miss}} \in \mathbb{R}^d$,
+distinguishing absent detections from zero-valued ones.
+This yields four tokens per frame:
+$\mathbf{z}_t = [z_t^g,\, z_t^L,\, z_t^R,\, z_t^\phi] \in \mathbb{R}^{4 \times d}$.
+
+\paragraph{Intra-Frame Attention.}
+The four within-frame tokens are passed through a 2-layer, 4-head transformer encoder
+(pre-norm, GELU) applied independently to each frame:
+\begin{equation}
+    \tilde{\mathbf{z}}_t = \mathrm{TF}_{L_1}(\mathbf{z}_t) \in \mathbb{R}^{4 \times d},
+    \quad t = 1,\ldots,T_p,
+\end{equation}
+processing all $T_p$ frames in parallel as a batch of length-4 sequences.
+This lets the gaze token attend to the current hand configuration,
+and the interaction token condition on both, before any temporal modeling occurs.
+
+\paragraph{Inter-Frame Temporal Transformer.}
+The enriched per-frame tokens are projected to $D{=}256$ dimensions,
+flattened into a single sequence of length $T_p \cdot 4$,
+and augmented with sinusoidal positional encodings~\cite{vaswani2017attention}:
+\begin{equation}
+    \mathbf{x} = \mathrm{PE}\!\bigl(
+        W_{\mathrm{proj}}\,[\tilde{\mathbf{z}}_1;\cdots;\tilde{\mathbf{z}}_{T_p}]
+    \bigr) \in \mathbb{R}^{(T_p \cdot 4) \times D}.
+\end{equation}
+Since each frame contributes exactly four consecutive positions, the sinusoidal encoding
+implicitly captures both the temporal index and the within-frame token type.
+A 6-layer, 8-head transformer encoder then applies full (non-causal) self-attention
+over all $T_p \cdot 4$ tokens:
+\begin{equation}
+    \mathbf{x} \leftarrow \mathrm{TF}_{L_2}(\mathbf{x}) \in \mathbb{R}^{(T_p \cdot 4) \times D},
+    \label{eq:inter_frame}
+\end{equation}
+allowing any token at any timestep and modality to attend to all others.
+This captures long-range temporal patterns such as gaze anticipation cues,
+hand-motion build-up before manipulation, and recurrent interaction signatures.
+
+\paragraph{Query Conditioning via FiLM.}
+A frozen CLIP text encoder~\cite{radford2021clip} maps the question $q$ to an
+embedding $e_q \in \mathbb{R}^{d_q}$.
+A FiLM~\cite{perez2018film} layer then modulates the trajectory context:
+\begin{equation}
+    \tilde{\mathbf{x}} = \mathbf{x} \odot \bigl(1 + \gamma(e_q)\bigr) + \beta(e_q),
+    \label{eq:film}
+\end{equation}
+where $\gamma, \beta : \mathbb{R}^{d_q} \to \mathbb{R}^D$ are learned linear projections.
+This enables task-specific weighting: a question about hand activity may amplify hand tokens,
+while a gaze-predictive question amplifies the gaze stream.
+During Stage~1 pretraining, no text query is available and $e_q = \mathbf{0}$
+(FiLM reduces to an identity map).
+
+
+% ──────────────────────────────────────────
+\subsubsection{Trajectory--Visual Token Attention}
+\label{sec:vt_fusion}
+% ──────────────────────────────────────────
+
+A frozen DINOv2-ViT/S backbone~\cite{oquab2023dinov2} extracts spatial patch features
+$\mathbf{V} \in \mathbb{R}^{P \times D_v}$ ($P{=}196$, $D_v{=}256$)
+from a single representative frame.
+We perform multi-head cross-attention with the query-conditioned trajectory context
+$\tilde{\mathbf{x}}$ as queries and visual patches as keys and values:
+\begin{equation}
+    A^h = \mathrm{softmax}\!\left(
+        \frac{(\tilde{\mathbf{x}} W_Q^h)\,(\mathbf{V} W_K^h)^\top}{\sqrt{d_h}}
+    \right) \in \mathbb{R}^{(T_p \cdot 4) \times P}, \quad h = 1,\ldots,H,
+    \label{eq:cross_attn}
+\end{equation}
+with $H{=}8$ heads and head dimension $d_h = D/H$.
+Each trajectory token queries the spatial patch grid, asking:
+\emph{which visual location explains my current behavioral state?}
+The attended visual features are added residually to enrich the trajectory context:
+\begin{equation}
+    \hat{\mathbf{x}} = \tilde{\mathbf{x}} + W_O\!\Bigl(\bigoplus\nolimits_{h} A^h (\mathbf{V} W_V^h)\Bigr).
+    \label{eq:enriched}
+\end{equation}
+
+\paragraph{Patch Importance Scores.}
+For each patch $p$, we aggregate the attention weight it receives across all trajectory
+tokens and all heads:
+\begin{equation}
+    \bar{A}[p] = \frac{1}{H} \sum_{h=1}^{H}
+                  \frac{1}{T_p \cdot 4} \sum_{i=1}^{T_p \cdot 4} A^h[i,\, p].
+    \label{eq:mean_attn}
+\end{equation}
+A lightweight score head refines this into the final importance score:
+\begin{equation}
+    \mathbf{s}[p] = \sigma\!\Bigl(
+        W_s\, \mathrm{LN}\!\bigl(\bar{A}[p] \cdot v_p\bigr) + b_s
+    \Bigr) \in [0,1],
+    \label{eq:score}
+\end{equation}
+where $v_p$ is the visual feature of patch $p$ and $\sigma$ is the sigmoid.
+High $\mathbf{s}[p]$ indicates patch $p$ was consistently queried by trajectory
+tokens during behavioral context processing—marking it as spatially task-relevant.
+
+
+% ──────────────────────────────────────────
+\subsubsection{Decoder}
+\label{sec:decoder}
+% ──────────────────────────────────────────
+
+Two lightweight decoders operate on the enriched context $\hat{\mathbf{x}}$
+(Eq.~\eqref{eq:enriched}) during Stage~1 pretraining to provide auxiliary
+supervision over future trajectory dynamics and patch-level behavioral relevance.
+Both share a non-autoregressive cross-attention architecture: a bank of
+$T_f$ learned future-step queries cross-attends to the flattened past context
+through a 3-layer transformer decoder, predicting all future steps in parallel.
+
+\paragraph{Trajectory Decoder.}
+Learned query vectors $Q_{\mathrm{traj}} \in \mathbb{R}^{T_f \times D}$
+cross-attend to $\hat{\mathbf{x}}$ to predict future gaze and hand positions jointly:
+\begin{equation}
+    \hat{P}_{1:T_f} = \sigma\!\bigl(
+        \mathrm{Dec}_{L_3}(Q_{\mathrm{traj}},\, \hat{\mathbf{x}})
+    \bigr) \in [0,1]^{T_f \times 6},
+\end{equation}
+where the 6-dimensional output encodes predicted gaze ($2$-dim),
+left-hand ($2$-dim), and right-hand ($2$-dim) positions per future frame.
+
+\paragraph{Score Decoder.}
+An analogous decoder predicts the per-patch behavioral relevance score for each
+future frame:
+\begin{equation}
+    \hat{S}_{1:T_f} = \sigma\!\Bigl(
+        \mathrm{Head}_s\!\bigl(
+            \mathrm{Dec}_{L_3}(Q_{\mathrm{score}},\, \hat{\mathbf{x}})
+        \bigr)
+    \Bigr) \in [0,1]^{T_f \times P},
+\end{equation}
+where $\mathrm{Head}_s$ is a two-layer MLP ($D \to P$) with a GELU nonlinearity.
+These decoders are discarded after Stage~1; only the encoder is retained for Stage~2.
+
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Training}
+\label{sec:training}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Training proceeds in two stages: Stage~1 trajectory pretraining, which gives the
+encoder a grounded prior over spatially relevant patches from behavioral data alone,
+followed by Stage~2 joint fine-tuning with the VLM.
+
+\subsubsection{Stage 1: Trajectory Pretraining}
+\label{sec:stage1}
+
+\paragraph{Input and Temporal Split.}
+Each training clip is uniformly subsampled to $T{=}32$ frames.
+At each iteration, the past/future split ratio $T_p/T$ is drawn uniformly from $[0.4, 0.6]$,
+giving the encoder between 13 and 19 frames of context and requiring it to
+predict the remaining frames.
+Randomizing the split prevents overfitting to a fixed context length and acts
+as temporal data augmentation.
+
+\paragraph{Ground-Truth Interaction Scores.}
+The training target $I(p, t) \in [0,1]$ for patch $p$ at future frame $t$
+is a spatiotemporally smoothed behavioral relevance score:
+\begin{equation}
+    I(p,\,t) = G(p,\,t)\cdot H(p,\,t)\cdot\Phi_t\cdot\Psi_t,
+    \label{eq:gt_score}
+\end{equation}
+where $G(p,t) {=} \exp(-\|c_p - g_t\|^2 / 2\sigma_g^2)$ is a Gaussian centered at the
+gaze position ($c_p$ the patch center, $\sigma_g{=}48$ pixels),
+$H(p,t)$ is the analogous hand-proximity Gaussian for the nearest detected hand,
+and $\Phi_t, \Psi_t$ are the convergence and lead-lag scalars from $\phi$.
+Scores are temporally averaged over a $W{=}5$-frame window and
+globally normalized to $[0,1]$ per clip.
+
+\paragraph{Loss.}
+The Stage~1 objective combines three terms:
+\begin{equation}
+    \mathcal{L}_{\mathrm{S1}} =
+        \mathcal{L}_{\mathrm{traj}}
+        + \mathcal{L}_{\mathrm{score}}
+        + \mathcal{L}_{\mathrm{attn}},
+    \label{eq:loss_s1}
+\end{equation}
+where $\mathcal{L}_{\mathrm{traj}}$ is masked MSE over predicted future gaze and hand
+positions (evaluated only on visible detections),
+$\mathcal{L}_{\mathrm{score}}$ is masked MSE between the score decoder output and
+the ground-truth scores from Eq.~\eqref{eq:gt_score}, and
+\begin{equation}
+    \mathcal{L}_{\mathrm{attn}} = \mathrm{MSE}\!\left(
+        \mathbf{s},\;
+        \frac{1}{T_f}\sum_{t=T_p+1}^{T} I(\cdot,\, t)
+    \right)
+    \label{eq:loss_attn}
+\end{equation}
+directly supervises the cross-attention-derived patch scores $\mathbf{s}$
+(Eq.~\eqref{eq:score}) against the temporal mean of future ground-truth relevance.
+This third term ensures that the patches the encoder \emph{attends to}
+based on past behavioral context correspond to those that will actually be relevant
+in future frames.
+
+Stage~1 pretraining uses 246 unique clips from the EgoExo4D-learn and HoloAssist
+splits (the same domain as Stage~2 fine-tuning), trained for 100 epochs with
+AdamW ($\mathrm{lr}{=}3{\times}10^{-4}$) on 2$\times$A100 GPUs.
+
+\subsubsection{Stage 2: Joint Fine-tuning with VLM LoRA}
+\label{sec:stage2}
+
+\paragraph{Bipartite Token Merging.}
+Given the per-patch scores $\mathbf{s} \in [0,1]^P$, we tile them uniformly
+across the $T$ VLM frames to score all $N = T \cdot P$ visual tokens.
+Tokens are ranked by score in descending order; the top
+$N_r = \lceil \rho N \rceil$ become \emph{receivers} $\mathcal{R}$ and the
+remaining $N_s = N - N_r$ become \emph{sources} $\mathcal{S}$.
+Following~\citet{bolya2023tome}, each source is assigned to its cosine-nearest receiver:
+\begin{equation}
+    j^*(i) = \operatorname*{arg\,max}_{j \in \mathcal{R}}
+              \frac{\mathbf{f}_i^\top \mathbf{f}_j}{\|\mathbf{f}_i\|\,\|\mathbf{f}_j\|},
+\end{equation}
+and each receiver aggregates its assigned sources via score-weighted averaging:
+\begin{equation}
+    \hat{\mathbf{f}}_j =
+        \frac{s_j \mathbf{f}_j + \sum_{i:\, j^*(i)=j} s_i\, \mathbf{f}_i}
+             {s_j + \sum_{i:\, j^*(i)=j} s_i}.
+\end{equation}
+The resulting $N_r$ merged tokens $\hat{\mathbf{F}} \in \mathbb{R}^{N_r \times D}$
+preserve the positional identities of receivers, maintaining spatial structure in the
+VLM's attention layers while folding discarded information into nearby tokens
+rather than simply dropping it.
+
+\paragraph{VLM and LoRA.}
+We use Qwen2.5-VL-7B~\cite{wang2024qwen2vl} with LoRA adapters~\cite{hu2022lora}
+($r{=}64$, $\alpha{=}128$) injected into all attention projection layers.
+The merged token sequence $\hat{\mathbf{F}}$ replaces the full visual token sequence
+in the VLM's input, and the model predicts a distribution over the $K$ answer options.
+
+\paragraph{Training Objective.}
+To stabilize joint training of the TrajGaze encoder and the VLM LoRA, we adopt a
+teacher--student framework.
+A frozen teacher (the same Qwen2.5-VL-7B with a pre-trained full-token LoRA baseline)
+processes the unmerged visual tokens and provides soft target logits
+$\mathbf{p}^{\mathrm{teach}}$.
+The student produces logits $\mathbf{p}^{\mathrm{stud}}$ from the merged tokens.
+The training loss balances task supervision with teacher distillation:
+\begin{equation}
+    \mathcal{L}_{\mathrm{S2}} =
+        \alpha \cdot D_{\mathrm{KL}}\!\bigl(
+            \mathbf{p}^{\mathrm{stud}} \;\|\; \mathbf{p}^{\mathrm{teach}}
+        \bigr)
+        + (1{-}\alpha) \cdot \mathcal{L}_{\mathrm{CE}}\!\bigl(
+            \mathbf{p}^{\mathrm{stud}},\, y
+        \bigr),
+    \label{eq:stage2_loss}
+\end{equation}
+with $\alpha{=}0.5$.
+The KL term encourages the compressed representation to approximate the full-token
+teacher's reasoning; the CE term directly optimizes answer prediction.
+Gradients flow through the VLM LoRA, through the differentiable score-weighted merge
+operation, and back into the TrajGaze encoder's patch scores, enabling end-to-end
+optimization of the full selection pipeline.
+
+The TrajGaze encoder is optimized at $\mathrm{lr}{=}10^{-5}$ and the LoRA adapters at
+$\mathrm{lr}{=}10^{-4}$, using AdamW with gradient accumulation over 4 steps
+(effective batch size 8 across 2 GPUs) and gradient clipping at 1.0.
+Training runs for 3 epochs on the EgoExo4D-learn and HoloAssist splits
+(5{,}799 question--answer items) with $T{=}128$ VLM frames and $T_p{=}32$
+trajectory frames, using 2$\times$A100 GPUs (80~GB each).

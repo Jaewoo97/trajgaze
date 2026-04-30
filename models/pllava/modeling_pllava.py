@@ -575,7 +575,7 @@ PLLAVA_INPUTS_DOCSTRING = r"""
     PLLAVA_START_DOCSTRING,
 )
 
-class PllavaForConditionalGeneration(PllavaPreTrainedModel):
+class PllavaForConditionalGeneration(PllavaPreTrainedModel, GenerationMixin):
     def __init__(self, config: PllavaConfig):
         super().__init__(config)
         self.config = config

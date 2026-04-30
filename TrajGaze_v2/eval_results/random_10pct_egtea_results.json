@@ -1,0 +1,4367 @@
+[
+  {
+    "question": "Why did I cut the bell pepper while preparing the pasta salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.24141868762671947,
+    "n_input_tokens": 705
+  },
+  {
+    "question": "Why did I repeatedly cut the tomato while preparing it, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04706299677491188,
+    "n_input_tokens": 779
+  },
+  {
+    "question": "Where is the cucumber slice I am currently looking at relative to the other slices on the plate?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04793906770646572,
+    "n_input_tokens": 770
+  },
+  {
+    "question": "Where is the cucumber relative to your gaze direction when you take it from the fridge?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.044567462988197803,
+    "n_input_tokens": 719
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the cucumber in Frame 4?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04308782517910004,
+    "n_input_tokens": 693
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the tomato in the sixth keyframe?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04320045653730631,
+    "n_input_tokens": 690
+  },
+  {
+    "question": "Why did I take the deli meat from the container while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04345395788550377,
+    "n_input_tokens": 717
+  },
+  {
+    "question": "Why did I place the lettuce on the sandwich while assembling it, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04385694209486246,
+    "n_input_tokens": 731
+  },
+  {
+    "question": "Where is the lettuce I am currently looking at relative to the sandwich and other objects on the plate?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04299300257116556,
+    "n_input_tokens": 699
+  },
+  {
+    "question": "Where is the lettuce container relative to your gaze as you open it?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04764368664473295,
+    "n_input_tokens": 787
+  },
+  {
+    "question": "What did the viewer look at immediately after placing the lettuce on the sandwich in Frame 4?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.044929652474820614,
+    "n_input_tokens": 723
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the cheese on the sandwich?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04311004560440779,
+    "n_input_tokens": 682
+  },
+  {
+    "question": "Why did I pour juice into the cup while organizing my kitchen, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04573774337768555,
+    "n_input_tokens": 741
+  },
+  {
+    "question": "Why did I transfer the eggs from the pan to the plate while cooking, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04691118001937866,
+    "n_input_tokens": 777
+  },
+  {
+    "question": "Where is the oil container relative to your gaze when you pour it into the pan?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04352379310876131,
+    "n_input_tokens": 729
+  },
+  {
+    "question": "Where is the juice container relative to your gaze when you pour the juice into the cup?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.0467846654355526,
+    "n_input_tokens": 781
+  },
+  {
+    "question": "What did the viewer look at immediately after placing the cooking utensil on the stove?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04302101768553257,
+    "n_input_tokens": 696
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring the eggs from the pan to the plate?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043181450106203556,
+    "n_input_tokens": 724
+  },
+  {
+    "question": "Why did I take the plate from the counter while preparing my meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04345297906547785,
+    "n_input_tokens": 707
+  },
+  {
+    "question": "Why did I take the eating utensil while preparing the meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.0432739881798625,
+    "n_input_tokens": 715
+  },
+  {
+    "question": "Where is the knife relative to the object you focused on while taking the eating utensil?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043568918481469154,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "Where is the bowl relative to the object you focused on while transferring the condiment?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.10278181824833155,
+    "n_input_tokens": 799
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring milk into the bowl?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043506303802132607,
+    "n_input_tokens": 648
+  },
+  {
+    "question": "What did the viewer look at immediately after spreading the mixture on the bread in Frame 3?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043574217706918716,
+    "n_input_tokens": 720
+  },
+  {
+    "question": "Why did I take the tomato while preparing the meal, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.047056687995791435,
+    "n_input_tokens": 777
+  },
+  {
+    "question": "Why did I open the patty container and take a patty, considering the shifts in my attention during the task?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04687955603003502,
+    "n_input_tokens": 783
+  },
+  {
+    "question": "Where is the tomato relative to your gaze when you are cutting it, and how does its position compare to the cooking utensil you took afterward?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047680879943072796,
+    "n_input_tokens": 909
+  },
+  {
+    "question": "Where is the tomato I am currently cutting located relative to my gaze and other objects on the countertop?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04400835931301117,
+    "n_input_tokens": 713
+  },
+  {
+    "question": "What did the viewer look at immediately after taking a patty from the container?",
+    "answer": "E",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043441095389425755,
+    "n_input_tokens": 729
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the condiment container?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04257457423955202,
+    "n_input_tokens": 650
+  },
+  {
+    "question": "Why did I transfer the mushrooms from the plate to the pan while cooking, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043490142561495304,
+    "n_input_tokens": 761
+  },
+  {
+    "question": "Why did I inspect the phone while cooking mushrooms, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04189356602728367,
+    "n_input_tokens": 634
+  },
+  {
+    "question": "Where is the eating utensil you focused on most relative to the pizza crust and the bag of mozzarella?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.046773276291787624,
+    "n_input_tokens": 796
+  },
+  {
+    "question": "Where is the object you focused on the most while moving around the eating utensil, and what is its relative position to the mushrooms in the pan?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04282947164028883,
+    "n_input_tokens": 691
+  },
+  {
+    "question": "What did the viewer look at immediately after stirring the mushrooms in the pan?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04272636026144028,
+    "n_input_tokens": 663
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the bell pepper and before taking the bell pepper container?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042806800454854965,
+    "n_input_tokens": 667
+  },
+  {
+    "question": "Why did I take the cucumber container from the fridge drawer while preparing a meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.0445090401917696,
+    "n_input_tokens": 755
+  },
+  {
+    "question": "Why did I cut the cucumber while preparing the salad, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04374591913074255,
+    "n_input_tokens": 762
+  },
+  {
+    "question": "Where is the bell pepper relative to your gaze direction when you are washing it?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04363279324024916,
+    "n_input_tokens": 710
+  },
+  {
+    "question": "Where is the object you focused on the most while pouring water into the pot, and what is its relative position to the faucet?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04338546562939882,
+    "n_input_tokens": 737
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the tomato?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04231885075569153,
+    "n_input_tokens": 625
+  },
+  {
+    "question": "Why did I place the lettuce on the bread while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04792012646794319,
+    "n_input_tokens": 810
+  },
+  {
+    "question": "Why did I pull apart the lettuce while preparing a meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04322030954062939,
+    "n_input_tokens": 729
+  },
+  {
+    "question": "Where is the bread container relative to your gaze when you take it out of the fridge?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04309395607560873,
+    "n_input_tokens": 717
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the tomato in the second keyframe?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042930539697408676,
+    "n_input_tokens": 688
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the tomato?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04179791919887066,
+    "n_input_tokens": 618
+  },
+  {
+    "question": "Why did I spread the condiment on the bread while preparing my meal, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04340219032019377,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "Why did I divide/pull apart the bread while preparing my meal, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043107847683131695,
+    "n_input_tokens": 711
+  },
+  {
+    "question": "Where is the object you focused on the most while mixing the egg, and what is its relative position to the bowl?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04308691341429949,
+    "n_input_tokens": 713
+  },
+  {
+    "question": "Where is the object you focused on while dividing/pulling apart the bread relative to the plate and the countertop?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.043482547625899315,
+    "n_input_tokens": 733
+  },
+  {
+    "question": "What did the viewer look at immediately after spreading the condiment on the bread?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04204772878438234,
+    "n_input_tokens": 629
+  },
+  {
+    "question": "What did the viewer look at immediately after cracking the egg?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042491004802286625,
+    "n_input_tokens": 654
+  },
+  {
+    "question": "Why did I transfer condiment from the container to the plate while organizing my meal, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043180533684790134,
+    "n_input_tokens": 717
+  },
+  {
+    "question": "Why did I place the plate in the microwave after pouring the condiment, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.044155120849609375,
+    "n_input_tokens": 739
+  },
+  {
+    "question": "Where is the bread container relative to your gaze as you open it, and how does its position change when you take a slice of bread?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04684632830321789,
+    "n_input_tokens": 814
+  },
+  {
+    "question": "Where is the object you focused on the most in Frame 1, and what is its relative position to the microwave control panel?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04748034384101629,
+    "n_input_tokens": 797
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring cereal into the bowl?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.041746629402041435,
+    "n_input_tokens": 595
+  },
+  {
+    "question": "What did the viewer look at immediately after taking a slice of bread from the container?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042825622484087944,
+    "n_input_tokens": 695
+  },
+  {
+    "question": "Why did I compress the patty with the cooking utensil while it was on the pan, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043632613494992256,
+    "n_input_tokens": 719
+  },
+  {
+    "question": "Why did I cut the tomato while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04285651445388794,
+    "n_input_tokens": 699
+  },
+  {
+    "question": "Where is the tomato relative to your gaze as you wash it in the sink?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.042995682917535305,
+    "n_input_tokens": 706
+  },
+  {
+    "question": "Where is the object you focused on the most while washing the lettuce, and what is its relative position to the sink?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04715459235012531,
+    "n_input_tokens": 816
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the patty container from the fridge drawer?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042813907377421856,
+    "n_input_tokens": 693
+  },
+  {
+    "question": "What did the viewer look at immediately after compressing the patty with the cooking utensil?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04307004064321518,
+    "n_input_tokens": 719
+  },
+  {
+    "question": "Why did I take the tomato from the fridge drawer while preparing my meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04306542593985796,
+    "n_input_tokens": 714
+  },
+  {
+    "question": "Why did I pour the condiment onto the salad while preparing it, given the observed changes in my attention?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043172561563551426,
+    "n_input_tokens": 716
+  },
+  {
+    "question": "Where is the cheese container relative to your gaze direction when you first open it?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043348100036382675,
+    "n_input_tokens": 745
+  },
+  {
+    "question": "Where is the cheese container relative to your gaze and other objects on the countertop when you open it?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.0476332800462842,
+    "n_input_tokens": 787
+  },
+  {
+    "question": "What did the viewer look at immediately after dividing and pulling apart the lettuce?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042837745510041714,
+    "n_input_tokens": 669
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the onion from the fridge?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04290575534105301,
+    "n_input_tokens": 694
+  },
+  {
+    "question": "Why did I open the condiment container after cutting the bell peppers, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042953346855938435,
+    "n_input_tokens": 702
+  },
+  {
+    "question": "Why did I move around the mushrooms while cooking, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04322396591305733,
+    "n_input_tokens": 756
+  },
+  {
+    "question": "Where is the pizza crust container located relative to your gaze when you inspect and read it?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04270791355520487,
+    "n_input_tokens": 651
+  },
+  {
+    "question": "Where is the sausage I am currently looking at relative to the plate and other objects on the countertop?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04400664288550615,
+    "n_input_tokens": 751
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the bell pepper and before moving towards the mushrooms?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04271954204887152,
+    "n_input_tokens": 669
+  },
+  {
+    "question": "What did the viewer look at immediately after turning on the faucet?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04309965576976538,
+    "n_input_tokens": 711
+  },
+  {
+    "question": "Why did I open the condiment container while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043095494620501995,
+    "n_input_tokens": 716
+  },
+  {
+    "question": "Why did I open the condiment container while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043846203945577145,
+    "n_input_tokens": 766
+  },
+  {
+    "question": "What is the relative position of the deli meat you took from the fridge drawer compared to your gaze direction and other objects in the scene?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04710311535745859,
+    "n_input_tokens": 817
+  },
+  {
+    "question": "Where is the tomato slice I just placed relative to the cheese and my current fixation?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04686028975993395,
+    "n_input_tokens": 776
+  },
+  {
+    "question": "What did the viewer look at immediately after squeezing condiment onto the bread?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0423660958185792,
+    "n_input_tokens": 591
+  },
+  {
+    "question": "What did the viewer look at immediately after placing the tomato slices on the bread?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04265700839459896,
+    "n_input_tokens": 661
+  },
+  {
+    "question": "Why did I move the bacon around in the pan while cooking, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043696070089936256,
+    "n_input_tokens": 763
+  },
+  {
+    "question": "Why did I transfer the eggs from the pan to the plate while organizing my cooking process, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04368925467133522,
+    "n_input_tokens": 717
+  },
+  {
+    "question": "Where is the pan relative to your gaze direction when you pour oil into it?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047454459592700005,
+    "n_input_tokens": 805
+  },
+  {
+    "question": "Where is the object you focused on the most while taking the bowl, and what is its relative position to other objects in the fridge?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04328629095107317,
+    "n_input_tokens": 740
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring the bacon from the pan to the plate?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04285343922674656,
+    "n_input_tokens": 691
+  },
+  {
+    "question": "What did the viewer look at immediately after placing the bread on the plate?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04274661187082529,
+    "n_input_tokens": 693
+  },
+  {
+    "question": "Why did I transfer the condiment from the container to the cup while mixing, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04364086966961622,
+    "n_input_tokens": 741
+  },
+  {
+    "question": "Why did I mix the condiment with another condiment while preparing the mixture, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.0433432599529624,
+    "n_input_tokens": 741
+  },
+  {
+    "question": "Where is the object you focused on the most while pouring water into the pot relative to the faucet and sink?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043280440382659435,
+    "n_input_tokens": 715
+  },
+  {
+    "question": "Where is the object you focused on the most while pouring water into the pot relative to other objects in the scene?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04696726240217686,
+    "n_input_tokens": 796
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bread from the container?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04407328274101019,
+    "n_input_tokens": 692
+  },
+  {
+    "question": "What did the viewer look at immediately after placing the cup on the counter?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04305170848965645,
+    "n_input_tokens": 714
+  },
+  {
+    "question": "Why did I take the pan from the oven while preparing the meal, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043297987431287766,
+    "n_input_tokens": 739
+  },
+  {
+    "question": "Why did I take the diet_coke_container from the fridge while organizing my meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04658197797834873,
+    "n_input_tokens": 783
+  },
+  {
+    "question": "Where is the beef patty relative to the object you focused on just before taking it from the fridge drawer?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04332220833748579,
+    "n_input_tokens": 725
+  },
+  {
+    "question": "Where is the tomato I am currently looking at relative to the knife and the plate?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04712474253028631,
+    "n_input_tokens": 770
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the patty from the container?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04303318168967962,
+    "n_input_tokens": 689
+  },
+  {
+    "question": "What did the viewer look at immediately after adjusting the stove settings?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042728325352072716,
+    "n_input_tokens": 695
+  },
+  {
+    "question": "Why did I divide and pull apart the lettuce while preparing the salad, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04316123574972153,
+    "n_input_tokens": 708
+  },
+  {
+    "question": "Why did I divide and pull apart the onion while preparing the salad, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.046857683919370174,
+    "n_input_tokens": 774
+  },
+  {
+    "question": "Where is the lettuce I am currently cutting located relative to the other objects on the plate?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04325062967836857,
+    "n_input_tokens": 731
+  },
+  {
+    "question": "Where is the tomato relative to your gaze direction after you have divided it and moved around it?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04316630866378546,
+    "n_input_tokens": 745
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring cheese from the container to the plate?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04301283601671457,
+    "n_input_tokens": 695
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring lettuce from the plate to the bowl?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.042677435092628,
+    "n_input_tokens": 667
+  },
+  {
+    "question": "Why did I pour water from the faucet into the pot while preparing the pasta salad, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04669560305774212,
+    "n_input_tokens": 784
+  },
+  {
+    "question": "Why did I stir the mixture in the pot while cooking, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04307099152356386,
+    "n_input_tokens": 717
+  },
+  {
+    "question": "Where is the olive container relative to your gaze direction when you take it from the refrigerator?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04332302790135145,
+    "n_input_tokens": 715
+  },
+  {
+    "question": "Where is the onion you are currently dividing relative to the other objects on the countertop?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047916254960000515,
+    "n_input_tokens": 824
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the grocery bag from the fridge?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04382013529539108,
+    "n_input_tokens": 656
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the bell pepper and before taking the pasta container?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.043253226205706596,
+    "n_input_tokens": 700
+  },
+  {
+    "question": "Why did I take the lettuce container from the fridge while organizing my meal preparation, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04680722672492266,
+    "n_input_tokens": 777
+  },
+  {
+    "question": "Why did I open the fridge while organizing my meal preparation, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04324139375239611,
+    "n_input_tokens": 729
+  },
+  {
+    "question": "Where is the tomato container relative to your gaze when you place it in the fridge?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04374193772673607,
+    "n_input_tokens": 745
+  },
+  {
+    "question": "Where is the condiment container I focused on while squeezing it onto the sandwich relative to other objects in the scene?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04930453188717365,
+    "n_input_tokens": 780
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the sandwich from the plate?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043379378505051136,
+    "n_input_tokens": 735
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the sandwich from the plate?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04339273553341627,
+    "n_input_tokens": 759
+  },
+  {
+    "question": "Why did I transfer the bacon from the pan to the plate while cooking, considering the shifts in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04348957631736994,
+    "n_input_tokens": 750
+  },
+  {
+    "question": "Why did I repeatedly close and put the milk container while organizing it, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04689638130366802,
+    "n_input_tokens": 772
+  },
+  {
+    "question": "Where is the milk container relative to your gaze when you close it for the last time?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.042753309942781925,
+    "n_input_tokens": 688
+  },
+  {
+    "question": "Where is the bacon relative to your gaze direction after you have moved it around in the pan?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04338958486914635,
+    "n_input_tokens": 765
+  },
+  {
+    "question": "What did the viewer look at immediately after opening the juice container?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042839134112000465,
+    "n_input_tokens": 680
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bacon from the container?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04245490301400423,
+    "n_input_tokens": 656
+  },
+  {
+    "question": "Why did I transfer the mixture from the bowl to the bread, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04358229134231806,
+    "n_input_tokens": 760
+  },
+  {
+    "question": "Why did I take the teabag and divide it while preparing my drink, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04670203197747469,
+    "n_input_tokens": 816
+  },
+  {
+    "question": "Where is the milk container relative to your gaze when you pour milk into the cup?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04685268457978964,
+    "n_input_tokens": 784
+  },
+  {
+    "question": "Where is the milk container relative to your gaze when you pour milk into the cup?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04672997258603573,
+    "n_input_tokens": 806
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bread container from the fridge?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04272594768553972,
+    "n_input_tokens": 663
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cup in Frame 2?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042774940840899944,
+    "n_input_tokens": 685
+  },
+  {
+    "question": "Why did I pour olive oil into the pan while preparing to cook, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04353498853743076,
+    "n_input_tokens": 762
+  },
+  {
+    "question": "Why did I take the bread container from the fridge while organizing my ingredients, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.047270480543375015,
+    "n_input_tokens": 775
+  },
+  {
+    "question": "Where is the bread container relative to your gaze when you inspect it after taking it from the fridge?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04334975499659777,
+    "n_input_tokens": 719
+  },
+  {
+    "question": "Where is the tomato container relative to your gaze when you take it from the refrigerator?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046722931787371635,
+    "n_input_tokens": 779
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the patty container into the fridge?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04316363483667374,
+    "n_input_tokens": 686
+  },
+  {
+    "question": "What did the viewer look at immediately after spreading oil in the pan?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04338188376277685,
+    "n_input_tokens": 730
+  },
+  {
+    "question": "Why did I take the condiment container from the fridge while preparing the salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04693147726356983,
+    "n_input_tokens": 805
+  },
+  {
+    "question": "Why did I pour the condiment into the salad while preparing it, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04676343407481909,
+    "n_input_tokens": 778
+  },
+  {
+    "question": "Where is the salad bowl relative to the balsamic vinaigrette bottle and your gaze direction after you poured the dressing?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04735747445374727,
+    "n_input_tokens": 828
+  },
+  {
+    "question": "Where is the condiment container you focused on while taking it from the fridge door relative to other objects in the fridge?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04342387244105339,
+    "n_input_tokens": 754
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring vegetables from the plate to the bowl?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043591576628386974,
+    "n_input_tokens": 757
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cucumber from the grocery bag?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0417189784348011,
+    "n_input_tokens": 621
+  },
+  {
+    "question": "Why did I transfer the mushrooms from the plate to the pan while preparing the meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04327516630291939,
+    "n_input_tokens": 714
+  },
+  {
+    "question": "Why did I open the cheese container while preparing the pizza, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.046802494674921036,
+    "n_input_tokens": 798
+  },
+  {
+    "question": "Where is the olive oil bottle relative to your gaze when you pour it into the pan?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046734134666621685,
+    "n_input_tokens": 784
+  },
+  {
+    "question": "Where is the pan I focused on while transferring mushrooms relative to the pizza crust and other objects?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04362273123115301,
+    "n_input_tokens": 768
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the sausage container from the drawer?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043223852291703224,
+    "n_input_tokens": 725
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring oil into the pan?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04171126335859299,
+    "n_input_tokens": 589
+  },
+  {
+    "question": "Why did I crack the egg into the bowl while preparing the mixture, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04286158550530672,
+    "n_input_tokens": 682
+  },
+  {
+    "question": "Why did I spread the condiment on the bread while preparing my sandwich, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04684857092797756,
+    "n_input_tokens": 787
+  },
+  {
+    "question": "Where is the object you focused on while spreading condiment on the bread relative to the knife and the plate?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04341151937842369,
+    "n_input_tokens": 749
+  },
+  {
+    "question": "Where is the bread relative to your gaze when you are spreading condiment on it for the second time?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04334591794759035,
+    "n_input_tokens": 750
+  },
+  {
+    "question": "What did the viewer look at immediately after closing the milk container?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043150787241756916,
+    "n_input_tokens": 716
+  },
+  {
+    "question": "What did the viewer look at immediately after taking an egg from the fridge?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04289944190531969,
+    "n_input_tokens": 692
+  },
+  {
+    "question": "Why did I take the teabag while preparing my drink, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04320683050900698,
+    "n_input_tokens": 709
+  },
+  {
+    "question": "Why did I place the bowl in the microwave after mixing the condiments, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04677410423755646,
+    "n_input_tokens": 786
+  },
+  {
+    "question": "Where is the condiment container you opened relative to your gaze and other objects on the countertop?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.044225938618183136,
+    "n_input_tokens": 758
+  },
+  {
+    "question": "Where is the object you focused on most during the mixing of the condiment relative to the microwave?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04317277483642101,
+    "n_input_tokens": 738
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring water into the pot?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042815929278731346,
+    "n_input_tokens": 676
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring milk into the bowl?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04245285131037235,
+    "n_input_tokens": 648
+  },
+  {
+    "question": "Why did I place the bell pepper on the pizza while preparing it, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04659983888268471,
+    "n_input_tokens": 779
+  },
+  {
+    "question": "Why did I take the tortilla from the fridge while organizing my ingredients, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04319537431001663,
+    "n_input_tokens": 717
+  },
+  {
+    "question": "Where is the sausage container located relative to your gaze when you open it?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04286383464932442,
+    "n_input_tokens": 690
+  },
+  {
+    "question": "Where is the tortilla relative to the object you focused on while moving around the oil container?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04351342283189297,
+    "n_input_tokens": 763
+  },
+  {
+    "question": "What did the viewer look at immediately after finishing cutting the mushroom?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04311946779489517,
+    "n_input_tokens": 725
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the condiment container from the fridge?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04317084979265928,
+    "n_input_tokens": 693
+  },
+  {
+    "question": "Why did I wash the eating utensil after washing the tomato, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.047198292799293995,
+    "n_input_tokens": 772
+  },
+  {
+    "question": "Why did I take the deli meat container from the fridge while organizing my meal preparation, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04647153057157993,
+    "n_input_tokens": 781
+  },
+  {
+    "question": "Where is the object you focused on the most in Frame 3 relative to the other objects when taking the lettuce container?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.0466679809615016,
+    "n_input_tokens": 784
+  },
+  {
+    "question": "Where is the object you focused on most during the action of taking and washing lettuce, relative to other objects in the scene?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04309068527072668,
+    "n_input_tokens": 705
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the lettuce container from the fridge?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0431339917704463,
+    "n_input_tokens": 724
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the deli meat container?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0418657585978508,
+    "n_input_tokens": 621
+  },
+  {
+    "question": "Why did I repeatedly take and put the bacon container while organizing my kitchen, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04314403608441353,
+    "n_input_tokens": 707
+  },
+  {
+    "question": "Why did I take the cooking utensil while moving around the bacon, considering the shifts in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04325621295720339,
+    "n_input_tokens": 750
+  },
+  {
+    "question": "Where is the plate you focused on relative to the cooking utensils and your current gaze direction?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.043356393463909626,
+    "n_input_tokens": 737
+  },
+  {
+    "question": "Where is the juice container relative to your gaze when you pour it into the cup?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04316298011690378,
+    "n_input_tokens": 714
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the plate in Frame 2?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04282729513943195,
+    "n_input_tokens": 692
+  },
+  {
+    "question": "What did the viewer look at immediately after cracking the egg and before opening the milk container?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0413220152258873,
+    "n_input_tokens": 591
+  },
+  {
+    "question": "Why did I spread the mixture on the bread while preparing my meal, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04340422432869673,
+    "n_input_tokens": 736
+  },
+  {
+    "question": "Why did I take the condiment container after putting the plate in the microwave, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.046564857475459576,
+    "n_input_tokens": 783
+  },
+  {
+    "question": "Where is the object you focused on the most while pouring water from the faucet into the pot, and what is its relative position to the sink?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.0467003732919693,
+    "n_input_tokens": 789
+  },
+  {
+    "question": "Where is the milk container relative to your gaze direction when you pour milk into the bowl?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04329929407685995,
+    "n_input_tokens": 757
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring milk into the bowl?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0431743785738945,
+    "n_input_tokens": 719
+  },
+  {
+    "question": "What did the viewer look at immediately after operating the microwave and before taking the pot?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04252826515585184,
+    "n_input_tokens": 657
+  },
+  {
+    "question": "Why did I squeeze the condiment onto the sandwich while preparing it, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.046447004191577435,
+    "n_input_tokens": 778
+  },
+  {
+    "question": "Why did I divide and pull apart the lettuce while preparing the salad, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04297216795384884,
+    "n_input_tokens": 706
+  },
+  {
+    "question": "Where is the object you focused on the most while transferring the patty from the pan to the plate, and what is its relative position to other objects?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04659716319292784,
+    "n_input_tokens": 779
+  },
+  {
+    "question": "Where is the tomato relative to your gaze when you take it from the fridge?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04663477558642626,
+    "n_input_tokens": 817
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the tomato from the fridge?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04190221335738897,
+    "n_input_tokens": 624
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cheese container from the refrigerator?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.041795091703534126,
+    "n_input_tokens": 640
+  },
+  {
+    "question": "Why did I take the cheese container from the fridge while preparing the salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042703015729784966,
+    "n_input_tokens": 680
+  },
+  {
+    "question": "Why did I cut the tomato while preparing the meal, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04331239499151707,
+    "n_input_tokens": 739
+  },
+  {
+    "question": "Where is the object you focused on the most while pouring condiments into the salad, relative to the other objects on the countertop?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04720994271337986,
+    "n_input_tokens": 776
+  },
+  {
+    "question": "Where is the object you focused on while taking the cheese container from the fridge relative to other objects in the fridge?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04289044812321663,
+    "n_input_tokens": 658
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the condiment container in Frame 8?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04277156200259924,
+    "n_input_tokens": 690
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the condiment container in Frame 8?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04342779237776995,
+    "n_input_tokens": 766
+  },
+  {
+    "question": "Why did I open the sausage container after taking it from the fridge, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04352270998060703,
+    "n_input_tokens": 764
+  },
+  {
+    "question": "Why did I pour oil into the pan while preparing to cook, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042859685607254505,
+    "n_input_tokens": 690
+  },
+  {
+    "question": "Where is the cheese container relative to your gaze fixation when you take cheese for the first time?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046640051528811455,
+    "n_input_tokens": 784
+  },
+  {
+    "question": "Where is the eating utensil you used to spread the condiment located relative to your gaze and the pizza?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04363748524338007,
+    "n_input_tokens": 749
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cooking utensil in Frame 3?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04202308692038059,
+    "n_input_tokens": 636
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the carrot in Frame 3?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043080100789666176,
+    "n_input_tokens": 690
+  },
+  {
+    "question": "Why did I shift my gaze from the cucumbers to the cooking utensil while preparing the meal, given the observed changes in attention?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04352228809148073,
+    "n_input_tokens": 759
+  },
+  {
+    "question": "Why did I open the fridge while transferring the carrot, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04415593668818474,
+    "n_input_tokens": 735
+  },
+  {
+    "question": "Where is the pasta container relative to your gaze when you take it, and what object is it near?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04769551660865545,
+    "n_input_tokens": 802
+  },
+  {
+    "question": "Where is the object you focused on the most while mixing pasta, and what is its relative position to the cooking utensil?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04684013966470957,
+    "n_input_tokens": 816
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring water into the sink?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04282745253294706,
+    "n_input_tokens": 686
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring the onion to the plate in Frame 2?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04300970118492842,
+    "n_input_tokens": 700
+  },
+  {
+    "question": "Why did I repeatedly put lettuce on the plate while preparing the salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04350265022367239,
+    "n_input_tokens": 741
+  },
+  {
+    "question": "Why did I repeatedly put lettuce on the plate while preparing the salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04778134636580944,
+    "n_input_tokens": 770
+  },
+  {
+    "question": "Where is the tomato relative to your gaze when you put it in the fridge?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047121819108724594,
+    "n_input_tokens": 773
+  },
+  {
+    "question": "Where is the tomato relative to the lettuce that you focused on during the sequence?",
+    "answer": "E",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043478481471538544,
+    "n_input_tokens": 757
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cheese from the container?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04193371534347534,
+    "n_input_tokens": 625
+  },
+  {
+    "question": "What did the viewer look at immediately after washing and wiping the plate with a towel?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.041820017620921135,
+    "n_input_tokens": 629
+  },
+  {
+    "question": "Why did I pour seasoning from the container into the salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04347900673747063,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "Why did I pour seasoning into the salad while mixing it, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042758891358971596,
+    "n_input_tokens": 675
+  },
+  {
+    "question": "Where is the bowl of vegetables relative to the object you focused on while mixing the salad?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043577997013926506,
+    "n_input_tokens": 753
+  },
+  {
+    "question": "Where is the carrot you are currently cutting located relative to your gaze and other objects in the scene?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.046971771866083145,
+    "n_input_tokens": 770
+  },
+  {
+    "question": "What did the viewer look at immediately after cleaning/wiping the counter in Frame 3?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042698463425040245,
+    "n_input_tokens": 655
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring seasoning from the container into the salad?",
+    "answer": "E",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04307164065539837,
+    "n_input_tokens": 656
+  },
+  {
+    "question": "Why did I inspect and read the pasta container while organizing groceries, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04322804044932127,
+    "n_input_tokens": 701
+  },
+  {
+    "question": "Why did I take the paper towel while preparing the bacon, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.047444913536310196,
+    "n_input_tokens": 806
+  },
+  {
+    "question": "Where is the object you focused on the most while moving around the bacon, and what is its relative position to the cooking utensil?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04359785281121731,
+    "n_input_tokens": 753
+  },
+  {
+    "question": "Where is the egg relative to the object you focused on for the longest time, and what is its position in the fridge?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046685993671417236,
+    "n_input_tokens": 785
+  },
+  {
+    "question": "What did the viewer look at immediately after washing the eating utensil in Frame 8?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04297278169542551,
+    "n_input_tokens": 696
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bread container from the fridge?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04261975176632404,
+    "n_input_tokens": 663
+  },
+  {
+    "question": "Why did I pour milk into the bowl while preparing breakfast, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04681982193142176,
+    "n_input_tokens": 777
+  },
+  {
+    "question": "Why did I take the bowl from the dishwasher while preparing breakfast, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04294463433325291,
+    "n_input_tokens": 704
+  },
+  {
+    "question": "Where is the condiment container I focused on before putting it in the fridge, relative to my gaze and other objects?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04720451217144728,
+    "n_input_tokens": 785
+  },
+  {
+    "question": "Where is the object you focused on while spreading the condiment relative to the bread and the countertop?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.046715281903743744,
+    "n_input_tokens": 790
+  },
+  {
+    "question": "What did the viewer look at immediately after cleaning their hands with a paper towel?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042836266569793224,
+    "n_input_tokens": 664
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring condiments from the container to the bowl?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04180832114070654,
+    "n_input_tokens": 600
+  },
+  {
+    "question": "Why did I inspect the sandwich while moving around the cooking utensil, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043440056033432484,
+    "n_input_tokens": 730
+  },
+  {
+    "question": "Why did I inspect the recipe while preparing the patties, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04375479742884636,
+    "n_input_tokens": 764
+  },
+  {
+    "question": "Where is the bread container relative to your gaze when you inspect and read it after taking it from the fridge?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04683429282158613,
+    "n_input_tokens": 794
+  },
+  {
+    "question": "Where is the plate you focused on while washing it located relative to the faucet and your gaze direction?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.0435693534091115,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "What did the viewer look at immediately after moving around the patty on the stove?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042754221707582474,
+    "n_input_tokens": 686
+  },
+  {
+    "question": "What did the viewer look at immediately after spreading the condiment on the bread?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04328964650630951,
+    "n_input_tokens": 721
+  },
+  {
+    "question": "Why did I pick up the tomato container while preparing the salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04298718459904194,
+    "n_input_tokens": 659
+  },
+  {
+    "question": "Why did I open the tomato container while preparing the Greek salad, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043599026277661324,
+    "n_input_tokens": 767
+  },
+  {
+    "question": "Where is the cucumber slice you are currently looking at located relative to the other objects on the cutting board?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04369700513780117,
+    "n_input_tokens": 761
+  },
+  {
+    "question": "Where is the object you focused on while pouring oil into the salad container relative to the bowl?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043047224171459675,
+    "n_input_tokens": 713
+  },
+  {
+    "question": "What did the viewer look at immediately after slicing a piece of cucumber in Frame 7?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.041594925336539745,
+    "n_input_tokens": 591
+  },
+  {
+    "question": "What did the viewer look at immediately after dividing and pulling apart the paper towel?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.0427969628944993,
+    "n_input_tokens": 680
+  },
+  {
+    "question": "Why did I open the cabinet while transferring items from the grocery bag, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04703141190111637,
+    "n_input_tokens": 769
+  },
+  {
+    "question": "Where is the strainer relative to the paper towel you focused on while drying it?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046762945130467415,
+    "n_input_tokens": 828
+  },
+  {
+    "question": "Where is the tomato container relative to the position of your gaze when you put it in the fridge?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.042406571097671986,
+    "n_input_tokens": 623
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring the cutting board and bowl?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04302727151662111,
+    "n_input_tokens": 696
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the carrot container from the fridge drawer?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04291456378996372,
+    "n_input_tokens": 693
+  },
+  {
+    "question": "Why did I wash the cutting board after cleaning the cup, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04309617727994919,
+    "n_input_tokens": 715
+  },
+  {
+    "question": "Why did I pour the condiment into the salad while preparing it, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04326256737112999,
+    "n_input_tokens": 713
+  },
+  {
+    "question": "Where is the object you focused on the most during the process of pouring pasta into the cup, and what is its relative position to the other objects in the scene?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04682452231645584,
+    "n_input_tokens": 773
+  },
+  {
+    "question": "Where is the condiment container you focused on while pouring it into the salad, relative to the other objects on the countertop?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04699795786291361,
+    "n_input_tokens": 824
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring the chopped bell pepper from the cutting board to the bowl?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.043124700896441936,
+    "n_input_tokens": 733
+  },
+  {
+    "question": "What did the viewer look at immediately after dividing/pulling apart the tomato?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04332172591239214,
+    "n_input_tokens": 721
+  },
+  {
+    "question": "Why did I transfer the patty from the pan to the plate while cooking, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043965752236545086,
+    "n_input_tokens": 739
+  },
+  {
+    "question": "Why did I take the cheese from the fridge while organizing ingredients for cooking, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042582957074046135,
+    "n_input_tokens": 653
+  },
+  {
+    "question": "Where is the bread container located relative to your gaze when you open it for the second time?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047078012488782406,
+    "n_input_tokens": 782
+  },
+  {
+    "question": "Where is the onion relative to the object you focused on while moving around it?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.043479341082274914,
+    "n_input_tokens": 751
+  },
+  {
+    "question": "What did the viewer look at immediately after squeezing condiment onto the sandwich in Frame 4?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04294227249920368,
+    "n_input_tokens": 696
+  },
+  {
+    "question": "What did the viewer look at immediately after squeezing condiment onto the sandwich in Frame 4?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043331380002200603,
+    "n_input_tokens": 725
+  },
+  {
+    "question": "Why did I cut the onion while preparing the salad, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.046957142651081085,
+    "n_input_tokens": 775
+  },
+  {
+    "question": "Why did I take the condiment container from the fridge while preparing the meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042807417921721935,
+    "n_input_tokens": 687
+  },
+  {
+    "question": "Where is the seasoning container relative to your gaze as you pour it into the salad?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04308684729039669,
+    "n_input_tokens": 708
+  },
+  {
+    "question": "Where is the olive container relative to your gaze and other objects on the countertop when you are transferring olives?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04275667294859886,
+    "n_input_tokens": 661
+  },
+  {
+    "question": "What did the viewer look at immediately after opening the cheese container and before moving around with it?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04276089742779732,
+    "n_input_tokens": 690
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the storage container and before moving around with it?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04286469332873821,
+    "n_input_tokens": 669
+  },
+  {
+    "question": "Why did I cut the carrot while preparing the pasta salad, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04329374525696039,
+    "n_input_tokens": 755
+  },
+  {
+    "question": "Why did I pour the pasta into the strainer while washing it, considering the shifts in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04335249122232199,
+    "n_input_tokens": 715
+  },
+  {
+    "question": "Where is the pot relative to your gaze when you are operating the stove?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04650957230478525,
+    "n_input_tokens": 784
+  },
+  {
+    "question": "Where is the cutting board relative to your gaze as you wash it under the running water?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047026557847857475,
+    "n_input_tokens": 777
+  },
+  {
+    "question": "What did the viewer look at immediately after washing the eating utensil?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04299224819988012,
+    "n_input_tokens": 690
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the tomato in Frame 5?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04300564248114824,
+    "n_input_tokens": 688
+  },
+  {
+    "question": "Why did I cut the tomato while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04356015473604202,
+    "n_input_tokens": 680
+  },
+  {
+    "question": "Why did I pour the condiment into the salad while preparing the meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04716294724494219,
+    "n_input_tokens": 780
+  },
+  {
+    "question": "Where is the condiment container you took from the fridge located relative to your gaze and other objects in the scene?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04694743733853102,
+    "n_input_tokens": 817
+  },
+  {
+    "question": "Where is the tomato container relative to my gaze direction when I put it in the fridge?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04699451941996813,
+    "n_input_tokens": 798
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the condiment container from the fridge?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04285099171102047,
+    "n_input_tokens": 689
+  },
+  {
+    "question": "What did the viewer look at immediately after squeezing condiment onto the bread?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042845455929636955,
+    "n_input_tokens": 685
+  },
+  {
+    "question": "Why did I repeatedly cut the tomato while organizing it on the cutting board, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04277557786554098,
+    "n_input_tokens": 675
+  },
+  {
+    "question": "Why did I cut the carrot into smaller pieces while preparing the meal, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04329122230410576,
+    "n_input_tokens": 724
+  },
+  {
+    "question": "Where is the bowl you took from the cabinet relative to your gaze direction and the recipe paper?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046934857964515686,
+    "n_input_tokens": 774
+  },
+  {
+    "question": "Where is the bell pepper container located relative to your gaze when you take it out of the fridge drawer?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04265392664819956,
+    "n_input_tokens": 672
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cucumber from the counter?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04263392370194197,
+    "n_input_tokens": 683
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the plastic bag and before opening the storage container?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04206198360770941,
+    "n_input_tokens": 586
+  },
+  {
+    "question": "Why did I take the condiment container from the counter while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04660171642899513,
+    "n_input_tokens": 810
+  },
+  {
+    "question": "Why did I inspect the recipe while preparing the ingredients, considering the shifts in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04641079995781183,
+    "n_input_tokens": 792
+  },
+  {
+    "question": "Where is the cheese container relative to your gaze direction when you first take it, and how does its position change as you place the cheese on the bread?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04691390786319971,
+    "n_input_tokens": 770
+  },
+  {
+    "question": "Where is the deli meat relative to the bread container after you closed the deli meat container and placed it back in the fridge?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.043176169507205486,
+    "n_input_tokens": 724
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the cheese on the sandwich?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04260997846722603,
+    "n_input_tokens": 687
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cutting board?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0433099577203393,
+    "n_input_tokens": 714
+  },
+  {
+    "question": "Why did I take the bowl from the dishwasher rack while organizing the dishes, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04730363097041845,
+    "n_input_tokens": 777
+  },
+  {
+    "question": "Why did I take the carrot from the cutting board while preparing the meal, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043353316374123096,
+    "n_input_tokens": 747
+  },
+  {
+    "question": "Where is the cup relative to the object you focused on while pouring pasta from the container?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04684225935488939,
+    "n_input_tokens": 772
+  },
+  {
+    "question": "Where is the object you focused on the most while opening the fridge, and what is its relative position to other objects in the fridge?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04336837772279978,
+    "n_input_tokens": 761
+  },
+  {
+    "question": "What did the viewer look at immediately after putting down the bowl in the sink?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.043299985118210316,
+    "n_input_tokens": 762
+  },
+  {
+    "question": "What did the viewer look at immediately after cutting the cucumber in Frame 4?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04322296101599932,
+    "n_input_tokens": 709
+  },
+  {
+    "question": "Why did I repeatedly cut the onion while my attention shifted between the cutting board and the plastic bag?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04336104914546013,
+    "n_input_tokens": 766
+  },
+  {
+    "question": "Why did I wash the strainer while cleaning the kitchen, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043498286977410316,
+    "n_input_tokens": 768
+  },
+  {
+    "question": "Where is the cucumber relative to the object you are currently looking at while transferring vegetables from the cutting board to the bowl?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.0433551287278533,
+    "n_input_tokens": 762
+  },
+  {
+    "question": "Where is the strainer relative to your gaze direction after you have washed it, and what object did you focus on immediately before cleaning the strainer?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04747628141194582,
+    "n_input_tokens": 788
+  },
+  {
+    "question": "What did the viewer look at immediately after inspecting the recipe?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04286433383822441,
+    "n_input_tokens": 664
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the bell pepper into the plastic bag?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.041935985907912254,
+    "n_input_tokens": 597
+  },
+  {
+    "question": "Why did I transfer the pasta from the strainer to the bowl while preparing the salad, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04750947933644056,
+    "n_input_tokens": 781
+  },
+  {
+    "question": "Why did I clean the pot with a paper towel after putting it on the counter, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04376814793795347,
+    "n_input_tokens": 763
+  },
+  {
+    "question": "Where is the object you focused on the most in Frame 3 relative to the cutting board and other objects?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043191962875425816,
+    "n_input_tokens": 721
+  },
+  {
+    "question": "Where is the cucumber I am currently cutting located relative to the eggplant and other objects on the countertop?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04693233873695135,
+    "n_input_tokens": 774
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring vegetables from the strainer?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04288204573094845,
+    "n_input_tokens": 694
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring water from the bowl into the sink?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04291783273220062,
+    "n_input_tokens": 687
+  },
+  {
+    "question": "Why did I repeatedly cut the tomato while preparing it, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04315970838069916,
+    "n_input_tokens": 724
+  },
+  {
+    "question": "Why did I move around the olive container while preparing the turkey sandwich, considering the shifts in my attention?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04294469766318798,
+    "n_input_tokens": 699
+  },
+  {
+    "question": "Where is the cheese relative to your gaze direction when you take it from the grocery bag?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.043446121737360954,
+    "n_input_tokens": 722
+  },
+  {
+    "question": "Where is the bread container located relative to your gaze direction when you take it from the fridge?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04330827295780182,
+    "n_input_tokens": 696
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the cheese on the sandwich?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04274419974535704,
+    "n_input_tokens": 682
+  },
+  {
+    "question": "Why did I transfer the onion from the cutting board to the bowl while preparing the meal, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04370466712862253,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "Why did I pour seasoning into the salad while mixing it, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043474980629980564,
+    "n_input_tokens": 736
+  },
+  {
+    "question": "Where is the tomato relative to your current fixation when you take it from the fridge?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04694362077862024,
+    "n_input_tokens": 821
+  },
+  {
+    "question": "Where is the onion relative to your gaze direction as you cut it, and how does its position change in relation to other objects on the countertop?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04390544444322586,
+    "n_input_tokens": 742
+  },
+  {
+    "question": "What did the viewer look at immediately after squeezing washing liquid onto the pot?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043540227226912975,
+    "n_input_tokens": 744
+  },
+  {
+    "question": "What did the viewer look at immediately after cleaning and wiping the ground?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043325805105268955,
+    "n_input_tokens": 717
+  },
+  {
+    "question": "Why did I take the cheese container from the fridge while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043481514789164066,
+    "n_input_tokens": 750
+  },
+  {
+    "question": "Why did I open the fridge while preparing my meal, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04183785989880562,
+    "n_input_tokens": 610
+  },
+  {
+    "question": "Where is the condiment container you focused on while spreading it on the bread relative to other objects in the scene?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04698336776345968,
+    "n_input_tokens": 831
+  },
+  {
+    "question": "Where is the condiment container I am currently looking at relative to the bread and other objects on the counter?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04336838610470295,
+    "n_input_tokens": 761
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the condiment container from the refrigerator?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04301334172487259,
+    "n_input_tokens": 693
+  },
+  {
+    "question": "What did the viewer look at immediately after compressing the sandwich and before turning on the faucet?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04295772220939398,
+    "n_input_tokens": 685
+  },
+  {
+    "question": "Why did I take the pan from the drawer while organizing my kitchen, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043400963768363,
+    "n_input_tokens": 743
+  },
+  {
+    "question": "Why did I transfer the sandwich and plate to the storage container, given the observed changes in my attention?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.0434236079454422,
+    "n_input_tokens": 694
+  },
+  {
+    "question": "Considering the sequence of actions and gaze information, where is the bread container located relative to your current fixation when you open the fridge?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04345895256847143,
+    "n_input_tokens": 729
+  },
+  {
+    "question": "Where is the object you focused on the most while compressing the patty, and what is its relative position to the cutting board?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04350942187011242,
+    "n_input_tokens": 766
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the onions from the fridge?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04320101346820593,
+    "n_input_tokens": 658
+  },
+  {
+    "question": "What did the viewer look at immediately after placing the tomato slices on the pizza?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0432816706597805,
+    "n_input_tokens": 746
+  },
+  {
+    "question": "Why did I repeatedly cut the lettuce while preparing the salad, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04331893939524889,
+    "n_input_tokens": 730
+  },
+  {
+    "question": "Why did I repeatedly cut the lettuce while preparing the salad, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04316439386457205,
+    "n_input_tokens": 729
+  },
+  {
+    "question": "Where is the bowl I just washed and put into the dishwasher relative to my current gaze direction?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.042788553051650524,
+    "n_input_tokens": 676
+  },
+  {
+    "question": "Where is the cutting board relative to the object you focused on while transferring the onion?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04297591373324394,
+    "n_input_tokens": 722
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring cheese into the salad?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04360888805240393,
+    "n_input_tokens": 688
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cucumber from the drawer?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04272958729416132,
+    "n_input_tokens": 656
+  },
+  {
+    "question": "Why did I cut the carrot while preparing the meal, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04711185023188591,
+    "n_input_tokens": 775
+  },
+  {
+    "question": "Why did I pour water from the cup into the sink while washing dishes, considering the shifts in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04308541864156723,
+    "n_input_tokens": 728
+  },
+  {
+    "question": "Where is the object you focused on the most while mixing the pasta, and what is its relative position to the bowl?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04330434650182724,
+    "n_input_tokens": 744
+  },
+  {
+    "question": "Where is the object you focused on most during Frame 7 relative to the stove and the countertop?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04307572077959776,
+    "n_input_tokens": 720
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the cucumber into the container?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04289243556559086,
+    "n_input_tokens": 695
+  },
+  {
+    "question": "What did the viewer look at immediately after washing the pasta in the sink?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04205990303307772,
+    "n_input_tokens": 560
+  },
+  {
+    "question": "Why did I cut the tomato while organizing my cooking process, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043359373696148396,
+    "n_input_tokens": 731
+  },
+  {
+    "question": "Why did I clean the cutting board with a paper towel while preparing the tomato, given the observed changes in my attention?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04300276283174753,
+    "n_input_tokens": 723
+  },
+  {
+    "question": "Where is the object you focused on the most while cutting the tomato, and what is its relative position to the knife?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046753344126045704,
+    "n_input_tokens": 810
+  },
+  {
+    "question": "Where is the tomato relative to your gaze direction when you are cutting it, and how does its position change as you continue cutting?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04334980808198452,
+    "n_input_tokens": 723
+  },
+  {
+    "question": "What did the viewer look at immediately after taking deli meat from the container in Frame 3?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043212272226810455,
+    "n_input_tokens": 719
+  },
+  {
+    "question": "What did the viewer look at immediately after taking cheese from the container?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04254848789423704,
+    "n_input_tokens": 659
+  },
+  {
+    "question": "Why did I turn on the faucet while washing pasta, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04307167697697878,
+    "n_input_tokens": 701
+  },
+  {
+    "question": "Why did I open the fridge while preparing the salad, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.0433088606223464,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "Where is the object you focused on just before opening the fridge, relative to the other objects in the scene?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04640983138233423,
+    "n_input_tokens": 778
+  },
+  {
+    "question": "Where is the bell pepper located relative to your gaze when you take it from the fridge drawer?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04701647348701954,
+    "n_input_tokens": 770
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the onion container from the fridge?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043007911182940006,
+    "n_input_tokens": 700
+  },
+  {
+    "question": "Why did I divide and pull apart the lettuce while preparing the salad, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04308364912867546,
+    "n_input_tokens": 708
+  },
+  {
+    "question": "Why did I take the condiment container from the fridge while organizing my ingredients, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.046936649829149246,
+    "n_input_tokens": 793
+  },
+  {
+    "question": "Where is the lettuce relative to your gaze when you are dividing/pulling apart the lettuce?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04341407120227814,
+    "n_input_tokens": 748
+  },
+  {
+    "question": "Where is the cheese container located relative to your gaze and other objects in the fridge when you inspect it?",
+    "answer": "E",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04709795769304037,
+    "n_input_tokens": 812
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring bread from the container to the plate?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04166887141764164,
+    "n_input_tokens": 592
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the lettuce from the fridge?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04310732800513506,
+    "n_input_tokens": 651
+  },
+  {
+    "question": "Why did I wash the eating utensil multiple times while cleaning the sink, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04208627436310053,
+    "n_input_tokens": 601
+  },
+  {
+    "question": "Why did I repeatedly wash the pasta in the strainer while pouring water, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043608345091342926,
+    "n_input_tokens": 716
+  },
+  {
+    "question": "Where is the object you focused on the most while transferring vegetables from the cutting board to the bowl, relative to your current position and other objects in the scene?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04671766422688961,
+    "n_input_tokens": 794
+  },
+  {
+    "question": "Where is the object you focused on the most relative to the onion container and the bread container?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04296405427157879,
+    "n_input_tokens": 687
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring the pasta from the pot into the strainer?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0426607308909297,
+    "n_input_tokens": 682
+  },
+  {
+    "question": "What did the viewer look at immediately after washing their hand?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04327148851007223,
+    "n_input_tokens": 709
+  },
+  {
+    "question": "Why did I repeatedly place the deli meat on the bread while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043526630848646164,
+    "n_input_tokens": 755
+  },
+  {
+    "question": "Why did I open the plastic bag while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043309847824275494,
+    "n_input_tokens": 722
+  },
+  {
+    "question": "Where is the object you focused on the most while dividing and pulling apart the lettuce, relative to other objects in the scene?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043306672014296055,
+    "n_input_tokens": 721
+  },
+  {
+    "question": "Where is the object you focused on while cleaning the cutting board with the sponge, relative to the faucet?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04685975797474384,
+    "n_input_tokens": 802
+  },
+  {
+    "question": "What did the viewer look at immediately after turning on the faucet?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04210129752755165,
+    "n_input_tokens": 615
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bread and before inspecting the recipe?",
+    "answer": "E",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.043020278215408325,
+    "n_input_tokens": 694
+  },
+  {
+    "question": "Why did I pour oil from the container into the salad while mixing it, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04263529274612665,
+    "n_input_tokens": 682
+  },
+  {
+    "question": "Why did I take the cucumber after inspecting the recipe, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04347678832709789,
+    "n_input_tokens": 747
+  },
+  {
+    "question": "Where is the cucumber slice that you are currently looking at, relative to the bowl and other objects on the countertop?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046822693198919296,
+    "n_input_tokens": 822
+  },
+  {
+    "question": "Where is the object you focused on the most during the preparation of the carrot, and what is its relative position to other objects in the scene?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04669626243412495,
+    "n_input_tokens": 779
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring olives from the container to the cutting board?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04177129827439785,
+    "n_input_tokens": 619
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bell pepper container from the fridge drawer?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04292113520205021,
+    "n_input_tokens": 699
+  },
+  {
+    "question": "Why did I take the sponge after washing the eating utensil, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04322030209004879,
+    "n_input_tokens": 709
+  },
+  {
+    "question": "Why did I turn my eyes to the grocery bag while organizing the contents in the fridge, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04317795764654875,
+    "n_input_tokens": 710
+  },
+  {
+    "question": "Where is the object you focused on while dividing/pull apart bread relative to the other objects in the scene?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04680695477873087,
+    "n_input_tokens": 806
+  },
+  {
+    "question": "Where is the object you focused on the most while spreading condiment, and what is its relative position to other objects?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.046765994280576706,
+    "n_input_tokens": 797
+  },
+  {
+    "question": "What did the viewer look at immediately after opening the drawer and taking a cooking utensil?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04339345823973417,
+    "n_input_tokens": 736
+  },
+  {
+    "question": "What did the viewer look at immediately after cleaning and wiping the pan in the first keyframe?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.0428133150562644,
+    "n_input_tokens": 686
+  },
+  {
+    "question": "Why did I pour juice into the cup while organizing my kitchen tasks, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043362380005419254,
+    "n_input_tokens": 757
+  },
+  {
+    "question": "Why did I crack the egg while preparing the dish, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04333432763814926,
+    "n_input_tokens": 729
+  },
+  {
+    "question": "Where is the egg you inspected relative to the other objects in the scene, considering your gaze direction?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047116207890212536,
+    "n_input_tokens": 815
+  },
+  {
+    "question": "Where is the bread relative to the object you focused on the most while spreading the condiment?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04688142519444227,
+    "n_input_tokens": 820
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the cooking utensil in Frame 6?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.042709000408649445,
+    "n_input_tokens": 686
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the pot from the counter?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04301154613494873,
+    "n_input_tokens": 683
+  },
+  {
+    "question": "Why did I inspect and read the recipe multiple times while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043448650278151035,
+    "n_input_tokens": 767
+  },
+  {
+    "question": "Why did I wash the bowl after putting the condiment container in the fridge, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04336101561784744,
+    "n_input_tokens": 741
+  },
+  {
+    "question": "Where is the object you focused on the most while inspecting the recipe, and what is its relative position to the teabag?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04327097814530134,
+    "n_input_tokens": 720
+  },
+  {
+    "question": "Where is the object you focused on the most while preparing your tea, and what is its relative position to the cup?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.046772195026278496,
+    "n_input_tokens": 786
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the pot from the stove?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.041776358149945736,
+    "n_input_tokens": 632
+  },
+  {
+    "question": "Why did I take the egg from the counter while preparing the mixture, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04325795080512762,
+    "n_input_tokens": 712
+  },
+  {
+    "question": "Why did I spread the condiment on the bread while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.046868786215782166,
+    "n_input_tokens": 780
+  },
+  {
+    "question": "Where is the object you focused on the most relative to the plate of scrambled eggs?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04669251665472984,
+    "n_input_tokens": 816
+  },
+  {
+    "question": "Where is the seasoning container you focused on relative to the egg mixture and your gaze direction?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.04678232874721289,
+    "n_input_tokens": 834
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring seasoning into the pan?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04191357921808958,
+    "n_input_tokens": 588
+  },
+  {
+    "question": "What did the viewer look at immediately after spreading condiment on the bread in Frame 5?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.042798434384167194,
+    "n_input_tokens": 702
+  },
+  {
+    "question": "Why did I pour milk from the milk container into the bowl while preparing breakfast, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043203155510127544,
+    "n_input_tokens": 711
+  },
+  {
+    "question": "Why did I open the fridge while preparing the bread, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043124315328896046,
+    "n_input_tokens": 741
+  },
+  {
+    "question": "Where is the object you focused on while transferring the condiment relative to the bowl and the eating utensil?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04362062644213438,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "Where is the bowl you focused on most relative to the sponge and the sink?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043247138150036335,
+    "n_input_tokens": 742
+  },
+  {
+    "question": "What did the viewer look at immediately after washing the eating utensil in Frame 2?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04284596350044012,
+    "n_input_tokens": 656
+  },
+  {
+    "question": "What did the viewer look at immediately after washing the eating utensil and before opening the dishwasher?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04270167089998722,
+    "n_input_tokens": 660
+  },
+  {
+    "question": "Why did I take the bacon container while preparing breakfast, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043449392542243004,
+    "n_input_tokens": 759
+  },
+  {
+    "question": "Why did I take a cup while preparing the meal, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04305017553269863,
+    "n_input_tokens": 716
+  },
+  {
+    "question": "Where is the bacon relative to the object you focused on while transferring it from the pan to the plate?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04692958761006594,
+    "n_input_tokens": 831
+  },
+  {
+    "question": "Where is the seasoning container you focused on relative to the stove and other objects on the countertop?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04664056096225977,
+    "n_input_tokens": 813
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the bacon into the pan?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.043469651602208614,
+    "n_input_tokens": 724
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the milk container from the fridge?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.042596329003572464,
+    "n_input_tokens": 655
+  },
+  {
+    "question": "Why did I repeatedly inspect and read the recipe while preparing my breakfast, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04701703414320946,
+    "n_input_tokens": 804
+  },
+  {
+    "question": "Why did I repeatedly inspect the recipe while performing tasks like pouring water and operating the stove, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04328004363924265,
+    "n_input_tokens": 754
+  },
+  {
+    "question": "Where is the object you focused on the most while transferring the cup from the sink to the counter, and what is its relative position to the faucet?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046825896948575974,
+    "n_input_tokens": 773
+  },
+  {
+    "question": "What is the position of the object you focused on while reading the recipe relative to the stove and the faucet?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.046772596426308155,
+    "n_input_tokens": 802
+  },
+  {
+    "question": "What did the viewer look at immediately after opening the cabinet and before taking an eating utensil?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.042773653753101826,
+    "n_input_tokens": 669
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bread container from the fridge?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04250625800341368,
+    "n_input_tokens": 666
+  },
+  {
+    "question": "Why did I repeatedly inspect the bacon container while preparing breakfast, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.043177383951842785,
+    "n_input_tokens": 738
+  },
+  {
+    "question": "Why did I repeatedly clean the pan with paper towels while preparing to cook, given the observed changes in my attention?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043277256190776825,
+    "n_input_tokens": 748
+  },
+  {
+    "question": "Where is the plate you are currently looking at located relative to the other plates in the dishwasher?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.047132632695138454,
+    "n_input_tokens": 804
+  },
+  {
+    "question": "Where is the sponge relative to the object you focused on while cleaning the pan?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04687683191150427,
+    "n_input_tokens": 784
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring bacon from the container to the pan?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04318347945809364,
+    "n_input_tokens": 686
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the eating utensil from the drawer?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04284228477627039,
+    "n_input_tokens": 692
+  },
+  {
+    "question": "Why did I take the condiment containers from the fridge while preparing the continental breakfast, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04337279312312603,
+    "n_input_tokens": 746
+  },
+  {
+    "question": "Why did I open the condiment container while preparing the dish, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04479735344648361,
+    "n_input_tokens": 737
+  },
+  {
+    "question": "Where is the cereal container relative to your gaze and the bowl you took from the cabinet?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04688065126538277,
+    "n_input_tokens": 769
+  },
+  {
+    "question": "Where is the condiment container I focused on located relative to the faucet and the recipe instructions?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04310815408825874,
+    "n_input_tokens": 710
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the teabag from the container?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04298311471939087,
+    "n_input_tokens": 697
+  },
+  {
+    "question": "What did the viewer look at immediately after reading the recipe instructions?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04170182719826698,
+    "n_input_tokens": 618
+  },
+  {
+    "question": "Why did I open the fridge while preparing breakfast, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04304943699389696,
+    "n_input_tokens": 708
+  },
+  {
+    "question": "Why did I crack the eggs into the bowl while preparing the recipe, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04300357215106487,
+    "n_input_tokens": 705
+  },
+  {
+    "question": "Where is the bacon relative to your gaze direction when you are moving around it, and how does its position change in relation to other objects as you inspect the recipe?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.047007614746689796,
+    "n_input_tokens": 782
+  },
+  {
+    "question": "Where is the object you focused on while cracking the egg, and what is its relative position to the bowl?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043387957848608494,
+    "n_input_tokens": 760
+  },
+  {
+    "question": "What did the viewer look at immediately after inspecting the recipe in Frame 3?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04281561356037855,
+    "n_input_tokens": 691
+  },
+  {
+    "question": "What did the viewer look at immediately after turning on the faucet in Frame 1?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04346916824579239,
+    "n_input_tokens": 757
+  },
+  {
+    "question": "Why did I transfer the mixture from the pot to the cup while organizing my tea-making process, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04306134209036827,
+    "n_input_tokens": 707
+  },
+  {
+    "question": "Where is the pot relative to your gaze when you place it on the stove?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04331536404788494,
+    "n_input_tokens": 748
+  },
+  {
+    "question": "Where is the object you focused on the most while operating the microwave, and what is its relative position to other objects in the scene?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046650215052068233,
+    "n_input_tokens": 771
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bread container from the fridge?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0433153435587883,
+    "n_input_tokens": 763
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring the mixture from the pot to the cup?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04290325194597244,
+    "n_input_tokens": 679
+  },
+  {
+    "question": "Why did I pour oil into the pan while preparing to cook, given the observed changes in my attention?",
+    "answer": "E",
+    "prediction": "E",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043032415211200714,
+    "n_input_tokens": 714
+  },
+  {
+    "question": "Why did I turn on the faucet while cleaning the cooking utensil, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04342173412442207,
+    "n_input_tokens": 741
+  },
+  {
+    "question": "Where is the object you focused on the most in Frame 2, and what is its relative position to the grocery bag?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.046620599925518036,
+    "n_input_tokens": 814
+  },
+  {
+    "question": "Where is the cutting board relative to your gaze direction when you are washing it?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.042825521901249886,
+    "n_input_tokens": 676
+  },
+  {
+    "question": "What did the viewer look at immediately after pouring oil into the pan?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04262761119753122,
+    "n_input_tokens": 649
+  },
+  {
+    "question": "What did the viewer look at immediately after turning on the faucet for the first time?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04267594590783119,
+    "n_input_tokens": 656
+  },
+  {
+    "question": "Why did I take the knife from the drawer while preparing vegetables, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042680288664996624,
+    "n_input_tokens": 678
+  },
+  {
+    "question": "Why did I take the knife from the drawer while preparing vegetables, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.046949246898293495,
+    "n_input_tokens": 769
+  },
+  {
+    "question": "Where is the plate you washed and put away relative to your gaze direction in Frame 8?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043281204998493195,
+    "n_input_tokens": 752
+  },
+  {
+    "question": "Where is the onion relative to your gaze direction as you cut it on the cutting board?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.0469704931601882,
+    "n_input_tokens": 782
+  },
+  {
+    "question": "What did the viewer look at immediately after inspecting the recipe on the cabinet?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04302660096436739,
+    "n_input_tokens": 711
+  },
+  {
+    "question": "What did the viewer look at immediately after transferring the olives from the cutting board to the bowl?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04279305785894394,
+    "n_input_tokens": 683
+  },
+  {
+    "question": "Why did I take the eggs from the container and place them in the pan, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04267298709601164,
+    "n_input_tokens": 679
+  },
+  {
+    "question": "Why did I move around the cup while organizing my kitchen tasks, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.04738440178334713,
+    "n_input_tokens": 774
+  },
+  {
+    "question": "Where is the bacon relative to your gaze direction when you compress it with the cooking utensil?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.043180087581276894,
+    "n_input_tokens": 709
+  },
+  {
+    "question": "Where is the object you focused on the most while cleaning the counter, and what is its relative position to the other objects?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04686817992478609,
+    "n_input_tokens": 830
+  },
+  {
+    "question": "What did the viewer look at immediately after turning on the faucet?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04317186586558819,
+    "n_input_tokens": 710
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the washing liquid container?",
+    "answer": "C",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04553177393972874,
+    "n_input_tokens": 681
+  },
+  {
+    "question": "Why did I clean the pan with a paper towel while organizing the kitchen, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04347164276987314,
+    "n_input_tokens": 764
+  },
+  {
+    "question": "Why did I take the washing liquid container while cleaning the pan, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.042862496338784695,
+    "n_input_tokens": 670
+  },
+  {
+    "question": "Where is the paper towel relative to your gaze when you are cleaning the pan in Frame 7?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.044329794123768806,
+    "n_input_tokens": 687
+  },
+  {
+    "question": "Where is the bacon relative to your gaze when you are moving around it, and what object is closest to it?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.0469486340880394,
+    "n_input_tokens": 829
+  },
+  {
+    "question": "What did the viewer look at immediately after closing the bacon container and before operating the stove?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04305458161979914,
+    "n_input_tokens": 735
+  },
+  {
+    "question": "What did the viewer look at immediately after operating the stove and before taking the beater?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.0436445651575923,
+    "n_input_tokens": 685
+  },
+  {
+    "question": "Why did I take the paper towel from the cabinet while cleaning the floor, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043164024129509926,
+    "n_input_tokens": 735
+  },
+  {
+    "question": "Why did I pour water from the pan into the sink while washing it, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04319481737911701,
+    "n_input_tokens": 713
+  },
+  {
+    "question": "Where is the object you focused on the most while cleaning the counter, and what is its relative position to the plate you put down earlier?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04350221436470747,
+    "n_input_tokens": 743
+  },
+  {
+    "question": "Where is the object you focused on the most while taking the condiment container from the fridge, and what is its relative position to other objects?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04366398602724075,
+    "n_input_tokens": 708
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the bacon container from the fridge?",
+    "answer": "E",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04296593740582466,
+    "n_input_tokens": 698
+  },
+  {
+    "question": "What did the viewer look at immediately after putting the seasoning container in the bag?",
+    "answer": "E",
+    "prediction": "D",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04226578772068024,
+    "n_input_tokens": 617
+  },
+  {
+    "question": "Why did I take the seasoning container from the cabinet while organizing groceries, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043453761376440525,
+    "n_input_tokens": 711
+  },
+  {
+    "question": "Why did I inspect the cheese container while preparing the Greek salad, given the observed changes in my attention?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "causal",
+    "generate_time": 0.0472073620185256,
+    "n_input_tokens": 794
+  },
+  {
+    "question": "Where is the seasoning container you focused on most relative to the salad bowl and other objects in the scene?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.0478955190628767,
+    "n_input_tokens": 865
+  },
+  {
+    "question": "Where is the bowl you put relative to the cup and your gaze direction in Frame 9?",
+    "answer": "D",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04353223089128733,
+    "n_input_tokens": 722
+  },
+  {
+    "question": "What did the viewer look at immediately after taking the towel from the cabinet?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04332015849649906,
+    "n_input_tokens": 733
+  },
+  {
+    "question": "What did the viewer look at immediately after closing the fridge drawer?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "qa_type": "temporal",
+    "generate_time": 0.04472043551504612,
+    "n_input_tokens": 587
+  },
+  {
+    "question": "Why did I put the patty on the bread while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.043368383310735226,
+    "n_input_tokens": 742
+  },
+  {
+    "question": "Why did I place the tomato on the bread while preparing the sandwich, given the observed changes in my attention?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "qa_type": "causal",
+    "generate_time": 0.04326395317912102,
+    "n_input_tokens": 706
+  },
+  {
+    "question": "Where is the patty container located relative to your gaze as you take it out of the drawer?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "qa_type": "spatial",
+    "generate_time": 0.0431773541495204,
+    "n_input_tokens": 705
+  },
+  {
+    "question": "Where is the cheese relative to the patty you are currently focusing on, considering your gaze direction in Frame 9?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "spatial",
+    "generate_time": 0.04373703803867102,
+    "n_input_tokens": 759
+  },
+  {
+    "question": "What did the viewer look at immediately after washing the pan and before opening the dishwasher?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04332239180803299,
+    "n_input_tokens": 722
+  },
+  {
+    "question": "What did the viewer look at immediately after compressing the sandwich in the second keyframe?",
+    "answer": "A",
+    "prediction": "E",
+    "correct": false,
+    "qa_type": "temporal",
+    "generate_time": 0.04265685845166445,
+    "n_input_tokens": 657
+  }
+]

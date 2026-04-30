@@ -1,0 +1,78 @@
+{
+  "dataset": "StreamGaze_v2 EGTEA subset",
+  "eval_split": "egtea (526 items)",
+  "train_split": "egoexolearn + holoassist (5799 items)",
+  "baseline": {
+    "name": "PLLaVA-7B zero-shot",
+    "acc": 47.53,
+    "notes": "100% visual tokens (2304), no fine-tuning"
+  },
+  "experiments": {
+    "exp1_pllava_lora_100pct": {
+      "name": "Exp 1: PLLaVA-7B + LoRA (100% tokens)",
+      "acc": 64.83,
+      "n": 526,
+      "ckpt": "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/pllava_baseline_lora/best_delta.pth",
+      "per_task": {
+        "past_gaze_sequence_matching": 53.13,
+        "past_non_fixated_object_identification": 55.88,
+        "past_object_transition_prediction": 50.0,
+        "past_scene_recall": 51.35,
+        "present_future_action_prediction": 48.94,
+        "present_object_attribute_recognition": 86.46,
+        "present_object_identification_easy": 74.26,
+        "present_object_identification_hard": 70.31
+      },
+      "notes": "LoRA r=64 alpha=128, 3 epochs, lr=1e-4. Generation-based eval."
+    },
+    "exp2_trajgaze_qwen_lora_no_kd": {
+      "name": "Exp 2: TrajGazeMerge + Qwen LoRA (10% tokens, no KD)",
+      "acc_merge": 65.00,
+      "acc_full": 67.40,
+      "n": 500,
+      "ckpt": "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/merge_lora_no_kd/best.pth",
+      "notes": "TrajGaze encoder + Qwen LoRA, CE-only. Best mid-train eval 63% (saved). Final epoch 3 eval: merge=65.00% / full=67.40% (n=500). Logit-based Qwen eval."
+    },
+    "exp3_trajgaze_pllava_lora": {
+      "name": "Exp 3: TrajGazeMerge + PLLaVA LoRA (10% tokens)",
+      "acc": 52.09,
+      "n": 526,
+      "ckpt": "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/pllava_trajgaze_lora/best.pth",
+      "per_task": {
+        "past_gaze_sequence_matching": 29.69,
+        "past_non_fixated_object_identification": 48.53,
+        "past_object_transition_prediction": 50.0,
+        "past_scene_recall": 51.35,
+        "present_future_action_prediction": 51.06,
+        "present_object_attribute_recognition": 78.12,
+        "present_object_identification_easy": 50.50,
+        "present_object_identification_hard": 43.75
+      },
+      "notes": "TrajGaze encoder (trainable) + PLLaVA LoRA r=64 alpha=128, 3 epochs, lr=1e-4 (LoRA) / 1e-5 (enc). Best at epoch 2 (52.28% in-training). Logit-based eval."
+    },
+    "exp4_qwen_lora_prunevid": {
+      "name": "Exp 4: Qwen baseline LoRA + zero-shot PruneVid (10% tokens)",
+      "acc": 54.18,
+      "notes": "Qwen LoRA trained on 100% tokens, then PruneVid prunes at eval"
+    },
+    "exp5_qwen_lora_autogaze": {
+      "name": "Exp 5: Qwen baseline LoRA + zero-shot AutoGaze (10% tokens)",
+      "acc": 43.54,
+      "notes": "Best stage-1/2 AutoGaze model, applied zero-shot at eval"
+    },
+    "exp6_qwen_lora_visionzip": {
+      "name": "Exp 6: Qwen baseline LoRA + zero-shot VisionZip (10% tokens)",
+      "acc": 49.05,
+      "notes": "VisionZip applied zero-shot at eval"
+    }
+  },
+  "summary_table": [
+    {"exp": "Zero-shot PLLaVA",              "tokens_pct": 100, "acc": 47.53, "delta": 0.00},
+    {"exp": "Exp 1: PLLaVA+LoRA",            "tokens_pct": 100, "acc": 64.83, "delta": +17.30},
+    {"exp": "Exp 4: Qwen+LoRA+PruneVid",     "tokens_pct": 10,  "acc": 54.18, "delta": +6.65},
+    {"exp": "Exp 6: Qwen+LoRA+VisionZip",    "tokens_pct": 10,  "acc": 49.05, "delta": +1.52},
+    {"exp": "Exp 5: Qwen+LoRA+AutoGaze",     "tokens_pct": 10,  "acc": 43.54, "delta": -3.99},
+    {"exp": "Exp 2: TrajGaze+Qwen LoRA",     "tokens_pct": 10,  "acc": 65.00, "delta": 17.47, "note": "logit-based, n=500, Qwen model"},
+    {"exp": "Exp 3: TrajGaze+PLLaVA LoRA",   "tokens_pct": 10,  "acc": 52.09, "delta": 4.56}
+  ]
+}

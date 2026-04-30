@@ -1,0 +1,26 @@
+{
+  "overall": {
+    "accuracy": 28.9172831203766,
+    "n_samples": 1487,
+    "avg_generate_time_sec": 0.0306,
+    "avg_input_tokens": 83.4
+  },
+  "per_dataset": {
+    "egoexolearn": {
+      "accuracy": 28.354978354978353,
+      "n_samples": 924
+    },
+    "egtea": {
+      "accuracy": 35.64356435643565,
+      "n_samples": 101
+    },
+    "holoassist": {
+      "accuracy": 28.82882882882883,
+      "n_samples": 444
+    },
+    "unknown": {
+      "accuracy": 22.22222222222222,
+      "n_samples": 18
+    }
+  }
+}

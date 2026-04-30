@@ -1,0 +1,40 @@
+{
+  "overall": {
+    "accuracy": 66.34980988593156,
+    "n_samples": 526
+  },
+  "per_task": {
+    "past_gaze_sequence_matching": {
+      "accuracy": 65.625,
+      "n_samples": 64
+    },
+    "past_non_fixated_object_identification": {
+      "accuracy": 63.23529411764706,
+      "n_samples": 68
+    },
+    "past_object_transition_prediction": {
+      "accuracy": 50.0,
+      "n_samples": 2
+    },
+    "past_scene_recall": {
+      "accuracy": 51.351351351351354,
+      "n_samples": 37
+    },
+    "present_future_action_prediction": {
+      "accuracy": 53.191489361702125,
+      "n_samples": 94
+    },
+    "present_object_attribute_recognition": {
+      "accuracy": 86.45833333333333,
+      "n_samples": 96
+    },
+    "present_object_identification_easy": {
+      "accuracy": 65.34653465346534,
+      "n_samples": 101
+    },
+    "present_object_identification_hard": {
+      "accuracy": 70.3125,
+      "n_samples": 64
+    }
+  }
+}

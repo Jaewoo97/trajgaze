@@ -1,0 +1,5852 @@
+[
+  {
+    "dataset": "egtea",
+    "question": "Among {kettle, stove, microwave, faucet}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.7633469747379422,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {pot, tomato, knife, microwave}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2176178116351366,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {plate, counter, cucumber, kettle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.216772143729031,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {plate, knife, counter, tomato}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2172456867992878,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {cheese slice, plate, sandwich, shoe}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2218553544953465,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {milk, spoon, pan, phone}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2323013870045543,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {stove, table, milk, knob}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.214208023622632,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {knob, spatula, pot, spoon}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2152246441692114,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {bagel, knife, plate, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2185115022584796,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {tomato, bread, refrigerator, bagel}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2226150138303638,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {knife, cabinet, plate, bagel}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2254699664190412,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {lettuce, fork, bag, hands}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2254350874572992,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {cucumber, knife, eggs, bag}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2285574711859226,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {hands, lid, knife, plate}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2182752508670092,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {pan, spatula, knife, cheese}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2197417607530951,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {pepper, knife, kettle, mushroom}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2267575887963176,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {pan, mushroom, knife, keyboard}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2206133650615811,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {monitor, poster, spoon, plate}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2240905966609716,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {sink, poster, cup, faucet}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.225120517425239,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {spatula, glass, poster, patty}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2210622001439333,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {countertop, lettuce, dishwasher, plant}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2315549841150641,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {spatula, sink, sausage, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2248475076630712,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {paper, plate, onion, tomatoes}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2239917255938053,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {knife, onion, bottle, paper}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2210661005228758,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {pot, olives, plate, paper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2260299623012543,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {salt_shaker, knife, cabinet, salad}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2232554303482175,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {dish, cabinet, salad, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2235603798180819,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {hand, pan, spoon, paper}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2213322566822171,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {kettle, mug, laptop, spoon}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2192900134250522,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {cabinet, mug, kettle, table}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2246965235099196,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {paper, cabinet, hand, curtain}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2244608057662845,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {cabinet, sink, vent, tape}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.231901427730918,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {rug, sink, cup, bottle}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2239508712664247,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {cabinet, rug, paper, cup}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.223673920147121,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {kettle, knife, pepper, hotdog}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222090053372085,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {knife, spatula, pepper, pan}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2438918994739652,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {hands, glass, tomato, dishwasher}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2184613440185785,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {spoon, egg, bowl, knife}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2218372272327542,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {bowl, kettle, spoon, egg}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2322038477286696,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {bowl, egg, cup, bottle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2191976932808757,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {bow, bowl, picture, spoon}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2254424383863807,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {window, button, screen, bowl}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2209026757627726,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {spoon, bowl, bottle, utensil}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2221062732860446,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {spatula, pan, pot, pancake}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2211513286456466,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {paper, glasses, knife, laptop}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2229071808978915,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {glasses, plate, lettuce, telephone}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.21648811083287,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {pizza, plate, cheese, hand}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2190933804959059,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {kettle, cheese, plate, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2184630231931806,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {vegetable, plate, box, sausage}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2196499379351735,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {knob, spoon, bowl, foil}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2216926366090775,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {sandwich, knob, bowl, stove}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2258076826110482,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {paper, cabinet, trashcan, bowl}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2182677406817675,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {teabag, wineglass, cabinet, bowl}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2313729301095009,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {kettle, faucet, counter, box}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2190430918708444,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {glassware, mushroom, hands, faucet}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2235137792304158,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {spices, tomato, knife, food}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2186786364763975,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {pen, hand, papers, knob}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2347148545086384,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {bowl, pan, stove, spatula}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2225084137171507,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {cup, bottle, stove, spatula}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2239654017612338,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {salt, bottle, package, cabinet}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.227015808224678,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {button, cabinet, microwave, outlet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2183918077498674,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {microwave, tomato, outlet, sticker}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.216140927746892,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {spatula, burger, button, paper towels}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2203275552019477,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {sink, tomato, cucumber, counter}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2162112398073077,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {jar, cucumber, counter, salad}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2157792495563626,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {bottle, cup, plastic bag, potatoes}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2219831999391317,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {kettle, potatoes, plate, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.227342888712883,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "Among {plastic bag, pan, spatula, bread}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2229852601885796,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, tape, faucet, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.22002156637609,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {stove, paper, tape, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.217646268196404,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {egg, knife, stove, hands}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2191097550094128,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {tissue, tomato, knife, paper}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.220377461053431,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, plate, knife, tomato}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.221481990069151,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {plate, lettuce, plastic, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2150589684024453,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {text, paper, bulletin board, picture}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2248939769342542,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {text, spoon, paper, bulletin board}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2301740972325206,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {stove, bowl, cloth, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.224989976733923,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {egg, cable, bowl, plate}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2188861574977636,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pan, stove, egg, bottle}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2171780541539192,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, text, bowl, sink}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2231791503727436,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {spices, paper, container, bowl}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2132075754925609,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {sink, spoon, container, text}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2184556564316154,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {kettle, spatula, bottle, pan}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.220996473915875,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {tray, bottle, kettle, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.225780377164483,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {window, bagel, trashcan, kettle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2260080110281706,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {plastic_bag, cutting board, knife, tomato}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2162302182987332,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, syrup, cutting board, cucumber}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2253211457282305,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {sink, cutting board, vegetable, tomato}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2191124837845564,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {burner, sink, bottle, sponge}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2186658661812544,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {sponge, bottle, towel, sink}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.246468453668058,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bottle, strainer, sink, floor}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2213914999738336,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {box, cabinet, text, paper}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2229495160281658,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, pan, cabinet, text}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2235139990225434,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {text, container, cabinet, paper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.227265728637576,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pot, paper, text, countertop}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.223488176241517,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {sink, stove, pot, hand}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2154287789016962,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pot, meat, paper, cups}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2232745932415128,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cabbage, plate, paper, text}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2169472109526396,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, text, knife_block, lettuce}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2154254019260406,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {jar, knife, cabbage, cutting board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2194706238806248,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {illustration, soap, paper, text}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2173622772097588,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {illustration, text, paper, television}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2334338948130608,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {illustration, picture frame, text, finger}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2166832210496068,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {shopping bag, bottle, cutting board, cucumber}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2260082671418786,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {counter, cucumber, knife, vegetable}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2159597110003233,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, shopping bag, hand, counter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2162710139527917,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {spoon, fork, rug, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.217595518566668,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {dishwasher, spoon, bowl, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2227031951770186,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {fork, bowl, cabinet, spoon}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2216999288648367,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {text, pot, stove, faucet}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2156545985490084,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, pot, cucumber, faucet}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2192170694470406,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {text, canned_food, tomato, pot}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2263076780363917,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pot, faucet, canned_food, paper}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2205029390752316,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, text, pot, strainer}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2294763904064894,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pot, paper, cans, text}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2181095099076629,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bowl, tomato, knife, plastic}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2200829312205315,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, plastic, tomato, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2244029399007559,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {plastic, tomatoes, cabbage, paper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.219573074951768,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, lettuce, text, cheese}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2193656964227557,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, hand, paper, oil}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2245807610452175,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {oil, knife, tomato, paper}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2198396371677518,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, hand, baking_soda, cutting board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.226002505980432,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cutting board, frying pan, countertop, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2198882792145014,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {stove, spatula, cutting board, patty}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2194190388545394,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cabbage, knife, paper, cutting_board}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2190583255141973,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {stove, paper, cutting board, hand}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2240102728828788,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cutting_board, hand, potato, paper}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2162633435800672,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, cutting board, bottle, carrot}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2185085117816925,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {image, carrot, knife, vegetable}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2210391648113728,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {knife, glass, sheet, image}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2221783278509974,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {onion, knife, pot, juice}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2174048256129026,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cucumber, pot, onion, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2170326756313443,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {onion, cucumber, pot, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2180904364213347,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {package, cheese, text, mustard}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2208518963307142,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, cutting board, tomato, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2223681397736073,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {spices, paper, bread, sandwich}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2264686059206724,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {plate, jar, utensils, bowl}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2178651792928576,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {utensils, bowl, soap, plate}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2218460440635681,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {shoe, utensil, dishwasher, paper}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2295178463682532,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {finger, bag, paper, measuring cup}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2279399633407593,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bag, towel, paper, text}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2177803060039878,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {trash can, onion, finger, wall}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.214965159073472,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bowl, finger, paper, text}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2213212791830301,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {text, container, paper, finger}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2244494957849383,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {finger, lettuce, sink, picture_frame}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2213587267324328,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, pot, can, container}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.220021640881896,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {container, towel, pot, paper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.222249798476696,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pasta, paper, can, container}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2180240917950869,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {fork, vinegar, bowl, pan}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2197334049269557,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bottle, bowl, microwave, stove}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2236519381403923,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cinnamon, stove, bottle, pan}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.219794960692525,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {carton, paper, bowl, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2230047406628728,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {fork, bowl, text, package}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2214262811467052,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {plant, bowl, egg, paper}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2196543188765645,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {spoon, drain, paper, finger}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2189140329137444,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {image, jar, paper, container}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.220529650337994,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {image, jar, finger, picture}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2222840460017323,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {spice, bowl, carton, coffee}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.221963400952518,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bowl, dishwasher, pan, carton}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.226679228246212,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bottle, wall, pan, spice}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2190647423267365,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {spoon, cabinet, hand, microwave}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2223153542727232,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {spoon, paper, hand, bread}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2265608347952366,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, stove, knife, hand}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.222417812794447,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {colander, knife, sieve, hand}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.222327884286642,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, plastic_bag, stove, garlic}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2219002125784755,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {window, hand, hands, bowl}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.219297825358808,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, hand, hands, bowl}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2236856492236257,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hands, knife, toaster, finger}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2219146760180593,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {fingers, power_outlet, cutting_board, bell_pepper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2251250129193068,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {fingers, white liquid, pan, kettle}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.220144648104906,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {stove, appliance, pan, bowl}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2232934441417456,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bell pepper, bottle, dried tofu, bell_pepper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2221317989751697,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, bell_pepper, knife, plastic_bag}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.230319225229323,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {dish, plastic_bag, knife, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2252742564305663,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, chili_pepper, dried tofu, fingers}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.218067679554224,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {fingers, cutting_board, chili_pepper, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.226763286627829,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {green_onions, knife, sink, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.221167977899313,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, vegetables, plates, soap}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.227449944242835,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chopsticks, sink, knife, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2220257287845016,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {colander, sink, knife, bell_pepper}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2185721416026354,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, container, hand, tomato}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2202520426362753,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {tomato, carton, hand, gas_stove}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2151438873261213,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {tomato, bowl, sink, plate}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2182822423055768,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, cutting_board, pepper, raw meat}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2199322963133454,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, gas_stove, knife, onion}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2276085885241628,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, bottle, outlet, wall}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2238311488181353,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, foot, counter, shoes}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.230448791757226,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {foot, cutting_board, garlic, shoes}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2189122876152396,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, colander, sink, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2258180268108845,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plate, metal_bowl, sink, vegetable}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2225998938083649,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {vegetable, metal_bowl, faucet, plate}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2155958637595177,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, bag, plate, cutting board}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2188526075333357,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bowl, hand, cutting_board, flour}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.21845662035048,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {shelf, plastic_bag, lettuce, flour}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2190607292577624,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plastic_bag, hand, bowl, shelf}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2193612419068813,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, knife, water, gas_stove}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.223318031989038,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cleaning_sponge, cutting_board, peeler, potato_pieces}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2270820559933782,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {potato_pieces, wok, peeler, gas_stove}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2286204509437084,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, boxes, pepper, bowl}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2276088297367096,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chopping_board, garlic, knife, dough}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2515984559431672,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {dough, chili_peppers, plate, bag}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2215351052582264,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, thermometer, scallions, meat}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2212737062945962,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, scallions, meat, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2232165904715657,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {power_outlet, scallions, potato, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2184819336980581,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pan, meat, cutting_board, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2239566454663873,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, meat, cucumber, cutting_board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.21798275411129,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pan, ladle, meat, oil}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2175102233886719,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, sink, bowl, hand}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2137317704036832,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, cutting_board, hand, bag}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.21784686204046,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, sink, garlic, plate}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2217961018905044,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, celery, knife, extractor}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2262291545048356,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onion, towel, celery, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2241866011172533,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onion, bag, extractor, celery}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2177153881639242,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, knife, plate, leek}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2190213603898883,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {leek, green leaf lettuce, knife, speaker}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2188724428415298,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, leek, bottle, cutting_board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2203770950436592,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {vinegar, potatoes, knife, chopped_potatoes}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2264969469979405,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {oil, chopped_food, bowl, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2139748921617866,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bag, chopped_food, plastic_bag, bowl}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2274761348962784,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {lettuce, cutting_board, bottles, zucchini}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.219731711782515,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, spoon, knife, zucchini}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.214579701423645,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, lettuce, chopsticks, pepper}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2234677616506815,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {window, garlic, bowl, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2211354356259108,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {white plate, window, garlic, phone}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2157662194222212,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {vegetables, black stove, stove, garlic}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2216800842434168,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, green_onion, white vegitable, ginger}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2362629165872931,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, onion, cutting board, spoon}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2184173790737987,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, sponge, celery, bell_pepper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2243402609601617,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, peeling potato, peeler, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2155578145757318,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {silver bowl, dish, peeler, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2220598058775067,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {spoon, black pan, bowl, pan}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2173708053305745,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {tomato, knife, cutting_board, garlic}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2158435620367527,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {faucet, cutting_board, flour, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2197240488603711,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, bag, tomato, flour}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2185433963313699,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, seafood, water_dispenser, plate}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2153454767540097,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, refrigerator, plate, leek}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2189914640039206,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {eggs, sink, knife, seafood}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2207683976739645,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {colander, knife, leek, eggplant}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2205018494278193,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, colander, leek, eggplant}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2151638204231858,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {leek, bag, hand, eggplant}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.217778155580163,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chopsticks, metal_rack, garlic, cutting_board}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2322546876966953,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chopsticks, knife, egg, scouring_pad}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.226555185392499,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chopped_ingredients, knife, hand, fork}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.221895000897348,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, knife, eggs, meat}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2230026628822088,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, plate, meat, basket}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2161262044683099,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, cutting_board, counter, meat}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.219117196276784,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, knife, cutting_board, lettuce}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.22287786193192,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {lettuce, cutting_board, counter, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2250577630475163,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {thermos, celery, lettuce, sink}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2203394183889031,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, sink, cutting board, onion}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2179739866405725,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, bag, onion, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2224540682509542,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, cutting_board, cutting board, container}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.221670988947153,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {scallion, knife, cutting_board, sink}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2171063758432865,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plate, hand, cutting_board, scallion}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2352608246728778,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, rack, cutting_board, scallion}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2161597860977054,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {faucet, sink, bottle, onions}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2151010744273663,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onions, sink, faucet, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2142108110710979,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bowl, knife, hand, cup}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.217759808525443,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bucket, knife, potato, plate}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2211202466860414,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sponge, knife, potato, bucket}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2160821631550789,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {eggplants, knife, potatoes, bucket}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.22495552059263,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, potato, bowl, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2416518051177263,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, hands, potato, pot}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2185343485325575,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {ginger, colander, potato, hands}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2158672958612442,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {vegetable, leek, sink, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2163232546299696,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, ginger, cutting_board, bell_pepper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.214766688644886,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, gas_stove, vegetable, sink}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2150899590924382,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, packets, apple, peeler}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2231058068573475,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {grater, cutting_board, hand, apple}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2195598855614662,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {lettuce, refrigerator, cucumber, peeler}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2155062314122915,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {person, burner, plastic_bag, onion}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2171041667461395,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onion, person, plate, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2162058260291815,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plastic_bag, bag, knife, dough}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2171917082741857,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, cutting_board, pepper, cutting board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2377944327890873,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {stove, garlic, onion, cutting_board}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2148412195965648,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onion, knife, bottles, cutting board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2250830810517073,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plate, utensil, bowl, stove}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.217763850465417,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {stove, knife, cutting_board, counter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2184576112776995,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, utensil, bowl, faucet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.221635952591896,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, pan, vegetables, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2186581771820784,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {vegetables, pan, finger, extractor_fan}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2184781804680824,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {finger, cabinet, pot, stove}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2198917726054788,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gas_stove, cutting_board, knife, hand}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2153574321419,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {tomato, cutting_board, plastic_bag, hand}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2209622981026769,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, sink, spoon, cutting_board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2196649182587862,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottles, shelf, wash_bottle, scale}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2228568475693464,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, wash_bottle, scale, shelf}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2167216138914227,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, box, shelf, scale}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2143750693649054,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {wash_bottle, cabinet, test tube, beaker}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.231526831164956,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {wash_bottle, balance, flask, test tube}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2200728543102741,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, test tube, hand, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2280109953135252,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {clamps, man wearing blue gloves, gloves, test tube}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2188372230157256,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {screen, cabinet, gloves, test tube}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2243330422788858,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {tubes, gloves, blue gloves, pipette}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2281612120568752,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {marker, microplate, gloves, pipette}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2187551949173212,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {petri dish, box, pipettes, pipette}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2188696814700961,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, marker, microplate, petri dish}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2201772704720497,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test tube rack, bottles, pipette, petri dish}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.219998063519597,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, gloves, test tube holder, counter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.215246726758778,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, pipette, test tube, watch}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2204709313809872,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottles, gloves, filter, scale}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2156119626015425,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {balance, wall, scale, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.221059856005013,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {board, pipette, container, counter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.216776947490871,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {centrifuge, petri_dish, board, counter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2206875728443265,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, bottle, petri_dish, board}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.214784081093967,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipettes, test_tube_rack, gloves, test_tubes}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2208253964781761,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, petri dish, bottles, pink container}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2227482125163078,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {boxes, bottle, pipette, pipettes}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2169976513832808,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, box, pipettes, boxes}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2188892513513565,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, test_tube, pipette_tip_container, pipette}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2186436029151082,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, bottle, burner, pipette}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2176498649641871,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {floor, test tube, box, bottle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2182457922026515,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plastic_bag, rack, bottle, test_tubes}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2168931337073445,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, test_tubes, box, tweezers}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2204723004251719,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test tube rack, test_tube_rack, test_tubes, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2164720632135868,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, refrigerator, container, bottle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.220745401456952,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, bottle, boxes, container}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2178397504612803,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {box, screen, gloves, pipette}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.215849893167615,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {culture dish, gloves, bottles, plastic container}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2227996615692973,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, culture dish, centrifuge_tubes, plastic container}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2215675357729197,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {centrifuge, petri_dish, gloves, petri dish}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2202460058033466,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {dropper, pegboard, bottle, tube rack}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.218204234726727,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, balance, tube rack, pegboard}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2172770984470844,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {tube rack, beaker, balance, clamps}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2175947716459632,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {microscope, beaker, container, bottle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2180706253275275,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {shelf, pipette, petri_dish, microscope}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.216822193004191,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test_tube_rack, box, pipette, refrigerator}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2187694562599063,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, bottle, microscope, tube rack}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2226739060133696,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, bottle, rack, test_tube_rack}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2159640146419406,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {boxes, gloves, bottle, floor}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2164604309946299,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, page, bottles, notebook}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2189058493822813,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test tube, watch, paper, glove}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.218450321815908,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, test tube, glove, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2295698840171099,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {watch, table, glove, tube}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.218906257301569,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, paper_towel, flask, gloves}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2202234519645572,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {microscope, bottles, gloves, table}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2211676575243473,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipettes, burner, gloves, testtube}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2221037903800607,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {glove, bottle, microscope, pipette}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2192526049911976,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {rack, syringe, cup, tissue}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2148523405194283,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {power_supply, bottle, container, syringe}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2151683690026402,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {rack, petri_dish, beakers, gloves}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2177213309332728,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {rack, petri_dish, machine, centrifuge_tubes}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2160464217886329,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {boxes, testtube rack, gloves, petri_dish}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2219789298251271,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {printer, syringe, box, gloves}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2160831717774272,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, sponge, trash_bin, pipette}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2138587459921837,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {notepad, box, gloves, container}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2178737632930279,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {paper, sponge, syringe, petri_dish}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.214387626387179,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {black counter, box, syringe, beaker}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2167981257662177,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, containers, machine, syringe}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2168072098866105,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {glove, bottles, machine, gloves}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.215739336796105,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, paper, cable, bottle}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2208616184070706,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, gloves, cup, cable}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.21769286878407,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {flask, table, machine, gloves}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2165647195652127,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, pen, gloves, laboratory_bench}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2163775255903602,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {microscope, wall, petri_dish, container}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2176723834127188,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {petri_dish, centrifuge_tubes, gloves, test_tube_rack}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2162190396338701,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, cabinet, syringe, container}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2219753321260214,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, wall, gloves, scale}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2206379929557443,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {trash_bin, bottle, pen, syringe}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2200926896184683,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {balance, pen, counter, notebook}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.221124175004661,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test_tube_rack, tray, rotary_evaporator, gloves}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2176882792264223,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {flask, refrigerator, protective_suit, bottle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2265222435817122,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {rotary_evaporator, gloves, protective_suit, tray}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.222637933678925,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {microscope, pipette, culture_dish, machine}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2208426129072905,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test tube rack, culture_dish, petri dish, trash_bin}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2270015915855765,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {silver counter, machine, bag, alcohol_lamp}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2204712936654687,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, bottle, counter, dropper}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2220224477350712,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, vials, glove, test_tube_rack}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2170135276392102,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, wall, bottle, glove}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2180155189707875,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test_tube_rack, pipette, pipette_tip_box, test_tubes}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2183833587914705,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, paper, boxes, needle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2210512682795525,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {paper, spoon, refrigerator, scale}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2202259600162506,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {powder, notebook, refrigerator, spatula}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2164526768028736,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, balance, pipette, cup}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.220456913113594,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {test tube, test_tube, capillary tube, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.216383881866932,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {beaker, test tube, needle, vials}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2151055559515953,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {alcohol_lamp, test tube, bottle, power_strip}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.216717990115285,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {rack, microcentrifuge, test_tube_rack, bottle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2176654422655702,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, petri_dish, pipette_stand, gloves}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2164158960804343,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {flask, gloves, bottle, container}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2228769985958934,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, scale, syringe, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2186759002506733,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, pipette, microscope, boxes}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2159254793077707,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {culture_dish, pipettes, trash_bin, microscope}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.216827878728509,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {glove, test tube, microscope, pipette_tips}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.219896711409092,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {centrifuge, pipette, test_tube, beaker}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2163489647209644,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {refrigerator, cap, flask, wash_bottle}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2200709851458669,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {red rubber grip, block, microcentrifuge_tubes, petri dish}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2226413693279028,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, test_tubes, red rubber grip, block}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2224205257371068,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, gloves, red rubber grip, pipette_tip_box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2147225830703974,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {petri_dish, sink, pen, lab_coat}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2206788137555122,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {microscope, dropper, lab_coat, boxes}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.216217982582748,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {rack, culture_dishes, microscope, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2149404920637608,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {hand, shaker, bucket, person}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2219194006174803,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {notebook, person, machine, flask}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2209129743278027,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plastic_container, paper, hand, bottles}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2213825806975365,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, balance, outlet, bottle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2162534380331635,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {balance, scale, washing_bottle, paper}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2147319158539176,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {notebook, bottle, counter, gloves}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2171291196718812,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pipette, flask, gloves, container}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2206519031897187,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {scale, magnetic_stirrer, bottle, pen}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2214593552052975,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {magnetic_stirrer, refrigerator, cylinder, bottle_washer}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2187269376590848,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {notebook, balance, pegboard, magnetic_stirrer}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2200419288128614,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, gloves, bottle, bottles}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2239564033225179,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, bottle, gloves, beaker}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2166494689881802,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {book, cooler, counter, container}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2193146338686347,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, gloves, container, test_tubes}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2145920088514686,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {petri_dish, test_tubes, cloth, block}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2156566828489304,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {syringe, filtering_bottle, bottle, scale}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2181282648816705,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, bottle, pipette, counter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2175155552104115,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {centrifuge_tube, counter, cup, bottle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.216780772432685,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cup, person, plastic_bag, bottle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2271082857623696,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, bottle, notebook, plastic_bag}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2226618807762861,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plastic_bag, pen, counter, cup}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2164985435083508,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gel_plate, gloves, ruler, transparent tube}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.215100759640336,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gel_plate, ruler, centrifuge tube, transparent tube}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2230259822681546,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, flask, machine, needle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2158851008862257,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, machine, needle, filtering_bottle}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222553787752986,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, syringe, counter, filtering_bottle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.217496701516211,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {gloves, green bowl, multimeter, glove}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2192583046853542,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {power_supply, bottle, gloves, glove}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2203649347648025,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {scale, box, refrigerator, bottle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.218212560750544,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, bottle, tube, syringe}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.22149355430156,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, spoon, lamp, notebook}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2162178121507168,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {scale, paper, spoon, helmet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.216232432052493,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {device, hand, bag, battery_door}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2182793840765953,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hand, camera, box, gopro}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2232733573764563,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {go pro camera, battery_door, device, wall}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2189116980880499,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {machine, lens_cap, counter, device}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2162114912644029,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {device, counter, case, carpet}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2205769727006555,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {box, counter, machine, lock}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2189797731116414,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cabinet, drawer, hand, handle}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2177537940442562,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cabinet, drawer, box, carpet}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2191852889955044,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {arm, handle, floor, box}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2165721813216805,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {screw, container, motherboard, heat_sink}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2163474392145872,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {container, screw, heat_sink, device}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2226832481101155,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {graphic_card, motherboard, counter, heat_sink}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2207597913220525,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {power_supply, paper, computer_tower, box}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.22402514051646,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper, table, computer_tower, box}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2175926333293319,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cable, box, hard_drive, computer_tower}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2254052041098475,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hard_drive, ram, case, motherboard}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2197651863098145,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {case, ram, motherboard, optical_drive}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2251770412549376,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {case, table, ram, motherboard}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2193005830049515,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {stool, gear_lever, shift_arm, qr_code}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2251585284247994,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {stool, shift_arm, shift arm, multimeter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2192055406048894,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {finger, engine, shift_arm, counter}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2185631692409515,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {microsdcard, nintendo_switch, card, joy_con_controller}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2176810400560498,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {usbcardreader, card, joy_con_controller, nintendo_switch}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2213325183838606,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {joy_con_controller, joy _con_controller, microsdcard, nintendo_switch}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2227786593139172,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {screwdriver, stool, screw, computer}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {stool, screw, frame, power_strip}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {counter, farem, screw, panel}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {monitor, washer, frame, metal_frame}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {hex_nut, monitor, metal_frame, washer}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {hand, computer, stool, hex_nut}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {battery, laptop, camera, bracelet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2244565170258284,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {counter, camera, keyboard, gopro}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2191895600408316,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {keyboard, hands, cable, battery}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.223409853875637,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {furniture, leg, door, tray}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2188287358731031,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hand, leg, keyboard, screwdriver}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2208027373999357,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {leg, computer, laptop, tray}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2176999663934112,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {white seat, plate, keyboard, table}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2190287970006466,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {white seat, keyboard, mouse, silver metalic bolt}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222483778372407,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {frame, hand, plate, table}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2209859788417816,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {sliver screw, pvc_pipe, chair, metal_connector}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2183766476809978,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {tool, frame, hex_socket_head, pvc_pipe}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2212935583665967,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {chair, hex_socket_head, structure, sliver screw}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.231676446273923,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {sliver allen screw driver, hex_socket_head, furniture, mouse}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2197368806228042,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {sliver allen screw driver, allen_wrench, hex_socket_head, screws}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.216858385130763,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {mouse, sliver allen screw driver, allen_wrench, computer}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2202685419470072,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {wall, white printer, hand, screwdriver}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2222412563860416,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {wall, computer, white printer, hand}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2160157933831215,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {printer, hand, drawer, wall}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2183376466855407,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {screws, box, wrench, screw}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2184808878228068,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {component, wrench, equipment, screws}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2226818157359958,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {wrench, hand, pen, screw}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.219186774455011,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {device, hand, tripod, battery}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2167616374790668,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hand, monitor, buttons, paper_tray}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2177783688530326,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hand, cartridges, paper, paper_tray}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2171093383803964,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {paper_tray, paper, printer, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2172840582206845,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {hex_socket_head, allen_wrench, metal_frame, robot}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {frame, screw, robot, hex_socket_head}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {robot, allen_wrench, frame, screw}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {screen, cabinet, couch, machine}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.221326533704996,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {coffee_machine, milk, machine, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.215713462792337,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {coffee_machine, cup, mat, couch}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.223004624247551,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {vacuum, wheel, hands, valve of wheel}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2212981218472123,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hexagon_cap_nut, valve of wheel, hands, cart}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2201563138514757,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {casters, hexagon_cap_nut, plastic_component, bolt}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.216731539927423,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {flexible_tripod, gopro, sd_card, hands}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2252337904646993,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {tripod, gopro, camera, fingers}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2199066709727049,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {battery, sd_card, gopro, case}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2214368246495724,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {handlebar, hexagonal_wrench, monitor, mesh_cover}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2169193737208843,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {bolt, monitor, hand, mesh_cover}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.217312484048307,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {cabinet, wheel, tool, handlebar}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2182736145332456,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hand, allen_wrenc, table, tool}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.219209578819573,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {allen_wrenc, nightstand, table, hand}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2211793446913362,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {table, allen_wrenc, nightstand, tool}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2217904785647988,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {table, tray, tool, cart}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {mesh, table, tool, tray}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "unknown",
+    "question": "Among {metal pipe, table, pipe, tray}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "",
+    "correct": false,
+    "generate_time": 0.0,
+    "n_input_tokens": 0
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {box, hex_socket_head, machine, hex_key}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.224023301154375,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {circle, frame, robot, hand}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.217100785113871,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {circle, hand, screwdriver, cabinet}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2189661720767617,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hands, battery_door, gopro, flashlight}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2232069140300155,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {laser_pointer, battery cover, hands, battery_door}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2190281469374895,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {card, device, battery, gopro}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2252890476956964,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {allen_wrench, screw, furniture, cardboard_box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2233755989000201,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {allen_wrench, chair, furniture, nightstand}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2263622479513288,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {screw, hex_socket_head, allen_wrench, box}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2218617554754019,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {nintendo_switch, joy-con controller, card, joy_con_controller}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.228396694175899,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {phone, joy-con controller, card, screen}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2269006334245205,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {joy_con_controller, vacuum, nintendo_switch, device}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2212080704048276,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {leg, base, hex_nut, monitor}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.21837620716542,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {base, hex_nut, palette, circular_object}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2222279058769345,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {circle, wrench, chair, screwdriver}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2232775641605258,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {camera, hand, surface, strap}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2180699063465,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hand, gopro, camera, keyboard}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.21644745208323,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {hand, power_strip, surface, camera}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2158653158694506,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {card, joy con controller., cable, monitor}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2191384611651301,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {keyboard, game_console, joy con controller., card}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2162612602114677,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {power_strip, cable, joy_con_controller, console}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2213913267478347,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {screw, keyboard, frame, hex_socket_head}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2165146619081497,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {tube, monitor, screw, allen_wrench}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2201319122686982,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {keyboard, hex_socket_head, frame, screw}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2174640828743577,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {drill, pipe, frame, screw}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2180617582052946,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pipe, hex_socket_head, drill, frame}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2220411654561758,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {pipe, structure, allen_wrench, curtain}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2203722652047873,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {lens, finger, camera, strap}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2193308854475617,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {camera, card, lens, battery}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2178498283028603,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Among {strap, camera, sd_slot, battery}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2200833931565285,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {dough, bowl, counter, faucet}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2174700601026416,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pot, dough, counter, bowl}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2248026793822646,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {window, spoon, bowl, dough}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2331604352220893,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {window, flour, vegetables, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2210493758320808,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {vegetables, flour, bowl, tomatoes}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.222256957553327,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {thermos, egg, vegetables, flour}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2160321790724993,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {peeler, pepper, chopsticks, potato}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.218144224025309,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pepper, basket, eggplant, potato}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2187521811574697,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pepper, potato, peeler, chili}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2170947501435876,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, knife, onion, garlic}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.222942404448986,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onion, bag, garlic, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2166724596172571,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, onion, spray_can, garlic}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.216354589909315,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, plates, plate, bowl}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2191969836130738,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bowl, plate, sponge, sink}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.215383943170309,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bowl, eggs, oven, sink}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.224191540852189,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, milk, onion, window}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2135395081713796,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onion, sink, plate, window}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2215422093868256,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, container, knife, onion}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.226089478470385,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chopsticks, plastic bag, vegetables, cutting board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2209231099113822,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {jar, dry tofu, bag, bottles}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2183416308835149,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {jar, bag, dry tofu, bottle}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2179786348715425,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, dry tofu, cutting_board, chopsticks}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2164496900513768,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sponge, knife, cutting_board, dry tofu}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2182835331186652,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, cutting_board, dry tofu, knife}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2166465055197477,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {snacks, green_onions, knife, garlic}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.224306638352573,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bag, green_onions, knife, garlic}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2207549568265676,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {green_onion, pot, counter, sink}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.217227433808148,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {water, plates, green_onions, plastic_bag}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2197872614488006,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {water, plate, sink, brush}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2223825370892882,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plastic_bag, knife, cardboard, water}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.223208175972104,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, pot, cutting board, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.217103250324726,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chilies, meat, knife, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2195137236267328,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {meat, mixture, bowl, pot}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2267390601336956,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, chopsticks, knife, meat}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2215767577290535,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {ginger, meat, meet, pan}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2170848995447159,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {celery, cutting_board, egg, ginger}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2175569711253047,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, bowl, towel, dough}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2168191745877266,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {burner, bowl, cutting board, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2193829603493214,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pot, cutting board, ginger, stove}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2187755554914474,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bag, cutting_board, burner, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2216978091746569,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, cutting_board, garlic, container}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2281595105305314,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, bag, burner, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2184401731938124,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {colander, wok, garlic, stove}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2140222014859319,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {wok, garlic, woke, green_peppers}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.217101606540382,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {wok, woke, chopsticks, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2181811621412635,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, bell_pepper, thermos, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2227345732972026,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {green_onion, sponge, knife, scallions}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2167159020900726,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, knife, outlet, green_onion}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2177663389593363,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sauce, potato, celery, cucumber}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2167975809425116,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bag, cucumber, sauce, bowl}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2163784904405475,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {potato, knife, cucumber, plate}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2201566165313125,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {food, tomato, cutting_board, colander}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2231160728260875,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {food, cutting_board, measuring_spoon, tomato}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2221013344824314,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {tomato, egg, chopping board, chopping_vegetables}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2155908765271306,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chilies, knife, meat, cutting_board}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2223574919626117,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, bottle, onion, cutting_board}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.216385841369629,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, knife, faucet, chilies}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2133661387488246,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, potato, phone, eggplant}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2194062499329448,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, stove, bottle, cutting_board}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2201124830171466,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bottle, sink, lemon, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2230267506092787,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {ladle, ginger, chilies, tofu}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2149405423551798,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {meat, tofu, cutting_board, chilies}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2171897711232305,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, tofu, pan, ladle}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2153420904651284,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, outlet, dough, ginger}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2194876438006759,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, spice, cutting_board, dough}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2190004754811525,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, bottle, sink, ginger}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.217971676029265,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, cutting_board, towel, eggplant}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2183094518259168,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {potato, towel, peeler, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2252829214558005,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {potato, cup, sink, vegetables}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2172327199950814,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {scallion, plastic_bag, cutting_board, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2220332976430655,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {onion, cutting_board, knife, garlic}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2217998011037707,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, knife, sink, garlic}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2189688868820667,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plate, vegetables, can, garlic}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2180655943229795,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {can, plate, vegetables, sink}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2181047489866614,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {dish, pepper, knife, sink}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2151642944663763,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, bucket, refrigerator, potato}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2170038241893053,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bucket, potato, cutting_board, strainer}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.235321863554418,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {potato, knife, plate, green_pepper}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2177225211635232,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {extractor, vegetables, sink, pan}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.216714278794825,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, pan, sink, bottle}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2166818175464869,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, extractor_fan, sink, vegetables}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2172897374257445,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, spoon, cup, onion}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.216706189326942,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {pan, phone, cup, faucet}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2277046460658312,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plate, cup, wooden_surface, onion}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2190809221938252,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, bowl, gas_stove, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.216205047443509,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {meat, ginger, onions, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.219374867156148,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bowl, meat, extractor, onions}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.218196582980454,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {water_stream, range_hood, eggplant, sink}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.22532226331532,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {water_stream, cutting_board, oil, sink}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.213605928234756,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {sink, kettle, eggplant, garlic}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.222161958925426,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {scallion, knife, plate, cutting_board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2233437793329358,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, knife, onion, extractor}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2135934736579657,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, knife, celery, kettle}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2217456139624119,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {flour, cream, chopsticks, brush}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.226875538006425,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, sink, brush, cardboard}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2183638149872422,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, cardboard, cream, sink}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2148368041962385,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {potato, strainer, eggplant, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2251099739223719,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, potato, bowl, eggplant}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2180741047486663,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {eggplant, sink, green_onion, pepper}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2193378554657102,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plastic_bag, knife, potato, plate}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2184348264709115,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {potato, knife, bottle, plastic_bag}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2280203076079488,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {bucket, bottles, cutting_board, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2195103578269482,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {ginger, bottle, cutting_board, knife}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2189157707616687,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {ginger, garlic, cutting_board, electric_kettle}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2181650288403034,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, knife, cucumber, bell_pepper}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222325257025659,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cell_phone, ladle, plastic_bag, bucket}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2193141616880894,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {container, bottle, ladle, plastic_bag}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2200872004032135,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {knife, ladle, bag, container}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2172730760648847,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plate, window, eggs, bowl}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2184567023068666,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {counter, spices, plate, eggs}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.215622534044087,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {plate, cutting_board, bag, bowl}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2217977438122034,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting board, pressure cooker, knife, meat}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2160882912576199,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {scallion, knife, cutting_board, bag}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2202925458550453,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {cutting_board, cutting board, window, counter}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2194217471405864,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {leek, cleaver, cutting boar, vegetable}, which did the user never gaze at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2203927850350738,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {colander, cutting boar, vegetable, leek}, which did the user never gaze at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2304842416197062,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {metal_bowl, sink, vegetable, towel}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2271425193175673,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chicken, garlic, knife, cleaning_supplies}, which did the user never gaze at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2316529266536236,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {garlic, chicken, thermos, cutting_board}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2280460260808468,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Among {chicken, cutting_board, outlet, knife}, which did the user never gaze at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2146646184846759,
+    "n_input_tokens": 4191
+  }
+]

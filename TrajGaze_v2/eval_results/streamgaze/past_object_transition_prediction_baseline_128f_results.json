@@ -1,0 +1,4448 @@
+[
+  {
+    "dataset": "egtea",
+    "question": "What object does the user gaze at next after looking at the {phone, table}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 2.1060390109196305,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egtea",
+    "question": "What object does the user gaze at next after looking at the {sink, cup, bottle}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2240546643733978,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {cabinet door, sticker}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2233809428289533,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {text}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2206590669229627,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {hand}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2148845409974456,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {onion, knife}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2191035198047757,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {bottle, bowl}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.216808428056538,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {bottle, pot, spoon, stove}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2369584841653705,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {grey plate, stove, spoon}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2240215055644512,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {spoon, pasta, tomato, utensil, vegetables}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2188360514119267,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {sheet, table}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2174141127616167,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {spatula, pan}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2181003522127867,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {text, wall}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.224271934479475,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {fork, eggs, toast}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2270911065861583,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {fork, eggs, bacon}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2178346971049905,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {menu, image, cup}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2183383964002132,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {glass, plate, fork}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.22171519882977,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {liquid, sieve, sink}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2192452494055033,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {frying pan, bag}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.215770224109292,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bowl}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2240472128614783,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bowl, spoon, stove}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2221171176061034,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {extractor, pot}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.220848855562508,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {kitchen wall tiles, pan, stove}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2186447400599718,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {carton}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2192271603271365,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {dough, bowl, chopsticks}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2172081619501114,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, oil, wall}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.217719217762351,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {dough, bowl}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2187065975740552,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {spoon, pot, burner}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2184251230210066,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {garlic, pot}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2178217442706227,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {chopped_ingredients, bowl, chopsticks}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2170050516724586,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {sink, faucet}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2186299124732614,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {flour, bowl}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2232855297625065,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stove}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2230408508330584,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, chopped_vegetables}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2259884281083941,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, wok, spoon}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.222501091659069,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stew, pot, ladle}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2245335169136524,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, wok}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2219079714268446,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, stove, pot}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2266336288303137,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cutting_board}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2260617287829518,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, wall}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2170885633677244,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {oil, ladle, stove}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2246726602315903,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {eggs, spoon}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2205651141703129,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {garlic}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2155946996062994,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, pan, spatula}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2304461998865008,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2239870196208358,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, pan, fork, hand, tongs}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2222623927518725,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, chopsticks, pan}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.215759758837521,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {eggplant}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2224090043455362,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, chopsticks}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2164075691252947,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, chopsticks}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2242598934099078,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, pan, chopsticks}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2192519744858146,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, oil, plate, chopsticks, bag}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2281744740903378,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {green pepper, pan, burner}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.222130784764886,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {sliver kettle, bowl, bottle, smartphone}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2342411391437054,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black pan}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2251587649807334,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pan}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2214945815503597,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black pan, phone, packets, pot}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2275819955393672,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {frying potato, bowl, phone, bag}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2191429492086172,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {white plate, stove}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2186956908553839,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black pan, pot}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.226698251441121,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {sliver stove, countertop}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2221441697329283,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black pan, pan, stove}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2248897794634104,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {frying potato, pan, spatula, stove}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2266782289370894,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black pan, pan, wooden_spoon, spatula, stove}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2204398969188333,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {flour, bowl, faucet}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.218408272601664,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {seafood, plate}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.215907545760274,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {garlic, refrigerator}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2154756505042315,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {seasoning, bowl, garlic, ginger}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2172593381255865,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {leek}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2239598063752055,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, vegetables}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.230715248733759,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bacon, knife, hand}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2227403279393911,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, vegetables, wooden_spoon}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2205977737903595,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, container, plate}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2241162788122892,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pot}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2220328487455845,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pot}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2144893305376172,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.216536602936685,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, pot}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.228808470070362,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {onions, sink, faucet}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.227079882286489,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {noodles, wooden_spoon}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2291169604286551,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, pan, stove}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2158065922558308,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pan, wooden_spoon}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2191012455150485,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.217401529662311,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pot}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2239862345159054,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {ginger}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.222340582869947,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetable, bowl}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2220121519640088,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {apple, bowl, spoon, hand}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2270446894690394,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bowl, hand}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2246433971449733,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, ladle}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2195735685527325,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pan}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2236587097868323,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetable, colander, plate}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2278688587248325,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, strainer, bowl}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.220610204152763,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, pan}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.215124917216599,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetable, bowl, hand}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2164647597819567,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, pan, slotted_spoon}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2187748812139034,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stove}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2208588421344757,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {hand}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2320926217362285,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {boiling water}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2196940248832107,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {steel stove}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2187732001766562,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {packet, bowl}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2152718864381313,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {hand, knife, cutting_board}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2163696568459272,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, stove}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2428977619856596,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {hand, wash_bottle}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2177297417074442,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2138686338439584,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {beaker, plastic_cup, wash_bottle, gloves}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2235783841460943,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, bottle}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.216693565249443,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, test tube}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2163895517587662,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {screen}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2184096397832036,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, container}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2124998979270458,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {hand, test tube, bottle}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2214739043265581,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {man wearing blue gloves, test tube, bottle, gloves}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2210861202329397,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, gloves, beaker, container}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.216871876269579,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, container, bottle}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2180770495906472,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microplate, pipette, gloves}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.224824515171349,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microplate, multi_well_plate, gloves}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2144414745271206,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, box}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2164297383278608,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, petri dish, gloves}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2161875329911709,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, gloves, grid}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2123163789510727,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, test tube holder, test tube rack}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.221533838659525,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {container, gloves, petri dish, box, pipette}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.217591847293079,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, gloves, pipette_holder, container, pipette, test tube rack}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2192011401057243,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, test_tube_rack, rack}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.225193970836699,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {tubes}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2149221785366535,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube_rack, box}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.221783759072423,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, container, test tube rack, pen}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2174590779468417,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, bottle}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2194309495389462,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, test_tubes}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2183565450832248,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.218267036601901,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, filter}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2182380864396691,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wall}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2146205464378,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2144470531493425,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, pipette, gloves}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2237441390752792,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {board, rack}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.222001993097365,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {rack, pipette, container}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2387484293431044,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2226256858557463,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, test_tube_rack, test_tubes, rack}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222485138103366,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube, test_tube_rack}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2155151991173625,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pink container, bottle, pipettes, box}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2217668145895004,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri dish, pipette, rack}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2164795771241188,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2239856394007802,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale, test tube rack, test tube}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2213174728676677,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, test tube rack, petri dish}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.225374013185501,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.229239135980606,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, test tube rack}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2256902130320668,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube, rack, pipette}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2189735975116491,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, gloves, rack, test tube rack, container}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2192443730309606,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {floor, testtube_rack}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2252815710380673,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, pipette}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.225701772607863,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, test tube rack, bottle}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2154631447046995,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2264899546280503,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, trash_bin, test_tubes}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.215281859971583,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube rack, test_tubes}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2157699093222618,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri dish, petri_dish, gloves, test_tube_rack}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2162818619981408,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bag, gloves, petri_dishes, rack}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2247014194726944,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {golves, glove, petri dish}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2235215306282043,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2164165806025267,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, tubes, rack}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.216475009918213,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {tube rack, test_tube, test_tube_rack}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.217357024550438,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, container, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2176606366410851,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, bottle, pipette}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2159478040412068,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, pipette, box}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.217833942733705,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, petri_dish, glove, container}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2145744990557432,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {metallic counter, glove, petri_dish}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.221184529364109,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves, container}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2137272227555513,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {metal container, glove, test_tube_holder}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2156212776899338,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {trashcan, dishwasher, bottle}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2199815064668655,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, container, lab_coat}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.222426114603877,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {book page}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2145223403349519,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {phone, paper}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2178275873884559,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {calculator, gloves}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2218055874109268,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {golves, gloves}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2198904026299715,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, centrifuge_tube}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2164727076888084,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri dish, culture dish}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.216538492590189,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, bottle, glove, gloves, test tube rack}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2133388733491302,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {plastic container, test tubes, gloves}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2188963405787945,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, pipette}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2188921822234988,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, rack, petri_dish}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.215890234336257,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, dropper, gloves}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2165381666272879,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {tube rack, test_tubes}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2156182322651148,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black counter, container, clamps}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.225502710789442,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {golves, bottle, balance, syringe, capillary_tube}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2202611472457647,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {box, pipette}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2184925880283117,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {monitor, microscope}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2240317156538367,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, petri dish, bottle, container}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2236436177045107,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, gloves, container}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2204133365303278,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {metallic counter, gloves, pen, test_tube_rack}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2162928935140371,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri dish, bottle, petri_dish}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2147942231968045,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {mirror, lab_coat}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2173859402537346,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {metallic horizontal bar, pipette, cap}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2225314686074853,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {green rack, rack}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2207690021023154,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {glass sheet, test tube, container}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2192946504801512,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {blue tape}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2213062541559339,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge, spray_bottle}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2225444382056594,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {paper}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2161302957683802,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {phone, glove, microscope, pipette, boxes}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2144290637224913,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {paper}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2172659672796726,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cellphone, gloves, pipettes, microplate}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.216919963248074,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {blue gloves, bottle, pipette}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2164213377982378,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {tube rack, gloves}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2173786154016852,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope, container, petri_dish}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222877192310989,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, gloves, bottle}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.227773293852806,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri dish, rack, test tube rack}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2217561732977629,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {container, tube}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2302252249792218,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {page}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2162881521508098,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2170086726546288,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, container}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2162574008107185,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {paper}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.218526833690703,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, gloves, glove}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2175529533997178,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {tube}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.217581070959568,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {table, glove}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2185819912701845,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {beaker, container}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2207318814471364,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, vial, bottle, gloves}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2205912973731756,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, gloves}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.218462492339313,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {table, pipette, container, box}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2198395943269134,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2213519969955087,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {testtube, burner, container, petri_dish, test_tubes}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2204623483121395,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {glove, test_tube_rack}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2179619688540697,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, test tube rack}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2183030918240547,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tube., rack}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.217189896851778,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {table}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2200746610760689,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, syringe, glove}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2210467886179686,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {tissue, cup}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2185816578567028,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stand, container}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2225228790193796,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2163212783634663,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {rack}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2204313045367599,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, petri_dish}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2192153437063098,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {rack, petri_dish}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2161938920617104,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {machine, petri_dish}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2198975840583444,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube, test_tube_rack, gloves, testtube rack}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.216824688948691,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri-dish, petri_dish, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.222409057430923,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {machine, test_tubes}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2216093158349395,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, petri dish, glove}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.235478593967855,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2202429231256247,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {burner, gloves, rack, box}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.222933323122561,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2186578093096614,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, bottle}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.220451115630567,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tube, gloves}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.216507202014327,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, bottle, gloves, syringe, container}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2185631897300482,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cabinet, cylinder}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2258891221135855,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, dropper, gloves, container}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2169553209096193,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, container}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2286672620102763,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, petri_dish, trash_bin, sponge}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2238142499700189,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, gloves}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2252412745729089,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {box, gloves}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2248819647356868,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, glove, container, paper}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2257356513291597,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2241452550515532,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black counter, bottle, beaker}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2154038082808256,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {glove, syringe}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2249735062941909,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {machine, gloves}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.225310092791915,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cable, rack}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2190056331455708,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black counter, gloves, flask}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2218547193333507,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {paper, cup, bottle}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2262364914640784,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {black counter, flask}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2244484052062035,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {container, gloves}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2372916117310524,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, laboratory_bench}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2237299587577581,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2201190199702978,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope, petri_dish}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2297117803245783,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube_rack, centrifuge_tube, person, test tube rack, centrifuge tubes, gloves}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.220717517659068,
+    "n_input_tokens": 4210
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tube, gloves, test_tube_rack}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2193512627854943,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, container, pipette_holder}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2238813024014235,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge, pipette, liquid, centrifuge tube}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.222206992097199,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, pipette, test tube rack, beaker}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2223026128485799,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {box, glove, test_tube_rack, culture_dish, bottle, rack}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2255072770640254,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bag, gloves}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.225957553833723,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, bottle, test_tube, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2237405376508832,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {device, gloves, calculator}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.224710125476122,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, syringe, gloves, filtration_bottle}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.221768829971552,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2177899852395058,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves, container, syringe}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2180444179102778,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale, bottle}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2185201551765203,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, pen, test tube}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.219979046843946,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {balance, paper, spatula}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2273901216685772,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale, syringe, plastic_bag}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2216092320159078,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, gloves, flask}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.223427526652813,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, container, rotary_evaporator}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2200683886185288,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, test_tube_rack}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2264784881845117,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube, gloves, protective_suit}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2283945605158806,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, gloves}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2217854149639606,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, cup, plunger, gloves, jug}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222971674054861,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {reagent_barrel, hand}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2213361635804176,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wash_bottle, container, gloves}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2204914903268218,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {culture_dish, gloves}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2225253116339445,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope, petri dish}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2251526582986116,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {silver counter, pipette}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.225122923962772,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, test tube rack, bottle, pipette, bag, gloves}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2218406358733773,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {orange rack, test_tubes, alcohol_lamp, gloves}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2170751430094242,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {countertop}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2148858392611146,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {glove, test_tubes, container}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2198907705023885,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {blue jeans}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2135889437049627,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube, rack, gloves, test_tubes}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2265932383015752,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, test tube rack}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2219984643161297,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, test tube}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2174266399815679,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {beaker, bottle, gloves, vial}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2196664353832603,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {dropper, bottle, test tube, gloves}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2147035440430045,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves, rack}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.222259639762342,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, glove, rack}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2233089227229357,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, rack, test tube, test_tube_rack}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2180484402924776,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, bottle, test_tube, rack}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2169075096026063,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {brown box, gloves, test_tubes}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.221535581164062,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge_tubes, petri dish}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.217916103079915,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, box, gloves}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2255252841860056,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petridish, gloves, testtube}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2161839315667748,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {needle, scale, plastic_bag}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2157268803566694,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale, spatula, paper, pen}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2234287215396762,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {spatula, spoon, powder, scale, weighing_paper, gloves}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.221824686974287,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, test tube}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.22378387209028,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, syringe, cup, gloves, container}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2535006403923035,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {needle, syringe, bottle, gloves, test tube, paper}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2232199786230922,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test_tube, ultrasonic_cleaner}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2279628813266754,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2327574202790856,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, test_tube_rack}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2310422463342547,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, test_tube, alcohol_lamp, gloves, alcohol lamp, rack}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2337004225701094,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, bottle, culture_dish}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.233216306194663,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, petri_dish, gloves, culture_dish, test_tube_rack}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2333076475188136,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2255686596035957,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves, reagent_container}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2275591837242246,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, flask}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.220144722610712,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, culture_dish, trash_bin, bottle}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2260295609012246,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope, table}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2216543788090348,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri dish, gloves}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2161730881780386,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2226139195263386,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tubes, pipette, test tube rack, glove, petri_dish, test_tubes, test_tube_rack}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2182790860533714,
+    "n_input_tokens": 4215
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, petri dish, test tube rack, test_tubes}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.222446002997458,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tube, container, rack}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2159826550632715,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, rack, container}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2157206228002906,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, rack, bottle}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2191944774240255,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, test_tube_rack, centrifuge_tube}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.223624873906374,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, pipette, beaker, gloves, reagent_bottle, centrifuge}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2214347189292312,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, box, gloves}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.21730902697891,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wash_bottle, pipette, bottle, flask}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2198479967191815,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, bottle, flask}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.225896256044507,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2215720219537616,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri dish, gloves, block}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.224005258642137,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {test tube, pen, gloves, block}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.217188741080463,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {dropper, petri_dish, container, bottle, gloves, culture_dishes, rack}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2180799096822739,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipettes, gloves, lab_coat}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2204996487125754,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pen, petri_dish, bottle, gloves}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2179759051650763,
+    "n_input_tokens": 4200
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {microscope, monitor}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2178317308425903,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, microscope}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2204296616837382,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, culture_dish}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2251918707042933,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, petri_dish, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2179334796965122,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, container, paper, door, spray_bottle, dispenser}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2222957974299788,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tubes, bottle, centrifuge}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2201664736494422,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tube, pipette, test tube rack, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.217009499669075,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vial, grid}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2143671559169888,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {phone, paper}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2316408036276698,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, bottle, rack, pen}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2368451934307814,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {flask, plastic_container, person}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.214943096973002,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, shaker}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2239839872345328,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, hand}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2188481390476227,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gloves, pen, test tube, paper}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.215045907534659,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {balance, bottle}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2189646232873201,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {balance, spoon}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2148765260353684,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, gloves}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.219377027824521,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, gloves, washing_bottle}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2218691455200315,
+    "n_input_tokens": 4198
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {balance, gloves}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2208351623266935,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, gloves}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2219224944710732,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.218729971908033,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, cup, gloves, flask}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2156979981809855,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, filter_bottle, gloves}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2161791445687413,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {container, magnetic_stirrer, bottle_washer, bottle}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2180423196405172,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves, beaker, cylinder}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2177596567198634,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, pen}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2199744582176208,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.219998606480658,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, gloves}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2196857584640384,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter, bottle, gloves, container}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2174689453095198,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cooler, bottle}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2171136494725943,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, gloves}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2218701057136059,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, wall, block}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2160274293273687,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {petri_dish, gloves}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2170069785788655,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {container, cloth, spray_bottle}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2150198919698596,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, container, cup, filtering_bottle}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2215821091085672,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, container, filtering_bottle}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2236622422933578,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, container, cup, gloves}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2377177476882935,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, syringe, filtering_bottle}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2174734119325876,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, bottle, centrifuge_tube}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2188441781327128,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale, cup}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.229932164773345,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scale, plastic_bag}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2258184980601072,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2213841024786234,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, pen}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2190133361145854,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {transparent tube, gloves}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2216043286025524,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {gel_comb, gel_plate}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2193041136488318,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {centrifuge tube, gloves}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2225215826183558,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves, flask, syringe}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2244187705218792,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, gloves, syringe, filtering_bottle}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2227020543068647,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, gloves, needle}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2160199480131269,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, flask}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2222547382116318,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pipette, bottle, syringe, container, gloves}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.223240988329053,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {glass, glove}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2194631611928344,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, handrail}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2224836591631174,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {green bowl, gloves}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2253012005239725,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, syringe, gloves, container}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2258455390110612,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {paper, scale}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2231160160154104,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {syringe, bottle, filtering_bottle, gloves}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2184539595618844,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, tube}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2188180051743984,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {grey obstacle, syringe, gloves}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.218179490417242,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {notebook, pen}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2133382260799408,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bottle, notebook, spoon}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2176900943741202,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {screwdriver, hand, equipment}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.219762991182506,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {tool, frame}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2173748994246125,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {screw, keyboard, plastic_bag, mousepad}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.219077792018652,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {black tool}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2238139947876334,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {black tray, metal_bar}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2206015978008509,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {black pipe, hand}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2149321669712663,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {black pipe, wrench, caster}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2249255878850818,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {black tray}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2252896213904023,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {black tray}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2212664429098368,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {keyboard}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2198921525850892,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {screen, machine}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2174709867686033,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {hex socket head}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.223942174576223,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "holoassist",
+    "question": "What object does the user gaze at next after looking at the {screw, tube}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2216862188652158,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {eggplant}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2222546944394708,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, bowl}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.218429934233427,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bowl, cutting_board}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2250652136281133,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.220059092156589,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, bowl}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2228176556527615,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, phone}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2266667420044541,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bowl}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2175953285768628,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pan}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2233158387243748,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pot}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2174206478521228,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {liquid, pot}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2207816364243627,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, stove}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.224920571781695,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {bell_pepper, knife, cutting_board}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.232266123406589,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pot, stove}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2186894593760371,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {chili pepper}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2252373052760959,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {onion, plate}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2284471234306693,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, onion, pan}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2221248792484403,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {butter, spoon, pan}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.232566274702549,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, knife, cutting_board}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2221704740077257,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {mushrooms, spoon, pan}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2260996960103512,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {boling_water, ladle}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2408969765529037,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, knife, cutting_board}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2362016597762704,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {boiling_water, pot, wok, stove, colander}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2437108578160405,
+    "n_input_tokens": 4199
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {oil, pan, bottle, stove}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2281224597245455,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {woke, wok, spoon, stove}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.238490010611713,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {oil, spoon}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2200071224942803,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {scallions, knife, cutting_board}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2273585190996528,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2216520719230175,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2170227579772472,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2225001640617847,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {broccoli, pot, fork}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2156650135293603,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, chopsticks}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2168205045163631,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {dough, chopsticks, stove}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2195016257464886,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetable, pot}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2229090491309762,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pot, chopsticks}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.216073865070939,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, bowl, chopsticks, pot}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2217299034819007,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {eggplants}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2242222195491195,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, pot, faucet}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.222891928628087,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {oil, ladle, stove}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2176126260310411,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stove}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2191131878644228,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {flame, pot}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2317176014184952,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, spoon}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2226051623001695,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {water, sink}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2200942719355226,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetable, spatula}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2271586824208498,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetable, pan}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2228578832000494,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, utensil}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2203261414542794,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.224471129477024,
+    "n_input_tokens": 4187
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cutting_board}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2241547238081694,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {sugar, bottle, box}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2238508593291044,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cutting board, knife}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.223325576633215,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pan}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.219268934801221,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, spoon, bowl, spatula, pan}?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2227066373452544,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, pot}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2230105325579643,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, stove}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2168927984312177,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, spatula}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2199421739205718,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, spoon, cup, packets}?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2204238343983889,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pan}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2210671417415142,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2207665080204606,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, wooden_surface}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2166391555219889,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, cabinet}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2173697082325816,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {eggs, spatula, pan}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2170178228989244,
+    "n_input_tokens": 4193
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {garlic, knife, cutting_board}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.223479751497507,
+    "n_input_tokens": 4196
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {potato, pan}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2154472628608346,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, knife, cutting_board}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2199612278491259,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {flour, sink, brush}?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.22962711378932,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, pot, plate, pan}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2244183514267206,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, ladle, container}?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.220332471653819,
+    "n_input_tokens": 4195
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {slotted_spoon}?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2237376123666763,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, stove}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.216183585114777,
+    "n_input_tokens": 4188
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {container, ladle, pot}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.218955485150218,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pan, burner}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2179366694763303,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {counter}?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2160581024363637,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {meat, pot}?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2202427629381418,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pot}?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2216787608340383,
+    "n_input_tokens": 4190
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {cutting boar, vegetable, leek}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2169340569525957,
+    "n_input_tokens": 4197
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, knife}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2168015828356147,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {flour}?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2158260829746723,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2191917700693011,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stew, ladle}?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2346652494743466,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {wok, pan, wooden_spoon}?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.217764239758253,
+    "n_input_tokens": 4194
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stove, countertop}?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2164000989869237,
+    "n_input_tokens": 4192
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {pot}?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2297459663823247,
+    "n_input_tokens": 4186
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {stove}?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2212036745622754,
+    "n_input_tokens": 4189
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, stove}?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.228168378584087,
+    "n_input_tokens": 4191
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "What object does the user gaze at next after looking at the {vegetables, pot, stove}?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2261391980573535,
+    "n_input_tokens": 4194
+  }
+]

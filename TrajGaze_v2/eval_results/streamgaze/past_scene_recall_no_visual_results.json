@@ -1,0 +1,1901 @@
+[
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {tomato, knife, plate}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.4936940185725689,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {phone, table}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.03096823301166296,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {bagel, knife, cream cheese, plate}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.031648630276322365,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {patty, pan, stove}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030083218589425087,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {white drawer, stove, sandwich, bottle}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030187579803168774,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {cucumber, knife, plate, lettuce}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030498391017317772,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {pepper, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030147879384458065,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {spoon}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030246996320784092,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {poster}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029985962435603142,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {plate}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029793648049235344,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {knife, onion}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030138380825519562,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {bread, tomato, butter, plate, knife}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02996621374040842,
+    "n_input_tokens": 100
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {paper}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030844678170979023,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {pan}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.03002295270562172,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {paper, cabinet}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.02983489166945219,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {paper, cabinet, tape}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030211884528398514,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {pan}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030100256204605103,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {cup, kettle, sink, glass}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.03072772268205881,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {tomato, bread}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03074729535728693,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {bowl, spoon, egg}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029754390008747578,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {pan, stove}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029803804121911526,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {bowl, spoon}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030022811144590378,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {bowl, utensil}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029702612198889256,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {lettuce, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029838230460882187,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {package, plate, cheese}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.0301210293546319,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {knife, vegetable}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030788416974246502,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {knob}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.0300911832600832,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {sandwich}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.030046739615499973,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {paper, cabinet}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029815508984029293,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {faucet}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.03029567003250122,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {mushroom, spatula, pan}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.033709220588207245,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {knob, stove}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.029715235345065594,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {cabinet}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030007926747202873,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {package, bottle, container}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02973681129515171,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {counter, glass, plate}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.02963395230472088,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {cucumber, knife, tomato}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.033545928075909615,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egtea",
+    "question": "When the user was gazing at the {mushroom, knife, plate}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029792694374918938,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato, knife}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029856815934181213,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {plastic}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.03311445843428373,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {lettuce}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.02974582463502884,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bowl}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029771442525088787,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bowl}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.02967819757759571,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {jar, bread, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03297394048422575,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bagel, knife, cream cheese, tray}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02998728957027197,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {stove}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030019251629710197,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato, knife, cutting board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02974977158010006,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {cucumber, knife, cutting board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.02964418474584818,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {paper}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 0.03228831849992275,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {cucumber, knife, carrots}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.02984686940908432,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato, knife, cutting board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030138088390231133,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030005705542862415,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {toy}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029838270507752895,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {cabbage}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029848257079720497,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato, knife, cutting board, lettuce}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030086684972047806,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {paper}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.039543681778013706,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {shopping bag}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030610748566687107,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bowl}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.03004859760403633,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {pot}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030020601116120815,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {onion, knife, cutting board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03176096733659506,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {onion, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.04285373166203499,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato, knife, cutting board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.031018092297017574,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02993045374751091,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {tomato, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.033424507826566696,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {lettuce}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030149590224027634,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {knife, cutting board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.02988544013351202,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {paper}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.02994842454791069,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {knife, cutting board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.02997088711708784,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {cutting board, fork, olive}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.03106762282550335,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {pot}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.02988198958337307,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {onion, knife}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.031874134205281734,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {sandwich, bread, lettuce}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030158674344420433,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {sandwich, plate}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029919984750449657,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {plate, bowl, utensils}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030214739963412285,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {text, paper}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.02997671626508236,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {paper sheet}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029999456368386745,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bottle, bowl, tomato, cucumber}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03212807234376669,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {lettuce}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030109810642898083,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {potato, sink}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 0.030179270543158054,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {cucumber, cutting board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.029910887591540813,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {package}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.029698890633881092,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bowl, fork, text}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.029964031651616096,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {plastic, bread, box}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.033157155849039555,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bread, knife}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 0.030009806156158447,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {spice, bowl}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.02988074254244566,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bottle, pan}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029906016774475574,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bowl, spoon}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029911786317825317,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bowl, spoon}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02969101257622242,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {bowl, bread, spoon}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.03103579208254814,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029875404201447964,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {dried tofu, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030002142302691936,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {tomato}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.03008884657174349,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {onion, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029684669338166714,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02992514707148075,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {zucchini, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030651669949293137,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.03175889514386654,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, cutting board, knife}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.032129917293787,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {vegetable, knife, sink}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.03015751112252474,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {tomato, cutting_board, knife}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.030397082678973675,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {calculator, gloves}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.03145049326121807,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {petri_dish, gloves, container}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03557068109512329,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {microscope, container, petri_dish}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03254782222211361,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {petri_dish, gloves, bottle}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029911953024566174,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {gloves, container}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03007488325238228,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {spatula, spoon, powder, scale, weighing_paper, gloves}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03051875066012144,
+    "n_input_tokens": 103
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {notebook}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030136379413306713,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {notebook, pen}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03025780338793993,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "holoassist",
+    "question": "When the user was gazing at the {allen_wrench, furniture}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.032860071398317814,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {pot}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030098622664809227,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {pan, spoon}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.02990908920764923,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {flour}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.0300206346437335,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {vegetables, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 0.030052035115659237,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato, peeler}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029922034591436386,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030262443237006664,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {onion, knife}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029811504296958447,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife, onion}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.0298457071185112,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, onion, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029885302297770977,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {bowl}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029810747131705284,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggs, knife, bowl, vegetables}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030401334166526794,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.02988305687904358,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {window}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029870410449802876,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {onion, sink}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030034019611775875,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife, cutting_board, bell_pepper, plates}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.031656039878726006,
+    "n_input_tokens": 100
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {plastic bag, plate}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.029863666743040085,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {bell_pepper, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029837265610694885,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029724137857556343,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {green_onions, knife, garlic}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030185536481440067,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife, green_onion, garlic, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030361663550138474,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {green_onions, plastic_bag}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029821469448506832,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {green_onion, water, sink}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029916629195213318,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {plate, bowl, container}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.03051557671278715,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029996239580214024,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting board, knife}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029794816859066486,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.02994675748050213,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meet}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 0.02999027818441391,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {ginger, food, cutting_board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029961914755403996,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {dough, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029830957762897015,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {counter, pepper, bowl}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.02990279719233513,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030003352090716362,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03227411117404699,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, bag}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.029744721949100494,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.030016046948730946,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03040199913084507,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {woke, wok, spoon, stove}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.031001808121800423,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {oil, spoon}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.039014135487377644,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {bell_pepper, green_onion, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.03092051576822996,
+    "n_input_tokens": 102
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife, bell_pepper}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030246397480368614,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cucumber}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 0.033214014023542404,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {sauce, bowl}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029892340302467346,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {tomato, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030126933939754963,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife, cutting_board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02985242661088705,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {egg, chopping board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030004343017935753,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, knife}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030059393495321274,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.02984284795820713,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cucumber, knife, cutting_board, onion}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030199884437024593,
+    "n_input_tokens": 100
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02989834826439619,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato, knife, sink}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029976125806570053,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {stove, bowl, bottle}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.03017802070826292,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {tofu, ginger, ladle}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.02991551999002695,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030142578296363354,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {scallions, onion}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029784709215164185,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {dough, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029810144565999508,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {ginger, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030243337154388428,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029678497463464737,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02974114753305912,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato, vegetables, peeler, sink}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.033659947104752064,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029814480803906918,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030153837986290455,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029790746048092842,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, can}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.02996975462883711,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {vegetables, sink}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.029786240309476852,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029712995514273643,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato, knife, bucket}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.03002847358584404,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.02995741181075573,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {green_pepper, garlic, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.032195718958973885,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, sink}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029852990061044693,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {vegetables, pan, spatula}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.029822601936757565,
+    "n_input_tokens": 100
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {vegetables, pan}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.030461294576525688,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {faucet, cup, sink}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02976856753230095,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.030026708729565144,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {bowl}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030038844794034958,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {onions, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.02966488804668188,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {meat, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.030070999637246132,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant, sink, water_stream}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029941602610051632,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029846448451280594,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.030094187706708908,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {scallion}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.03204198740422726,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {onion, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.029856900684535503,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {flour, sink, brush}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.049304086714982986,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cream}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.0343186492100358,
+    "n_input_tokens": 91
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting board, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.03033219464123249,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030072118155658245,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03007444180548191,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03004587348550558,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {potato, knife, bucket, plastic_bag}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.02984499279409647,
+    "n_input_tokens": 99
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {eggplant}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030221840366721153,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {knife, cutting_board}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 0.029820512980222702,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {ginger, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.03027539700269699,
+    "n_input_tokens": 96
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {bell_pepper, cutting_board}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029985878616571426,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {bucket, plastic_bag}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.02982901129871607,
+    "n_input_tokens": 93
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {container, ladle, pot}, which background object was NOT visible?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 0.03029150702059269,
+    "n_input_tokens": 97
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {container, bowl}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.0300044696778059,
+    "n_input_tokens": 92
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {plate}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.03008828405290842,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {counter}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029782619327306747,
+    "n_input_tokens": 90
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting board, knife}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.030021844431757927,
+    "n_input_tokens": 95
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting board, meat, knife, cutting_board}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03018795046955347,
+    "n_input_tokens": 100
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting boar, vegetable, leek}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.029930721037089825,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {plastic_bag, metal_bowl}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 0.03020093683153391,
+    "n_input_tokens": 98
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {soup, bowl}, which background object was NOT visible?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 0.029889422468841076,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {garlic, chicken, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 0.029902463778853416,
+    "n_input_tokens": 100
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {cutting_board, knife}, which background object was NOT visible?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 0.030169131234288216,
+    "n_input_tokens": 94
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "When the user was gazing at the {wok, pan, wooden_spoon}, which background object was NOT visible?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 0.029994361102581024,
+    "n_input_tokens": 102
+  }
+]

@@ -5,11 +5,30 @@ Trajectory + interaction-score prediction from past → future.
 DDP on N GPUs (default: 4).
 
 Usage:
+    # Original: ego4d + egoexo, full model
     torchrun --nproc_per_node=4 -m TrajGaze_v2.training.stage1 \
         --output-dir /workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1 \
-        --epochs 100 \
-        --lr 3e-4 \
-        --batch-size 4
+        --epochs 100 --lr 3e-4 --batch-size 4
+
+    # StreamGaze domain (egoexolearn + holoassist), full model
+    CUDA_VISIBLE_DEVICES=2 torchrun --nproc_per_node=1 --master_port=29805 \
+        -m TrajGaze_v2.training.stage1 \
+        --dataset streamgaze \
+        --output-dir /workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1_streamgaze \
+        --epochs 100 --lr 3e-4 --batch-size 4
+
+    # Gaze-only ablation (ego4d + egoexo, gaze-only model)
+    CUDA_VISIBLE_DEVICES=3 torchrun --nproc_per_node=1 --master_port=29803 \
+        -m TrajGaze_v2.training.stage1 \
+        --dataset egogazevqa --model gaze-only \
+        --output-dir /workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1_gaze_only \
+        --epochs 100 --lr 3e-4 --batch-size 4
+
+Flags:
+    --dataset   egogazevqa   ego4d + egoexo clips (default)
+                streamgaze   egoexolearn + holoassist from StreamGaze_v2
+    --model     full         TrajGazeV2 with all 4 tokens (default)
+                gaze-only    TrajGazeV2GazeOnly with 1 gaze token
 """
 
 from __future__ import annotations
@@ -30,22 +49,25 @@ from torch.utils.data.distributed import DistributedSampler
 
 sys.path.insert(0, "/workspace/EgoGazeVQA")
 
-from TrajGaze_v2.data.dataset import TrajGazeV2Stage1Dataset, collate_stage1
-from TrajGaze_v2.models.model import TrajGazeV2
-
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--output-dir", default="/workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1")
-    p.add_argument("--epochs",     type=int,   default=100)
-    p.add_argument("--lr",         type=float, default=3e-4)
-    p.add_argument("--batch-size", type=int,   default=4,   help="per-GPU batch size")
+    p.add_argument("--output-dir",   default="/workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1")
+    p.add_argument("--dataset",      default="egogazevqa",
+                   choices=["egogazevqa", "streamgaze"],
+                   help="egogazevqa = ego4d+egoexo | streamgaze = egoexolearn+holoassist")
+    p.add_argument("--model",        default="full",
+                   choices=["full", "gaze-only", "hand-only"],
+                   help="full = TrajGazeV2 (4 tokens) | gaze-only = TrajGazeV2GazeOnly (1 token) | hand-only = TrajGazeV2HandOnly (3 tokens)")
+    p.add_argument("--epochs",       type=int,   default=100)
+    p.add_argument("--lr",           type=float, default=3e-4)
+    p.add_argument("--batch-size",   type=int,   default=4)
     p.add_argument("--weight-decay", type=float, default=1e-4)
-    p.add_argument("--n-frames",   type=int,   default=32)
-    p.add_argument("--workers",    type=int,   default=4)
-    p.add_argument("--log-every",  type=int,   default=10)
-    p.add_argument("--save-every", type=int,   default=10)
-    p.add_argument("--resume",     type=str,   default=None)
+    p.add_argument("--n-frames",     type=int,   default=32)
+    p.add_argument("--workers",      type=int,   default=4)
+    p.add_argument("--log-every",    type=int,   default=10)
+    p.add_argument("--save-every",   type=int,   default=10)
+    p.add_argument("--resume",       type=str,   default=None)
     return p.parse_args()
 
 
@@ -62,43 +84,69 @@ def reduce_mean(tensor: torch.Tensor, world_size: int) -> torch.Tensor:
     return tensor / world_size
 
 
+def build_dataset(args):
+    if args.dataset == "streamgaze":
+        if args.model == "gaze-only":
+            from TrajGaze_v2.data.dataset_gaze_only import StreamGazeStage1DatasetGazeOnly, collate_stage1
+            return StreamGazeStage1DatasetGazeOnly(n_frames=args.n_frames), collate_stage1
+        elif args.model == "hand-only":
+            from TrajGaze_v2.data.dataset_hand_only import StreamGazeStage1DatasetHandOnly
+            from TrajGaze_v2.data.dataset import collate_stage1
+            return StreamGazeStage1DatasetHandOnly(n_frames=args.n_frames), collate_stage1
+        else:
+            from TrajGaze_v2.data.dataset_streamgaze_stage1 import StreamGazeStage1Dataset, collate_stage1
+            return StreamGazeStage1Dataset(n_frames=args.n_frames), collate_stage1
+    else:  # egogazevqa
+        if args.model == "gaze-only":
+            from TrajGaze_v2.data.dataset_gaze_only import TrajGazeV2Stage1DatasetGazeOnly, collate_stage1
+            return TrajGazeV2Stage1DatasetGazeOnly(datasets=["ego4d", "egoexo"], n_frames=args.n_frames), collate_stage1
+        else:
+            from TrajGaze_v2.data.dataset import TrajGazeV2Stage1Dataset, collate_stage1
+            return TrajGazeV2Stage1Dataset(datasets=["ego4d", "egoexo"], n_frames=args.n_frames), collate_stage1
+
+
+def build_model(args, device):
+    if args.model == "gaze-only":
+        from TrajGaze_v2.models.model_gaze_only import TrajGazeV2GazeOnly
+        return TrajGazeV2GazeOnly().to(device)
+    elif args.model == "hand-only":
+        from TrajGaze_v2.models.model_hand_only import TrajGazeV2HandOnly
+        return TrajGazeV2HandOnly().to(device)
+    else:
+        from TrajGaze_v2.models.model import TrajGazeV2
+        return TrajGazeV2().to(device)
+
+
 def main():
-    args      = parse_args()
+    args     = parse_args()
     rank, local_rank, world_size = setup_ddp()
-    is_main   = rank == 0
-    device    = torch.device(f"cuda:{local_rank}")
+    is_main  = rank == 0
+    device   = torch.device(f"cuda:{local_rank}")
 
     if is_main:
         os.makedirs(args.output_dir, exist_ok=True)
-        print(f"[Stage 1] Output dir: {args.output_dir}")
-        print(f"[Stage 1] World size: {world_size}, batch/GPU: {args.batch_size}, "
-              f"total batch: {world_size * args.batch_size}")
+        print(f"[Stage 1] dataset={args.dataset}  model={args.model}")
+        print(f"[Stage 1] output: {args.output_dir}")
+        print(f"[Stage 1] world_size={world_size}  batch/GPU={args.batch_size}")
 
-    # Dataset
-    dataset = TrajGazeV2Stage1Dataset(
-        datasets    = ["ego4d", "egoexo"],
-        n_frames    = args.n_frames,
-    )
+    dataset, collate_fn = build_dataset(args)
     sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank, shuffle=True)
     loader  = DataLoader(
         dataset,
-        batch_size   = args.batch_size,
-        sampler      = sampler,
-        collate_fn   = collate_stage1,
-        num_workers  = args.workers,
-        pin_memory   = True,
-        drop_last    = True,
+        batch_size  = args.batch_size,
+        sampler     = sampler,
+        collate_fn  = collate_fn,
+        num_workers = args.workers,
+        pin_memory  = True,
+        drop_last   = True,
     )
 
-    # Model
-    model = TrajGazeV2().to(device)
+    model = build_model(args, device)
     model = DDP(model, device_ids=[local_rank])
 
-    # Optimizer
     optimizer = AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.lr * 0.01)
 
-    # Resume
     start_epoch = 0
     if args.resume and os.path.exists(args.resume):
         ckpt = torch.load(args.resume, map_location=device)
@@ -109,7 +157,7 @@ def main():
         if is_main:
             print(f"[Stage 1] Resumed from epoch {start_epoch}")
 
-    log_path = os.path.join(args.output_dir, "train_log.jsonl")
+    log_path  = os.path.join(args.output_dir, "train_log.jsonl")
     best_loss = float("inf")
 
     for epoch in range(start_epoch, args.epochs):
@@ -124,17 +172,15 @@ def main():
             if batch is None:
                 continue
 
-            # Move batch to device
             def to_dev(d):
                 return {k: v.to(device) if isinstance(v, torch.Tensor) else v
                         for k, v in d.items()}
 
-            batch["past"]   = to_dev(batch["past"])
-            batch["future"] = to_dev(batch["future"])
+            batch["past"]            = to_dev(batch["past"])
+            batch["future"]          = to_dev(batch["future"])
             batch["I_scores_future"] = batch["I_scores_future"].to(device)
-            batch["T_past"]   = batch["T_past"].to(device)
-            batch["T_future"] = batch["T_future"].to(device)
-            # frame_paths stays as list[list[str]] — no device move needed
+            batch["T_past"]          = batch["T_past"].to(device)
+            batch["T_future"]        = batch["T_future"].to(device)
 
             optimizer.zero_grad()
             loss_dict = model.module.stage1_forward(batch)
@@ -168,10 +214,7 @@ def main():
 
         scheduler.step()
 
-        # Aggregate metrics across GPUs
-        loss_tensor = torch.tensor(
-            total_loss / max(1, n_batches), device=device
-        )
+        loss_tensor = torch.tensor(total_loss / max(1, n_batches), device=device)
         reduce_mean(loss_tensor, world_size)
         epoch_loss = loss_tensor.item()
 
@@ -181,19 +224,16 @@ def main():
                   f"avg_loss={epoch_loss:.4f} | lr={scheduler.get_last_lr()[0]:.2e} | "
                   f"time={elapsed:.1f}s ===\n")
 
-            # Log
-            log_entry = {
-                "epoch":      epoch + 1,
-                "loss":       epoch_loss,
-                "loss_traj":  total_traj  / max(1, n_batches),
-                "loss_score": total_score / max(1, n_batches),
-                "loss_attn":  total_attn  / max(1, n_batches),
-                "lr":         scheduler.get_last_lr()[0],
-            }
             with open(log_path, "a") as f:
-                f.write(json.dumps(log_entry) + "\n")
+                f.write(json.dumps({
+                    "epoch":      epoch + 1,
+                    "loss":       epoch_loss,
+                    "loss_traj":  total_traj  / max(1, n_batches),
+                    "loss_score": total_score / max(1, n_batches),
+                    "loss_attn":  total_attn  / max(1, n_batches),
+                    "lr":         scheduler.get_last_lr()[0],
+                }) + "\n")
 
-            # Save checkpoint
             if (epoch + 1) % args.save_every == 0 or (epoch + 1) == args.epochs:
                 ckpt_path = os.path.join(args.output_dir, f"epoch_{epoch+1:04d}.pth")
                 torch.save({
@@ -205,18 +245,17 @@ def main():
                 }, ckpt_path)
                 print(f"Saved checkpoint: {ckpt_path}")
 
-            # Save best
             if epoch_loss < best_loss:
                 best_loss = epoch_loss
-                best_path = os.path.join(args.output_dir, "best.pth")
-                torch.save({"model": model.module.state_dict(), "loss": best_loss}, best_path)
+                torch.save(
+                    {"model": model.module.state_dict(), "loss": best_loss},
+                    os.path.join(args.output_dir, "best.pth"),
+                )
 
-    # Save final
     if is_main:
-        final_path = os.path.join(args.output_dir, "final.pth")
-        torch.save({"model": model.module.state_dict()}, final_path)
-        print(f"\n[Stage 1] Training complete. Best loss: {best_loss:.4f}")
-        print(f"Final model saved to: {final_path}")
+        torch.save({"model": model.module.state_dict()},
+                   os.path.join(args.output_dir, "final.pth"))
+        print(f"\n[Stage 1] Done. Best loss: {best_loss:.4f}")
 
     dist.destroy_process_group()
 

@@ -1,0 +1,26 @@
+{
+  "model": "pllava_lora_r16_epoch03",
+  "ckpt": "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/pllava_baseline_lora_r16/epoch_03_delta.pth",
+  "overall_acc": 32.3194,
+  "n_total": 526,
+  "per_task_acc": {
+    "past_gaze_sequence_matching": 7.8125,
+    "past_non_fixated_object_identification": 27.9412,
+    "past_object_transition_prediction": 50.0,
+    "past_scene_recall": 24.3243,
+    "present_future_action_prediction": 27.6596,
+    "present_object_attribute_recognition": 60.4167,
+    "present_object_identification_easy": 25.7426,
+    "present_object_identification_hard": 40.625
+  },
+  "per_task_n": {
+    "past_gaze_sequence_matching": 64,
+    "past_non_fixated_object_identification": 68,
+    "past_object_transition_prediction": 2,
+    "past_scene_recall": 37,
+    "present_future_action_prediction": 94,
+    "present_object_attribute_recognition": 96,
+    "present_object_identification_easy": 101,
+    "present_object_identification_hard": 64
+  }
+}

@@ -1,0 +1,1676 @@
+[
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 2.054519616998732,
+    "n_input_tokens": 4244
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2196048703044653,
+    "n_input_tokens": 4274
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2257049437612295,
+    "n_input_tokens": 4253
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2179884621873498,
+    "n_input_tokens": 4253
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2156792366877198,
+    "n_input_tokens": 4252
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2309473510831594,
+    "n_input_tokens": 4256
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2209045169875026,
+    "n_input_tokens": 4249
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2209852617233992,
+    "n_input_tokens": 4259
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2202179301530123,
+    "n_input_tokens": 4266
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2205460369586945,
+    "n_input_tokens": 4262
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2221718775108457,
+    "n_input_tokens": 4262
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2257573418319225,
+    "n_input_tokens": 4263
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2162159234285355,
+    "n_input_tokens": 4253
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2156336549669504,
+    "n_input_tokens": 4245
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2227955106645823,
+    "n_input_tokens": 4245
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2276156712323427,
+    "n_input_tokens": 4260
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2206814344972372,
+    "n_input_tokens": 4251
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2220504311844707,
+    "n_input_tokens": 4258
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2208109209313989,
+    "n_input_tokens": 4227
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.236480782739818,
+    "n_input_tokens": 4243
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2206413932144642,
+    "n_input_tokens": 4234
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2207464510574937,
+    "n_input_tokens": 4277
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2308469777926803,
+    "n_input_tokens": 4216
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2173103941604495,
+    "n_input_tokens": 4219
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2165241045877337,
+    "n_input_tokens": 4216
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2175013590604067,
+    "n_input_tokens": 4218
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2315409574657679,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.220459820702672,
+    "n_input_tokens": 4230
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.224219766445458,
+    "n_input_tokens": 4227
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2228295803070068,
+    "n_input_tokens": 4231
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2212597988545895,
+    "n_input_tokens": 4228
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.21710598282516,
+    "n_input_tokens": 4258
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.227039528079331,
+    "n_input_tokens": 4254
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2202270906418562,
+    "n_input_tokens": 4255
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2166395839303732,
+    "n_input_tokens": 4246
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2184934448450804,
+    "n_input_tokens": 4233
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2207853980362415,
+    "n_input_tokens": 4257
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2193827368319035,
+    "n_input_tokens": 4258
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2266086768358946,
+    "n_input_tokens": 4271
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2215143674984574,
+    "n_input_tokens": 4229
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.223382219672203,
+    "n_input_tokens": 4221
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2145686177536845,
+    "n_input_tokens": 4228
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2197099542245269,
+    "n_input_tokens": 4233
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2196961054578424,
+    "n_input_tokens": 4232
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2176561066880822,
+    "n_input_tokens": 4233
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.219686584547162,
+    "n_input_tokens": 4259
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2221229579299688,
+    "n_input_tokens": 4253
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.218689614906907,
+    "n_input_tokens": 4244
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2166043985635042,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2211898379027843,
+    "n_input_tokens": 4243
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.218921541236341,
+    "n_input_tokens": 4241
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2227750793099403,
+    "n_input_tokens": 4243
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2178396275267005,
+    "n_input_tokens": 4219
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2198489904403687,
+    "n_input_tokens": 4221
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2198851527646184,
+    "n_input_tokens": 4222
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2201965460553765,
+    "n_input_tokens": 4257
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.217756163328886,
+    "n_input_tokens": 4243
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2223339285701513,
+    "n_input_tokens": 4255
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2190935723483562,
+    "n_input_tokens": 4255
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2252937778830528,
+    "n_input_tokens": 4256
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2226842613890767,
+    "n_input_tokens": 4261
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.22000612039119,
+    "n_input_tokens": 4282
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2229167576879263,
+    "n_input_tokens": 4277
+  },
+  {
+    "dataset": "egtea",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2197698475793004,
+    "n_input_tokens": 4287
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2222342677414417,
+    "n_input_tokens": 4235
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2180905267596245,
+    "n_input_tokens": 4236
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2198140900582075,
+    "n_input_tokens": 4223
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2221636762842536,
+    "n_input_tokens": 4219
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2202149461954832,
+    "n_input_tokens": 4221
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2187690800055861,
+    "n_input_tokens": 4224
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2155686663463712,
+    "n_input_tokens": 4249
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2186997635290027,
+    "n_input_tokens": 4247
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2240325333550572,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2162423953413963,
+    "n_input_tokens": 4220
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.225762715563178,
+    "n_input_tokens": 4222
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2178644677624106,
+    "n_input_tokens": 4220
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2209357498213649,
+    "n_input_tokens": 4236
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2214395143091679,
+    "n_input_tokens": 4231
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2203342206776142,
+    "n_input_tokens": 4229
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2212773831561208,
+    "n_input_tokens": 4229
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2178049981594086,
+    "n_input_tokens": 4230
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2230947315692902,
+    "n_input_tokens": 4235
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.226543596945703,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2201090324670076,
+    "n_input_tokens": 4234
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2150972448289394,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2189244981855154,
+    "n_input_tokens": 4237
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2208798537030816,
+    "n_input_tokens": 4244
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2242083698511124,
+    "n_input_tokens": 4237
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2171779237687588,
+    "n_input_tokens": 4240
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2185109937563539,
+    "n_input_tokens": 4238
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.215923111885786,
+    "n_input_tokens": 4247
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.21855672262609,
+    "n_input_tokens": 4256
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2189994230866432,
+    "n_input_tokens": 4241
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.227040819823742,
+    "n_input_tokens": 4255
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2178527088835835,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2218657778576016,
+    "n_input_tokens": 4251
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.224069974385202,
+    "n_input_tokens": 4240
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.221659624017775,
+    "n_input_tokens": 4244
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2195988120511174,
+    "n_input_tokens": 4239
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2172194635495543,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2238669348880649,
+    "n_input_tokens": 4260
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2219101721420884,
+    "n_input_tokens": 4245
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2184469671919942,
+    "n_input_tokens": 4235
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2176804337650537,
+    "n_input_tokens": 4235
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2242987416684628,
+    "n_input_tokens": 4240
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2155705401673913,
+    "n_input_tokens": 4254
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2216146159917116,
+    "n_input_tokens": 4255
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2232544254511595,
+    "n_input_tokens": 4234
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.221704974770546,
+    "n_input_tokens": 4239
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2185315620154142,
+    "n_input_tokens": 4247
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2338689286261797,
+    "n_input_tokens": 4229
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2186077227815986,
+    "n_input_tokens": 4255
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2170870583504438,
+    "n_input_tokens": 4256
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.220245961099863,
+    "n_input_tokens": 4238
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2181829251348972,
+    "n_input_tokens": 4244
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2196139842271805,
+    "n_input_tokens": 4225
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.217753111384809,
+    "n_input_tokens": 4227
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2198168998584151,
+    "n_input_tokens": 4236
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2170078111812472,
+    "n_input_tokens": 4246
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2162998327985406,
+    "n_input_tokens": 4239
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2179288547486067,
+    "n_input_tokens": 4248
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2175796255469322,
+    "n_input_tokens": 4252
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2198273483663797,
+    "n_input_tokens": 4251
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2174136089161038,
+    "n_input_tokens": 4243
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.217787411995232,
+    "n_input_tokens": 4261
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.218777702189982,
+    "n_input_tokens": 4263
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 1.2179420627653599,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2211391907185316,
+    "n_input_tokens": 4240
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2198991812765598,
+    "n_input_tokens": 4234
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.219539095647633,
+    "n_input_tokens": 4264
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.217606426216662,
+    "n_input_tokens": 4264
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2205755030736327,
+    "n_input_tokens": 4244
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.216049237176776,
+    "n_input_tokens": 4264
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2193496134132147,
+    "n_input_tokens": 4245
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2253213869407773,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2303285486996174,
+    "n_input_tokens": 4226
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2276642639189959,
+    "n_input_tokens": 4222
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.232451643794775,
+    "n_input_tokens": 4251
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2353128278627992,
+    "n_input_tokens": 4238
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2260455656796694,
+    "n_input_tokens": 4220
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2291614133864641,
+    "n_input_tokens": 4235
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2263140883296728,
+    "n_input_tokens": 4234
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2242166008800268,
+    "n_input_tokens": 4245
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2261727452278137,
+    "n_input_tokens": 4250
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2233409862965345,
+    "n_input_tokens": 4279
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2185078551992774,
+    "n_input_tokens": 4263
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2243512943387032,
+    "n_input_tokens": 4228
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2224620934575796,
+    "n_input_tokens": 4223
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2355544855818152,
+    "n_input_tokens": 4231
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2304387902840972,
+    "n_input_tokens": 4227
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2331344382837415,
+    "n_input_tokens": 4229
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.234474583528936,
+    "n_input_tokens": 4261
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2301487857475877,
+    "n_input_tokens": 4242
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2393127167597413,
+    "n_input_tokens": 4237
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.232492409646511,
+    "n_input_tokens": 4232
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2287388015538454,
+    "n_input_tokens": 4237
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.227987365797162,
+    "n_input_tokens": 4247
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2300506504252553,
+    "n_input_tokens": 4252
+  },
+  {
+    "dataset": "holoassist",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.236952013336122,
+    "n_input_tokens": 4246
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2277118200436234,
+    "n_input_tokens": 4246
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.22634684946388,
+    "n_input_tokens": 4238
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.221301343291998,
+    "n_input_tokens": 4257
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.220424302853644,
+    "n_input_tokens": 4271
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 1.2177743939682841,
+    "n_input_tokens": 4254
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 1.2198049640282989,
+    "n_input_tokens": 4266
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2183916438370943,
+    "n_input_tokens": 4261
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2274771053344011,
+    "n_input_tokens": 4274
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2250886168330908,
+    "n_input_tokens": 4250
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2272200919687748,
+    "n_input_tokens": 4252
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2286647642031312,
+    "n_input_tokens": 4259
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2284367298707366,
+    "n_input_tokens": 4286
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.220793355256319,
+    "n_input_tokens": 4253
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2217738330364227,
+    "n_input_tokens": 4240
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2189311683177948,
+    "n_input_tokens": 4247
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.2209724616259336,
+    "n_input_tokens": 4261
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.219726463779807,
+    "n_input_tokens": 4275
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2233881447464228,
+    "n_input_tokens": 4252
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 1.2304823631420732,
+    "n_input_tokens": 4297
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2273275395855308,
+    "n_input_tokens": 4271
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2185512026771903,
+    "n_input_tokens": 4250
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2232184577733278,
+    "n_input_tokens": 4283
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2183662001043558,
+    "n_input_tokens": 4258
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 1.2180405789986253,
+    "n_input_tokens": 4282
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 1.2168341083452106,
+    "n_input_tokens": 4234
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2217140775173903,
+    "n_input_tokens": 4269
+  },
+  {
+    "dataset": "egoexolearn",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 1.2205302650108933,
+    "n_input_tokens": 4238
+  }
+]

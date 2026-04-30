@@ -10,22 +10,8 @@
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
     "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
     "prediction": "A",
-    "correct": false
+    "correct": true
   },
   {
     "task": "past_gaze_sequence_matching",
@@ -33,55 +19,6 @@
     "answer": "B",
     "prediction": "B",
     "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "C",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "B",
-    "correct": false
   },
   {
     "task": "past_gaze_sequence_matching",
@@ -94,15 +31,8 @@
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
     "answer": "B",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
     "prediction": "B",
-    "correct": false
+    "correct": true
   },
   {
     "task": "past_gaze_sequence_matching",
@@ -114,23 +44,9 @@
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "D",
+    "answer": "C",
+    "prediction": "C",
     "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "A",
-    "correct": false
   },
   {
     "task": "past_gaze_sequence_matching",
@@ -142,6 +58,13 @@
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
     "answer": "C",
     "prediction": "C",
     "correct": true
@@ -149,15 +72,15 @@
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "B",
+    "answer": "D",
+    "prediction": "C",
     "correct": false
   },
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "C",
-    "prediction": "D",
+    "answer": "A",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -170,16 +93,44 @@
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
     "answer": "A",
-    "prediction": "D",
+    "prediction": "C",
     "correct": false
   },
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
     "prediction": "D",
-    "correct": false
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "past_gaze_sequence_matching",
@@ -199,35 +150,7 @@
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
     "answer": "A",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "B",
+    "prediction": "A",
     "correct": true
   },
   {
@@ -240,36 +163,8 @@
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
     "answer": "D",
     "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "A",
     "correct": true
   },
   {
@@ -296,91 +191,7 @@
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "C",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "B",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "A",
-    "correct": true
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "D",
     "prediction": "A",
     "correct": false
   },
@@ -388,22 +199,36 @@
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
     "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "past_gaze_sequence_matching",
-    "question": "Which transition best matches the user's gaze pattern?",
-    "answer": "A",
-    "prediction": "B",
+    "prediction": "C",
     "correct": false
   },
   {
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
     "answer": "B",
-    "prediction": "B",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
     "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "past_gaze_sequence_matching",
@@ -423,7 +248,182 @@
     "task": "past_gaze_sequence_matching",
     "question": "Which transition best matches the user's gaze pattern?",
     "answer": "D",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
     "prediction": "B",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "past_gaze_sequence_matching",
+    "question": "Which transition best matches the user's gaze pattern?",
+    "answer": "D",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -451,15 +451,15 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {kettle, stove, microwave, faucet}, which did the user never gaze at?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
     "question": "Among {pot, tomato, knife, microwave}, which did the user never gaze at?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -493,8 +493,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {stove, table, milk, knob}, which did the user never gaze at?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -528,15 +528,15 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {lettuce, fork, bag, hands}, which did the user never gaze at?",
     "answer": "B",
-    "prediction": "C",
-    "correct": false
+    "prediction": "B",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
     "question": "Among {cucumber, knife, eggs, bag}, which did the user never gaze at?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -549,8 +549,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {pan, spatula, knife, cheese}, which did the user never gaze at?",
     "answer": "D",
-    "prediction": "B",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -570,7 +570,7 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {monitor, poster, spoon, plate}, which did the user never gaze at?",
     "answer": "D",
-    "prediction": "B",
+    "prediction": "A",
     "correct": false
   },
   {
@@ -689,8 +689,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {kettle, knife, pepper, hotdog}, which did the user never gaze at?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "D",
+    "correct": false
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -703,8 +703,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {hands, glass, tomato, dishwasher}, which did the user never gaze at?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -773,7 +773,7 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {pizza, plate, cheese, hand}, which did the user never gaze at?",
     "answer": "A",
-    "prediction": "C",
+    "prediction": "B",
     "correct": false
   },
   {
@@ -794,8 +794,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {knob, spoon, bowl, foil}, which did the user never gaze at?",
     "answer": "D",
-    "prediction": "A",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -808,8 +808,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {paper, cabinet, trashcan, bowl}, which did the user never gaze at?",
     "answer": "C",
-    "prediction": "C",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -829,8 +829,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {glassware, mushroom, hands, faucet}, which did the user never gaze at?",
     "answer": "A",
-    "prediction": "D",
-    "correct": false
+    "prediction": "A",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -850,8 +850,8 @@
     "task": "past_non_fixated_object_identification",
     "question": "Among {bowl, pan, stove, spatula}, which did the user never gaze at?",
     "answer": "A",
-    "prediction": "C",
-    "correct": false
+    "prediction": "A",
+    "correct": true
   },
   {
     "task": "past_non_fixated_object_identification",
@@ -941,7 +941,7 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {tomato, knife, plate}, which background object was NOT visible?",
     "answer": "D",
-    "prediction": "C",
+    "prediction": "B",
     "correct": false
   },
   {
@@ -955,8 +955,8 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {bagel, knife, cream cheese, plate}, which background object was NOT visible?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
@@ -990,14 +990,14 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {spoon}, which background object was NOT visible?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "A",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {poster}, which background object was NOT visible?",
     "answer": "D",
-    "prediction": "B",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -1025,14 +1025,14 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {paper}, which background object was NOT visible?",
     "answer": "D",
-    "prediction": "A",
+    "prediction": "B",
     "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {pan}, which background object was NOT visible?",
     "answer": "B",
-    "prediction": "A",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -1060,21 +1060,21 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {cup, kettle, sink, glass}, which background object was NOT visible?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {tomato, bread}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {bowl, spoon, egg}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "D",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -1088,29 +1088,29 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {bowl, spoon}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "D",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {bowl, utensil}, which background object was NOT visible?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "A",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {lettuce, knife}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "C",
     "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {package, plate, cheese}, which background object was NOT visible?",
     "answer": "B",
-    "prediction": "D",
-    "correct": false
+    "prediction": "B",
+    "correct": true
   },
   {
     "task": "past_scene_recall",
@@ -1123,8 +1123,8 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {knob}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "C",
-    "correct": false
+    "prediction": "A",
+    "correct": true
   },
   {
     "task": "past_scene_recall",
@@ -1144,8 +1144,8 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {faucet}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
@@ -1158,8 +1158,8 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {knob, stove}, which background object was NOT visible?",
     "answer": "B",
-    "prediction": "A",
-    "correct": false
+    "prediction": "B",
+    "correct": true
   },
   {
     "task": "past_scene_recall",
@@ -1172,43 +1172,43 @@
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {package, bottle, container}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "D",
+    "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {counter, glass, plate}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "C",
     "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {cucumber, knife, tomato}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "D",
     "correct": false
   },
   {
     "task": "past_scene_recall",
     "question": "When the user was gazing at the {mushroom, knife, plate}, which background object was NOT visible?",
     "answer": "A",
-    "prediction": "D",
-    "correct": false
+    "prediction": "A",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (microwave -> cabinet -> counter), what action will the user do next?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (faucet -> sink -> counter), what action will the user do next?",
     "answer": "D",
-    "prediction": "B",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1249,7 +1249,7 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (laptop -> case -> papers), what action will the user do next?",
     "answer": "B",
-    "prediction": "D",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -1263,15 +1263,15 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (egg mixture -> spoon -> bottle), what action will the user do next?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (milk -> plastic -> container), what action will the user do next?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "D",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
@@ -1284,7 +1284,7 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (plate -> curtain -> floor), what action will the user do next?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "D",
     "correct": false
   },
   {
@@ -1326,8 +1326,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (container -> lid -> tongs), what action will the user do next?",
     "answer": "B",
-    "prediction": "B",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
@@ -1340,22 +1340,22 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (spatula -> pot -> timer), what action will the user do next?",
     "answer": "D",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "present_future_action_prediction",
-    "question": "Based on the recent fixation pattern (pot -> kettle -> stove), what action will the user do next?",
-    "answer": "D",
     "prediction": "D",
     "correct": true
   },
   {
     "task": "present_future_action_prediction",
+    "question": "Based on the recent fixation pattern (pot -> kettle -> stove), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false
+  },
+  {
+    "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (cheese -> sausage -> towel), what action will the user do next?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
@@ -1368,7 +1368,7 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (mouse -> cheese -> bowl), what action will the user do next?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -1410,8 +1410,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (counter -> paper -> paper_towel_roll), what action will the user do next?",
     "answer": "B",
-    "prediction": "D",
-    "correct": false
+    "prediction": "B",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1431,29 +1431,29 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (paper towel -> container -> box), what action will the user do next?",
     "answer": "C",
-    "prediction": "B",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (paper -> jar -> box), what action will the user do next?",
     "answer": "D",
-    "prediction": "A",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (pot -> pan -> stove), what action will the user do next?",
     "answer": "B",
-    "prediction": "A",
-    "correct": false
+    "prediction": "B",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (pan -> cabinet -> counter), what action will the user do next?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1466,15 +1466,15 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (stove -> lid -> counter), what action will the user do next?",
     "answer": "B",
-    "prediction": "B",
-    "correct": true
+    "prediction": "A",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (spoon -> garlic -> onion), what action will the user do next?",
     "answer": "C",
-    "prediction": "C",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
@@ -1487,7 +1487,7 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (stove -> counter -> lid), what action will the user do next?",
     "answer": "C",
-    "prediction": "A",
+    "prediction": "B",
     "correct": false
   },
   {
@@ -1508,7 +1508,7 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (spoon -> towel -> laptop), what action will the user do next?",
     "answer": "B",
-    "prediction": "A",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -1571,7 +1571,7 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (kettle -> pot -> spatula), what action will the user do next?",
     "answer": "C",
-    "prediction": "B",
+    "prediction": "A",
     "correct": false
   },
   {
@@ -1599,8 +1599,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (cup -> box -> plate), what action will the user do next?",
     "answer": "B",
-    "prediction": "D",
-    "correct": false
+    "prediction": "B",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1613,8 +1613,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (knife -> plate -> bread), what action will the user do next?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1627,8 +1627,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (cup -> plate -> bread), what action will the user do next?",
     "answer": "D",
-    "prediction": "B",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1641,8 +1641,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (recipe -> tape), what action will the user do next?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "A",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
@@ -1655,14 +1655,14 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (vegetable -> plate -> box), what action will the user do next?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "D",
     "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (bowl -> fork -> box), what action will the user do next?",
     "answer": "D",
-    "prediction": "B",
+    "prediction": "C",
     "correct": false
   },
   {
@@ -1683,8 +1683,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (kettle -> pot -> stove), what action will the user do next?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "A",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
@@ -1725,8 +1725,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (cabinet -> glassware -> bowl), what action will the user do next?",
     "answer": "D",
-    "prediction": "B",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1739,22 +1739,22 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (kettle -> pot -> tongs), what action will the user do next?",
     "answer": "B",
-    "prediction": "B",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (plates -> spices -> napkins), what action will the user do next?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (pen -> papers -> bowl), what action will the user do next?",
     "answer": "A",
-    "prediction": "B",
-    "correct": false
+    "prediction": "A",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1774,8 +1774,8 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (cup -> pan -> bacon), what action will the user do next?",
     "answer": "D",
-    "prediction": "A",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
@@ -1788,22 +1788,22 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (plant -> window -> counter), what action will the user do next?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (knife -> salt -> plate), what action will the user do next?",
     "answer": "B",
-    "prediction": "C",
+    "prediction": "A",
     "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (stove -> paper towels -> bottle), what action will the user do next?",
     "answer": "C",
-    "prediction": "C",
-    "correct": true
+    "prediction": "B",
+    "correct": false
   },
   {
     "task": "present_future_action_prediction",
@@ -1816,43 +1816,43 @@
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (window -> plant -> dishwasher), what action will the user do next?",
     "answer": "D",
-    "prediction": "B",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (spoon -> salt -> plate), what action will the user do next?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "C",
     "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (spoon -> tomato -> container), what action will the user do next?",
     "answer": "A",
-    "prediction": "B",
+    "prediction": "D",
     "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (bread -> plate -> cereal), what action will the user do next?",
     "answer": "D",
-    "prediction": "A",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (spoon -> outlet -> curtain), what action will the user do next?",
     "answer": "C",
-    "prediction": "D",
+    "prediction": "B",
     "correct": false
   },
   {
     "task": "present_future_action_prediction",
     "question": "Based on the recent fixation pattern (pan -> kettle -> pot), what action will the user do next?",
     "answer": "C",
-    "prediction": "A",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
@@ -2005,25 +2005,25 @@
     "task": "present_object_attribute_recognition",
     "question": "What color is the object the user is currently gazing at?",
     "answer": "C",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_attribute_recognition",
+    "question": "What color is the object the user is currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_attribute_recognition",
+    "question": "What color is the object the user is currently gazing at?",
+    "answer": "C",
     "prediction": "C",
     "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
-    "question": "What color is the object the user is currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_attribute_recognition",
-    "question": "What color is the object the user is currently gazing at?",
-    "answer": "C",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_attribute_recognition",
     "question": "What material is this object made of?",
     "answer": "D",
     "prediction": "D",
@@ -2040,8 +2040,8 @@
     "task": "present_object_attribute_recognition",
     "question": "What material is this object made of?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
@@ -2103,8 +2103,8 @@
     "task": "present_object_attribute_recognition",
     "question": "What material is this object made of?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
@@ -2208,8 +2208,8 @@
     "task": "present_object_attribute_recognition",
     "question": "What material is this object made of?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
@@ -2222,8 +2222,8 @@
     "task": "present_object_attribute_recognition",
     "question": "What color is the object the user is currently gazing at?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
@@ -2439,8 +2439,8 @@
     "task": "present_object_attribute_recognition",
     "question": "What color is the object the user is currently gazing at?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
@@ -2453,8 +2453,8 @@
     "task": "present_object_attribute_recognition",
     "question": "What color is the object the user is currently gazing at?",
     "answer": "C",
-    "prediction": "D",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_attribute_recognition",
@@ -2670,15 +2670,15 @@
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
     "answer": "C",
-    "prediction": "B",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
     "answer": "A",
-    "prediction": "A",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "present_object_identification_easy",
@@ -2691,15 +2691,15 @@
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
     "answer": "C",
-    "prediction": "B",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
     "answer": "D",
-    "prediction": "B",
-    "correct": false
+    "prediction": "D",
+    "correct": true
   },
   {
     "task": "present_object_identification_easy",
@@ -2712,7 +2712,7 @@
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
     "answer": "C",
-    "prediction": "A",
+    "prediction": "B",
     "correct": false
   },
   {
@@ -2789,328 +2789,6 @@
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
     "answer": "A",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "B",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "A",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "A",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "A",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "A",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "A",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_easy",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
     "prediction": "D",
     "correct": false
   },
@@ -3131,9 +2809,212 @@
   {
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
     "answer": "C",
     "prediction": "C",
     "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false
   },
   {
     "task": "present_object_identification_easy",
@@ -3152,8 +3033,85 @@
   {
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
     "answer": "A",
+    "prediction": "B",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
     "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "D",
     "correct": false
   },
   {
@@ -3167,8 +3125,8 @@
     "task": "present_object_identification_easy",
     "question": "Which object is the user currently gazing at?",
     "answer": "C",
-    "prediction": "A",
-    "correct": false
+    "prediction": "C",
+    "correct": true
   },
   {
     "task": "present_object_identification_easy",
@@ -3176,6 +3134,48 @@
     "answer": "C",
     "prediction": "C",
     "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_easy",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false
   },
   {
     "task": "present_object_identification_easy",
@@ -3272,8 +3272,8 @@
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "C",
+    "correct": false
   },
   {
     "task": "present_object_identification_hard",
@@ -3286,8 +3286,8 @@
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
+    "prediction": "A",
+    "correct": false
   },
   {
     "task": "present_object_identification_hard",
@@ -3307,7 +3307,91 @@
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
     "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
     "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "D",
     "correct": false
   },
   {
@@ -3322,6 +3406,48 @@
     "question": "Which object is the user currently gazing at?",
     "answer": "D",
     "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
+    "prediction": "C",
     "correct": true
   },
   {
@@ -3335,13 +3461,48 @@
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
     "answer": "C",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
     "prediction": "C",
     "correct": true
   },
   {
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
-    "answer": "A",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "C",
     "prediction": "D",
     "correct": false
   },
@@ -3355,34 +3516,27 @@
   {
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
-    "answer": "B",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true
+  },
+  {
+    "task": "present_object_identification_hard",
+    "question": "Which object is the user currently gazing at?",
+    "answer": "D",
     "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "D",
     "correct": false
   },
   {
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
     "answer": "C",
     "prediction": "C",
     "correct": true
@@ -3390,8 +3544,8 @@
   {
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "C",
+    "answer": "C",
+    "prediction": "A",
     "correct": false
   },
   {
@@ -3411,20 +3565,6 @@
   {
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
-    "answer": "A",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
     "answer": "D",
     "prediction": "D",
     "correct": true
@@ -3432,148 +3572,8 @@
   {
     "task": "present_object_identification_hard",
     "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
     "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "B",
     "prediction": "B",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "C",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "C",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "A",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "C",
-    "prediction": "D",
-    "correct": false
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "D",
-    "correct": true
-  },
-  {
-    "task": "present_object_identification_hard",
-    "question": "Which object is the user currently gazing at?",
-    "answer": "D",
-    "prediction": "C",
     "correct": false
   },
   {

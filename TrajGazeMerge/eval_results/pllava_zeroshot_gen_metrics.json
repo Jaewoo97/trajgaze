@@ -1,0 +1,18 @@
+{
+  "acc": 19.96197718631179,
+  "n": 526,
+  "per_task": {
+    "past_gaze_sequence_matching": 29.6875,
+    "past_non_fixated_object_identification": 26.470588235294116,
+    "past_object_transition_prediction": 50.0,
+    "past_scene_recall": 43.24324324324324,
+    "present_future_action_prediction": 23.404255319148938,
+    "present_object_attribute_recognition": 0.0,
+    "present_object_identification_easy": 24.752475247524753,
+    "present_object_identification_hard": 6.25
+  },
+  "model": "pllava-7b",
+  "n_frames": 64,
+  "eval_mode": "generation+best_option_parsing",
+  "finetuned": false
+}

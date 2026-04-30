@@ -1,0 +1,70 @@
+\section{Introduction}
+
+Egocentric video understanding has emerged as a central challenge in embodied AI, with applications
+ranging from assistive technology to augmented reality and robot learning from human
+demonstration~\cite{grauman2022ego4d,grauman2024egoexo4d,wang2023holoassist}.
+Unlike third-person video, egocentric footage captures the world from the perspective of an active
+agent, embedding rich signals about intent, attention, and physical interaction directly within the
+visual stream.
+A key indicator of this intentionality is \emph{gaze}—where the camera wearer directs their
+attention~\cite{li2018egtea,huang2018predicting}—combined with the motion of their hands as they
+manipulate objects in the scene~\cite{nagarajan2020ego}.
+
+Recent vision-language models (VLMs)~\cite{wang2024qwen2vl,lin2023videollava} have demonstrated
+strong video question-answering (VideoQA) capabilities, but their applicability to egocentric video
+is constrained by a fundamental bottleneck: the number of visual tokens that can be processed
+within the context window.
+A 128-frame egocentric clip processed at full spatial resolution produces tens of thousands of
+visual patch tokens, far exceeding the token budgets of modern VLMs.
+Existing approaches address this by uniformly subsampling frames or spatially pooling features,
+discarding information without regard for where the agent's attention was directed.
+Prior work on efficient vision transformers has shown that not all tokens contribute equally to
+downstream predictions~\cite{rao2021dynamicvit,liang2022evit}, and that merging redundant tokens
+can substantially reduce computation without sacrificing
+accuracy~\cite{bolya2023tome}.
+However, these methods operate on general visual salience and are agnostic to the rich behavioral
+signals available in egocentric settings.
+
+We argue that gaze and hand trajectory data—routinely recorded by egocentric devices—provide a
+principled signal for \emph{which} visual tokens carry the most task-relevant information.
+Moments of sustained fixation and bimanual manipulation correlate strongly with the objects,
+actions, and spatial regions that egocentric QA tasks ask about~\cite{li2018egtea,mangalam2024egoschema}.
+Yet to our knowledge, no prior work has exploited this signal to guide visual token selection
+inside a VLM's attention layers.
+
+In this work, we propose \textbf{TrajGazeMerge}, a framework that uses egocentric gaze and hand
+trajectories to identify and retain the most informative visual tokens, discarding or folding the
+remainder before VLM processing.
+Our approach consists of three components:
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt,topsep=2pt]
+\item \textbf{TrajGaze Encoder.} A query-conditioned spatio-temporal network that ingests
+    per-frame gaze positions, left- and right-hand trajectories, and their pairwise interaction
+    features, then cross-attends these trajectory signals to the spatial patch grid of a frozen
+    visual backbone~\cite{oquab2023dinov2} to produce a per-patch importance score.
+
+\item \textbf{Bipartite Token Merging.} Given per-patch scores, we designate the top-scoring
+    patches as \emph{receivers} and the remaining patches as \emph{sources}.
+    Each source is merged into its cosine-nearest receiver via a score-weighted average~\cite{bolya2023tome},
+    preserving information from discarded regions rather than simply dropping them.
+    We retain only 10\% of the original token count, reducing VLM context length by $10\times$.
+
+\item \textbf{Joint LoRA Fine-tuning.} We fine-tune the TrajGaze encoder and lightweight
+    LoRA~\cite{hu2022lora} adapters on the VLM jointly, using a combination of cross-entropy
+    loss on the ground-truth answer and a KL-divergence regularization toward a teacher VLM
+    operating on the full token set.
+\end{enumerate}
+
+We evaluate on \textbf{StreamGaze\_v2}, an egocentric VideoQA benchmark built on
+EGTEA~\cite{li2018egtea}, EgoExo4D~\cite{grauman2024egoexo4d}, and
+HoloAssist~\cite{wang2023holoassist}, spanning eight task categories that probe spatial,
+temporal, and gaze-predictive reasoning.
+TrajGazeMerge achieves \textbf{64.45\%} accuracy on the EGTEA test split, outperforming a
+random-10\% token selection baseline (61.98\%) and the full-token zero-shot VLM baseline.
+Per-task analysis reveals that trajectory-guided selection provides the largest gains on tasks
+requiring temporal gaze reasoning (\emph{past\_gaze\_sequence\_matching}: +7.8~pp) and
+non-fixated object identification (\emph{past\_non\_fixated\_object\_identification}: +7.4~pp).
+
+Our work demonstrates that egocentric behavioral signals—gaze and hand motion—are not merely
+outputs to be predicted, but \emph{inputs} that can actively guide efficient visual processing
+in VLMs, opening a new direction for resource-efficient egocentric video understanding.

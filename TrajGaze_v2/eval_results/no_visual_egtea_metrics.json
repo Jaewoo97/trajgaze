@@ -1,0 +1,22 @@
+{
+  "overall": {
+    "accuracy": 50.103092783505154,
+    "n_samples": 485,
+    "avg_generate_time_sec": 0.0318,
+    "avg_input_tokens": 156.5
+  },
+  "per_qa_type": {
+    "causal": {
+      "accuracy": 75.30864197530865,
+      "n_samples": 162
+    },
+    "spatial": {
+      "accuracy": 30.061349693251532,
+      "n_samples": 163
+    },
+    "temporal": {
+      "accuracy": 45.0,
+      "n_samples": 160
+    }
+  }
+}

@@ -1355,6 +1355,11 @@ class LlamaModelVTP(LlamaModel):
         use_cache = use_cache if use_cache is not None else self.config.use_cache
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
+        # LlamaForCausalLMVTP passes input_ids as input_ids_new= for VTP pruning, leaving
+        # input_ids=None here. Fall back so embed_tokens can find the token IDs.
+        if input_ids is None and inputs_embeds is None and input_ids_new is not None:
+            input_ids = input_ids_new
+
         if (input_ids is None) ^ (inputs_embeds is not None):
             raise ValueError(
                 "You cannot specify both input_ids and inputs_embeds at the same time, and must specify either one"
@@ -1401,7 +1406,13 @@ class LlamaModelVTP(LlamaModel):
         layer_idx = 0
         pos_cache = True
         for decoder_layer in self.layers:
-            if hidden_states.shape[1] == 1 and causal_mask.shape[-1] != (past_key_values.key_cache[layer_idx].shape[2]+1):
+            if (hidden_states is not None and hidden_states.shape[1] == 1
+                    and causal_mask is not None
+                    and past_key_values is not None
+                    and hasattr(past_key_values, 'key_cache')
+                    and layer_idx < len(past_key_values.key_cache)
+                    and past_key_values.key_cache[layer_idx] is not None
+                    and causal_mask.shape[-1] != (past_key_values.key_cache[layer_idx].shape[2]+1)):
                 causal_mask = causal_mask[:,:,:,-1:].repeat(1,1,1, past_key_values.key_cache[layer_idx].shape[2]+1)
 
             if hidden_states.shape[1] == 1:

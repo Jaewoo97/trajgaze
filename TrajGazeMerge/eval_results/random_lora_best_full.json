@@ -1,0 +1,38 @@
+{
+  "overall": 61.97718631178707,
+  "n": 526,
+  "by_task": {
+    "past_gaze_sequence_matching": {
+      "acc": 60.9375,
+      "n": 64
+    },
+    "past_non_fixated_object_identification": {
+      "acc": 55.88235294117647,
+      "n": 68
+    },
+    "past_object_transition_prediction": {
+      "acc": 50.0,
+      "n": 2
+    },
+    "past_scene_recall": {
+      "acc": 72.97297297297297,
+      "n": 37
+    },
+    "present_future_action_prediction": {
+      "acc": 47.87234042553192,
+      "n": 94
+    },
+    "present_object_attribute_recognition": {
+      "acc": 82.29166666666667,
+      "n": 96
+    },
+    "present_object_identification_easy": {
+      "acc": 54.45544554455446,
+      "n": 101
+    },
+    "present_object_identification_hard": {
+      "acc": 65.625,
+      "n": 64
+    }
+  }
+}

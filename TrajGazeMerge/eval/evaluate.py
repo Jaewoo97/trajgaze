@@ -61,6 +61,9 @@ def parse_args():
         default="/workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1_v3/best.pth")
     p.add_argument("--lora-ckpt",    default=None,
         help="Path to saved LoRA checkpoint (for baseline_lora / merge_lora)")
+    p.add_argument("--model",        default="full",
+        choices=["full", "gaze-only"],
+        help="full = TrajGazeV2 (4 tokens) | gaze-only = TrajGazeV2GazeOnly (1 token)")
     return p.parse_args()
 
 
@@ -117,8 +120,12 @@ def main():
     # ── Load TrajGaze encoder ─────────────────────────────────────────────────
     traj_encoder = None
     if needs_merge:
-        from TrajGaze_v2.models.model import TrajGazeV2
-        traj_encoder = TrajGazeV2().to(device)
+        if args.model == "gaze-only":
+            from TrajGaze_v2.models.model_gaze_only import TrajGazeV2GazeOnly
+            traj_encoder = TrajGazeV2GazeOnly().to(device)
+        else:
+            from TrajGaze_v2.models.model import TrajGazeV2
+            traj_encoder = TrajGazeV2().to(device)
         if os.path.exists(args.stage1_ckpt):
             ckpt  = torch.load(args.stage1_ckpt, map_location=device, weights_only=False)
             state = ckpt.get("model", ckpt.get("model_state_dict", ckpt))

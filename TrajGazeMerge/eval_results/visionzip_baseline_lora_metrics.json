@@ -1,0 +1,18 @@
+{
+  "acc": 49.049429657794676,
+  "n": 526,
+  "per_task": {
+    "past_gaze_sequence_matching": 64.0625,
+    "past_non_fixated_object_identification": 42.64705882352941,
+    "past_object_transition_prediction": 0.0,
+    "past_scene_recall": 54.054054054054056,
+    "present_future_action_prediction": 32.97872340425532,
+    "present_object_attribute_recognition": 44.791666666666664,
+    "present_object_identification_easy": 57.42574257425743,
+    "present_object_identification_hard": 56.25
+  },
+  "ckpt": "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/baseline_lora/best.pth",
+  "dominant_ratio": 0.05,
+  "contextual_ratio": 0.05,
+  "method": "visionzip_training_free"
+}

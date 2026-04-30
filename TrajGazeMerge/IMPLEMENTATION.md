@@ -1,4 +1,4 @@
-# TrajGazeMerge — Implementation Log
+d# TrajGazeMerge — Implementation Log
 
 ## Dataset Split
 - **Train**: egoexolearn + holoassist (across 8 MCQ tasks)

@@ -1,0 +1,18 @@
+{
+  "acc": 56.27376425855513,
+  "n": 526,
+  "per_task": {
+    "past_gaze_sequence_matching": 45.3125,
+    "past_non_fixated_object_identification": 64.70588235294117,
+    "past_object_transition_prediction": 50.0,
+    "past_scene_recall": 43.24324324324324,
+    "present_future_action_prediction": 25.53191489361702,
+    "present_object_attribute_recognition": 78.125,
+    "present_object_identification_easy": 64.35643564356435,
+    "present_object_identification_hard": 65.625
+  },
+  "stage1_ckpt": "/workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1_temporal/best.pth",
+  "lora_ckpt": "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/baseline_lora/best.pth",
+  "merge_ratio": 0.9,
+  "method": "trajgaze_temporal_zeroshot"
+}

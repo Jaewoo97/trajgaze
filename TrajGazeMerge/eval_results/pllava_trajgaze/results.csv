@@ -1,0 +1,527 @@
+pred,gt,task_type,question
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+B,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+B,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+B,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+D,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,A,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,C,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,D,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+A,B,past_gaze_sequence_matching,Which transition best matches the user's gaze pattern?
+C,C,past_non_fixated_object_identification,"Among {kettle, stove, microwave, faucet}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {pot, tomato, knife, microwave}, which did the user never gaze at?"
+B,B,past_non_fixated_object_identification,"Among {plate, counter, cucumber, kettle}, which did the user never gaze at?"
+A,C,past_non_fixated_object_identification,"Among {plate, knife, counter, tomato}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {cheese slice, plate, sandwich, shoe}, which did the user never gaze at?"
+D,A,past_non_fixated_object_identification,"Among {milk, spoon, pan, phone}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {stove, table, milk, knob}, which did the user never gaze at?"
+D,C,past_non_fixated_object_identification,"Among {knob, spatula, pot, spoon}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {bagel, knife, plate, cabinet}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {tomato, bread, refrigerator, bagel}, which did the user never gaze at?"
+B,B,past_non_fixated_object_identification,"Among {knife, cabinet, plate, bagel}, which did the user never gaze at?"
+C,B,past_non_fixated_object_identification,"Among {lettuce, fork, bag, hands}, which did the user never gaze at?"
+D,C,past_non_fixated_object_identification,"Among {cucumber, knife, eggs, bag}, which did the user never gaze at?"
+B,B,past_non_fixated_object_identification,"Among {hands, lid, knife, plate}, which did the user never gaze at?"
+A,D,past_non_fixated_object_identification,"Among {pan, spatula, knife, cheese}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {pepper, knife, kettle, mushroom}, which did the user never gaze at?"
+A,D,past_non_fixated_object_identification,"Among {pan, mushroom, knife, keyboard}, which did the user never gaze at?"
+A,D,past_non_fixated_object_identification,"Among {monitor, poster, spoon, plate}, which did the user never gaze at?"
+B,C,past_non_fixated_object_identification,"Among {sink, poster, cup, faucet}, which did the user never gaze at?"
+C,B,past_non_fixated_object_identification,"Among {spatula, glass, poster, patty}, which did the user never gaze at?"
+C,D,past_non_fixated_object_identification,"Among {countertop, lettuce, dishwasher, plant}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {spatula, sink, sausage, cabinet}, which did the user never gaze at?"
+B,D,past_non_fixated_object_identification,"Among {paper, plate, onion, tomatoes}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {knife, onion, bottle, paper}, which did the user never gaze at?"
+C,B,past_non_fixated_object_identification,"Among {pot, olives, plate, paper}, which did the user never gaze at?"
+C,A,past_non_fixated_object_identification,"Among {salt_shaker, knife, cabinet, salad}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {dish, cabinet, salad, knife}, which did the user never gaze at?"
+B,C,past_non_fixated_object_identification,"Among {hand, pan, spoon, paper}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {kettle, mug, laptop, spoon}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {cabinet, mug, kettle, table}, which did the user never gaze at?"
+B,D,past_non_fixated_object_identification,"Among {paper, cabinet, hand, curtain}, which did the user never gaze at?"
+A,C,past_non_fixated_object_identification,"Among {cabinet, sink, vent, tape}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {rug, sink, cup, bottle}, which did the user never gaze at?"
+A,B,past_non_fixated_object_identification,"Among {cabinet, rug, paper, cup}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {kettle, knife, pepper, hotdog}, which did the user never gaze at?"
+D,B,past_non_fixated_object_identification,"Among {knife, spatula, pepper, pan}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {hands, glass, tomato, dishwasher}, which did the user never gaze at?"
+A,D,past_non_fixated_object_identification,"Among {spoon, egg, bowl, knife}, which did the user never gaze at?"
+B,B,past_non_fixated_object_identification,"Among {bowl, kettle, spoon, egg}, which did the user never gaze at?"
+D,C,past_non_fixated_object_identification,"Among {bowl, egg, cup, bottle}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {bow, bowl, picture, spoon}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {window, button, screen, bowl}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {spoon, bowl, bottle, utensil}, which did the user never gaze at?"
+B,C,past_non_fixated_object_identification,"Among {spatula, pan, pot, pancake}, which did the user never gaze at?"
+D,A,past_non_fixated_object_identification,"Among {paper, glasses, knife, laptop}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {glasses, plate, lettuce, telephone}, which did the user never gaze at?"
+B,A,past_non_fixated_object_identification,"Among {pizza, plate, cheese, hand}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {kettle, cheese, plate, knife}, which did the user never gaze at?"
+C,C,past_non_fixated_object_identification,"Among {vegetable, plate, box, sausage}, which did the user never gaze at?"
+B,D,past_non_fixated_object_identification,"Among {knob, spoon, bowl, foil}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {sandwich, knob, bowl, stove}, which did the user never gaze at?"
+B,C,past_non_fixated_object_identification,"Among {paper, cabinet, trashcan, bowl}, which did the user never gaze at?"
+C,B,past_non_fixated_object_identification,"Among {teabag, wineglass, cabinet, bowl}, which did the user never gaze at?"
+D,C,past_non_fixated_object_identification,"Among {kettle, faucet, counter, box}, which did the user never gaze at?"
+D,A,past_non_fixated_object_identification,"Among {glassware, mushroom, hands, faucet}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {spices, tomato, knife, food}, which did the user never gaze at?"
+A,C,past_non_fixated_object_identification,"Among {pen, hand, papers, knob}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {bowl, pan, stove, spatula}, which did the user never gaze at?"
+A,B,past_non_fixated_object_identification,"Among {cup, bottle, stove, spatula}, which did the user never gaze at?"
+D,A,past_non_fixated_object_identification,"Among {salt, bottle, package, cabinet}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {button, cabinet, microwave, outlet}, which did the user never gaze at?"
+A,C,past_non_fixated_object_identification,"Among {microwave, tomato, outlet, sticker}, which did the user never gaze at?"
+D,D,past_non_fixated_object_identification,"Among {spatula, burger, button, paper towels}, which did the user never gaze at?"
+D,A,past_non_fixated_object_identification,"Among {sink, tomato, cucumber, counter}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {jar, cucumber, counter, salad}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {bottle, cup, plastic bag, potatoes}, which did the user never gaze at?"
+A,A,past_non_fixated_object_identification,"Among {kettle, potatoes, plate, knife}, which did the user never gaze at?"
+B,D,past_non_fixated_object_identification,"Among {plastic bag, pan, spatula, bread}, which did the user never gaze at?"
+A,D,past_object_transition_prediction,"What object does the user gaze at next after looking at the {phone, table}?"
+A,A,past_object_transition_prediction,"What object does the user gaze at next after looking at the {sink, cup, bottle}?"
+B,D,past_scene_recall,"When the user was gazing at the {tomato, knife, plate}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {phone, table}, which background object was NOT visible?"
+D,D,past_scene_recall,"When the user was gazing at the {bagel, knife, cream cheese, plate}, which background object was NOT visible?"
+A,D,past_scene_recall,"When the user was gazing at the {patty, pan, stove}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {white drawer, stove, sandwich, bottle}, which background object was NOT visible?"
+A,C,past_scene_recall,"When the user was gazing at the {cucumber, knife, plate, lettuce}, which background object was NOT visible?"
+D,D,past_scene_recall,"When the user was gazing at the {pepper, knife}, which background object was NOT visible?"
+D,D,past_scene_recall,"When the user was gazing at the {spoon}, which background object was NOT visible?"
+A,D,past_scene_recall,"When the user was gazing at the {poster}, which background object was NOT visible?"
+A,C,past_scene_recall,"When the user was gazing at the {plate}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {knife, onion}, which background object was NOT visible?"
+A,B,past_scene_recall,"When the user was gazing at the {bread, tomato, butter, plate, knife}, which background object was NOT visible?"
+A,D,past_scene_recall,"When the user was gazing at the {paper}, which background object was NOT visible?"
+A,B,past_scene_recall,"When the user was gazing at the {pan}, which background object was NOT visible?"
+A,C,past_scene_recall,"When the user was gazing at the {paper, cabinet}, which background object was NOT visible?"
+D,A,past_scene_recall,"When the user was gazing at the {paper, cabinet, tape}, which background object was NOT visible?"
+A,B,past_scene_recall,"When the user was gazing at the {pan}, which background object was NOT visible?"
+A,D,past_scene_recall,"When the user was gazing at the {cup, kettle, sink, glass}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {tomato, bread}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {bowl, spoon, egg}, which background object was NOT visible?"
+B,C,past_scene_recall,"When the user was gazing at the {pan, stove}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {bowl, spoon}, which background object was NOT visible?"
+D,D,past_scene_recall,"When the user was gazing at the {bowl, utensil}, which background object was NOT visible?"
+C,A,past_scene_recall,"When the user was gazing at the {lettuce, knife}, which background object was NOT visible?"
+B,B,past_scene_recall,"When the user was gazing at the {package, plate, cheese}, which background object was NOT visible?"
+D,D,past_scene_recall,"When the user was gazing at the {knife, vegetable}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {knob}, which background object was NOT visible?"
+A,B,past_scene_recall,"When the user was gazing at the {sandwich}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {paper, cabinet}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {faucet}, which background object was NOT visible?"
+A,C,past_scene_recall,"When the user was gazing at the {mushroom, spatula, pan}, which background object was NOT visible?"
+A,B,past_scene_recall,"When the user was gazing at the {knob, stove}, which background object was NOT visible?"
+B,A,past_scene_recall,"When the user was gazing at the {cabinet}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {package, bottle, container}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {counter, glass, plate}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {cucumber, knife, tomato}, which background object was NOT visible?"
+A,A,past_scene_recall,"When the user was gazing at the {mushroom, knife, plate}, which background object was NOT visible?"
+A,C,present_future_action_prediction,"Based on the recent fixation pattern (microwave -> cabinet -> counter), what action will the user do next?"
+D,D,present_future_action_prediction,"Based on the recent fixation pattern (faucet -> sink -> counter), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (lid -> meat -> counter), what action will the user do next?"
+B,A,present_future_action_prediction,"Based on the recent fixation pattern (spoon -> stove -> pan), what action will the user do next?"
+D,B,present_future_action_prediction,"Based on the recent fixation pattern (kettle -> stove -> pot), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (plastic -> counter -> shoe), what action will the user do next?"
+D,B,present_future_action_prediction,"Based on the recent fixation pattern (sandwich -> plate -> bag), what action will the user do next?"
+C,B,present_future_action_prediction,"Based on the recent fixation pattern (laptop -> case -> papers), what action will the user do next?"
+A,C,present_future_action_prediction,"Based on the recent fixation pattern (pan -> pot -> spoon), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (egg mixture -> spoon -> bottle), what action will the user do next?"
+D,A,present_future_action_prediction,"Based on the recent fixation pattern (milk -> plastic -> container), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (spatula -> kettle -> pot), what action will the user do next?"
+D,A,present_future_action_prediction,"Based on the recent fixation pattern (plate -> curtain -> floor), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (knife -> bread -> bag), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (pan -> pot -> kettle), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (bottle -> spatula -> mustard), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (eggs -> bread -> potatoes), what action will the user do next?"
+D,A,present_future_action_prediction,"Based on the recent fixation pattern (tomato -> fork -> counter), what action will the user do next?"
+D,B,present_future_action_prediction,"Based on the recent fixation pattern (container -> lid -> tongs), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (jar -> container -> bottle), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (spatula -> pot -> timer), what action will the user do next?"
+D,D,present_future_action_prediction,"Based on the recent fixation pattern (pot -> kettle -> stove), what action will the user do next?"
+B,A,present_future_action_prediction,"Based on the recent fixation pattern (cheese -> sausage -> towel), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (towel -> keyboard -> cheese), what action will the user do next?"
+B,A,present_future_action_prediction,"Based on the recent fixation pattern (mouse -> cheese -> bowl), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (recipe poster -> text -> cabinet), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (window -> stove -> laptop), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (paper -> book -> egg), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (spatula -> kettle -> pot), what action will the user do next?"
+D,B,present_future_action_prediction,"Based on the recent fixation pattern (sink -> faucet -> counter), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (counter -> paper -> paper_towel_roll), what action will the user do next?"
+A,B,present_future_action_prediction,"Based on the recent fixation pattern (paper -> cabinet -> box), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (box -> bag -> tissue), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (paper towel -> container -> box), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (paper -> jar -> box), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (pot -> pan -> stove), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (pan -> cabinet -> counter), what action will the user do next?"
+A,B,present_future_action_prediction,"Based on the recent fixation pattern (counter -> paper -> text), what action will the user do next?"
+C,B,present_future_action_prediction,"Based on the recent fixation pattern (stove -> lid -> counter), what action will the user do next?"
+B,C,present_future_action_prediction,"Based on the recent fixation pattern (spoon -> garlic -> onion), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (spices -> container -> box), what action will the user do next?"
+A,C,present_future_action_prediction,"Based on the recent fixation pattern (stove -> counter -> lid), what action will the user do next?"
+D,D,present_future_action_prediction,"Based on the recent fixation pattern (sink -> box -> dish), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (oil -> cereal -> salt_shaker), what action will the user do next?"
+A,B,present_future_action_prediction,"Based on the recent fixation pattern (spoon -> towel -> laptop), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (kettle -> pot -> spatula), what action will the user do next?"
+D,D,present_future_action_prediction,"Based on the recent fixation pattern (mug -> kettle -> bowl), what action will the user do next?"
+C,B,present_future_action_prediction,"Based on the recent fixation pattern (box -> sink -> curtain), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (vent -> knife_block -> knife), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (tape -> cutting board -> soap), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (microwave -> cutting board -> soap), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (tape -> sign -> sticker), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (hotdog -> knife -> cutting_board), what action will the user do next?"
+A,C,present_future_action_prediction,"Based on the recent fixation pattern (kettle -> pot -> spatula), what action will the user do next?"
+C,D,present_future_action_prediction,"Based on the recent fixation pattern (spices -> bag -> bottle), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (dishwasher -> bowl -> paper), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (counter -> plate -> spoon), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (cup -> box -> plate), what action will the user do next?"
+C,B,present_future_action_prediction,"Based on the recent fixation pattern (pot -> kettle -> spatula), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (knife -> plate -> bread), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (button -> screen -> microwave), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (cup -> plate -> bread), what action will the user do next?"
+C,A,present_future_action_prediction,"Based on the recent fixation pattern (pepper_grinder -> plate -> knife), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (recipe -> tape), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (telephone -> power_strip -> paper), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (vegetable -> plate -> box), what action will the user do next?"
+B,D,present_future_action_prediction,"Based on the recent fixation pattern (bowl -> fork -> box), what action will the user do next?"
+B,B,present_future_action_prediction,"Based on the recent fixation pattern (plate -> bowl -> tortilla), what action will the user do next?"
+D,A,present_future_action_prediction,"Based on the recent fixation pattern (knife -> cutting board -> tortilla), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (kettle -> pot -> stove), what action will the user do next?"
+C,D,present_future_action_prediction,"Based on the recent fixation pattern (pot -> utensil -> counter), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (bowl -> milk), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (spoon -> stove -> floor), what action will the user do next?"
+D,D,present_future_action_prediction,"Based on the recent fixation pattern (container -> foil -> plate), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (teabag -> trashcan), what action will the user do next?"
+D,D,present_future_action_prediction,"Based on the recent fixation pattern (cabinet -> glassware -> bowl), what action will the user do next?"
+B,C,present_future_action_prediction,"Based on the recent fixation pattern (counter -> sponge -> bowl), what action will the user do next?"
+A,B,present_future_action_prediction,"Based on the recent fixation pattern (kettle -> pot -> tongs), what action will the user do next?"
+A,C,present_future_action_prediction,"Based on the recent fixation pattern (plates -> spices -> napkins), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (pen -> papers -> bowl), what action will the user do next?"
+B,C,present_future_action_prediction,"Based on the recent fixation pattern (tongs -> cabinet -> counter), what action will the user do next?"
+C,A,present_future_action_prediction,"Based on the recent fixation pattern (spatula -> pot -> kettle), what action will the user do next?"
+C,D,present_future_action_prediction,"Based on the recent fixation pattern (cup -> pan -> bacon), what action will the user do next?"
+A,B,present_future_action_prediction,"Based on the recent fixation pattern (stove -> kettle -> bottle), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (plant -> window -> counter), what action will the user do next?"
+A,B,present_future_action_prediction,"Based on the recent fixation pattern (knife -> salt -> plate), what action will the user do next?"
+A,C,present_future_action_prediction,"Based on the recent fixation pattern (stove -> paper towels -> bottle), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (sticker -> bottle -> counter), what action will the user do next?"
+D,D,present_future_action_prediction,"Based on the recent fixation pattern (window -> plant -> dishwasher), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (spoon -> salt -> plate), what action will the user do next?"
+A,A,present_future_action_prediction,"Based on the recent fixation pattern (spoon -> tomato -> container), what action will the user do next?"
+A,D,present_future_action_prediction,"Based on the recent fixation pattern (bread -> plate -> cereal), what action will the user do next?"
+B,C,present_future_action_prediction,"Based on the recent fixation pattern (spoon -> outlet -> curtain), what action will the user do next?"
+C,C,present_future_action_prediction,"Based on the recent fixation pattern (pan -> kettle -> pot), what action will the user do next?"
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What is the state of the object the user is currently gazing at?
+A,C,present_object_attribute_recognition,What is the texture of the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What shape does this object have?
+D,D,present_object_attribute_recognition,What shape does this object have?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+A,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What material is this object made of?
+C,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What shape does this object have?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+A,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What is the state of the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What shape does this object have?
+C,C,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What material is this object made of?
+C,C,present_object_attribute_recognition,What shape does this object have?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+A,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What is the texture of the object the user is currently gazing at?
+C,D,present_object_attribute_recognition,What material is this object made of?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What is the texture of the object the user is currently gazing at?
+C,D,present_object_attribute_recognition,What material is this object made of?
+D,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What material is this object made of?
+A,C,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What is the texture of the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,D,present_object_attribute_recognition,What material is this object made of?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What shape does this object have?
+A,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What is the state of the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What material is this object made of?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+A,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,D,present_object_attribute_recognition,What material is this object made of?
+A,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What is the state of the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+A,D,present_object_attribute_recognition,What material is this object made of?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,C,present_object_attribute_recognition,What shape does this object have?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What is the state of the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+D,D,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+C,C,present_object_attribute_recognition,What color is the object the user is currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+D,B,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,A,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+D,B,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+B,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,B,present_object_identification_easy,Which object is the user currently gazing at?
+D,C,present_object_identification_easy,Which object is the user currently gazing at?
+B,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+B,B,present_object_identification_easy,Which object is the user currently gazing at?
+C,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,B,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+B,B,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+B,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,B,present_object_identification_easy,Which object is the user currently gazing at?
+A,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+D,C,present_object_identification_easy,Which object is the user currently gazing at?
+B,D,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+D,A,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,B,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+D,B,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+D,A,present_object_identification_easy,Which object is the user currently gazing at?
+A,B,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+B,B,present_object_identification_easy,Which object is the user currently gazing at?
+B,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,B,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,B,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,C,present_object_identification_easy,Which object is the user currently gazing at?
+B,A,present_object_identification_easy,Which object is the user currently gazing at?
+D,D,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+A,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+A,A,present_object_identification_easy,Which object is the user currently gazing at?
+C,D,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_easy,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,B,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+A,D,present_object_identification_hard,Which object is the user currently gazing at?
+D,A,present_object_identification_hard,Which object is the user currently gazing at?
+A,C,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+A,B,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,A,present_object_identification_hard,Which object is the user currently gazing at?
+B,D,present_object_identification_hard,Which object is the user currently gazing at?
+B,B,present_object_identification_hard,Which object is the user currently gazing at?
+A,C,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+A,D,present_object_identification_hard,Which object is the user currently gazing at?
+D,C,present_object_identification_hard,Which object is the user currently gazing at?
+B,B,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,A,present_object_identification_hard,Which object is the user currently gazing at?
+D,B,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+B,B,present_object_identification_hard,Which object is the user currently gazing at?
+A,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+A,D,present_object_identification_hard,Which object is the user currently gazing at?
+A,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,C,present_object_identification_hard,Which object is the user currently gazing at?
+A,D,present_object_identification_hard,Which object is the user currently gazing at?
+B,C,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+B,C,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+B,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+A,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+D,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+D,B,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+A,D,present_object_identification_hard,Which object is the user currently gazing at?
+B,D,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+C,D,present_object_identification_hard,Which object is the user currently gazing at?
+A,B,present_object_identification_hard,Which object is the user currently gazing at?
+D,C,present_object_identification_hard,Which object is the user currently gazing at?
+D,C,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?
+A,A,present_object_identification_hard,Which object is the user currently gazing at?
+B,B,present_object_identification_hard,Which object is the user currently gazing at?
+C,C,present_object_identification_hard,Which object is the user currently gazing at?

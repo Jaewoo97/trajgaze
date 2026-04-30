@@ -1,0 +1,14 @@
+{
+  "overall": {
+    "accuracy": 32.97872340425532,
+    "n_samples": 94,
+    "avg_generate_time_sec": 0.0967,
+    "avg_input_tokens": 108.0
+  },
+  "per_dataset": {
+    "egtea": {
+      "accuracy": 32.97872340425532,
+      "n_samples": 94
+    }
+  }
+}

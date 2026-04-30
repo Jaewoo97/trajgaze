@@ -1,0 +1,848 @@
+[
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (microwave -> cabinet -> counter), what action will the user do next?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 3.0440478147938848,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (faucet -> sink -> counter), what action will the user do next?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 5.23785263299942,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (lid -> meat -> counter), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 5.175287332385778,
+    "n_input_tokens": 4209
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spoon -> stove -> pan), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 5.010185873135924,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (kettle -> stove -> pot), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 5.0664202673360705,
+    "n_input_tokens": 4209
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (plastic -> counter -> shoe), what action will the user do next?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 5.108041156083345,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (sandwich -> plate -> bag), what action will the user do next?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 5.186084081418812,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (laptop -> case -> papers), what action will the user do next?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 5.234074221923947,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pan -> pot -> spoon), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 5.245082976296544,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (egg mixture -> spoon -> bottle), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 5.2230715192854404,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (milk -> plastic -> container), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 4.903093124739826,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spatula -> kettle -> pot), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 4.968336004763842,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (plate -> curtain -> floor), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 5.445204442366958,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (knife -> bread -> bag), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 4.059514497406781,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pan -> pot -> kettle), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.7271310063079,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (bottle -> spatula -> mustard), what action will the user do next?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 5.381988453678787,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (eggs -> bread -> potatoes), what action will the user do next?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 5.517099277116358,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (tomato -> fork -> counter), what action will the user do next?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 5.144995575770736,
+    "n_input_tokens": 4212
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (container -> lid -> tongs), what action will the user do next?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 4.085547557100654,
+    "n_input_tokens": 4217
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (jar -> container -> bottle), what action will the user do next?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 4.917720433324575,
+    "n_input_tokens": 4210
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spatula -> pot -> timer), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 5.11227754317224,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pot -> kettle -> stove), what action will the user do next?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 5.468320919200778,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (cheese -> sausage -> towel), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 4.396294520236552,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (towel -> keyboard -> cheese), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.68537971470505,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (mouse -> cheese -> bowl), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 5.1735819587484,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (recipe poster -> text -> cabinet), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 5.761466407217085,
+    "n_input_tokens": 4212
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (window -> stove -> laptop), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 5.229804169386625,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (paper -> book -> egg), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 4.836340012960136,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spatula -> kettle -> pot), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 4.795654248446226,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (sink -> faucet -> counter), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 4.868454582057893,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (counter -> paper -> paper_towel_roll), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 5.123700591735542,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (paper -> cabinet -> box), what action will the user do next?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 5.507971154525876,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (box -> bag -> tissue), what action will the user do next?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 2.927638206630945,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (paper towel -> container -> box), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 3.755912502296269,
+    "n_input_tokens": 4213
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (paper -> jar -> box), what action will the user do next?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 5.609241220168769,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pot -> pan -> stove), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 5.099357151426375,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pan -> cabinet -> counter), what action will the user do next?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 3.169344392605126,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (counter -> paper -> text), what action will the user do next?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 3.6141639687120914,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (stove -> lid -> counter), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 3.9953322429209948,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spoon -> garlic -> onion), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 3.3121509114280343,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spices -> container -> box), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 2.201282280497253,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (stove -> counter -> lid), what action will the user do next?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 2.062265068292618,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (sink -> box -> dish), what action will the user do next?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 2.3036390049383044,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (oil -> cereal -> salt_shaker), what action will the user do next?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 2.762601800262928,
+    "n_input_tokens": 4210
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spoon -> towel -> laptop), what action will the user do next?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 2.952244872227311,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (kettle -> pot -> spatula), what action will the user do next?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 3.3490382274612784,
+    "n_input_tokens": 4211
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (mug -> kettle -> bowl), what action will the user do next?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 3.660374985076487,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (box -> sink -> curtain), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 3.5643658731132746,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (vent -> knife_block -> knife), what action will the user do next?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 1.9258007360622287,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (tape -> cutting board -> soap), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 2.1397826056927443,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (microwave -> cutting board -> soap), what action will the user do next?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 2.7893152786418796,
+    "n_input_tokens": 4211
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (tape -> sign -> sticker), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 3.133307590149343,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (hotdog -> knife -> cutting_board), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 3.440791546367109,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (kettle -> pot -> spatula), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 3.554933031089604,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spices -> bag -> bottle), what action will the user do next?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 3.7738690292462707,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (dishwasher -> bowl -> paper), what action will the user do next?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 3.635303733870387,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (counter -> plate -> spoon), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.43651504162699,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (cup -> box -> plate), what action will the user do next?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.020087000913918,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pot -> kettle -> spatula), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 2.347339555621147,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (knife -> plate -> bread), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 2.7406709166243672,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (button -> screen -> microwave), what action will the user do next?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 2.9689753828570247,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (cup -> plate -> bread), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 3.215346308425069,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pepper_grinder -> plate -> knife), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 3.502593810670078,
+    "n_input_tokens": 4212
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (recipe -> tape), what action will the user do next?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 3.7185213826596737,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (telephone -> power_strip -> paper), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 2.5677672140300274,
+    "n_input_tokens": 4212
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (vegetable -> plate -> box), what action will the user do next?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 2.1391344871371984,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (bowl -> fork -> box), what action will the user do next?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 2.2056022826582193,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (plate -> bowl -> tortilla), what action will the user do next?",
+    "answer": "B",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.7928340695798397,
+    "n_input_tokens": 4203
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (knife -> cutting board -> tortilla), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 3.086797739379108,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (kettle -> pot -> stove), what action will the user do next?",
+    "answer": "D",
+    "prediction": "D",
+    "correct": true,
+    "generate_time": 3.298416773788631,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pot -> utensil -> counter), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 3.613055949099362,
+    "n_input_tokens": 4210
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (bowl -> milk), what action will the user do next?",
+    "answer": "C",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 3.908822719939053,
+    "n_input_tokens": 4206
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spoon -> stove -> floor), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 3.6397580318152905,
+    "n_input_tokens": 4209
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (container -> foil -> plate), what action will the user do next?",
+    "answer": "D",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 2.477435214444995,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (teabag -> trashcan), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 2.0852398816496134,
+    "n_input_tokens": 4211
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (cabinet -> glassware -> bowl), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 2.377501972950995,
+    "n_input_tokens": 4207
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (counter -> sponge -> bowl), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.909062876366079,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (kettle -> pot -> tongs), what action will the user do next?",
+    "answer": "B",
+    "prediction": "B",
+    "correct": true,
+    "generate_time": 3.2395267821848392,
+    "n_input_tokens": 4213
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (plates -> spices -> napkins), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 3.5177730647847056,
+    "n_input_tokens": 4205
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pen -> papers -> bowl), what action will the user do next?",
+    "answer": "A",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 3.7435148283839226,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (tongs -> cabinet -> counter), what action will the user do next?",
+    "answer": "C",
+    "prediction": "C",
+    "correct": true,
+    "generate_time": 3.9784716377034783,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spatula -> pot -> kettle), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 3.1489950520917773,
+    "n_input_tokens": 4211
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (cup -> pan -> bacon), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 2.010266280733049,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (stove -> kettle -> bottle), what action will the user do next?",
+    "answer": "B",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 2.046768667176366,
+    "n_input_tokens": 4209
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (plant -> window -> counter), what action will the user do next?",
+    "answer": "A",
+    "prediction": "A",
+    "correct": true,
+    "generate_time": 2.8411958003416657,
+    "n_input_tokens": 4209
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (knife -> salt -> plate), what action will the user do next?",
+    "answer": "B",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 3.13970351498574,
+    "n_input_tokens": 4210
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (stove -> paper towels -> bottle), what action will the user do next?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 3.499688770622015,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (sticker -> bottle -> counter), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 3.764133702032268,
+    "n_input_tokens": 4204
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (window -> plant -> dishwasher), what action will the user do next?",
+    "answer": "D",
+    "prediction": "B",
+    "correct": false,
+    "generate_time": 3.9380502505227923,
+    "n_input_tokens": 4201
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spoon -> salt -> plate), what action will the user do next?",
+    "answer": "A",
+    "prediction": "C",
+    "correct": false,
+    "generate_time": 3.553106720559299,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spoon -> tomato -> container), what action will the user do next?",
+    "answer": "A",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.451991869136691,
+    "n_input_tokens": 4209
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (bread -> plate -> cereal), what action will the user do next?",
+    "answer": "D",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 2.153314543887973,
+    "n_input_tokens": 4202
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (spoon -> outlet -> curtain), what action will the user do next?",
+    "answer": "C",
+    "prediction": "D",
+    "correct": false,
+    "generate_time": 2.301121194846928,
+    "n_input_tokens": 4208
+  },
+  {
+    "dataset": "egtea",
+    "question": "Based on the recent fixation pattern (pan -> kettle -> pot), what action will the user do next?",
+    "answer": "C",
+    "prediction": "A",
+    "correct": false,
+    "generate_time": 2.7622068244963884,
+    "n_input_tokens": 4207
+  }
+]

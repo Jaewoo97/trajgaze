@@ -85,6 +85,7 @@ def parse_args():
     p.add_argument("--start-epoch",    type=int,   default=0)
     p.add_argument("--resume-step",    type=int,   default=0,
                    help="Skip this many steps at the start of start-epoch (already completed)")
+    p.add_argument("--seed",           type=int,   default=42)
     return p.parse_args()
 
 
@@ -193,7 +194,7 @@ def score_to_qwen_spatiotemporal(
 def evaluate(processor, qwen_model, base_qwen, traj_encoder,
              option_ids, device, merge_ratio, max_items=None,
              teacher_model=None):
-    """Evaluate on egtea test split. Returns (merge_acc, full_acc, n)."""
+    """Evaluate on egtea test split. Returns (merge_acc, full_acc, n, per_task_merge, per_task_full)."""
     test_ds = StreamGazeMergeDataset(
         split="test", n_vlm_frames=128, n_traj_frames=128,
     )
@@ -203,6 +204,8 @@ def evaluate(processor, qwen_model, base_qwen, traj_encoder,
     qwen_model.eval()
     traj_encoder.eval()
     correct_merge = correct_full = total = 0
+    by_task_merge: dict[str, list] = {}
+    by_task_full:  dict[str, list] = {}
 
     with torch.no_grad():
         for item in test_ds:
@@ -220,6 +223,7 @@ def evaluate(processor, qwen_model, base_qwen, traj_encoder,
                 T_merged  = int(cached["grid_thw"][0, 0].item())
                 n_spatial = n_video // max(1, T_merged)
                 r         = max(1, int(merge_ratio * n_video))
+                task      = item.get("task", "unknown")
 
                 _teacher = teacher_model if teacher_model is not None else qwen_model
                 logits_full = forward_logits(_teacher, build_full_inputs(base_qwen, cached))
@@ -244,21 +248,43 @@ def evaluate(processor, qwen_model, base_qwen, traj_encoder,
                 pred_merge = logits_merge[option_ids].argmax().item()
 
                 gt_idx         = ["A", "B", "C", "D"].index(item["answer"])
-                correct_full  += int(pred_full  == gt_idx)
-                correct_merge += int(pred_merge == gt_idx)
+                ok_merge = int(pred_merge == gt_idx)
+                ok_full  = int(pred_full  == gt_idx)
+                correct_full  += ok_full
+                correct_merge += ok_merge
                 total         += 1
+                by_task_merge.setdefault(task, []).append(ok_merge)
+                by_task_full.setdefault(task,  []).append(ok_full)
             except Exception:
                 pass
 
     qwen_model.train()
     traj_encoder.train()
-    return 100.0 * correct_merge / max(1, total), 100.0 * correct_full / max(1, total), total
+
+    per_task_merge = {t: 100.0 * sum(v) / max(1, len(v)) for t, v in sorted(by_task_merge.items())}
+    per_task_full  = {t: 100.0 * sum(v) / max(1, len(v)) for t, v in sorted(by_task_full.items())}
+
+    return (
+        100.0 * correct_merge / max(1, total),
+        100.0 * correct_full  / max(1, total),
+        total,
+        per_task_merge,
+        per_task_full,
+    )
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
     args = parse_args()
+
+    import random
+    import numpy as np
+    torch.manual_seed(args.seed)
+    torch.cuda.manual_seed_all(args.seed)
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+
     rank, local_rank, world_size = setup_ddp()
     is_main = rank == 0
     device  = torch.device(f"cuda:{local_rank}")
@@ -401,17 +427,20 @@ def main():
                 if steps % args.eval_every == 0:
                     dist.barrier()
                     if is_main:
-                        acc_m, acc_f, n_eval = evaluate(
+                        acc_m, acc_f, n_eval, pt_merge, pt_full = evaluate(
                             processor, qwen_model.module, base_qwen, traj_encoder.module,
                             option_ids, device, args.merge_ratio,
                             teacher_model=teacher_model,
                         )
                         print(f"  → eval egtea: merge={acc_m:.2f}% full={acc_f:.2f}% (n={n_eval})")
+                        for t in sorted(pt_merge):
+                            print(f"     {t}: merge={pt_merge[t]:.2f}% full={pt_full[t]:.2f}%")
                         with open(log_path, "a") as f:
                             f.write(json.dumps({
                                 "type": "eval",
                                 "epoch": epoch+1, "step": steps,
                                 "acc_merge": acc_m, "acc_full": acc_f, "n_eval": n_eval,
+                                "per_task_merge": pt_merge, "per_task_full": pt_full,
                             }) + "\n")
                         if acc_m > best_acc:
                             best_acc = acc_m
@@ -449,16 +478,19 @@ def main():
     # Final eval
     dist.barrier()
     if is_main:
-        acc_m, acc_f, n_eval = evaluate(
+        acc_m, acc_f, n_eval, pt_merge, pt_full = evaluate(
             processor, qwen_model.module, base_qwen, traj_encoder.module,
             option_ids, device, args.merge_ratio,
             teacher_model=teacher_model,
         )
         print(f"\n[Final] egtea: merge={acc_m:.2f}%  full={acc_f:.2f}%  (n={n_eval})")
+        for t in sorted(pt_merge):
+            print(f"   {t}: merge={pt_merge[t]:.2f}% full={pt_full[t]:.2f}%")
         with open(log_path, "a") as f:
             f.write(json.dumps({
                 "type": "eval_final",
                 "acc_merge": acc_m, "acc_full": acc_f, "n_eval": n_eval,
+                "per_task_merge": pt_merge, "per_task_full": pt_full,
             }) + "\n")
     dist.barrier()
 

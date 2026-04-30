@@ -1,0 +1,15 @@
+{
+  "acc": 50.950570342205324,
+  "n": 526,
+  "per_task": {
+    "past_gaze_sequence_matching": 40.625,
+    "past_non_fixated_object_identification": 35.294117647058826,
+    "past_object_transition_prediction": 50.0,
+    "past_scene_recall": 32.432432432432435,
+    "present_future_action_prediction": 41.48936170212766,
+    "present_object_attribute_recognition": 89.58333333333333,
+    "present_object_identification_easy": 44.554455445544555,
+    "present_object_identification_hard": 54.6875
+  },
+  "ckpt": "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/autogaze_lora/epoch_01.pth"
+}
