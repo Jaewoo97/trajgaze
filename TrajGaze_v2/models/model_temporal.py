@@ -141,13 +141,15 @@ class TrajGazeV2Temporal(nn.Module):
 
     def __init__(
         self,
-        d_traj:          int = 128,
-        d_enc:           int = D_ENC,
-        d_query:         int = D_QUERY,
-        n_layers_l2:     int = 6,
-        n_heads_l2:      int = 8,
-        t_future_max:    int = T_FUTURE_MAX,
-        n_vis_keyframes: int = 16,
+        d_traj:                  int  = 128,
+        d_enc:                   int  = D_ENC,
+        d_query:                 int  = D_QUERY,
+        n_layers_l2:             int  = 6,
+        n_heads_l2:              int  = 8,
+        t_future_max:            int  = T_FUTURE_MAX,
+        n_vis_keyframes:         int  = 16,
+        use_frame_score_branch:  bool = False,
+        use_post_fusion_iframe:  bool = False,
     ):
         super().__init__()
         self.query_encoder  = QueryEncoder(d_model=d_query)
@@ -157,6 +159,8 @@ class TrajGazeV2Temporal(nn.Module):
         self.encoder = SpatiotemporalEncoderTemporal(
             d_traj=d_traj, d_enc=d_enc, d_vis=d_enc,
             d_query=d_query, n_layers_l2=n_layers_l2, n_heads_l2=n_heads_l2,
+            use_frame_score_branch=use_frame_score_branch,
+            use_post_fusion_iframe=use_post_fusion_iframe,
         )
         self.traj_decoder  = TrajectoryDecoderTemporal(d_model=d_enc, n_future=t_future_max)
         self.score_decoder = ScoreDecoderTemporal(d_model=d_enc,      n_future=t_future_max)

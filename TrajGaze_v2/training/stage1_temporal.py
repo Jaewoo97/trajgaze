@@ -48,6 +48,9 @@ from TrajGaze_v2.models.model_temporal import TrajGazeV2Temporal
 from TrajGaze_v2.data.dataset_temporal import (
     StreamGazeStage1DatasetTemporal, collate_stage1_temporal,
 )
+from TrajGaze_v2.training.loss_schedule import (
+    LossWeights, curriculum_weights, total_from_weighted,
+)
 
 
 def parse_args():
@@ -66,6 +69,44 @@ def parse_args():
     p.add_argument("--n-vis-keyframes",type=int,   default=16,
                    help="DINOv2 keyframes per clip for visual encoder")
     p.add_argument("--resume",         type=str,   default=None)
+    p.add_argument("--init-from",      type=str,   default=None,
+                   help="Path to a stage-1 checkpoint to load model weights from "
+                        "as a warm start. Unlike --resume, this only loads weights "
+                        "(strict=False, missing keys keep fresh init), and starts "
+                        "epoch=0 / global_step=0 with a fresh optimizer/scheduler.")
+    p.add_argument("--use-curriculum", action="store_true",
+                   help="Apply step-aware loss curriculum (ramps in score_past, "
+                        "score_future, score_traj). Default off = legacy "
+                        "uniform-weight 4-loss sum.")
+    p.add_argument("--total-steps",    type=int, default=None,
+                   help="Total optimiser steps used for curriculum progress. "
+                        "Defaults to epochs * len(loader).")
+    p.add_argument("--gate-init",      type=float, default=0.0,
+                   help="Initial value of encoder.inter_frame_gate (pre-tanh). "
+                        "0.0 -> tanh=0 (InterFrameTransformer fully bypassed). "
+                        "2.5 -> tanh~0.987 (full pass-through, equivalent to "
+                        "legacy joint architecture). Default 0.0.")
+    p.add_argument("--freeze-gate",    action="store_true",
+                   help="Freeze encoder.inter_frame_gate at its init value. "
+                        "Use with --gate-init 2.5 to reproduce the legacy "
+                        "joint architecture for E0 baseline.")
+    p.add_argument("--drop-loss-score-traj", action="store_true",
+                   help="Permanently set l_score_traj weight to 0 (the noisiest "
+                        "of the 4 losses, chains decoder x encoder attention). "
+                        "Yields 3-loss training: l_traj + l_score_past + l_score_fut.")
+    p.add_argument("--no-visual", action="store_true",
+                   help="Skip DINOv2 visual encoding entirely. The encoder falls "
+                        "back to its trajectory-only score path (no visual "
+                        "cross-attention). Approximates the doc's no_spatial "
+                        "ablation when combined with --freeze-gate --gate-init 2.5.")
+    p.add_argument("--use-frame-score-branch", action="store_true",
+                   help="Enable parallel frame-level score head sourced from the "
+                        "InterFrameTransformer output. Output broadcast-multiplied "
+                        "into per-patch scores. (a)+(b1) architecture variant.")
+    p.add_argument("--use-post-fusion-iframe", action="store_true",
+                   help="Add a second InterFrameTransformer AFTER per-frame visual "
+                        "fusion, gated residual, applied to enriched_context. "
+                        "(b2) architecture variant.")
     return p.parse_args()
 
 
@@ -106,21 +147,61 @@ def main():
         drop_last   = True,
     )
 
-    model = TrajGazeV2Temporal(n_vis_keyframes=args.n_vis_keyframes).to(device)
+    model = TrajGazeV2Temporal(
+        n_vis_keyframes=args.n_vis_keyframes,
+        use_frame_score_branch=args.use_frame_score_branch,
+        use_post_fusion_iframe=args.use_post_fusion_iframe,
+    ).to(device)
+
+    # Apply gate init / freeze before DDP wrap so DDP picks up the right param state.
+    with torch.no_grad():
+        model.encoder.inter_frame_gate.fill_(args.gate_init)
+    if args.freeze_gate:
+        model.encoder.inter_frame_gate.requires_grad_(False)
+    if is_main:
+        gate_after = torch.tanh(model.encoder.inter_frame_gate.detach()).item()
+        print(f"[stage1_temporal] gate_init={args.gate_init} -> tanh={gate_after:+.3f} "
+              f"frozen={args.freeze_gate}")
+
     model = DDP(model, device_ids=[local_rank])
 
     optimizer = AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=args.lr * 0.01)
 
     start_epoch = 0
+    global_step = 0
     if args.resume and os.path.exists(args.resume):
         ckpt = torch.load(args.resume, map_location=device)
         model.module.load_state_dict(ckpt["model"])
         optimizer.load_state_dict(ckpt["optimizer"])
         scheduler.load_state_dict(ckpt["scheduler"])
+        # Allow extending training beyond the original cosine T_max:
+        # if --epochs is larger than the loaded scheduler's T_max, override
+        # so cosine continues to the new endpoint instead of staying at eta_min.
+        if args.epochs > scheduler.T_max:
+            if is_main:
+                print(f"[stage1_temporal] Extending cosine T_max: "
+                      f"{scheduler.T_max} -> {args.epochs}")
+            scheduler.T_max = args.epochs
         start_epoch = ckpt.get("epoch", 0) + 1
+        global_step = ckpt.get("global_step", start_epoch * len(loader))
         if is_main:
-            print(f"[stage1_temporal] Resumed from epoch {start_epoch}")
+            print(f"[stage1_temporal] Resumed from epoch {start_epoch} "
+                  f"(global_step={global_step})")
+    elif args.init_from and os.path.exists(args.init_from):
+        ckpt = torch.load(args.init_from, map_location=device, weights_only=False)
+        sd   = ckpt.get("model", ckpt.get("model_state_dict", ckpt))
+        result = model.module.load_state_dict(sd, strict=False)
+        if is_main:
+            print(f"[stage1_temporal] Warm start from {args.init_from}")
+            if result.missing_keys:
+                print(f"  missing keys (kept fresh init): {result.missing_keys}")
+            if result.unexpected_keys:
+                print(f"  unexpected keys (ignored): {result.unexpected_keys}")
+
+    total_steps = args.total_steps if args.total_steps else args.epochs * len(loader)
+    if is_main and args.use_curriculum:
+        print(f"[stage1_temporal] Curriculum ON, total_steps={total_steps}")
 
     log_path  = os.path.join(args.output_dir, "train_log.jsonl")
     best_loss = float("inf")
@@ -148,9 +229,28 @@ def main():
             batch["T_past"]          = batch["T_past"].to(device)
             batch["T_future"]        = batch["T_future"].to(device)
 
+            if args.no_visual:
+                batch["frame_paths"] = None
+
             optimizer.zero_grad()
             loss_dict = model.module.stage1_forward(batch)
-            loss      = loss_dict["loss"]
+
+            if args.use_curriculum:
+                weights = curriculum_weights(global_step, total_steps)
+                if args.drop_loss_score_traj:
+                    weights = LossWeights(
+                        traj         = weights.traj,
+                        score_past   = weights.score_past,
+                        score_future = weights.score_future,
+                        score_traj   = 0.0,
+                    )
+                loss = total_from_weighted(loss_dict, weights)
+            elif args.drop_loss_score_traj:
+                loss = (loss_dict["loss_traj"]
+                        + loss_dict["loss_score_past"]
+                        + loss_dict["loss_score_fut"])
+            else:
+                loss = loss_dict["loss"]
 
             if not torch.isfinite(loss):
                 if is_main:
@@ -167,14 +267,27 @@ def main():
             total_sp   += loss_dict["loss_score_past"].item()
             total_st   += loss_dict["loss_score_traj"].item()
             n_batches  += 1
+            global_step += 1
 
             if is_main and (step + 1) % args.log_every == 0:
-                avg = lambda x: x / n_batches
+                avg     = lambda x: x / n_batches
                 elapsed = time.time() - t_start
-                print(f"Epoch {epoch+1:3d} | step {step+1:4d} | "
+                gate_val = torch.tanh(
+                    model.module.encoder.inter_frame_gate.detach()
+                ).item()
+                extra = ""
+                if args.use_curriculum:
+                    w = curriculum_weights(global_step, total_steps)
+                    st = 0.0 if args.drop_loss_score_traj else w.score_traj
+                    extra = (f" | w(p,f,t)=({w.score_past:.2f},"
+                            f"{w.score_future:.2f},{st:.2f})")
+                elif args.drop_loss_score_traj:
+                    extra = " | (3-loss: l_score_traj dropped)"
+                print(f"Epoch {epoch+1:3d} | step {step+1:4d} (g={global_step}) | "
                       f"loss={avg(total_loss):.4f} traj={avg(total_traj):.4f} "
                       f"score_fut={avg(total_sf):.4f} score_past={avg(total_sp):.4f} "
-                      f"score_traj={avg(total_st):.4f} | t={elapsed:.1f}s")
+                      f"score_traj={avg(total_st):.4f} | "
+                      f"gate={gate_val:+.3f}{extra} | t={elapsed:.1f}s")
 
         scheduler.step()
 
@@ -202,11 +315,12 @@ def main():
             if (epoch + 1) % args.save_every == 0 or (epoch + 1) == args.epochs:
                 ckpt_path = os.path.join(args.output_dir, f"epoch_{epoch+1:04d}.pth")
                 torch.save({
-                    "epoch":     epoch,
-                    "model":     model.module.state_dict(),
-                    "optimizer": optimizer.state_dict(),
-                    "scheduler": scheduler.state_dict(),
-                    "loss":      epoch_loss,
+                    "epoch":       epoch,
+                    "global_step": global_step,
+                    "model":       model.module.state_dict(),
+                    "optimizer":   optimizer.state_dict(),
+                    "scheduler":   scheduler.state_dict(),
+                    "loss":        epoch_loss,
                 }, ckpt_path)
                 print(f"Saved checkpoint: {ckpt_path}")
 

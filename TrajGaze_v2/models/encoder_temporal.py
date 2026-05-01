@@ -166,12 +166,14 @@ class SpatiotemporalEncoderTemporal(nn.Module):
 
     def __init__(
         self,
-        d_traj:      int = D_TRAJ,
-        d_enc:       int = D_ENC,
-        d_vis:       int = D_VIS,
-        d_query:     int = D_QUERY,
-        n_layers_l2: int = N_LAYERS_L2,
-        n_heads_l2:  int = N_HEADS_L2,
+        d_traj:                  int  = D_TRAJ,
+        d_enc:                   int  = D_ENC,
+        d_vis:                   int  = D_VIS,
+        d_query:                 int  = D_QUERY,
+        n_layers_l2:             int  = N_LAYERS_L2,
+        n_heads_l2:              int  = N_HEADS_L2,
+        use_frame_score_branch:  bool = False,
+        use_post_fusion_iframe:  bool = False,
     ):
         super().__init__()
         self.tokenizer   = TrajectoryTokenizer(d_traj)
@@ -185,9 +187,39 @@ class SpatiotemporalEncoderTemporal(nn.Module):
             ),
             num_layers=n_layers_l2,
         )
+        # Gated residual: at gate=0 the inter-frame transformer is bypassed entirely,
+        # so the encoder starts identical to the spatial-only ablation (which converges).
+        # The gate learns to open as joint training progresses, avoiding the non-stationary
+        # query distribution that destabilises random-init joint training.
+        self.inter_frame_gate = nn.Parameter(torch.zeros(1))
         self.film       = FiLM(d_query, d_enc)
         self.vt_fusion  = TemporalVisualTrajFusion(d_enc, d_vis)
         self.norm_out   = nn.LayerNorm(d_enc)
+
+        # (a)+(b1): parallel frame-level score branch sourced from inter_frame output.
+        # Output (B, T) frame importance broadcast-multiplied into per-patch scores.
+        self.use_frame_score_branch = use_frame_score_branch
+        if use_frame_score_branch:
+            self.frame_attn_pool = nn.Linear(d_enc, 1)
+            self.frame_score_head = nn.Sequential(
+                nn.LayerNorm(d_enc),
+                nn.Linear(d_enc, 1),
+                nn.Sigmoid(),
+            )
+
+        # (b2): post-fusion InterFrameTransformer that mixes enriched_context across frames
+        # AFTER per-frame visual cross-attention is computed. Avoids the non-stationary
+        # query problem because visual fusion sees clean per-frame queries.
+        self.use_post_fusion_iframe = use_post_fusion_iframe
+        if use_post_fusion_iframe:
+            self.inter_frame_post = nn.TransformerEncoder(
+                nn.TransformerEncoderLayer(
+                    d_model=d_enc, nhead=n_heads_l2, dim_feedforward=d_enc * 4,
+                    dropout=0.1, activation="gelu", batch_first=True, norm_first=True,
+                ),
+                num_layers=n_layers_l2,
+            )
+            self.inter_frame_post_gate = nn.Parameter(torch.zeros(1))
 
         # Trajectory-only fallback when no visual features provided
         self.traj_patch_embed = nn.Embedding(N_PATCHES, d_enc)
@@ -239,13 +271,24 @@ class SpatiotemporalEncoderTemporal(nn.Module):
         x = self.proj(enriched.reshape(B * T * N_TOKENS, -1)).reshape(B, T * N_TOKENS, D_ENC)
         x = self.pe(x)  # (B, T*4, D_enc)
 
-        # 4. Inter-frame transformer — global temporal context over all T frames
-        x = self.inter_frame(x)  # (B, T*4, D_enc)
+        # 4. Inter-frame transformer — global temporal context over all T frames,
+        #    mixed in via tanh-gated residual (gate inits at 0 → bypass at start).
+        x_iframe = self.inter_frame(x)
+        gate     = torch.tanh(self.inter_frame_gate)
+        x_main   = x + gate * (x_iframe - x)  # (B, T*4, D_enc) — main path
+
+        # 4b. Optional parallel frame-score branch (from x_iframe before gating).
+        frame_scores = None
+        if self.use_frame_score_branch:
+            x_iframe_per_frame = x_iframe.reshape(B, T, N_TOKENS, D_ENC)
+            attn_w = torch.softmax(self.frame_attn_pool(x_iframe_per_frame), dim=2)
+            pooled = (x_iframe_per_frame * attn_w).sum(dim=2)        # (B, T, D_enc)
+            frame_scores = self.frame_score_head(pooled).squeeze(-1) # (B, T) ∈ [0, 1]
 
         # 5. FiLM: query shifts which patches the trajectory finds important
         if query_emb is None:
-            query_emb = torch.zeros(B, self.film.proj_scale.in_features, device=x.device)
-        x = self.film(x, query_emb)  # (B, T*4, D_enc)
+            query_emb = torch.zeros(B, self.film.proj_scale.in_features, device=x_main.device)
+        x = self.film(x_main, query_emb)  # (B, T*4, D_enc)
 
         # 6. Reshape to per-frame tokens
         x_framed = x.reshape(B, T, N_TOKENS, D_ENC)  # (B, T, 4, D_enc)
@@ -257,6 +300,18 @@ class SpatiotemporalEncoderTemporal(nn.Module):
             enriched_context = x_framed
             per_frame_scores = self._trajectory_only_scores(x_framed)
             attn_per_token   = None   # (B, T, 4, 196) unavailable without visual feat
+
+        # 7b. Optional post-fusion InterFrameTransformer over enriched_context.
+        if self.use_post_fusion_iframe:
+            ec_flat = enriched_context.reshape(B, T * N_TOKENS, D_ENC)
+            ec_post = self.inter_frame_post(ec_flat)
+            gate_post = torch.tanh(self.inter_frame_post_gate)
+            ec_flat = ec_flat + gate_post * (ec_post - ec_flat)
+            enriched_context = ec_flat.reshape(B, T, N_TOKENS, D_ENC)
+
+        # 7c. Fuse frame-level score (broadcast-multiply into per-patch scores).
+        if frame_scores is not None:
+            per_frame_scores = per_frame_scores * frame_scores.unsqueeze(-1)
 
         # 8. Normalise context
         context = self.norm_out(enriched_context)  # (B, T, 4, D_enc)
