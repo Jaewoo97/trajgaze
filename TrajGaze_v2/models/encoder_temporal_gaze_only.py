@@ -25,7 +25,7 @@ from .encoder import (
     N_HEADS_L2, N_LAYERS_L2, N_PATCHES,
     SinusoidalPE, FiLM,
 )
-from .encoder_temporal import TemporalVisualTrajFusion
+from .encoder_temporal import TemporalVisualTrajFusion, PatchTemporalBranch
 
 N_TOKENS_GAZE = 1
 
@@ -55,12 +55,13 @@ class SpatiotemporalEncoderTemporalGazeOnly(nn.Module):
 
     def __init__(
         self,
-        d_traj:      int = D_TRAJ,
-        d_enc:       int = D_ENC,
-        d_vis:       int = D_VIS,
-        d_query:     int = D_QUERY,
-        n_layers_l2: int = N_LAYERS_L2,
-        n_heads_l2:  int = N_HEADS_L2,
+        d_traj:                    int  = D_TRAJ,
+        d_enc:                     int  = D_ENC,
+        d_vis:                     int  = D_VIS,
+        d_query:                   int  = D_QUERY,
+        n_layers_l2:               int  = N_LAYERS_L2,
+        n_heads_l2:                int  = N_HEADS_L2,
+        use_patch_temporal_branch: bool = False,
     ):
         super().__init__()
         self.tokenizer   = TrajectoryTokenizerGazeOnlyTemporal(d_traj)
@@ -80,6 +81,14 @@ class SpatiotemporalEncoderTemporalGazeOnly(nn.Module):
         self.traj_patch_embed = nn.Embedding(N_PATCHES, d_enc)
         self.register_buffer("patch_idx", torch.arange(N_PATCHES))
         self.traj_score_head  = nn.Sequential(nn.Linear(d_enc, 1), nn.Sigmoid())
+
+        # E1: 196 patch queries cross-attend to inter_frame output per frame
+        self.use_patch_temporal_branch = use_patch_temporal_branch
+        if use_patch_temporal_branch:
+            self.patch_temporal_branch = PatchTemporalBranch(
+                d_enc=d_enc, n_heads=n_heads_l2,
+                n_patches=N_PATCHES, n_tokens=N_TOKENS_GAZE,
+            )
 
     def _trajectory_only_scores(self, traj_context: torch.Tensor) -> torch.Tensor:
         B, T, D = traj_context.shape
@@ -107,13 +116,13 @@ class SpatiotemporalEncoderTemporalGazeOnly(nn.Module):
         x = self.proj(tok_g.reshape(B * T, -1)).reshape(B, T, D_ENC)
         x = self.pe(x)  # (B, T, D_enc)
 
-        # 3. Inter-frame transformer
-        x = self.inter_frame(x)  # (B, T, D_enc)
+        # 3. Inter-frame transformer — save output for patch_temporal_branch side-channel
+        x_inter = self.inter_frame(x)   # (B, T, D_enc)
 
         # 4. FiLM
         if query_emb is None:
-            query_emb = torch.zeros(B, self.film.proj_scale.in_features, device=x.device)
-        x = self.film(x, query_emb)
+            query_emb = torch.zeros(B, self.film.proj_scale.in_features, device=x_inter.device)
+        x = self.film(x_inter, query_emb)
 
         # 5. Reshape to (B, T, 1, D_enc) for TemporalVisualTrajFusion
         x_framed = x.reshape(B, T, N_TOKENS_GAZE, D_ENC)
@@ -123,8 +132,13 @@ class SpatiotemporalEncoderTemporalGazeOnly(nn.Module):
             per_frame_scores, enriched_context, enc_attn = self.vt_fusion(x_framed, visual_feat)
         else:
             enriched_context = x_framed
-            per_frame_scores = self._trajectory_only_scores(x)
+            per_frame_scores = self._trajectory_only_scores(x_inter)
             enc_attn         = None
+
+        # 7. E1: per-patch temporal modulation from inter_frame output
+        if self.use_patch_temporal_branch:
+            patch_temporal_scores = self.patch_temporal_branch(x_inter, B, T)
+            per_frame_scores = per_frame_scores * patch_temporal_scores
 
         context = self.norm_out(enriched_context)
         return per_frame_scores, context, enc_attn

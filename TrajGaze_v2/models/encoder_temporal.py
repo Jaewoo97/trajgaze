@@ -28,6 +28,17 @@ Training supervision:
   Decoder future scores supervised with GT future frame I_scores.
   "The patches you attend to at each frame should match the trajectory-relevant
    patches at that frame."
+
+Variants (use_* flags):
+  use_frame_score_branch  [EA1]: x_iframe → pool 4 tokens → scalar per frame (B,T,1)
+                                 → broadcast-multiply into per_frame_scores (B,T,196).
+                                 All 196 patches in a frame share the same temporal weight.
+
+  use_patch_temporal_branch [E1]: x_iframe → 196 learned patch queries cross-attend
+                                  to 4 traj tokens per frame → (B,T,196) per-patch weights
+                                  → element-wise multiply into per_frame_scores (B,T,196).
+                                  Each patch gets its own temporal modulation — richer than
+                                  the frame-level scalar in frame_score_branch.
 """
 
 from __future__ import annotations
@@ -151,6 +162,65 @@ class TemporalVisualTrajFusion(nn.Module):
         return per_frame_scores, enriched_context, attn_per_token_bt
 
 
+class PatchTemporalBranch(nn.Module):
+    """
+    E1 patch-temporal branch: 196 learned patch queries cross-attend to the
+    InterFrameTransformer output (x_iframe) to produce a per-patch temporal
+    modulation map (B, T, 196).
+
+    Unlike frame_score_branch which produces a single scalar per frame (shared
+    across all 196 patches), this branch gives each patch its own temporal weight,
+    allowing the model to distinguish which spatial locations are temporally
+    important vs which are frame-local.
+
+    Q = 196 learned patch embeddings  (B*T, 196, D_enc)
+    K = V = x_iframe per-frame tokens (B*T, 4,   D_enc)
+    → cross-attention output          (B*T, 196, D_enc)
+    → linear head + Sigmoid           (B*T, 196) ∈ [0,1]
+    → reshape                         (B,   T,   196)
+    """
+
+    def __init__(self, d_enc: int = D_ENC, n_heads: int = N_HEADS_L2,
+                 n_patches: int = N_PATCHES, n_tokens: int = N_TOKENS):
+        super().__init__()
+        self.n_patches = n_patches
+        # Shared patch position embeddings (same for every frame, every batch item)
+        self.patch_queries = nn.Parameter(torch.randn(n_patches, d_enc) * 0.02)
+        self.cross_attn = nn.MultiheadAttention(
+            d_enc, n_heads, dropout=0.1, batch_first=True
+        )
+        self.norm_kv  = nn.LayerNorm(d_enc)
+        self.norm_q   = nn.LayerNorm(d_enc)
+        self.score_head = nn.Sequential(
+            nn.LayerNorm(d_enc),
+            nn.Linear(d_enc, 1),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, x_iframe: torch.Tensor, B: int, T: int) -> torch.Tensor:
+        """
+        x_iframe : (B, T*N_tok, D_enc) — InterFrameTransformer output
+        Returns  : (B, T, 196) patch-level temporal modulation weights
+        """
+        D = x_iframe.shape[-1]
+        N_tok = x_iframe.shape[1] // T
+
+        # Per-frame key/value: (B*T, N_tok, D)
+        kv = x_iframe.reshape(B * T, N_tok, D)
+        kv = self.norm_kv(kv)
+
+        # Queries: 196 learned patch embeddings, broadcast across batch×time
+        q = self.norm_q(self.patch_queries)                     # (196, D)
+        q = q.unsqueeze(0).expand(B * T, -1, -1)               # (B*T, 196, D)
+
+        # Cross-attention: each patch query attends over the 4 traj tokens
+        attended, _ = self.cross_attn(q, kv, kv)               # (B*T, 196, D)
+
+        # Per-patch scalar score
+        scores = self.score_head(attended).squeeze(-1)           # (B*T, 196)
+        return scores.reshape(B, T, self.n_patches)              # (B, T, 196)
+
+
 class SpatiotemporalEncoderTemporal(nn.Module):
     """
     Spatiotemporal encoder that outputs per-frame (T, 196) patch score maps.
@@ -166,14 +236,15 @@ class SpatiotemporalEncoderTemporal(nn.Module):
 
     def __init__(
         self,
-        d_traj:                  int  = D_TRAJ,
-        d_enc:                   int  = D_ENC,
-        d_vis:                   int  = D_VIS,
-        d_query:                 int  = D_QUERY,
-        n_layers_l2:             int  = N_LAYERS_L2,
-        n_heads_l2:              int  = N_HEADS_L2,
-        use_frame_score_branch:  bool = False,
-        use_post_fusion_iframe:  bool = False,
+        d_traj:                   int  = D_TRAJ,
+        d_enc:                    int  = D_ENC,
+        d_vis:                    int  = D_VIS,
+        d_query:                  int  = D_QUERY,
+        n_layers_l2:              int  = N_LAYERS_L2,
+        n_heads_l2:               int  = N_HEADS_L2,
+        use_frame_score_branch:   bool = False,
+        use_post_fusion_iframe:   bool = False,
+        use_patch_temporal_branch: bool = False,
     ):
         super().__init__()
         self.tokenizer   = TrajectoryTokenizer(d_traj)
@@ -205,6 +276,17 @@ class SpatiotemporalEncoderTemporal(nn.Module):
                 nn.LayerNorm(d_enc),
                 nn.Linear(d_enc, 1),
                 nn.Sigmoid(),
+            )
+
+        # E1: patch-temporal branch. 196 learned queries cross-attend to x_iframe
+        # per frame → (B, T, 196) per-patch temporal weights. More expressive than
+        # frame_score_branch because each patch gets its own temporal modulation.
+        # Mutually exclusive with frame_score_branch (both modulate per_frame_scores).
+        self.use_patch_temporal_branch = use_patch_temporal_branch
+        if use_patch_temporal_branch:
+            self.patch_temporal_branch = PatchTemporalBranch(
+                d_enc=d_enc, n_heads=n_heads_l2,
+                n_patches=N_PATCHES, n_tokens=N_TOKENS,
             )
 
         # (b2): post-fusion InterFrameTransformer that mixes enriched_context across frames
@@ -277,13 +359,19 @@ class SpatiotemporalEncoderTemporal(nn.Module):
         gate     = torch.tanh(self.inter_frame_gate)
         x_main   = x + gate * (x_iframe - x)  # (B, T*4, D_enc) — main path
 
-        # 4b. Optional parallel frame-score branch (from x_iframe before gating).
-        frame_scores = None
+        # 4b. Optional temporal side branches (both source from x_iframe before gating).
+        frame_scores         = None
+        patch_temporal_scores = None
+
         if self.use_frame_score_branch:
             x_iframe_per_frame = x_iframe.reshape(B, T, N_TOKENS, D_ENC)
             attn_w = torch.softmax(self.frame_attn_pool(x_iframe_per_frame), dim=2)
             pooled = (x_iframe_per_frame * attn_w).sum(dim=2)        # (B, T, D_enc)
             frame_scores = self.frame_score_head(pooled).squeeze(-1) # (B, T) ∈ [0, 1]
+
+        if self.use_patch_temporal_branch:
+            # (B, T, 196) — per-patch temporal modulation from InterFrameTransformer
+            patch_temporal_scores = self.patch_temporal_branch(x_iframe, B, T)
 
         # 5. FiLM: query shifts which patches the trajectory finds important
         if query_emb is None:
@@ -309,9 +397,14 @@ class SpatiotemporalEncoderTemporal(nn.Module):
             ec_flat = ec_flat + gate_post * (ec_post - ec_flat)
             enriched_context = ec_flat.reshape(B, T, N_TOKENS, D_ENC)
 
-        # 7c. Fuse frame-level score (broadcast-multiply into per-patch scores).
+        # 7c. Fuse temporal side-branch scores into per-patch scores.
         if frame_scores is not None:
+            # EA1 frame_score_branch: scalar per frame broadcast over all 196 patches
             per_frame_scores = per_frame_scores * frame_scores.unsqueeze(-1)
+
+        if patch_temporal_scores is not None:
+            # E1 patch_temporal_branch: per-patch temporal weight (B, T, 196)
+            per_frame_scores = per_frame_scores * patch_temporal_scores
 
         # 8. Normalise context
         context = self.norm_out(enriched_context)  # (B, T, 4, D_enc)

@@ -81,6 +81,7 @@ datasets/
 logs/
 results/
 ablation/
+!docs/ablation/
 
 # Model checkpoints
 *.ckpt

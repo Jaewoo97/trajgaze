@@ -26,7 +26,7 @@ from .encoder import (
     N_PATCHES,
     SinusoidalPE, FiLM,
 )
-from .encoder_temporal import TemporalVisualTrajFusion
+from .encoder_temporal import TemporalVisualTrajFusion, PatchTemporalBranch
 
 N_TOKENS_HAND = 3
 
@@ -99,12 +99,13 @@ class SpatiotemporalEncoderTemporalHandOnly(nn.Module):
 
     def __init__(
         self,
-        d_traj:      int = D_TRAJ,
-        d_enc:       int = D_ENC,
-        d_vis:       int = D_VIS,
-        d_query:     int = D_QUERY,
-        n_layers_l2: int = N_LAYERS_L2,
-        n_heads_l2:  int = N_HEADS_L2,
+        d_traj:                    int  = D_TRAJ,
+        d_enc:                     int  = D_ENC,
+        d_vis:                     int  = D_VIS,
+        d_query:                   int  = D_QUERY,
+        n_layers_l2:               int  = N_LAYERS_L2,
+        n_heads_l2:                int  = N_HEADS_L2,
+        use_patch_temporal_branch: bool = False,
     ):
         super().__init__()
         self.tokenizer   = TrajectoryTokenizerHandOnlyTemporal(d_traj)
@@ -125,6 +126,14 @@ class SpatiotemporalEncoderTemporalHandOnly(nn.Module):
         self.traj_patch_embed = nn.Embedding(N_PATCHES, d_enc)
         self.register_buffer("patch_idx", torch.arange(N_PATCHES))
         self.traj_score_head  = nn.Sequential(nn.Linear(d_enc, 1), nn.Sigmoid())
+
+        # E1: 196 patch queries cross-attend to inter_frame output per frame
+        self.use_patch_temporal_branch = use_patch_temporal_branch
+        if use_patch_temporal_branch:
+            self.patch_temporal_branch = PatchTemporalBranch(
+                d_enc=d_enc, n_heads=n_heads_l2,
+                n_patches=N_PATCHES, n_tokens=N_TOKENS_HAND,
+            )
 
     def _trajectory_only_scores(self, traj_context: torch.Tensor) -> torch.Tensor:
         B, T, N_tok, D = traj_context.shape
@@ -149,11 +158,13 @@ class SpatiotemporalEncoderTemporalHandOnly(nn.Module):
 
         x = self.proj(enriched.reshape(B * T * N_TOKENS_HAND, -1)).reshape(B, T * N_TOKENS_HAND, D_ENC)
         x = self.pe(x)
-        x = self.inter_frame(x)
+
+        # Save inter_frame output as side-channel for patch_temporal_branch
+        x_inter = self.inter_frame(x)   # (B, T*3, D_enc)
 
         if query_emb is None:
-            query_emb = torch.zeros(B, self.film.proj_scale.in_features, device=x.device)
-        x = self.film(x, query_emb)
+            query_emb = torch.zeros(B, self.film.proj_scale.in_features, device=x_inter.device)
+        x = self.film(x_inter, query_emb)
 
         x_framed = x.reshape(B, T, N_TOKENS_HAND, D_ENC)
 
@@ -163,6 +174,11 @@ class SpatiotemporalEncoderTemporalHandOnly(nn.Module):
             enriched_context = x_framed
             per_frame_scores = self._trajectory_only_scores(x_framed)
             enc_attn         = None
+
+        # E1: per-patch temporal modulation from inter_frame output
+        if self.use_patch_temporal_branch:
+            patch_temporal_scores = self.patch_temporal_branch(x_inter, B, T)
+            per_frame_scores = per_frame_scores * patch_temporal_scores
 
         context = self.norm_out(enriched_context)
         return per_frame_scores, context, enc_attn
