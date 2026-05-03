@@ -107,6 +107,11 @@ def parse_args():
                    help="Add a second InterFrameTransformer AFTER per-frame visual "
                         "fusion, gated residual, applied to enriched_context. "
                         "(b2) architecture variant.")
+    p.add_argument("--use-patch-temporal-branch", action="store_true",
+                   help="E1: patch-level temporal modulation. 196 learned patch queries "
+                        "cross-attend to x_iframe (B*T, 4, D), producing (B, T, 196) "
+                        "modulation map elementwise-multiplied into per_frame_scores. "
+                        "Mutually exclusive with --use-frame-score-branch.")
     return p.parse_args()
 
 
@@ -151,6 +156,7 @@ def main():
         n_vis_keyframes=args.n_vis_keyframes,
         use_frame_score_branch=args.use_frame_score_branch,
         use_post_fusion_iframe=args.use_post_fusion_iframe,
+        use_patch_temporal_branch=args.use_patch_temporal_branch,
     ).to(device)
 
     # Apply gate init / freeze before DDP wrap so DDP picks up the right param state.

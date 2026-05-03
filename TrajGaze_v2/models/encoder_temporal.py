@@ -174,8 +174,13 @@ class SpatiotemporalEncoderTemporal(nn.Module):
         n_heads_l2:              int  = N_HEADS_L2,
         use_frame_score_branch:  bool = False,
         use_post_fusion_iframe:  bool = False,
+        use_patch_temporal_branch: bool = False,
     ):
         super().__init__()
+        assert not (use_frame_score_branch and use_patch_temporal_branch), (
+            "use_frame_score_branch and use_patch_temporal_branch are mutually exclusive — "
+            "both modulate per_frame_scores from x_iframe."
+        )
         self.tokenizer   = TrajectoryTokenizer(d_traj)
         self.intra_frame = IntraFrameBlock(d_traj)
         self.proj        = nn.Linear(d_traj, d_enc)
@@ -202,6 +207,22 @@ class SpatiotemporalEncoderTemporal(nn.Module):
         if use_frame_score_branch:
             self.frame_attn_pool = nn.Linear(d_enc, 1)
             self.frame_score_head = nn.Sequential(
+                nn.LayerNorm(d_enc),
+                nn.Linear(d_enc, 1),
+                nn.Sigmoid(),
+            )
+
+        # E1: patch-level temporal modulation branch.
+        # Replaces the frame-uniform (B, T) scalar with per-patch (B, T, 196) modulation.
+        # 196 learned patch queries cross-attend to x_iframe (4 tokens per frame) →
+        # (B*T, 196, D_enc) → sigmoid → (B, T, 196) ∈ [0, 1] elementwise multiplier.
+        self.use_patch_temporal_branch = use_patch_temporal_branch
+        if use_patch_temporal_branch:
+            self.patch_temporal_query = nn.Embedding(N_PATCHES, d_enc)
+            self.patch_temporal_attn  = nn.MultiheadAttention(
+                embed_dim=d_enc, num_heads=4, dropout=0.1, batch_first=True,
+            )
+            self.patch_temporal_head  = nn.Sequential(
                 nn.LayerNorm(d_enc),
                 nn.Linear(d_enc, 1),
                 nn.Sigmoid(),
@@ -285,6 +306,17 @@ class SpatiotemporalEncoderTemporal(nn.Module):
             pooled = (x_iframe_per_frame * attn_w).sum(dim=2)        # (B, T, D_enc)
             frame_scores = self.frame_score_head(pooled).squeeze(-1) # (B, T) ∈ [0, 1]
 
+        # 4c. E1: patch-level temporal modulation (mutually exclusive with 4b).
+        patch_modulation = None
+        if self.use_patch_temporal_branch:
+            x_iframe_per_frame = x_iframe.reshape(B, T, N_TOKENS, D_ENC)
+            flat_kv = x_iframe_per_frame.reshape(B * T, N_TOKENS, D_ENC)        # (B*T, 4, D)
+            q = self.patch_temporal_query(self.patch_idx)                       # (196, D)
+            q = q.unsqueeze(0).expand(B * T, -1, -1)                            # (B*T, 196, D)
+            attended, _ = self.patch_temporal_attn(q, flat_kv, flat_kv)         # (B*T, 196, D)
+            patch_mod = self.patch_temporal_head(attended).squeeze(-1)          # (B*T, 196)
+            patch_modulation = patch_mod.reshape(B, T, N_PATCHES)               # ∈ [0, 1]
+
         # 5. FiLM: query shifts which patches the trajectory finds important
         if query_emb is None:
             query_emb = torch.zeros(B, self.film.proj_scale.in_features, device=x_main.device)
@@ -312,6 +344,10 @@ class SpatiotemporalEncoderTemporal(nn.Module):
         # 7c. Fuse frame-level score (broadcast-multiply into per-patch scores).
         if frame_scores is not None:
             per_frame_scores = per_frame_scores * frame_scores.unsqueeze(-1)
+
+        # 7d. E1: fuse patch-level modulation (elementwise multiply).
+        if patch_modulation is not None:
+            per_frame_scores = per_frame_scores * patch_modulation
 
         # 8. Normalise context
         context = self.norm_out(enriched_context)  # (B, T, 4, D_enc)
