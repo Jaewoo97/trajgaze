@@ -151,6 +151,7 @@ class TrajGazeV2Temporal(nn.Module):
         use_frame_score_branch:  bool = False,
         use_post_fusion_iframe:  bool = False,
         use_patch_temporal_branch: bool = False,
+        use_iframe_query_conditioning: bool = False,
     ):
         super().__init__()
         self.query_encoder  = QueryEncoder(d_model=d_query)
@@ -163,6 +164,7 @@ class TrajGazeV2Temporal(nn.Module):
             use_frame_score_branch=use_frame_score_branch,
             use_post_fusion_iframe=use_post_fusion_iframe,
             use_patch_temporal_branch=use_patch_temporal_branch,
+            use_iframe_query_conditioning=use_iframe_query_conditioning,
         )
         self.traj_decoder  = TrajectoryDecoderTemporal(d_model=d_enc, n_future=t_future_max)
         self.score_decoder = ScoreDecoderTemporal(d_model=d_enc,      n_future=t_future_max)

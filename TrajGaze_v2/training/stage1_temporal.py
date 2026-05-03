@@ -112,6 +112,12 @@ def parse_args():
                         "cross-attend to x_iframe (B*T, 4, D), producing (B, T, 196) "
                         "modulation map elementwise-multiplied into per_frame_scores. "
                         "Mutually exclusive with --use-frame-score-branch.")
+    p.add_argument("--use-iframe-query-conditioning", action="store_true",
+                   help="E1+B: condition the static patch_temporal_query on per-frame "
+                        "x_iframe context (mean-pooled over 4 tokens, MLP, additive). "
+                        "Same x_iframe used as KV (per-token detail) and query "
+                        "conditioning (frame summary). Requires "
+                        "--use-patch-temporal-branch.")
     return p.parse_args()
 
 
@@ -157,6 +163,7 @@ def main():
         use_frame_score_branch=args.use_frame_score_branch,
         use_post_fusion_iframe=args.use_post_fusion_iframe,
         use_patch_temporal_branch=args.use_patch_temporal_branch,
+        use_iframe_query_conditioning=args.use_iframe_query_conditioning,
     ).to(device)
 
     # Apply gate init / freeze before DDP wrap so DDP picks up the right param state.
