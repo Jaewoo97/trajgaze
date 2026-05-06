@@ -997,6 +997,112 @@ def render_sample_patch_only(
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Clean patch render  (paper-quality, no labels or borders)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def render_sample_patch_clean(
+    out_path:     Path,
+    item:         dict,
+    viz_out:      dict,
+    keep_mask_2d: np.ndarray,
+    scores_2d:    np.ndarray,
+    side:         int,
+    pred_letter:  str,
+    correct:      bool,
+    n_show:       int = 128,
+    n_per_row:    int = 16,
+    T_merged:     int = 64,
+    n_vlm:        int = 128,
+):
+    """Token selection grid — minimal annotations, question + GT shown at top."""
+    past_paths   = viz_out["past_paths"]
+    future_paths = viz_out["future_paths"]
+    T_past       = viz_out["T_past"]
+    T_future     = viz_out["T_future"]
+    T_total      = T_past + T_future
+    all_paths    = past_paths + future_paths
+
+    selected = _select_frames(viz_out, n_show, keep_mask_2d, T_merged)
+    if not selected:
+        return
+
+    n_chunks = (len(selected) + n_per_row - 1) // n_per_row
+    n_rows   = n_chunks
+    n_cols   = min(n_per_row, len(selected))
+
+    if n_cols >= 16:
+        panel_size = 1.9
+    elif n_cols >= 12:
+        panel_size = 2.4
+    elif n_cols >= 8:
+        panel_size = 3.0
+    else:
+        panel_size = 4.0
+
+    title_h = 0.7   # inches reserved for the text header
+    fig_w = panel_size * n_cols
+    fig_h = panel_size * n_rows + title_h
+
+    fig = plt.figure(figsize=(fig_w, fig_h))
+    # Reserve top strip for text; frame grid below
+    gs = fig.add_gridspec(
+        n_rows, n_cols,
+        left=0, right=1,
+        top=1 - title_h / fig_h,
+        bottom=0,
+        wspace=0.01, hspace=0.01,
+    )
+
+    for chunk_idx in range(n_chunks):
+        start = chunk_idx * n_per_row
+        end   = min(start + n_per_row, len(selected))
+        chunk_frames = selected[start:end]
+
+        for col, frame_t in enumerate(chunk_frames):
+            ax_k = fig.add_subplot(gs[chunk_idx, col])
+            img  = _open_img(all_paths[frame_t])
+
+            t_m = int(round(frame_t / max(1, T_total - 1) * (T_merged - 1)))
+            t_m = min(max(0, t_m), T_merged - 1)
+            keep_grid_2d = keep_mask_2d[t_m].reshape(side, side)
+            _draw_token_selection_transparent(ax_k, img, keep_grid_2d, side)
+
+            ax_k.set_xticks([]); ax_k.set_yticks([])
+            for spine in ax_k.spines.values():
+                spine.set_visible(False)
+
+        # Hide trailing empty cells in last row
+        for col in range(len(chunk_frames), n_cols):
+            ax_empty = fig.add_subplot(gs[chunk_idx, col])
+            ax_empty.axis("off")
+
+    # ── Header: question + GT answer ─────────────────────────────────────────
+    opts      = item.get("options", [])
+    gt_letter = item.get("answer", "?")
+    gt_idx    = ord(gt_letter) - ord("A") if isinstance(gt_letter, str) and len(gt_letter) == 1 else -1
+    gt_text   = opts[gt_idx] if 0 <= gt_idx < len(opts) else ""
+    status    = "✓" if correct else "✗"
+
+    opt_str = "  ".join(f"({chr(65+i)}) {o[:40]}" for i, o in enumerate(opts))
+    header = (
+        f"Q: {item['question'][:160]}\n"
+        f"GT: ({gt_letter}) {gt_text[:80]}    {status} Pred: ({pred_letter})\n"
+        f"{opt_str}"
+    )
+    fig.text(
+        0.01, 1 - 0.04 / fig_h,   # just below top edge
+        header,
+        va="top", ha="left",
+        fontsize=max(6, min(9, 140 / n_cols)),
+        linespacing=1.35,
+        wrap=False,
+    )
+
+    fig.savefig(out_path, dpi=140, bbox_inches="tight", pad_inches=0.05)
+    plt.close(fig)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Temporal token selection render  (1 row per sample)
 #
 # Layout:
@@ -1360,13 +1466,15 @@ def parse_args():
                    help="'train' = egoexolearn+holoassist, 'test' = egtea")
     p.add_argument("--n-samples",     type=int,   default=20)
     p.add_argument("--mode",
-                   choices=["full", "compact", "gaze_token", "temporal", "patch_only"],
+                   choices=["full", "compact", "gaze_token", "temporal",
+                            "patch_only", "patch_clean"],
                    default="compact",
-                   help="'compact'    = 1 row: past frames + present GT/Pred overlay; "
-                        "'temporal'   = bar chart of kept/frame + top-kept frame panels; "
-                        "'gaze_token' = token-sel + gaze GT highlight per past frame; "
-                        "'patch_only' = 128-frame grid, token selection only (no traj); "
-                        "'full'       = 128-frame grid (traj + token selection)")
+                   help="'compact'     = 1 row: past frames + present GT/Pred overlay; "
+                        "'temporal'    = bar chart of kept/frame + top-kept frame panels; "
+                        "'gaze_token'  = token-sel + gaze GT highlight per past frame; "
+                        "'patch_only'  = 128-frame grid, token selection only (no traj); "
+                        "'patch_clean' = paper-quality: no labels/borders, token sel only; "
+                        "'full'        = 128-frame grid (traj + token selection)")
     p.add_argument("--n-past-show",   type=int,   default=4,
                    help="[compact mode] number of past context frames to show")
     p.add_argument("--n-show",        type=int,   default=128,
@@ -1385,6 +1493,10 @@ def parse_args():
     p.add_argument("--cuda",          type=int,   default=0,
                    help="GPU index to use")
     p.add_argument("--seed",          type=int,   default=0)
+    p.add_argument("--indices-file",  type=str,   default=None,
+                   help="JSON file with list of dataset indices to use (produced by a previous "
+                        "run as used_indices.json). Overrides --seed shuffling so all baselines "
+                        "visualize the exact same samples.")
     return p.parse_args()
 
 
@@ -1417,23 +1529,41 @@ def main():
         split=args.split, n_vlm_frames=args.n_vlm_frames, n_traj_frames=args.n_traj_frames,
     )
 
-    rng = np.random.RandomState(args.seed)
-    if args.task_filter:
-        wanted = set(args.task_filter.split(","))
-        cands  = [i for i in range(len(dataset)) if dataset.items[i]["task"] in wanted]
+    if args.indices_file:
+        with open(args.indices_file) as f:
+            raw = json.load(f)
+        # Accept either a plain list or a summary.json {"samples": [..., {"idx": N}]}
+        if isinstance(raw, list):
+            cands = [int(x) for x in raw]
+        else:
+            cands = [int(s["idx"]) for s in raw.get("samples", [])]
+        print(f"[viz] loaded {len(cands)} indices from {args.indices_file}", flush=True)
+        fixed_indices = True
     else:
-        cands = list(range(len(dataset)))
-    rng.shuffle(cands)
+        rng = np.random.RandomState(args.seed)
+        if args.task_filter:
+            wanted = set(args.task_filter.split(","))
+            cands  = [i for i in range(len(dataset)) if dataset.items[i]["task"] in wanted]
+        else:
+            cands = list(range(len(dataset)))
+        rng.shuffle(cands)
+        fixed_indices = False
 
     summary = []
     n_done  = 0
     qwen_model.eval()
 
     for idx in cands:
-        if n_done >= args.n_samples:
+        if not fixed_indices and n_done >= args.n_samples:
             break
         item = dataset[idx]
         if item is None:
+            continue
+        # Resume: skip rendering if a file already exists for this sample slot.
+        # Use rglob so already-organised files (sub-folders) are also detected.
+        existing = list(out_dir.rglob(f"sample_{n_done:03d}_*.png"))
+        if existing:
+            n_done += 1
             continue
         try:
             # ── Qwen preprocessing (for token selection + QA) ─────────────
@@ -1503,6 +1633,14 @@ def main():
                     n_show=args.n_show, n_per_row=args.n_per_row,
                     T_merged=T_merged, n_vlm=len(item["vlm_frame_paths"]),
                 )
+            elif args.mode == "patch_clean":
+                render_sample_patch_clean(
+                    out_path, item, viz_out,
+                    keep_mask_2d, scores_2d, side,
+                    pred_letter, correct,
+                    n_show=args.n_show, n_per_row=args.n_per_row,
+                    T_merged=T_merged, n_vlm=len(item["vlm_frame_paths"]),
+                )
             else:
                 render_sample(
                     out_path, item, viz_out,
@@ -1565,6 +1703,12 @@ def main():
 
     with open(out_dir / "summary.json", "w") as f:
         json.dump({"args": vars(args), "samples": summary}, f, indent=2)
+
+    # Save used indices so other baselines can reproduce the same sample set
+    used_idx_path = out_dir / "used_indices.json"
+    with open(used_idx_path, "w") as f:
+        json.dump([s["idx"] for s in summary], f)
+    print(f"[viz] saved used indices → {used_idx_path}", flush=True)
 
     if summary:
         g_errs = [s["gaze_L2"]  for s in summary if not np.isnan(s["gaze_L2"])]
