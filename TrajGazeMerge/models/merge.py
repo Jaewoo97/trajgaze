@@ -55,6 +55,7 @@ def gaze_weighted_merge(
     tokens:       torch.Tensor,   # (N, d)
     patch_scores: torch.Tensor,   # (N,) — one score per token
     r:            int,
+    return_stats: bool = False,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """
     Gaze-guided bipartite token merging.
@@ -115,5 +116,17 @@ def gaze_weighted_merge(
 
     merged = numerator / denominator.unsqueeze(-1).clamp(min=1e-6)
     merged = merged.to(tokens.dtype)
+
+    if return_stats:
+        sim_max = sim.gather(1, best_match.unsqueeze(-1)).squeeze(-1)  # (r,)
+        stats = {
+            "receiver_idx": receiver_idx.detach(),
+            "source_idx":   source_idx.detach(),
+            "best_match":   best_match.detach(),
+            "w_r":          w_r.detach(),
+            "w_s":          w_s.detach(),
+            "sim_max":      sim_max.detach(),
+        }
+        return merged, receiver_idx, stats
 
     return merged, receiver_idx
