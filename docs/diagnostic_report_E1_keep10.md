@@ -12,13 +12,13 @@
 
 | 질문 (이슈) | 답 | 근거 |
 |---|---|---|
-| 1. 선택된 토큰이 유용한가? | **부분적. encoder가 random보다 +6pt 좋지만 GT gaze는 무시함.** | gt_gaze_recall 0.074 < random 0.10 ; oracle ablation 54.94% < random 63.50% |
+| 1. 선택된 토큰이 유용한가? | **부분적. encoder는 gaze position이 아니라 gaze trajectory를 추상화해 사용.** | learned 69.0 > random 63.5, 그러나 oracle (GT gaze 위치) 54.9 < random ; gt_gaze_recall 0.074 < random 0.10 |
 | 2. 토큰이 후반 프레임에 몰리는가? | **그렇다 — 후반 절반에 83% 집중.** | temporal_CoM 0.78, late_half_ratio 0.83 |
 | 3. 아키텍처가 의도대로 작동하는가? | **대체로. merge는 균형, score는 방향성 보유.** | cluster_size_mean ≈ 10 = N/keep ; inverted = random ⇒ score 방향성 존재 |
 | 4-a. Stage 1 overfitting? | **아니다** — epoch 100까지 val loss 단조 감소 | val loss 0.034 → 0.018 (epoch 10 → 100) |
 | 4-b. 객관식 추측 vs 이해? | **혼합 신호.** headline 68.4%는 부풀려진 수치, 실제 ~43.7%. | avg-4-shift 61.7%, agree4 58.4%, C/D 위치 편향, ECE 0.144 |
 
-**핵심 발견**: encoder는 분명히 뭔가를 학습함 (uniform/random/center보다 +5–8pt). 그러나 그것은 **GT gaze 위치에서 벗어나는** 방향으로 학습됨 — 즉 "gaze = 중요" 라는 method의 기본 전제가 EGTEA에서 성립하지 않음.
+**핵심 발견**: encoder는 분명히 유용한 신호를 학습함 (uniform/random/center보다 +5–8pt). 그러나 그것은 **GT gaze 위치를 그대로 쓰는 게 아니라** trajectory 전체에서 추상화된 신호 — oracle (GT gaze 위치) 단독은 random보다도 8.5pt 낮음. 논문이 "anticipated broader context" 로 표현한 부분을 본 진단이 oracle 비교로 처음 정량 분리.
 
 ---
 
@@ -162,15 +162,59 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 
 ---
 
-## 5. 종합 권고 (방법론 관점)
+## 5. 논문 기존 ablation과의 관계
+
+`docs/Gaze_hand_Traj.md` Section 5.3에 이미 다음 ablation들이 보고됨:
+
+**Table 2 — Modality ablation (이미 존재)**
+
+| | Avg |
+|---|---:|
+| OnlyHand | 66.16 |
+| OnlyGaze | 64.64 |
+| Hand+Gaze | **68.44** |
+
+→ Fusion이 +2.3pp 이득. Gaze는 OI-H (+10.94pp), FAP에서 보완적이라고 논문이 결론.
+
+**Table 3 — Pretraining objectives**: Nopretrain 65.02 / Onlyscoreloss 65.78 / Allloss 68.44.
+**Table 4 — Spatial vs temporal pruning**: Nospatial 64.64 / Notemporal 61.43 / Spatio-temporal 67.49.
+
+### 본 진단이 새로 더하는 결과
+
+논문 ablation 어디에서도 다루지 않은 8가지 새 발견:
+
+| 발견 | 본 리포트 위치 | 시사 |
+|---|---|---|
+| **oracle (GT gaze 위치) = 54.94%** < random 63.5% | §2 | 학습된 score (논문 Table 2 OnlyGaze 64.64) 와 달리, GT gaze 위치 자체는 무용 — encoder가 gaze를 그대로 쓰지 않고 변환한다는 강한 증거 |
+| **inverted = random = 63.5%** | §2 | learned score의 *방향성* 정량화 — 논문엔 없음 |
+| **uniform = 61.4%** (no-score cosine merge) | §2 | "no-pretrain 65%" (Table 3) 와 달리, "no-score" baseline은 본 진단이 처음 |
+| **text_only = 53.6%** | §2 | 시각 정보의 총 기여 = 15.4pp 정량화 |
+| **option permutation 평균 61.7%, agree4 58.4%** | §3 | 객관식 평가의 신뢰성 — 정직한 정확도 추정치 43.7% |
+| **ECE 0.144 / 과신** | §1 | calibration 축은 논문 어디에도 없음 |
+| **gt_gaze_recall 0.074** < random 0.10 | §1 | encoder가 **anti-gaze 방향**으로 학습됨 정량화 |
+| **Stage 1 holdout val curve 단조 감소** | §4 | overfitting 부재 — "데이터 확장 가능" 근거 |
+| **temporal_CoM 0.78 / late_half 0.83** | §1 | 시간적 편향 정량화 |
+
+### 새 해석: "gaze position ≠ gaze representation"
+
+논문은 OnlyGaze (64.64) < Hand+Gaze (68.44) 로부터 "gaze가 anticipated context를 제공해 fusion에 기여" 라고 해석. 본 진단은 더 강한 형태의 결론을 제시:
+
+- **GT gaze 위치 → score = 무용** (oracle 54.94 < random 63.50)
+- **gaze trajectory → encoder → score = 유용** (논문 OnlyGaze 64.64 > 논문 Nopretrain 65.02 와 비슷)
+- 즉, encoder가 gaze로부터 추출하는 것은 *"어디를 보았는가" 가 아니라 "어떤 시간적 맥락에서 어떻게 움직였는가"* 라는 추상화된 신호.
+- 이는 논문의 "anticipated broader context" 표현과 정합적이지만, 본 진단이 oracle 비교를 통해 **그 차이를 처음으로 정량 분리**했음.
+
+---
+
+## 6. 종합 권고 (방법론 관점)
 
 영향력 / 방법론적 중요도 순.
 
-### A. Gaze supervision 전제 재검토
+### A. Gaze supervision 전제 재검토 (논문 Table 2 보강)
 
-가장 중요한 단일 발견은 **oracle (GT gaze) < random**. method 논문의 narrative — "gaze가 attention을 중요 패치로 가이드한다" — 가 EGTEA 데이터에서는 반증됨. 다음 후속 실험들이 필요:
-- **Hand-only Stage 1**: gaze 없이 학습해 정확도가 떨어지는지 유지되는지 확인.
-- **Anti-gaze supervision**: Stage 1을 gaze에서 *벗어난* 패치를 예측하도록 학습해 성능이 오르는지 확인.
+- ~~Hand-only Stage 1~~ → **이미 Table 2에 존재**. Gaze는 fusion에서 +2.3pp 이득.
+- **Anti-gaze supervision (novel)**: Stage 1을 gaze에서 *벗어난* 패치를 예측하도록 학습해 성능 변화 측정. oracle 결과가 시사하는 방향성.
+- **GT gaze 위치 직접 사용 추가**: 논문 Table 2 OnlyGaze (학습된 score) 아래에 "GTGazePosition" 행 (54.94%) 을 추가하면 "encoder의 변환이 왜 필요한지" 가 시각적으로 명확.
 - **태스크별 gaze 유의성**: `gt_gaze_recall`을 태스크로 쪼개기 — `past_gaze_sequence_matching` (gaze 패턴 자체가 질문) 에서는 도움이 되지만 object-recognition 태스크에서는 해가 될 수 있음. M1 parquet에서 재집계 가능.
 
 ### B. Temporal bias 정량화 및 완화
@@ -198,7 +242,7 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 
 ---
 
-## 6. 산출물 인덱스
+## 7. 산출물 인덱스
 
 진단 산출물은 `TrajGazeMerge/eval_results/` 가 `.gitignore`에 의해 제외되므로 로컬에만 존재.
 
@@ -218,7 +262,7 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 
 ---
 
-## 7. 재현 명령어
+## 8. 재현 명령어
 
 ```bash
 ROOT=/workspace/trajgaze
