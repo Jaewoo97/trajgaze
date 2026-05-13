@@ -12,13 +12,20 @@
 
 | 질문 (이슈) | 답 | 근거 |
 |---|---|---|
-| 1. 선택된 토큰이 유용한가? | **부분적. encoder는 gaze position이 아니라 gaze trajectory를 추상화해 사용.** | learned 69.0 > random 63.5, 그러나 oracle (GT gaze 위치) 54.9 < random ; gt_gaze_recall 0.074 < random 0.10 |
+| 1. 선택된 토큰이 유용한가? | **예. method 진짜 작동. encoder는 gaze trajectory를 추상화해 +5pt 추가 기여.** | learned 69.0 > soft_oracle 64.3 > random 63.5 > uniform 61.4 ; counterfactual mask_kept −13pt (receiver 정보 사용 확인) |
 | 2. 토큰이 후반 프레임에 몰리는가? | **그렇다 — 후반 절반에 83% 집중.** | temporal_CoM 0.78, late_half_ratio 0.83 |
 | 3. 아키텍처가 의도대로 작동하는가? | **대체로. merge는 균형, score는 방향성 보유.** | cluster_size_mean ≈ 10 = N/keep ; inverted = random ⇒ score 방향성 존재 |
 | 4-a. Stage 1 overfitting? | **아니다** — epoch 100까지 val loss 단조 감소 | val loss 0.034 → 0.018 (epoch 10 → 100) |
-| 4-b. 객관식 추측 vs 이해? | **혼합 신호.** headline 68.4%는 부풀려진 수치, 실제 ~43.7%. | avg-4-shift 61.7%, agree4 58.4%, C/D 위치 편향, ECE 0.144 |
+| 4-b. 객관식 추측 vs 이해? | **headline 68.4%의 ~29pt가 MC 구조 보너스.** 진짜 이해 ~34.5%. | open-ended (옵션 미공개) 34.5% (random 25%, +9.5pt) ; agree4 58.4%, ECE 0.144 |
+| 4-c. Method가 진짜 작동? | **예 — 그러나 spatial 정렬은 무관, 전반 절반 토큰은 무용.** | mask_kept −13pt ✓ ; shuffle_kept ±0pt (bag-of-tokens) ; mask_early −1pt vs mask_late −11pt |
 
-**핵심 발견**: encoder는 분명히 유용한 신호를 학습함 (uniform/random/center보다 +5–8pt). 그러나 그것은 **GT gaze 위치를 그대로 쓰는 게 아니라** trajectory 전체에서 추상화된 신호 — oracle (GT gaze 위치) 단독은 random보다도 8.5pt 낮음. 논문이 "anticipated broader context" 로 표현한 부분을 본 진단이 oracle 비교로 처음 정량 분리.
+**핵심 발견 (followup 4 실험으로 업데이트)**:
+1. **Method 작동 확인** — counterfactual mask_kept −13pt로 receiver 정보 사용 입증.
+2. **Encoder의 추가 기여 ≈ +4.75pt** — soft_oracle (GT gaze 위치 단독) 64.26 → learned 69.01. 즉 encoder가 gaze trajectory에서 추출하는 정보는 raw gaze 위치보다 4.75pt 더 가치 있음.
+3. **GT gaze 위치도 약하게 유용** — soft_oracle 64.26 > uniform 61.41 (+2.85pt). 이전 hard oracle (54.94%) 의 낮은 점수는 §7 §oracle caveat에서 지적한 argsort tie-breaking 디제너러시 때문이었음 — 본 followup이 이를 해소.
+4. **MC 구조가 28.8pt 보너스** — open-ended (옵션 미공개) 34.46% vs MC-logit 63.28%. "진짜 visual+question 이해"의 상한은 ~34.5% (random 25%보다 +9.5pt). headline 68.4%의 절반 이상은 옵션 구조 활용에서 옴.
+5. **Spatial 정렬은 무관, bag-of-tokens** — shuffle_kept ±0pt. 모델은 어느 receiver가 어디 있는지 신경 안 씀. 논문의 spatial selection narrative (Table 4) 약화.
+6. **전반 프레임 토큰은 무용** — mask_kept_late −11pt vs mask_kept_early −1pt. 학습된 receiver의 ~50%가 정보 기여 거의 없음 → 토큰 budget 낭비.
 
 ---
 
@@ -206,29 +213,97 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 
 ---
 
-## 6. 종합 권고 (방법론 관점)
+## 6. Follow-up 4 실험 결과
+
+§7에서 우선순위 1–5로 제안한 후속 실험 중 4개를 526 EGTEA test 또는 stratified subset에서 실행 완료.
+
+### 6.1 Soft-oracle ablation (526 샘플)
+
+§2 oracle 결과의 argsort tie-breaking 디제너러시를 해소하기 위해 Gaussian falloff (σ = 0.20 × side) 로 GT gaze 위치 점수를 분포시킴.
+
+| Source | Acc% | vs uniform | vs learned |
+|---|---:|---:|---:|
+| learned | 69.01 | +7.60 | — |
+| **soft_oracle** | **64.26** | **+2.85** | **−4.75** |
+| random | 63.50 | +2.09 | −5.51 |
+| uniform | 61.41 | — | −7.60 |
+| ~~hard oracle~~ | ~~54.94~~ | ~~−6.47~~ | ~~−14.07~~ (artifact) |
+
+→ **§2의 결론 정정**: GT gaze 위치는 **약하게 유용** (+2.85pt over uniform), 그러나 encoder는 **추가로 +4.75pt** 를 만들어냄. 두 contribution이 분리됨.
+
+### 6.2 Counterfactual masking (526 샘플 × 5 variants)
+
+| Variant | Acc% | Δ vs baseline | 해석 |
+|---|---:|---:|---|
+| baseline | 68.25 | — | 생산 설정 |
+| **mask_kept** (전체 zero-out) | **55.32** | **−12.93** | Method 진짜 receiver 사용 ✓ |
+| mask_kept_late (후반 절반 zero) | 57.60 | −10.65 | 후반 receiver가 정보의 ~85% 보유 |
+| mask_kept_early (전반 절반 zero) | 67.30 | −0.95 | **전반 receiver는 사실상 무용** |
+| **shuffle_kept** (순서 셔플) | **69.20** | **+0.95** | **Spatial 정렬 무관 — bag-of-tokens** |
+
+→ 강력한 시사:
+- **method validity 확인** (mask_kept −13pt)
+- **토큰 budget 낭비** — 전반 절반의 receiver (~205개) 가 −1pt 밖에 기여 안 함. 사실상 후반 50% 만으로 충분
+- **spatial selection narrative 약화** — 논문 Table 4 ("spatial pruning improves +2.85pp") 가 의문시됨. 모델이 receiver의 spatial 위치를 무시함
+
+### 6.3 Open-ended generation (177 stratified, 목표 200)
+
+옵션을 보여주지 않고 free-text 생성 → TF-IDF cosine으로 어느 옵션과 가장 비슷한지 매칭.
+
+| Mode | Acc% | 비고 |
+|---|---:|---|
+| MC (logit) | 63.28 | stratified 177 (목표 200, 일부 preprocess fail) |
+| MC (generation) | 63.28 | logit/gen match 100% ✓ (sanity) |
+| **Open (옵션 미공개)** | **34.46** | random = 25%, **+9.5pt** |
+| **Δ (MC − Open)** | **+28.81pt** | **옵션 구조 보너스** |
+
+→ headline 68.4% 중 **약 29pt는 객관식 구조 활용에서 옴**. 진짜 visual+question 이해 상한 ≈ 34.5%. (caveat: TF-IDF 매칭이 의미적 paraphrase 놓칠 수 있어 lower bound 가능성. mean top sim 0.28로 낮음)
+
+### 6.4 Cross-keep-ratio diagnostic (526 × 3 budgets)
+
+| Metric | keep03 (3%) | keep05 (5%) | keep10 (10%) |
+|---|---:|---:|---:|
+| Accuracy | 65.97 | 64.83 | 67.68 |
+| temporal CoM | 0.730 | 0.699 | **0.786** |
+| late_half_ratio | 0.759 | 0.739 | **0.834** |
+| gt_gaze_recall | 0.026 | 0.041 | 0.077 |
+| (random gt_gaze_recall = keep_ratio) | 0.030 | 0.050 | 0.100 |
+
+→ 일관된 패턴:
+- **Anti-gaze 패턴 budget과 무관** — 모든 keep ratio에서 gt_gaze_recall ≤ random.
+- **Temporal bias는 budget이 커질수록 강해짐** — 토큰이 많아지면 후반에 더 몰림 (0.70 → 0.79). 즉 budget이 작을수록 모델이 시간적으로 더 분산.
+- **Accuracy는 budget-monotone 아님** (keep05 64.8 < keep03 66.0) — 작은 keep ratio에 LoRA가 별도 학습되어서 ckpt별 우열 변동. 메서드 trade-off가 단순하지 않음.
+
+---
+
+## 7. 종합 권고 (방법론 관점)
 
 영향력 / 방법론적 중요도 순.
 
-### A. Gaze supervision 전제 재검토 (논문 Table 2 보강)
+### A. 논문 Table 2 보강 — encoder transformation 시각화
 
-- ~~Hand-only Stage 1~~ → **이미 Table 2에 존재**. Gaze는 fusion에서 +2.3pp 이득.
-- **Anti-gaze supervision (novel)**: Stage 1을 gaze에서 *벗어난* 패치를 예측하도록 학습해 성능 변화 측정. oracle 결과가 시사하는 방향성.
-- **GT gaze 위치 직접 사용 추가**: 논문 Table 2 OnlyGaze (학습된 score) 아래에 "GTGazePosition" 행 (54.94%) 을 추가하면 "encoder의 변환이 왜 필요한지" 가 시각적으로 명확.
-- **태스크별 gaze 유의성**: `gt_gaze_recall`을 태스크로 쪼개기 — `past_gaze_sequence_matching` (gaze 패턴 자체가 질문) 에서는 도움이 되지만 object-recognition 태스크에서는 해가 될 수 있음. M1 parquet에서 재집계 가능.
+§6.1 soft_oracle 결과로 메시지 명확해짐:
+- 논문 Table 2 OnlyGaze (64.64) 와 **GT gaze position 단독 (soft_oracle 64.26)** 가 거의 동일. 즉 *학습된 OnlyGaze score* 는 *raw GT gaze position* 만큼만 함.
+- **추가할 행**: "Soft-oracle (GT gaze)" 64.26%, "Hand+Gaze (learned)" 68.44%. 차이 +4.18pp = encoder 의 추상화 기여.
+- ~~Anti-gaze supervision~~ → soft_oracle 결과가 narrative 우호적이라 긴급성 낮음. 시간 있으면.
+- **태스크별 gaze 유의성**: `gt_gaze_recall`을 태스크로 쪼개기 — M1 parquet에서 재집계 가능 (CPU only, ~30분). 미실행 후속.
 
-### B. Temporal bias 정량화 및 완화
+### B. Temporal bias 강화 — 토큰 budget 절반은 사실상 무용
 
-- 83% late-half ratio는 Stage 1의 `I_scores_past/future` supervision 자체가 시간적으로 편향되어 있음을 강력히 시사 (예: trajectory-prediction loss가 후반 프레임에 더 큰 가중치를 주는지).
-- 빠른 확인: training 데이터에서 `I_scores_past`의 프레임 인덱스별 평균을 plot. 후반 편향이 보이면 encoder가 *잘못된 target*에 정확히 fitting하고 있다는 뜻.
-- 가능한 수정: Stage 2에 frame-balanced regularizer; Stage 1 loss schedule 시간 가중 재조정; explicit temporal entropy bonus.
+§6.2 mask_kept_early −1pt 는 **method의 가장 큰 비효율** 을 노출:
+- 학습된 receiver 중 약 50% (전반 프레임) 가 정답률에 −1pt만 기여.
+- 즉 keep 10% = 410 토큰 중 ~205개가 "낭비".
+- **권장**: encoder/Stage 2에 frame-balanced regularizer를 넣어 전반 frame에서도 informative token을 뽑게 하거나, 혹은 정직하게 "method가 effective budget은 5%" 라고 보고.
+- §6.4 cross-keep 결과 (budget↓일수록 temporal bias↓) 와 결합: budget이 충분할 때 모델이 "쉬운 후반 frame"으로 도피하는 경향. 작은 budget이 강제로 분산을 유도.
 
-### C. 논문 평가 protocol 변경
+### C. 논문 평가 protocol 보완 (§6.3 결과 강화)
 
-**두 개의 숫자**를 함께 보고:
-- Headline single-shift 정확도 (현재 68.44%) — 기존 연구와 비교 가능성 위해.
-- Permutation-평균 정확도 (61.74%) 와 consistent-correct 비율 (43.73%) — "진짜 이해"의 공정한 측정치.
-- **ECE (0.144) 도 테이블에 추가** — calibration이 비교 가능한 의미 있는 축.
+§6.3 open-ended 결과로 더 강한 권고:
+- Headline single-shift 68.44% — 기존 baseline 비교용.
+- Permutation 평균 61.74% / consistent-correct 43.73% (§3) — option 위치 노이즈 제거 후 정확도.
+- **Open-ended (옵션 미공개) 34.46%** (§6.3) — MC 구조 보너스 제거 후 "진짜 이해" 상한.
+- **ECE (0.144)** 도 테이블에 추가 — calibration 축.
+- 베이스라인 비교는 동일 MC protocol이라 +4.38pp 가 valid하지만, **절대값은 4가지 평가 모두 보고하는 것이 정직**.
 
 ### D. 데이터 확장이 아키텍처 변경보다 먼저
 
@@ -236,13 +311,20 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 - `proactive_gaze_triggered_alert` (283) + `proactive_object_appearance_alert` (1,865) = **~37% 학습 데이터 증가** 가능. 재아키텍처 전에 가장 저렴한 실험.
 - Stage 1 학습 epoch 추가는 효과 미미 (epoch 90 ≈ 100 거의 평탄).
 
-### E. Max-cluster-size outlier 검사
+### E. Spatial selection narrative 점검 (논문 Table 4)
+
+§6.2 shuffle_kept 결과 (+0.95pt vs baseline) 가 의미:
+- 모델은 어느 merged token이 어느 receiver position에 있는지 **신경 쓰지 않음** — bag-of-tokens.
+- 논문 Table 4 ("Nospatial" 64.64 vs "Spatio-temporal" 67.49 = +2.85pp) 의 spatial pruning 이득이 정말 *spatial 정렬* 덕분인지, 단순히 *어떤* token이 받아들여졌는지의 차이인지 분리 안 됨.
+- **권장**: 논문에 "spatial selection isolates salient regions" 같은 강한 주장 자제. 대신 "spatial axis pruning이 token pool 다양성에 기여" 로 톤다운.
+
+### F. Max-cluster-size outlier 검사
 
 `max_cluster_size = 86` (일부 샘플에서 한 receiver가 전체 source의 21% 흡수) — 이런 샘플에서 score 분포가 퇴화된 모드를 가질 가능성. parquet에서 `cluster_size_max` 상위 10개를 뽑아 `viz_token_selection.py`로 시각화하면 failure mode가 드러날 수 있음.
 
 ---
 
-## 7. 전략적 우려와 검증 계획
+## 8. 전략적 우려와 검증 계획 (followup으로 부분 해소)
 
 진단 결과는 두 단계의 더 큰 우려를 제기함. 각각에 대해 분리해서 다룬다.
 
@@ -288,27 +370,29 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 | **2. 메커니즘 규명 후 재프레이밍** | 3–6주 | encoder가 *실제로 무엇을* 학습했는지 정량 규명. narrative를 데이터에 맞춰 재구성 |
 | **3. Method 자체 재고** | 6주+ | 길 2의 결과가 "Stage 1 무용"으로 나오면 — 핵심 컴포넌트 재구성 |
 
-### 후속 실험 우선순위 (1–2주 안에 결정 가능)
+### 후속 실험 결과 — 길 결정
 
-가장 정보-비용 비가 높은 5개 실험. 1–4 결과에 따라 길 1 / 2 / 3 결정.
+§6에서 4개 실험 모두 완료. 결과 기반 길 판정:
 
-| 순위 | 실험 | 답하는 질문 | 비용 |
+| 원래 순위 | 실험 | 결과 | 길 1 (narrative)에 미치는 영향 |
 |---:|---|---|---|
-| 1 | **Distractor 난이도 stratification** | "MC 의존인가?" easy distractor 에서만 차이 크면 MC trick | 반나절. M1 parquet에 distractor 임베딩 거리 컬럼만 추가 |
-| 2 | **Stage 1 ablation (random-init encoder + Stage 2 LoRA)** | "encoder가 진짜 기여하는가, 아니면 LoRA가 다 하나?" | 1–2일. 가장 risky하지만 가장 결정적 |
-| 3 | **Counterfactual masking (visual sufficiency)** | "model이 receiver 토큰을 진짜 쓰는가?" receiver 가렸을 때 acc 하락 측정 | 1–2일. receiver_idx는 이미 parquet에 있음 |
-| 4 | **Open-ended generation (subset 100–200)** | "letter logit이 아니라 답을 *아는*가?" free-text 생성 → LLM-as-judge | 1–2일 |
-| 5 | **Soft-oracle (Gaussian-fall around gaze)** | "GT gaze 위치 자체가 무용한지" — §2 oracle caveat 해결 | 반나절 |
+| 1 | Distractor 난이도 stratification | **미실행** (CPU only, M1 parquet 활용 후속) | 보류 |
+| 2 | Stage 1 ablation (random-init) | **이미 논문 Table 3에 있음** (Nopretrain 65.02) — 재실험 불필요 | Stage 1 +3.4pt 기여 확인됨 |
+| 3 | Counterfactual masking ✓ | mask_kept −13pt, shuffle_kept ±0pt, mask_early −1pt | **mixed**: method 작동 (+) , spatial 정렬 무용 (−), 전반 절반 무용 (−) |
+| 4 | Open-ended generation ✓ | MC 63.3% → Open 34.5%, Δ +28.8pp | **MC 의존 큼** — 평가 protocol 보완 필요 |
+| 5 | Soft-oracle ✓ | 64.26% (vs hard 54.94, vs uniform 61.41) | **narrative 우호적**: GT gaze 약하게 유용 (+2.85pt) |
+| (추가) | Cross-keep-ratio diagnostic ✓ | budget 줄여도 anti-gaze 패턴 유지, temporal bias 약화 | 보조 — 패턴의 견고함 입증 |
 
-**가장 먼저: 1 + 2.** 둘 다 1–2일 내 답이 나오고, *어디로 갈지 결정*에 가장 큰 정보를 줌.
-
-- **모두 method 우호적** → 길 1 (narrative pivot) 으로 자신 있게.
-- **MC 의존이 큼** → 평가 protocol 보완 (실험 4 결과 강조) + 길 1.
-- **Encoder 무용 (random-init과 차이 없음)** → 길 3 (재고). 차라리 *지금* 알아내는 게 reviewer가 알아내는 것보다 나음.
+**길 판정**: 
+- **method validity** ✓ — counterfactual mask_kept −13pt가 결정적. 길 3 (재고) 불필요.
+- **narrative**: 길 1 (pivot) + 길 2 (selective 메커니즘 규명) 의 **혼합**. 
+  - 살아남는 narrative: "gaze trajectory 인코딩이 raw gaze 위치보다 더 유용한 신호를 만든다" (+4.75pt)
+  - 톤다운 필요: "spatial selection" (shuffle_kept 결과로 약화), "gaze attention guides patches" (encoder의 추상화 contribution 명시 필요)
+  - 보완 필요: 평가 protocol에 open-ended 추가, 또는 적어도 caveat 명시
 
 ---
 
-## 8. 산출물 인덱스
+## 9. 산출물 인덱스
 
 진단 산출물은 `TrajGazeMerge/eval_results/` 가 `.gitignore`에 의해 제외되므로 로컬에만 존재.
 
@@ -324,11 +408,15 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 | Permutation summary JSON | `TrajGazeMerge/eval_results/diagnostic/E1_keep10_perm_permutation_summary.json` |
 | Stage 1 holdout JSON | `TrajGaze_v2/eval_results/holdout_E1_patch_temporal_val_loss.json` |
 | Stage 1 holdout plot | `TrajGaze_v2/eval_results/holdout_E1_patch_temporal_loss_curve.png` |
+| **Soft-oracle (§6.1)** | `TrajGazeMerge/eval_results/diagnostic/E1_keep10_soft_oracle_ablation_summary.json`<br>`...E1_keep10_soft_oracle_ablation_soft_oracle_per_sample.parquet` |
+| **Counterfactual mask (§6.2)** | `TrajGazeMerge/eval_results/diagnostic/E1_keep10_mask_mask_summary.json`<br>`...E1_keep10_mask_mask_{baseline,mask_kept,mask_kept_late,mask_kept_early,shuffle_kept}_per_sample.parquet` |
+| **Open-ended (§6.3)** | `TrajGazeMerge/eval_results/diagnostic/E1_keep10_openend_open_ended_summary.json`<br>`...E1_keep10_openend_open_ended_per_sample.parquet` |
+| **Cross-keep diag (§6.4)** | `TrajGazeMerge/eval_results/diagnostic/E1_keep{03,05,10}_diag_summary.json`<br>per-tag analyze 폴더: `E1_keep{03,05,10}_diag/` |
 | 실행 로그 | `TrajGazeMerge/eval_results/diagnostic/logs/` |
 
 ---
 
-## 9. 재현 명령어
+## 10. 재현 명령어
 
 ```bash
 ROOT=/workspace/trajgaze
@@ -355,4 +443,21 @@ CUDA_VISIBLE_DEVICES=1 $PY -m TrajGaze_v2.training.eval_stage1_holdout \
   --ckpt-dir $ROOT/TrajGaze_v2/checkpoints/E1_patch_temporal \
   --epochs 10 20 30 40 50 60 70 80 90 100 --also-best \
   --tag E1_patch_temporal
+
+# §6.1 Soft-oracle (~3.5h)
+CUDA_VISIBLE_DEVICES=0 $PY -m TrajGazeMerge.eval.ablation_score_source \
+  --stage1-ckpt $S1 --lora-ckpt $LORA \
+  --tag E1_keep10_soft_oracle --sources soft_oracle
+
+# §6.2 Counterfactual masking (~1h)
+CUDA_VISIBLE_DEVICES=1 $PY -m TrajGazeMerge.eval.counterfactual_mask_eval \
+  --stage1-ckpt $S1 --lora-ckpt $LORA --tag E1_keep10_mask
+
+# §6.3 Open-ended (~2h, 200 stratified)
+CUDA_VISIBLE_DEVICES=1 $PY -m TrajGazeMerge.eval.open_ended_eval \
+  --stage1-ckpt $S1 --lora-ckpt $LORA \
+  --tag E1_keep10_openend --n-samples 200
+
+# §6.4 Cross-keep-ratio (~1.5h, 3 ckpts)
+CUDA_VISIBLE_DEVICES=0 bash TrajGazeMerge/eval/run_cross_keep_diagnostic.sh
 ```
