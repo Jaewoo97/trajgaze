@@ -460,4 +460,86 @@ CUDA_VISIBLE_DEVICES=1 $PY -m TrajGazeMerge.eval.open_ended_eval \
 
 # §6.4 Cross-keep-ratio (~1.5h, 3 ckpts)
 CUDA_VISIBLE_DEVICES=0 bash TrajGazeMerge/eval/run_cross_keep_diagnostic.sh
+
+# §11 Phase 0a-1 (CPU only, ~1분)
+$PY -m TrajGazeMerge.eval.analyze_gaze_required_subset
+
+# §11 Phase 0b-1 Frozen-method eval (~30분)
+CUDA_VISIBLE_DEVICES=0 $PY -m TrajGazeMerge.eval.frozen_method_eval \
+  --stage1-ckpt $S1 --lora-ckpt $LORA --tag frozen_method
 ```
+
+---
+
+## 11. Phase 0 — 데이터/아키텍처 검증 (가장 중요한 메타-검증)
+
+§6의 결과들이 모두 method 수정에 관한 것이었던 반면, **§11은 method를 검증할 수 있는 setup인지 자체를 점검**.
+
+### 11.1 Gaze-required subset 분석 (Phase 0a-1, CPU only, 기존 parquet 재집계)
+
+본 진단 (§1–§6) 의 모든 결과를 task subset 별로 재집계:
+- **gaze_intrinsic**: `past_gaze_sequence_matching` (gaze 패턴 *자체* 가 질문) — n=64
+- **conservative**: + `past_non_fixated_object_identification` — n=132
+- **liberal**: + `past_scene_recall` + `present_object_identification_hard` — n=233
+- **non_gaze**: `present_object_attribute_recognition` + `present_object_identification_easy` + `present_future_action_prediction` — n=291
+
+#### 결과 1: learned 정확도가 gaze-intrinsic에서 우위 없음
+
+| Subset | learned | soft_oracle | learned − soft_oracle |
+|---|---:|---:|---:|
+| full (526) | 69.01 | 64.26 | **+4.75pt** |
+| non_gaze (291) | 69.76 | 62.89 | **+6.87pt** |
+| conservative (132) | 66.67 | 67.42 | **−0.76pt** ← soft_oracle 우세 |
+| **gaze_intrinsic (64)** | **70.31** | **71.88** | **−1.56pt** ← method가 GT gaze에 짐 |
+
+→ **method의 +4.75pt 우위는 거의 전부 non-gaze 태스크에서 옴.** gaze가 본질인 태스크에서는 raw GT gaze 위치가 learned method를 이김.
+
+#### 결과 2: Gaze-intrinsic에서 모델은 사실상 추측
+
+| Subset | agree4% | consistent_correct% |
+|---|---:|---:|
+| full | 58.4 | 43.7 |
+| non_gaze | 54.6 | 40.2 |
+| **gaze_intrinsic** | **32.8** | **26.6** (random=25%) |
+
+→ gaze-intrinsic 64샘플에서 옵션 순서 변경 시 동일 답 비율 32.8%. **랜덤보다 거의 안 나음.** consistent_correct 26.6% = 진짜 이해 비율이 추측 수준.
+
+#### 결과 3: Counterfactual은 gaze-intrinsic에서 *더* 강함 — 그러나 gaze는 아님
+
+| Δ vs baseline | full | gaze_intrinsic | non_gaze |
+|---|---:|---:|---:|
+| mask_kept | −12.93 | **−15.62** | −10.31 |
+| mask_kept_late | −10.65 | −12.50 | −8.25 |
+| mask_kept_early | −0.95 | **−4.69** | −0.34 |
+
+→ Receiver의 *정보* 기여는 gaze-intrinsic에서 더 큼 (mask_kept −15.6 vs non_gaze −10.3). 즉 method는 receiver를 *사용* 함. 그러나 §11.1의 결과 1에 따르면 그 정보가 *gaze 위치는 아님*.
+
+#### 11.1 종합 해석 — Method는 gaze가 아닌 다른 시각 신호를 활용
+
+소거법으로 method가 학습한 것:
+- ❌ GT gaze 위치 (soft_oracle이 gaze-intrinsic에서 더 잘함)
+- ❌ Spatial 정렬 (shuffle_kept ±0pt)
+- ❌ Center prior (center 61.79 < random)
+- ✓ **Hand trajectory / motion patterns / late-frame action content** 같은 non-gaze 시각 신호를 trajectory encoder의 입력 (gaze+hand) 으로부터 학습한 것으로 보임.
+
+이는 paper의 "gaze guides attention" narrative와 **완전히 다른 메커니즘**.
+
+### 11.2 StreamGaze 데이터셋 검증 verdict
+
+**StreamGaze는 paper의 gaze-attention 주장을 검증할 수 없는 setup**:
+
+1. **gaze-intrinsic subset이 너무 작음** (n=64) — agree4 32.8%로 통계적 신뢰도 한계.
+2. **non-gaze subset이 압도적** (291/526 = 55%) — 헤드라인 정확도가 non-gaze 태스크에 dominated.
+3. **non-gaze 태스크들은 시각 정보로 풀림** (text_only가 non_gaze에서 56.7%, gaze_intrinsic에서 42.2%) — gaze 없이도 풀리는 태스크가 다수.
+4. **Method 한계 vs 데이터셋 한계 분리 불가**: gaze-intrinsic에서 method가 GT gaze보다 진 이유가 (a) method 결함, (b) n=64 노이즈, (c) 학습 데이터 (EgoExoLearn+HoloAssist) 가 EGTEA gaze 분포와 다름 — 셋 다 가능.
+
+### 11.3 권장 다음 단계
+
+| 우선순위 | 실험 | 답하는 질문 |
+|---:|---|---|
+| **1** | **다른 egocentric VQA 데이터셋 평가** (EgoSchema, OpenEQA, Ego4D-NLQ) | StreamGaze 외에서 method가 재현되는가? |
+| **2** | **Gaze-intrinsic test 확장**: EGTEA-action segments를 활용해 gaze-required 태스크를 직접 생성 (n=500+) | 더 큰 gaze-intrinsic test에서 method가 작동하는가? |
+| 3 | Phase 0b-1 결과 — frozen LLM에서 method 효과 | LoRA 의존성 |
+| 4 | Phase 0b-2 — 다른 VLM에 method 적용 | Qwen 의존성 |
+
+**가장 중요한 메시지**: paper revision은 Phase 0 결과가 나온 *후에* 결정. 현재 narrative가 데이터셋과 정합적이지 않음.
