@@ -55,7 +55,7 @@ from TrajGazeMerge.training.train_merge_lora_temporal_no_kd import (
 )
 
 RESULTS_DIR = "/workspace/trajgaze/TrajGazeMerge/eval_results"
-ALL_SOURCES = ["learned", "uniform", "random", "inverted", "center", "oracle", "text_only"]
+ALL_SOURCES = ["learned", "uniform", "random", "inverted", "center", "oracle", "soft_oracle", "text_only"]
 
 
 def parse_args():
@@ -87,6 +87,56 @@ def _center_gaussian_scores(T_merged: int, side: int, sigma_frac: float = 0.25,
     g = torch.exp(-((x.float() - cx) ** 2 + (y.float() - cy) ** 2) / (2 * sigma ** 2))
     g = g.flatten().to(device)
     return g.unsqueeze(0).expand(T_merged, -1).reshape(-1)
+
+
+def _soft_oracle_scores(traj, T_merged: int, side: int, sigma_frac: float = 0.20,
+                         device: torch.device = "cpu") -> torch.Tensor:
+    """Soft oracle: per Qwen frame, a 2D Gaussian centered at the GT gaze patch.
+    Cleaner than hard oracle (no argsort tie-breaking degeneracy).
+    Fallback to center Gaussian when no valid gaze in a frame's window."""
+    import numpy as _np
+    gaze_pos = traj["gaze_pos"].cpu().numpy()
+    gaze_mask = traj["gaze_mask"].cpu().numpy().astype(bool)
+    T_traj = gaze_pos.shape[0]
+    n_spatial = side * side
+    sigma = sigma_frac * side
+
+    # Pre-compute coord grid (side, side)
+    ys = _np.arange(side, dtype=_np.float32).reshape(-1, 1).repeat(side, axis=1)
+    xs = _np.arange(side, dtype=_np.float32).reshape(1, -1).repeat(side, axis=0)
+
+    scores = _np.zeros((T_merged, n_spatial), dtype=_np.float32)
+
+    if T_traj == 0:
+        # all-frame center fallback
+        cy = cx = (side - 1) / 2
+        g = _np.exp(-((xs - cx) ** 2 + (ys - cy) ** 2) / (2 * sigma ** 2)).flatten()
+        scores[:] = g
+        return torch.from_numpy(scores).to(device).reshape(-1)
+
+    t_qwen = _np.clip((_np.arange(T_traj) * T_merged / max(1, T_traj)).astype(int), 0, T_merged - 1)
+    gx = _np.clip(gaze_pos[:, 0] * side, 0, side - 1)
+    gy = _np.clip(gaze_pos[:, 1] * side, 0, side - 1)
+
+    # Aggregate Gaussian bumps per Qwen frame
+    counts = _np.zeros(T_merged, dtype=_np.int32)
+    for tq, x, y, valid in zip(t_qwen, gx, gy, gaze_mask):
+        if not valid:
+            continue
+        g = _np.exp(-((xs - x) ** 2 + (ys - y) ** 2) / (2 * sigma ** 2))
+        scores[tq] += g.flatten()
+        counts[tq] += 1
+
+    # Average within frame (avoid double-count bias) and fall back to center for empty frames
+    nz = counts > 0
+    if nz.any():
+        scores[nz] /= counts[nz, None]
+    if (~nz).any():
+        cy = cx = (side - 1) / 2
+        g = _np.exp(-((xs - cx) ** 2 + (ys - cy) ** 2) / (2 * sigma ** 2)).flatten()
+        scores[~nz] = g
+
+    return torch.from_numpy(scores).to(device).reshape(-1)
 
 
 def _oracle_scores(traj, T_merged: int, side: int, device: torch.device) -> torch.Tensor:
@@ -145,6 +195,8 @@ def _build_scores_for_source(
         scores_all = _center_gaussian_scores(T_merged, side, device=device)
     elif source == "oracle":
         scores_all = _oracle_scores(item["traj"], T_merged, side, device)
+    elif source == "soft_oracle":
+        scores_all = _soft_oracle_scores(item["traj"], T_merged, side, device=device)
     elif source == "text_only":
         # Caller handles: zero out merged_video and ignore score path
         return None
