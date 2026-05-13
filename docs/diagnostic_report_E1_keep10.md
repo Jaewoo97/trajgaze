@@ -242,7 +242,73 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 
 ---
 
-## 7. 산출물 인덱스
+## 7. 전략적 우려와 검증 계획
+
+진단 결과는 두 단계의 더 큰 우려를 제기함. 각각에 대해 분리해서 다룬다.
+
+### 우려 1 — "method가 진짜 작동하는가, 성능만 올린 것인가?"
+
+진단 결과를 두 층위로 분리:
+
+| 층위 | 결과 | 평가 |
+|---|---|---|
+| **성능 자체** | learned 69.0 vs uniform 61.4 / random 63.5 / center 61.8 / text_only 53.6 | **진짜다.** 모든 reasonable baseline을 5–8pt 차이로 이김. benchmark gaming 아님 |
+| **논문이 주장하는 메커니즘** | "gaze가 attention을 중요 패치로 가이드한다" | **이 narrative는 데이터와 충돌.** GT gaze position 자체는 무용 (oracle 54.9 < random) |
+
+→ 즉 *"method가 작동한다"* 는 사실이고, *"왜 작동하는지에 대한 설명"* 이 틀린 상태. 둘은 다른 문제고 다른 처방.
+
+#### Caveat — oracle 구현의 한계
+
+§2의 oracle은 gaze 위치에 1.0, 나머지 0으로 설정. 그러나 keep 410 토큰 중 valid gaze frame은 ~127개뿐이고, 나머지 ~283 자리는 score=0 동률에서 argsort tie-breaking으로 채워짐 (정렬상 앞 인덱스 = 초기 프레임 top-left). **즉 oracle은 "gaze 위치 + 초기 프레임 좌상단" 의 혼합** 이라 순수한 gaze-position 테스트가 아님. 결론 방향은 같지만 (gaze position 단독으로 강한 cue 아님), 결정적 증거가 되려면 **soft oracle (Gaussian-fall around gaze)** 로 재실험 필요.
+
+### 우려 2 — "객관식 (MC) 평가 자체가 문제일 가능성"
+
+진단 결과에 MC 의존성의 흔적이 이미 다수 존재:
+
+| 증거 | 의미 |
+|---|---|
+| **text_only = 53.6%** (random=25%) | 4지선다라서 언어 prior + 옵션 phrasing 만으로 27pt 회복. 시각 정보 없이 절반은 됨 |
+| **C/D 위치 편향 31.6/29.2** vs A/B 20.6/18.6 | 모델이 "찍기" 모드에 들어가면 후반 글자 선호 — 시각 이해와 무관 |
+| **agree4 58%, consistent_correct 43.7%** | 헤드라인 68.4% 중 **24.7pt가 옵션 구조에 의존** |
+| **logit 기반 채점 (생성 아님)** | A/B/C/D 4개 토큰 logit argmax만 봄 — *왜* 그 답을 골랐는지 검증 안 됨 |
+| **ECE 0.144** | 신뢰도와 정확도가 보정 안 됨 — "이해해서" 가 아니라 "logit이 그쪽에 쏠려서" 일 수 있음 |
+
+#### 절대값 vs 상대값 — 결정적 구분
+
+- **좋은 소식 (상대 비교는 공정)**: 비교 baseline들 (attention-pruning, content-merging, frame-selection, full-LoRA) 이 **모두 동일한 MC protocol** 로 평가됨. "방법이 베이스라인보다 +4.38pp 낫다" 는 주장은 MC 한계와 무관하게 성립.
+- **나쁜 소식 (절대값은 부풀려짐)**: 68.44% 자체는 부풀려진 수치. "method가 만드는 진짜 marginal gain" 은 4.38pp의 일부일 수 있음.
+  - text_only 53.6 → learned 69.0 = +15.4pt = **시각 정보의 총 contribution**
+  - 그중 score-driven 부분 ≈ +7.6pt (vs uniform)
+
+### 세 가지 길
+
+| 길 | 비용 | 무엇을 답하나 |
+|---|---|---|
+| **1. Narrative pivot** | 1–2주 | "gaze attention" → "trajectory-conditioned aggregation" 으로 톤다운. 성능 결과는 그대로 두고 setting만 수정 |
+| **2. 메커니즘 규명 후 재프레이밍** | 3–6주 | encoder가 *실제로 무엇을* 학습했는지 정량 규명. narrative를 데이터에 맞춰 재구성 |
+| **3. Method 자체 재고** | 6주+ | 길 2의 결과가 "Stage 1 무용"으로 나오면 — 핵심 컴포넌트 재구성 |
+
+### 후속 실험 우선순위 (1–2주 안에 결정 가능)
+
+가장 정보-비용 비가 높은 5개 실험. 1–4 결과에 따라 길 1 / 2 / 3 결정.
+
+| 순위 | 실험 | 답하는 질문 | 비용 |
+|---:|---|---|---|
+| 1 | **Distractor 난이도 stratification** | "MC 의존인가?" easy distractor 에서만 차이 크면 MC trick | 반나절. M1 parquet에 distractor 임베딩 거리 컬럼만 추가 |
+| 2 | **Stage 1 ablation (random-init encoder + Stage 2 LoRA)** | "encoder가 진짜 기여하는가, 아니면 LoRA가 다 하나?" | 1–2일. 가장 risky하지만 가장 결정적 |
+| 3 | **Counterfactual masking (visual sufficiency)** | "model이 receiver 토큰을 진짜 쓰는가?" receiver 가렸을 때 acc 하락 측정 | 1–2일. receiver_idx는 이미 parquet에 있음 |
+| 4 | **Open-ended generation (subset 100–200)** | "letter logit이 아니라 답을 *아는*가?" free-text 생성 → LLM-as-judge | 1–2일 |
+| 5 | **Soft-oracle (Gaussian-fall around gaze)** | "GT gaze 위치 자체가 무용한지" — §2 oracle caveat 해결 | 반나절 |
+
+**가장 먼저: 1 + 2.** 둘 다 1–2일 내 답이 나오고, *어디로 갈지 결정*에 가장 큰 정보를 줌.
+
+- **모두 method 우호적** → 길 1 (narrative pivot) 으로 자신 있게.
+- **MC 의존이 큼** → 평가 protocol 보완 (실험 4 결과 강조) + 길 1.
+- **Encoder 무용 (random-init과 차이 없음)** → 길 3 (재고). 차라리 *지금* 알아내는 게 reviewer가 알아내는 것보다 나음.
+
+---
+
+## 8. 산출물 인덱스
 
 진단 산출물은 `TrajGazeMerge/eval_results/` 가 `.gitignore`에 의해 제외되므로 로컬에만 존재.
 
@@ -262,7 +328,7 @@ EgoExoLearn+HoloAssist에서 deterministic 10% held-out, 고정 seed (60 val 샘
 
 ---
 
-## 8. 재현 명령어
+## 9. 재현 명령어
 
 ```bash
 ROOT=/workspace/trajgaze
