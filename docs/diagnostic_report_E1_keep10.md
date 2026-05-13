@@ -19,6 +19,11 @@
 | 4-b. 객관식 추측 vs 이해? | **headline 68.4%의 ~29pt가 MC 구조 보너스.** 진짜 이해 ~34.5%. | open-ended (옵션 미공개) 34.5% (random 25%, +9.5pt) ; agree4 58.4%, ECE 0.144 |
 | 4-c. Method가 진짜 작동? | **예 — 그러나 spatial 정렬은 무관, 전반 절반 토큰은 무용.** | mask_kept −13pt ✓ ; shuffle_kept ±0pt (bag-of-tokens) ; mask_early −1pt vs mask_late −11pt |
 
+**Phase 0 verdict (§11)** ⚠️ — paper narrative의 데이터 정합성에 큰 문제:
+- **Method가 gaze-intrinsic 태스크에서 GT gaze보다 짐** (learned 70.31 < soft_oracle 71.88, n=64). 헤드라인 +4.75pt 우위는 거의 전부 non-gaze 태스크에서.
+- **Method는 LoRA 없이 효과 0** (Δ −0.19pp). 진짜 contribution은 +3.4pp (LoRA의 +16pp 대비 1/5).
+- **StreamGaze는 paper 주장 검증에 부적합** — gaze-intrinsic n=64에서 모델이 추측 수준 (consistent_correct 26.6%).
+
 **핵심 발견 (followup 4 실험으로 업데이트)**:
 1. **Method 작동 확인** — counterfactual mask_kept −13pt로 receiver 정보 사용 입증.
 2. **Encoder의 추가 기여 ≈ +4.75pt** — soft_oracle (GT gaze 위치 단독) 64.26 → learned 69.01. 즉 encoder가 gaze trajectory에서 추출하는 정보는 raw gaze 위치보다 4.75pt 더 가치 있음.
@@ -533,13 +538,70 @@ CUDA_VISIBLE_DEVICES=0 $PY -m TrajGazeMerge.eval.frozen_method_eval \
 3. **non-gaze 태스크들은 시각 정보로 풀림** (text_only가 non_gaze에서 56.7%, gaze_intrinsic에서 42.2%) — gaze 없이도 풀리는 태스크가 다수.
 4. **Method 한계 vs 데이터셋 한계 분리 불가**: gaze-intrinsic에서 method가 GT gaze보다 진 이유가 (a) method 결함, (b) n=64 노이즈, (c) 학습 데이터 (EgoExoLearn+HoloAssist) 가 EGTEA gaze 분포와 다름 — 셋 다 가능.
 
-### 11.3 권장 다음 단계
+### 11.3 Frozen-LLM eval (Phase 0b-1)
 
-| 우선순위 | 실험 | 답하는 질문 |
-|---:|---|---|
-| **1** | **다른 egocentric VQA 데이터셋 평가** (EgoSchema, OpenEQA, Ego4D-NLQ) | StreamGaze 외에서 method가 재현되는가? |
-| **2** | **Gaze-intrinsic test 확장**: EGTEA-action segments를 활용해 gaze-required 태스크를 직접 생성 (n=500+) | 더 큰 gaze-intrinsic test에서 method가 작동하는가? |
-| 3 | Phase 0b-1 결과 — frozen LLM에서 method 효과 | LoRA 의존성 |
-| 4 | Phase 0b-2 — 다른 VLM에 method 적용 | Qwen 의존성 |
+526 EGTEA test에서 LoRA 없는 frozen Qwen + method 적용:
 
-**가장 중요한 메시지**: paper revision은 Phase 0 결과가 나온 *후에* 결정. 현재 narrative가 데이터셋과 정합적이지 않음.
+| Condition | Acc% | 비고 |
+|---|---:|---|
+| baseline_frozen (no method, frozen Qwen, 4096 tokens) | **49.24** | LoRA 없음 |
+| merge_frozen (method, frozen Qwen, 410 tokens) | **49.05** | LoRA 없음 |
+| **Δ (merge − baseline)** | **−0.19pp** | **사실상 동일** |
+| *(참고) Nopretrain (Table 3, LoRA only)* | *65.02* | — |
+| *(참고) Allloss (Table 2, full method)* | *68.44* | — |
+
+**시사**:
+- **Method는 LoRA 없이는 효과 0** — Frozen Qwen + method ≈ Frozen Qwen 단독.
+- **4096 → 410 토큰 압축이 frozen LLM 입장에서 무손실** — Qwen이 video token을 bag으로 다룬다는 §6.2 shuffle_kept 결과와 정합.
+
+**기여도 재분해**:
+
+| 추가 요소 | 누적 acc% | 단독 기여 |
+|---|---:|---:|
+| Frozen Qwen + 4096 토큰 (baseline) | 49.24 | — |
+| + LoRA (full 토큰) | ≈ 65.02 | **+16pp** ← LoRA 단독 |
+| + Stage 1 + merge (전체 method) | 68.44 | **+3.4pp** ← method 단독 |
+
+→ **LoRA가 method보다 5배 큰 contribution**. Method의 marginal value는 +3.4pp.
+
+추가 관찰: text_only (LoRA + 0 visual) = 53.6% **>** baseline_frozen (no LoRA + full visual) = 49.2% — Qwen2.5-VL의 video token handling 자체가 LoRA fine-tune에 강하게 의존.
+
+### 11.4 Phase 0 종합 verdict
+
+#### Method가 *하는* 일 (확정)
+- **LoRA와 co-adapted 된 token compression**: 10× 압축 + 정확도 유지 + 3.4pp 추가 (vs LoRA-full)
+- **Non-gaze 시각 신호 활용**: hand trajectory, motion, late-frame action — gaze trajectory **입력**의 non-gaze 성분
+- **Receiver 정보 사용 확인**: counterfactual mask_kept −13pt
+
+#### Method가 *안 하는* 일
+- ❌ Gaze 위치를 따라가 important 패치 선택 (soft_oracle이 gaze-intrinsic에서 이김, gt_gaze_recall < random)
+- ❌ Spatial 정렬 유지 (shuffle_kept ±0pt)
+- ❌ Frozen LLM에 의미 있는 신호 전달 (Δ −0.19pp)
+
+#### 데이터셋 검증
+- ❌ StreamGaze가 gaze-attention 주장 검증에 부적합 (gaze-intrinsic n=64, agree4 32.8%)
+
+### 11.5 새 narrative 후보
+
+**옵션 A — 보수적 (정직 우선)**
+"Behavioral-score-driven token compression for VLMs. Achieves 10× compression while preserving accuracy via LoRA co-adaptation. The behavioral score acts as a learned prior; we observe limitations in raw gaze utilization (oracle / cross-subset analyses)."
+- 솔직히 contribution은 작아지지만 reviewer 공격 방어 가능. Phase 0 결과를 limitation으로 명시.
+
+**옵션 B — Pivot (강한 contribution)**
+"Bag-of-tokens VLM behavior under aggressive compression: spatial alignment is largely ignored; what matters is *which* tokens are kept, scored by behavioral context. We propose score-driven retention as a simpler alternative to spatial merging."
+- shuffle_kept ±0pt + frozen-method 결과를 contribution으로 reframe. **method 자체 단순화** 제안. 차기 venue 새 contribution.
+
+**옵션 C — Cross-dataset 검증 우선**
+StreamGaze 외 데이터셋 (EgoSchema, OpenEQA) 추가 평가로 일반화 입증 → 그 결과에 따라 옵션 A 또는 B 결정.
+
+### 11.6 다음 단계 우선순위
+
+| 우선순위 | 실험 | 답하는 질문 | 비용 |
+|---:|---|---|---|
+| **1** | **다른 egocentric VQA 데이터셋 평가** (EgoSchema, OpenEQA, Ego4D-NLQ) | StreamGaze 외에서 method가 재현되는가? | 2–3주 (data + adapter) |
+| **2** | **Score-only baseline (merge 제거)** | shuffle_kept를 contribution으로 검증 — top-k 단순 pruning이 merge와 동등한가? | 1주 (학습 + eval) |
+| **3** | **Gaze-intrinsic test 확장** (EGTEA-action 활용 자체 생성) | n=64 → n=500+ 에서 gaze 우위가 보이는가? | 1주 |
+| 4 | **Frame-balanced regularizer** | mask_early −1pt 문제 해결 가능한가? | 3–5일 |
+| 5 | Cross-VLM (LLaVA-Next, InternVL) | Qwen 의존성 | 3–4주 |
+
+**가장 중요한 메시지**: Phase 0 결과로 paper narrative가 **데이터와 정합적이지 않음** 이 확인됨. 다음 venue submission 전에 narrative 재설계 필수 (옵션 A/B 결정).
