@@ -136,6 +136,77 @@ def _spatial_stats(kept_per_spatial: np.ndarray, side: int) -> dict:
     return {"spatial_com_x": com_x, "spatial_com_y": com_y, "spatial_entropy": ent}
 
 
+def _gt_pos_recall(pos: np.ndarray, mask: np.ndarray, T_merged: int, side: int,
+                   kept_mask: np.ndarray, prefix: str) -> dict:
+    """Generic position-recall: fraction of valid frames whose position's
+    `side x side` patch falls inside the kept (receiver) mask."""
+    T_traj = pos.shape[0]
+    if T_traj == 0 or not mask.any():
+        return {f"{prefix}_recall": float("nan"), f"{prefix}_n_valid": 0,
+                f"{prefix}_mean_dist": float("nan")}
+    t_qwen = np.clip((np.arange(T_traj) * T_merged / max(1, T_traj)).astype(int), 0, T_merged - 1)
+    x_idx = np.clip(np.floor(pos[:, 0] * side).astype(int), 0, side - 1)
+    y_idx = np.clip(np.floor(pos[:, 1] * side).astype(int), 0, side - 1)
+    spatial_idx = y_idx * side + x_idx
+    valid = mask
+    hit = kept_mask[t_qwen[valid], spatial_idx[valid]]
+
+    # Mean distance (in [0,1] normalized coords) from gt position to nearest kept patch
+    # Build per-Qwen-frame kept (x,y) sets once
+    dists: list[float] = []
+    keep_x = np.where(kept_mask)[1] % side
+    keep_y = np.where(kept_mask)[1] // side
+    keep_t = np.where(kept_mask)[0]
+    for t_q, gx, gy, v in zip(t_qwen[valid], pos[valid, 0], pos[valid, 1], valid[valid]):
+        idx_t = keep_t == t_q
+        if not idx_t.any():
+            continue
+        xs = keep_x[idx_t] / max(1, side - 1)
+        ys = keep_y[idx_t] / max(1, side - 1)
+        d2 = (xs - gx) ** 2 + (ys - gy) ** 2
+        dists.append(float(np.sqrt(d2.min())))
+    return {
+        f"{prefix}_recall": float(hit.mean()) if hit.size > 0 else float("nan"),
+        f"{prefix}_n_valid": int(valid.sum()),
+        f"{prefix}_mean_dist": float(np.mean(dists)) if dists else float("nan"),
+    }
+
+
+def _trajectory_recall_stats(traj, T_merged: int, side: int, kept_mask: np.ndarray) -> dict:
+    """Computes recall + mean-distance metrics for gaze, left_hand, right_hand,
+    and hand-midpoint positions w.r.t. the kept-token mask."""
+    out = {}
+    out.update(_gt_pos_recall(
+        traj["gaze_pos"].cpu().numpy(), traj["gaze_mask"].cpu().numpy().astype(bool),
+        T_merged, side, kept_mask, "gt_gaze",
+    ))
+    out.update(_gt_pos_recall(
+        traj["left_pos"].cpu().numpy(), traj["left_mask"].cpu().numpy().astype(bool),
+        T_merged, side, kept_mask, "gt_hand_left",
+    ))
+    out.update(_gt_pos_recall(
+        traj["right_pos"].cpu().numpy(), traj["right_mask"].cpu().numpy().astype(bool),
+        T_merged, side, kept_mask, "gt_hand_right",
+    ))
+    # Hand midpoint
+    lp = traj["left_pos"].cpu().numpy(); rp = traj["right_pos"].cpu().numpy()
+    lm = traj["left_mask"].cpu().numpy().astype(bool)
+    rm = traj["right_mask"].cpu().numpy().astype(bool)
+    both = lm & rm
+    mid = np.zeros_like(lp)
+    mid[both] = (lp[both] + rp[both]) / 2
+    out.update(_gt_pos_recall(mid, both, T_merged, side, kept_mask, "gt_hand_mid"))
+    # Frame center reference
+    T_traj = lp.shape[0]
+    ctr = np.full_like(lp, 0.5)
+    out.update(_gt_pos_recall(ctr, np.ones(T_traj, dtype=bool), T_merged, side, kept_mask, "frame_center"))
+    # Either hand (left OR right)
+    either_pos = np.where(lm[:, None], lp, rp)
+    either_mask = lm | rm
+    out.update(_gt_pos_recall(either_pos, either_mask, T_merged, side, kept_mask, "gt_hand_either"))
+    return out
+
+
 def _gt_gaze_recall(traj, T_merged: int, side: int, kept_per_frame_spatial: np.ndarray) -> dict:
     """
     Fraction of valid gaze frames whose Qwen spatial patch (side x side) is in the
@@ -288,6 +359,8 @@ def main():
                 spt = _spatial_stats(kept_per_pos, side)
                 mst = _merge_stats(merge_st, n_video)
                 gst = _gt_gaze_recall(item["traj"], T_merged, side, kept_mask)
+                # M1.1 + M1.3: hand & midpoint recall + distance to gaze/hand/center
+                rst = _trajectory_recall_stats(item["traj"], T_merged, side, kept_mask)
 
                 row = {
                     "idx": idx,
@@ -316,7 +389,7 @@ def main():
                     # arrays as lists (parquet-friendly)
                     "kept_per_frame": kept_per_frame.tolist(),
                     # stats
-                    **sst, **tst, **spt, **mst, **gst,
+                    **sst, **tst, **spt, **mst, **gst, **rst,
                 }
                 rows.append(row)
                 n_correct += int(correct)
