@@ -1,0 +1,366 @@
+\section{Implementation Details}
+\label{sec:impl}
+
+Our system is trained in two stages on NVIDIA H200 GPUs. Stage~1 pretrains
+the trajectory encoder on StreamGaze\_v2 with trajectory-prediction and
+patch-importance objectives (\S\ref{sec:impl-stage1}). Stage~2 jointly
+fine-tunes LoRA adapters on the VLM together with the trajectory encoder
+under a token-merging bottleneck (\S\ref{sec:impl-stage2}). For
+self-containedness we first summarize the trajectory-encoder architecture
+and its parameter budget (\S\ref{sec:impl-arch}); the full design is given
+in \S\ref{sec:traj_enc}.
+
+%------------------------------------------------------------------------------
+\subsection{Trajectory Encoder Architecture (Brief)}
+\label{sec:impl-arch}
+The encoder has \textbf{35.80\,M} total parameters of which
+\textbf{13.74\,M} are trainable; the frozen DINOv2-S/14 visual
+backbone~\citep{oquab2023dinov2} (${\sim}22.1$\,M params, patch size $14$,
+embedding dim $384$) accounts for the difference. Modality-specific widths
+are $d_\text{traj}{=}128$, $d_\text{enc}{=}256$, $d_\text{vis}{=}256$, and
+$d_\text{query}{=}128$. Component breakdown:
+
+\begin{itemize}\itemsep1pt
+\item \textbf{Query encoder} (1.46\,M): a $2$-layer, $4$-head transformer
+      over tokenized question text with sinusoidal positional encoding,
+      pooled to a single $128$-d query embedding.
+\item \textbf{Visual patch encoder} (22.16\,M total; \textbf{0.10\,M}
+      trainable): frozen DINOv2-S/14 over $16$ keyframes resized to
+      $196{\times}196$ produces $14{\times}14{=}196$ patch tokens at $384$\,d,
+      followed by a trainable linear projection to $d_\text{vis}{=}256$ and
+      a temporal linear interpolation that aligns to the $T$ trajectory
+      frames.
+\item \textbf{Spatiotemporal trajectory encoder} (5.56\,M):
+      a per-frame trajectory tokenizer producing four tokens
+      $\{z^g, z^L, z^R, z^\phi\}$ (gaze, left hand, right hand, interaction),
+      an intra-frame transformer (\emph{L1}: $2$ layers, $4$ heads,
+      $d_\text{traj}{=}128$, FFN $4d$), an inter-frame temporal transformer
+      (\emph{L2}: $6$ layers, $8$ heads, $d_\text{enc}{=}256$, FFN $4d$,
+      sinusoidal positional encoding), a FiLM~\citep{perez2018film}
+      block conditioned on the query embedding, and a
+      visual--trajectory cross-attention fusion layer.
+\item \textbf{Trajectory decoder} (3.20\,M): $3$-layer, $8$-head
+      cross-attention decoder over future-frame queries, projecting to a
+      $6$-d output (gaze, left-hand, right-hand 2D positions; sigmoid).
+\item \textbf{Score decoder} (3.31\,M): a parallel $3$-layer, $8$-head
+      cross-attention decoder projecting to $196$-d patch scores per
+      future frame; used as auxiliary supervision in Stage~1 only.
+\item \textbf{TrajScoreHead} (0.12\,M): an attention pool over the four
+      per-frame trajectory tokens followed by a two-layer MLP
+      (LayerNorm$\to$Linear$\to$GELU$\to$Linear) with a sigmoid head
+      emitting the $196$-d patch importance map used at inference time
+      and consumed by the Stage~2 token merger.
+\end{itemize}
+
+%------------------------------------------------------------------------------
+\subsection{Stage 1: Trajectory-Driven Patch-Importance Pretraining}
+\label{sec:impl-stage1}
+
+\paragraph{Data.}
+Stage~1 uses StreamGaze\_v2 clips drawn from
+EgoExoLearn~\citep{huang2024egoexolearn} and
+HoloAssist~\citep{wang2023holoassistegocentrichumaninteraction}, and
+consumes only behavioral signals (gaze and hand trajectories) and image
+frames; no question--answer labels are used. Each clip is uniformly sampled
+into $T{=}128$ frames and split into a \emph{past} prefix of length $T_p$
+and a \emph{future} suffix of length $T-T_p$, where the split ratio
+$T_p/T$ is drawn uniformly from $[0.4, 0.6]$ at every training step. This
+forces the model to support arbitrary $T_p$ at inference time. Gaze and
+hand positions are loaded in normalized image coordinates with binary
+visibility flags; missing modalities are handled by dedicated learnable
+\emph{missing} embeddings inside the trajectory tokenizer.
+
+\paragraph{Per-frame supervision targets.}
+For every frame $t$ we render a ground-truth $14{\times}14$ patch-importance
+map $\mathbf{I}_t \in [0,1]^{196}$ by summing isotropic Gaussian responses
+on the patch-grid centers: a gaze Gaussian with bandwidth $\sigma_g{=}16$\,px
+(in $224^2$ frame coordinates) plus the per-hand maximum of two hand
+Gaussians with bandwidth $\sigma_h{=}24$\,px, with each modality contributing
+zero whenever its visibility flag is off. The result is normalized per
+frame and split into $\mathbf{I}^{\text{past}}_{1:T_p}$ and
+$\mathbf{I}^{\text{future}}_{T_p+1:T}$.
+
+\paragraph{Objective.}
+The trajectory encoder is trained end-to-end with a sum of four equally
+weighted MSE terms:
+\begin{equation}
+    \mathcal{L}_{\text{stage1}}
+    \;=\; \mathcal{L}_\text{traj}
+       \;+\; \mathcal{L}_\text{score-fut}
+       \;+\; \mathcal{L}_\text{score-past}
+       \;+\; \mathcal{L}_\text{score-traj} ,
+    \label{eq:stage1}
+\end{equation}
+\begin{itemize}\itemsep1pt
+\item $\mathcal{L}_\text{traj}$: future-trajectory regression in 2D image
+      coordinates from the trajectory decoder, valid-length-masked over
+      $T-T_p$ frames; gaze, left-hand, and right-hand positions are
+      stacked into a $6$-d target.
+\item $\mathcal{L}_\text{score-fut}$: future per-frame patch-score
+      regression from the score decoder against
+      $\mathbf{I}^{\text{future}}$.
+\item $\mathcal{L}_\text{score-past}$: regression of the encoder's raw
+      visual cross-attention readouts against $\mathbf{I}^{\text{past}}$,
+      acting as a spatial-grounding auxiliary on the past frames.
+\item $\mathcal{L}_\text{score-traj}$: distillation of the
+      \emph{trajectory-driven} attention chain
+      $\mathbf{A}^{\text{traj}}_{t,p}
+      = \sum_{t'} \mathrm{decAttn}_{t', t}\!\cdot\!\mathrm{encAttn}_{t, p}$
+      into the inference-time \texttt{TrajScoreHead}, with the chain
+      target detached and per-frame max-normalized to $[0,1]$. This is
+      the term that produces the patch scores consumed by Stage~2.
+\end{itemize}
+All four terms are computed with the variable-length valid mask induced by
+$(T_p, T-T_p)$.
+
+\paragraph{Optimization.}
+Stage~1 is trained for \textbf{100 epochs} with
+AdamW~\citep{loshchilov2019adamw}
+($\beta_1{=}0.9$, $\beta_2{=}0.999$, weight decay $10^{-4}$), peak learning
+rate $3{\times}10^{-4}$, and a cosine-annealing schedule decaying to
+$3{\times}10^{-6}$ ($1\%$ of peak). The per-GPU batch size is $2$
+(memory-bounded by the $T{=}128$ frame tensor); we train on
+\textbf{four NVIDIA H200 GPUs under DistributedDataParallel} for an
+effective global batch size of $8$. Frames are loaded at $224^2$ and
+internally resized to $196^2$ on the DINOv2 path so that the $14{\times}14$
+patch grid aligns exactly with $\mathbf{I}_t$. The checkpoint with the
+lowest mean training loss is retained as the Stage~2 initialization.
+
+%------------------------------------------------------------------------------
+\subsection{Stage 2: Joint Fine-Tuning with VLM and Token Merging}
+\label{sec:impl-stage2}
+
+\paragraph{Vision--language backbone and adapters.}
+We use \textbf{Qwen2.5-VL-7B-Instruct}~\citep{bai2025qwen25vl} as the
+frozen vision--language backbone, loaded in \texttt{bfloat16}. Both the
+visual encoder and the language model are kept frozen; only LoRA
+adapters~\citep{hu2021loralowrankadaptationlarge} are trained on the LLM
+side. LoRA is injected \emph{only} into the four self-attention projections
+$\{q_\text{proj}, k_\text{proj}, v_\text{proj}, o_\text{proj}\}$ of every
+LLM transformer layer (visual-encoder attention is not adapted), with rank
+$r{=}16$, scaling $\alpha{=}32$, dropout $0.05$, and no bias term. This
+yields $10{,}092{,}544$ trainable LoRA parameters out of
+$8{,}302{,}259{,}200$ ($0.122\%$). The Stage~1 trajectory encoder is loaded
+into the same training graph and fine-tuned end-to-end alongside the LoRA
+adapters.
+
+\paragraph{VLM input prompt.}
+For every multiple-choice question we construct a single chat-formatted
+\texttt{user} message with one video block followed by one text block. The
+text uses the fixed template
+\begin{quote}\small
+\texttt{You are watching a short first-person (egocentric) video clip.}\\
+\texttt{Question: \{q\}}\\\\
+\texttt{\{options\}}\\\\
+\texttt{Answer with only the letter (A, B, C, or D) of the correct option.}
+\end{quote}
+where \texttt{\{options\}} lists the four candidate answers as
+\texttt{A.\,$\cdot$\,/\,B.\,$\cdot$\,/\,C.\,$\cdot$\,/\,D.\,$\cdot$}, one
+per line. Frames are passed via Qwen's chat template with explicit
+\texttt{resized\_height}~$=$~\texttt{resized\_width}~$=224$. Predictions are
+obtained from a \emph{single} forward pass: we read the next-token logits at
+the last prompt position and take the $\argmax$ over the four token IDs
+corresponding to the letters $\{\text{A},\text{B},\text{C},\text{D}\}$. No
+generation is performed and no length normalization is applied, so the task
+becomes a four-way classification on top of the LM head.
+
+\paragraph{Frame sampling and visual-token counts.}
+Each clip is uniformly sampled into $T{=}128$ RGB frames for the VLM input
+and a parallel $T_p{=}128$ frames for the trajectory encoder; frames are
+resized to $224^2$. With Qwen2.5-VL's spatial-merge size $2$, temporal
+patch size $2$, and patch size $14$, every $224^2$ frame contributes
+$(224/14/2)^2{=}64$ spatial tokens, and the $128$ frames are folded into
+$T_\text{merged}{=}64$ temporal groups, giving
+\begin{equation}
+    N \;=\; T_\text{merged}\cdot n_\text{spatial}
+         \;=\; 64 \times 64 \;=\; 4{,}096
+    \label{eq:n_video}
+\end{equation}
+visual tokens per sample. The text prompt contributes roughly $80$--$110$
+tokens, so the full-resolution sequence length fed to the LLM is
+$L_\text{full}\approx 4{,}200$.
+
+\paragraph{Token reduction and compute savings.}
+Let $\rho \in (0,1)$ denote the merge ratio (the fraction of visual tokens
+removed) and $r{=}\lfloor \rho N \rfloor$ the number of removed tokens.
+Bipartite gaze-weighted merging shortens the LLM input from $L_\text{full}$
+to $L_\rho \approx (1-\rho)\,N + L_\text{text}$. Because the visual encoder
+is frozen and the merge operates between the ViT and the LLM, ViT FLOPs are
+unchanged and the savings accrue to the language model. Per LLM layer,
+self-attention scales as $\mathcal{O}(L^2 d)$ and the MLP as
+$\mathcal{O}(L d^2)$, with $d{=}3584$ for Qwen2.5-VL-7B.
+Table~\ref{tab:compute} reports the per-layer FLOP reduction.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{LLM compute as a function of the merge ratio $\rho$. Per-layer
+  FLOPs combine self-attention ($\propto L^2 d$) and MLP
+  ($\propto L d^2$); ViT cost is unchanged. The reduction factor is
+  relative to the no-merge baseline. All FLOP and wall-clock measurements
+  are taken on a single NVIDIA H200 GPU in training-mode
+  forward$+$backward.}
+  \label{tab:compute}
+  \begin{tabular}{lcccc}
+    \toprule
+    Setting & Keep ratio & Kept tokens & LLM seq.\ length $L$
+            & FLOPs reduction \\
+    \midrule
+    Full (no merge) & $100\%$  & $4{,}096$ & ${\sim}4{,}200$ & $1.0\times$  \\
+    $\rho = 0.90$   & $10\%$   & $410$     & ${\sim}510$     & $15.6\times$ \\
+    $\rho = 0.95$   & $5\%$    & $205$     & ${\sim}305$     & $27.5\times$ \\
+    $\rho = 0.99$   & $1\%$    & $41$      & ${\sim}141$     & $62.2\times$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\noindent
+At our default $\rho{=}0.95$ the LLM forward FLOPs drop by ${\sim}27.5\times$
+and the KV cache shrinks correspondingly. Qwen2.5-VL-7B uses grouped-query
+attention with $4$ KV heads and head dimension $128$, giving a KV feature
+dimension of $4\times128{=}512$ per layer. A full-context cache therefore
+requires $2\cdot 28 \cdot 4{,}200 \cdot 512 \cdot 2\,\text{B} \approx 241$\,MB
+in \texttt{bfloat16}, whereas at $\rho{=}0.95$ it is ${\approx}18$\,MB.
+
+\paragraph{Score alignment.}
+The \texttt{TrajScoreHead} produces per-frame importance maps of shape
+$(T_\text{traj}, 196)$, corresponding to a $14{\times}14$ patch grid at each of
+the $T_\text{traj}{=}128$ trajectory frames. These must be aligned to the
+$N{=}4{,}096$ visual tokens that Qwen2.5-VL presents to the LLM. The alignment
+proceeds in two steps. \emph{Spatially}, each $14{\times}14$ map is
+nearest-neighbor upsampled to $16{\times}16$ and then $2{\times}2$
+average-pooled to $8{\times}8$, yielding $n_\text{spatial}{=}64$ scores per
+frame—matching the $64$ spatial tokens per temporal group emitted by Qwen's
+spatial-merge stride of $2$. (The intermediate upsample to $16{\times}16$ is
+necessary because $14 \div 2 = 7 \neq 8$; direct half-resolution pooling would
+yield a $7{\times}7$ grid that mismatches the VLM token layout.) \emph{Temporally}, the resulting
+$(T_\text{traj}, 64)$ score tensor is linearly interpolated along the time axis
+to the $T_\text{merged}{=}64$ temporal groups produced by Qwen's temporal-merge
+stride of $2$. The aligned tensor is then flattened to
+$\mathbf{s}\in\mathbb{R}^{N}$, giving one score per visual token.
+
+\paragraph{Sequence construction with merged tokens.}
+Given the per-token gaze-importance scores $\mathbf{s}\in\mathbb{R}^{N}$
+emitted by the trajectory encoder, the top $(N-r)$ positions by score are
+designated as \emph{receivers} and the bottom $r$ as \emph{sources}. Each
+source is matched to the most cosine-similar receiver in token-embedding
+space, and a score-weighted average is computed via \texttt{scatter\_add},
+yielding $(N-r)$ merged embeddings. The source positions are then
+\emph{removed} from the input sequence (rather than masked): the
+corresponding entries of \texttt{input\_ids}, \texttt{attention\_mask}, and
+the 3D-RoPE \texttt{position\_ids} are sliced out, and the remaining
+receiver positions are populated with the merged embeddings via
+\texttt{inputs\_embeds}. Both training and inference therefore operate at
+the shortened length $L_\rho$, so the savings of Table~\ref{tab:compute}
+apply identically to forward and backward passes.
+
+\paragraph{Training procedure.}
+We train Stage~2 for three epochs over the union of EgoExoLearn and
+HoloAssist (5{,}799 items in 8 MCQ tasks; see \S\ref{sec:data}) and report
+on EGTEA~\citep{li2018egtea} (526 items). Optimization uses
+AdamW~\citep{loshchilov2019adamw} with weight decay $10^{-4}$, learning
+rate $1{\times}10^{-4}$ for the LoRA adapters and $1{\times}10^{-5}$ for
+the trajectory encoder, a constant schedule (no warmup), and global
+gradient-norm clipping at $1.0$. The per-device batch size is fixed at one
+and we accumulate gradients over four steps, yielding an effective batch
+size of four. Stage~2 runs on a \textbf{single NVIDIA H200 GPU} in
+\texttt{bfloat16}; deterministic seeding (\texttt{42}) is applied to
+\texttt{torch}, \texttt{torch.cuda}, \texttt{random}, and \texttt{numpy}.
+Hyperparameters are summarized in Table~\ref{tab:hparams}.
+
+\begin{table}[t]
+  \centering
+  \small
+  \caption{Stage-2 training hyperparameters.}
+  \label{tab:hparams}
+  \begin{tabular}{lll}
+    \toprule
+    Component & Hyperparameter & Value \\
+    \midrule
+    \multirow{4}{*}{Optimizer}
+      & Optimizer            & AdamW \\
+      & Weight decay         & $1\times10^{-4}$ \\
+      & LoRA learning rate   & $1\times10^{-4}$ \\
+      & TrajGaze encoder LR  & $1\times10^{-5}$ \\
+    \midrule
+    \multirow{3}{*}{Schedule}
+      & Schedule             & constant, no warmup \\
+      & Epochs               & 3 \\
+      & Gradient clipping    & 1.0 (global $\ell_2$) \\
+    \midrule
+    \multirow{3}{*}{Batching}
+      & Per-device batch     & 1 \\
+      & Gradient accumulation & 4 \\
+      & Effective batch      & 4 \\
+    \midrule
+    \multirow{3}{*}{LoRA}
+      & Targets              & $\{q,k,v,o\}_\text{proj}$ in LLM only \\
+      & Rank / $\alpha$ / dropout & $16$ / $32$ / $0.05$ \\
+      & Trainable params     & $10{,}092{,}544$ ($0.122\%$) \\
+    \midrule
+    \multirow{4}{*}{Inputs}
+      & VLM frames $T$              & 128 \\
+      & Trajectory frames $T_p$     & 128 \\
+      & Visual keyframes (DINOv2)   & 16 \\
+      & Frame resolution            & $224\times224$ \\
+    \midrule
+    Hardware & GPU & 1$\times$ NVIDIA H200 (\texttt{bfloat16}) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Training objective.}
+Let $\boldsymbol{\ell}^{\text{stu}} \in \mathbb{R}^{|\mathcal{V}|}$ denote
+the last-position LLM logits over the merged sequence and let
+$y^\star \in \{\text{A},\text{B},\text{C},\text{D}\}$ be the gold answer
+letter. We restrict the logits to the four option-letter token IDs,
+$\boldsymbol{\ell}^{\text{stu}}_{\mathcal{C}} \in \mathbb{R}^{4}$, and apply
+cross-entropy:
+\begin{equation}
+    \mathcal{L}_\text{CE}
+    \;=\; -\log
+    \frac{\exp\!\bigl(\boldsymbol{\ell}^{\text{stu}}_{\mathcal{C}}[y^\star]\bigr)}
+         {\sum_{c\in\mathcal{C}} \exp\!\bigl(\boldsymbol{\ell}^{\text{stu}}_{\mathcal{C}}[c]\bigr)} .
+    \label{eq:ce}
+\end{equation}
+For the no-distillation ablation reported in this paper,
+$\mathcal{L} = \mathcal{L}_\text{CE}$. For the distilled variants
+(\S\ref{sec:kd}) we additionally compute the same logits under a frozen
+full-token teacher (Qwen2.5-VL-7B with the baseline-LoRA adapters), denoted
+$\boldsymbol{\ell}^{\text{tea}}_{\mathcal{C}}$, and add a Kullback--Leibler
+distillation term:
+\begin{equation}
+    \mathcal{L}
+    \;=\; \alpha \cdot
+    \mathrm{KL}\!\Bigl(
+        \mathrm{softmax}(\boldsymbol{\ell}^{\text{tea}}_{\mathcal{C}})
+        \,\big\|\,
+        \mathrm{softmax}(\boldsymbol{\ell}^{\text{stu}}_{\mathcal{C}})
+    \Bigr)
+    + (1-\alpha)\cdot \mathcal{L}_\text{CE} .
+    \label{eq:kd}
+\end{equation}
+Setting $\alpha{=}0$ recovers the no-KD trainer; gradients on the teacher
+side are blocked at all times.
+
+\paragraph{Evaluation protocol.}
+Every $400$ optimizer steps we evaluate the entire EGTEA test split
+(526 items) by computing top-1 accuracy under the same merged-token
+inference pipeline used at training, and we keep the checkpoint that
+maximizes this merged accuracy. Final per-task numbers are reported on the
+selected checkpoint with $\rho$ fixed to its training value, with no
+test-time data augmentation, generation, or temperature tuning.
+
+%------------------------------------------------------------------------------
+\subsection{Reproducibility}
+\label{sec:impl-repro}
+Code, configuration files, and exact launch scripts are released alongside
+the paper. The Qwen2.5-VL-7B-Instruct snapshot hash used in all experiments
+is \texttt{cc594898137f460bfe9f0759e9844b3ce807cfb5}.
+Stage~1 uses four NVIDIA H200 GPUs under DDP and Stage~2 uses a
+single NVIDIA H200 GPU; all training runs use a fixed random seed
+(\texttt{42}) applied to \texttt{torch}, \texttt{torch.cuda},
+\texttt{random}, and \texttt{numpy}. Stage~2 is launched without
+distributed-data-parallel wrapping in order to eliminate cross-rank
+floating-point variability and make single-GPU runs bit-stable for a given
+seed.

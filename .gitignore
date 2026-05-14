@@ -101,6 +101,9 @@ AutoGaze/VideoMAE_AutoGaze/
 # TrajGaze logs
 TrajGaze/logs/
 
+# TrajGazeMerge eval outputs (large PNG/JSON result files)
+TrajGazeMerge/eval_results/
+
 # Others
 *.tar.gz
 *.zip
