@@ -605,3 +605,207 @@ StreamGaze 외 데이터셋 (EgoSchema, OpenEQA) 추가 평가로 일반화 입�
 | 5 | Cross-VLM (LLaVA-Next, InternVL) | Qwen 의존성 | 3–4주 |
 
 **가장 중요한 메시지**: Phase 0 결과로 paper narrative가 **데이터와 정합적이지 않음** 이 확인됨. 다음 venue submission 전에 narrative 재설계 필수 (옵션 A/B 결정).
+
+---
+
+## 12. Phase M1 — 메커니즘 규명 (encoder가 진짜 학습한 것)
+
+§7–§11이 "method가 의도대로 작동하는가" 를 외부에서 측정했다면, §12는 **encoder가 실제로 무엇을 학습했는지** 직접 진단.
+
+### 12.1 가설 (Phase M1 설계 시점)
+
+| 가설 | 내용 |
+|---|---|
+| **H1 Hand-tracking** | Encoder가 hand 위치를 따라가 spatial token을 선택 |
+| **H2 Temporal late-bias** | Encoder가 단순히 후반 프레임에 토큰을 몰아줌 (spatial은 무관) |
+| **H3 Hand-object interaction** | Encoder가 hand-gaze convergence 시점/위치에 집중 |
+
+### 12.2 M1.1 + M1.3 — Hand-position recall (526 EGTEA)
+
+기존 `gt_gaze_recall` 을 hand 위치로 확장:
+
+| Recall (random = keep_ratio 0.10) | Mean | Median |
+|---|---:|---:|
+| gt_gaze_recall | 0.077 | 0.073 |
+| gt_hand_left_recall | **0.100** | 0.047 |
+| gt_hand_right_recall | 0.053 | 0.000 |
+| gt_hand_mid_recall | 0.084 | 0.000 |
+| gt_hand_either_recall | 0.076 | 0.054 |
+| frame_center_recall | 0.048 | 0.047 |
+
+→ **H1 기각**. Hand 위치 recall이 random (0.10) 보다 *낮음*. Encoder는 hand도 따라가지 않음. By-correctness 차이도 ±0.005 수준으로 무의미.
+
+### 12.3 M1.2 — Score–trajectory feature correlation (526 EGTEA)
+
+각 샘플별, `kept_per_frame` 과 trajectory-derived per-frame feature의 Pearson r:
+
+| Feature | mean_corr | median | pct strong-positive (r > 0.3) |
+|---|---:|---:|---:|
+| **frame_index** | **0.498** | **0.509** | **98.1%** |
+| gaze_presence | 0.068 | 0.088 | 0.4% |
+| hand_presence | 0.055 | 0.003 | 15.5% |
+| gaze_speed | −0.040 | −0.080 | 4.6% |
+| gaze_to_center | −0.034 | −0.030 | 2.5% |
+| hand_velocity | 0.025 | −0.039 | 11.1% |
+| right_velocity | 0.021 | −0.038 | 8.7% |
+| left_velocity | 0.019 | −0.042 | 8.9% |
+| **convergence** | **0.001** | −0.008 | 3.5% |
+
+By-correctness diff는 모두 |Δ| < 0.02 (frame_index 포함). 즉 sample-agnostic.
+
+### 12.4 Verdict — **H2 (temporal late-bias) 확정**
+
+**Encoder는 trajectory dynamics를 frame-level temporal salience curve로 변환할 뿐. Spatial 위치는 사실상 무관.**
+
+이는 §1–§11의 모든 관찰을 단일 메커니즘으로 설명:
+
+| 진단 결과 | H2로 설명 |
+|---|---|
+| temporal_CoM 0.78 (§1) | 직접 |
+| late_half_ratio 0.83 (§1) | 직접 |
+| shuffle_kept ±0pt (§6.2) | spatial 무관하므로 셔플 무영향 |
+| mask_kept_early −1pt (§6.2) | 전반 frame은 가중치 낮음 |
+| mask_kept_late −11pt (§6.2) | 후반 frame이 답 정보 보유 |
+| frozen Δ −0.19pp (§11.3) | 프레임 압축은 frozen LLM이 안 씀 |
+| learned 69.0 vs uniform 61.4 (§2) | uniform은 argsort tie-break 으로 *early* frame 선호 → 잘못된 시간 분포 |
+| soft_oracle 64.26 (§6.1) | gaze 위치 분포는 약한 시간 신호만 줌 |
+| gt_gaze/hand_recall < random (§12.2) | spatial은 무관하므로 어디든 회피해도 무영향 |
+| gaze-intrinsic 성능 ≈ random (§11.1) | spatial gaze 따라가기는 못 함 |
+
+### 12.5 추가 발견 — Question-conditioning 부재
+
+`codebase_overview.md` 함정 #2에 따르면 `query_emb = torch.zeros(...)`. 즉 **encoder는 질문을 보지 않음**. M1.2의 by-correctness diff가 모두 zero에 가까운 것이 이를 입증 — 같은 trajectory에 대해 encoder 출력은 항상 같음 (question 무관).
+
+이는 method의 근본적 한계: "behavioral score" 가 본질적으로 *질문 conditional* 이 아니라 *trajectory conditional 시간 prior*.
+
+### 12.6 새 정확한 method 설명
+
+> "TrajGazeMerge encoder는 (gaze + hand) trajectory dynamics를 입력받아 frame-level **temporal salience curve** 를 출력. Spatial 차원은 학습 supervision (`I_scores_past`) 과 분리되지 않은 채 학습되지만, 결과적으로 LLM에 의해 활용되지 않음. Score-weighted bipartite merge는 사실상 *late-biased temporal compression* 으로 작동하며, LoRA가 이를 활용해 +3.4pp 의 marginal contribution 을 만든다."
+
+→ 헤드라인 +4.38pp ablation 이득은 전부 **temporal bias** 의 효과로 환원 가능.
+
+---
+
+## 13. 기존 narrative를 실제로 작동시키려면? (Path-Forward)
+
+§12에서 encoder가 spatial-gaze-attention이 아닌 temporal-only 임이 확인됐으므로, paper의 "gaze attention guides important patches + spatial selection isolates salient regions" narrative를 **실제로 작동하게 만들려면** 다음 변경이 필요:
+
+### 13.1 근본 원인 (지금 왜 안 되는지)
+
+| 진단 | 원인 |
+|---|---|
+| Spatial 선택이 random | Stage 1 supervision (`I_scores_past`) 가 spatial 위치를 강하게 강제하지 않음 |
+| 질문 무관 score | `query_emb = zeros` → encoder는 question을 못 봄 |
+| Bag-of-tokens 행동 | Qwen2.5-VL이 video token의 spatial 정렬을 약하게 사용 |
+| Temporal bias 폭주 | 학습 신호의 강한 prior가 시간축에 집중 (action이 후반에 일어남) |
+
+### 13.2 권장 개입 (영향력/비용 순)
+
+#### A. **Question-conditioning 활성화** ⭐⭐⭐ (가장 큰 ROI)
+
+현재 query encoder가 zero embedding을 받음. 이를 실제 question 임베딩으로 교체:
+- Stage 1 학습 시 `query_emb = qwen.text_encoder(question)` 또는 별도 작은 text encoder
+- 자연스럽게 sample 간 variation 추가
+- M1.2 by-correctness diff가 양수로 갈 것 (질문에 따라 score 다름)
+- **비용**: Stage 1 재학습 (~1시간) + Stage 2 재학습 (~수 시간)
+- **리스크**: 낮음 (구조 변경 미미)
+
+#### B. **Sharp spatial supervision** ⭐⭐⭐
+
+현재 `I_scores_past` 는 hand+gaze interaction 기반 soft score. 이를 더 강하게 localize:
+- GT gaze + hand 위치에 sharp Gaussian (σ ≈ 0.05) 만 1로 두고 나머지 0
+- Hard cross-entropy loss로 학습 (KL 대신)
+- Stage 1이 끝나면 `score(t,p)` 가 명확히 gaze/hand 패치를 가리키게 됨
+- 이후 Stage 2에서 LoRA가 spatial 정보 사용을 학습해야 함
+- **비용**: Stage 1 재학습 (~1시간) + 데이터셋 라벨링 작업 없음 (이미 존재하는 gaze/hand 위치 활용)
+- **리스크**: Spatial selection이 학습된 후 LoRA가 이를 어떻게 활용할지가 불확실
+
+#### C. **Anti-bag-of-tokens 학습 신호** ⭐⭐
+
+Stage 2 학습 중 random shuffle augmentation 추가:
+- 50% 확률로 merged_video를 random permute 후 forward
+- Permuted 입력의 정답률이 baseline보다 낮아야 한다는 loss (KL divergence 또는 margin)
+- 이는 LLM이 spatial 정렬에 의존하도록 강제
+- **비용**: Stage 2 재학습 ~2배 시간 (각 sample에 2 forward)
+- **리스크**: LoRA 학습 instability 가능성
+
+#### D. **Temporal-spatial 분리 아키텍처** ⭐⭐
+
+현재 score는 단일 (T, 196) score. 이를:
+- `temporal_score[T]` (frame-level weight)
+- `spatial_score[T, 196]` (patch-level within frame)
+- 최종 score = temporal_score * spatial_score
+- Temporal과 spatial supervision 분리
+
+이렇게 하면 spatial 학습이 temporal 학습에 흡수되지 않음. 현재 단일 score path가 spatial을 시각화하긴 어렵게 만듦.
+- **비용**: 아키텍처 수정 (1주) + 재학습
+- **리스크**: 중간
+
+#### E. **Tighter budget으로 spatial 강제** ⭐
+
+keep ratio을 1–3%로 줄이면 모델이 시간 분산만으론 못 살아남고 spatial 선택을 학습해야 함.
+- §6.4 cross-keep 결과: keep03 = 65.97% (10%에서 67.68% 대비 −1.7pt), temporal_CoM 0.73 (10%에서 0.78 대비) — tight budget에서 분산 확대 시작
+- 더 tight하게 (e.g., keep ≤ 5%) + 위 A/B 변경 결합
+- **비용**: 학습 1–2 runs
+
+#### F. **다른 VLM backbone**
+
+Qwen2.5-VL이 video token bag-of-tokens 경향을 가짐 (§6.2 shuffle_kept). LLaVA-Next 또는 InternVL2처럼 spatial 의존성이 더 강한 VLM에선 spatial selection이 작동할 수도.
+- **비용**: 3–4주 (VLM porting + adapter)
+- **리스크**: 높음 (다른 quirk 발견 가능)
+
+### 13.3 권장 진행 순서 (paper narrative 복원)
+
+**Sprint 1 (1–2주): A + B 결합**
+1. Query embedding 활성화 + sharp spatial supervision
+2. Stage 1 재학습 (1 run, ~1시간)
+3. Stage 2 재학습 (1 run, ~수 시간)
+4. 본 진단 (§1, §12) 재실행 → gt_gaze_recall, shuffle_kept Δ, frame_index corr 측정
+5. **성공 기준**:
+   - gt_gaze_recall > 0.20 (현재 0.077 → 2.6x)
+   - shuffle_kept Δ < −3pt (현재 ±0)
+   - frame_index corr < 0.3 (현재 0.50)
+   - accuracy ≥ 67% (성능 유지)
+
+**Sprint 2 (1주): 결과 보고 C/E 결정**
+- A+B 결과가 좋으면 → Sprint 3로 직행
+- spatial selection은 살았지만 정확도 떨어졌으면 → C (shuffle augmentation) 추가
+- 여전히 spatial 안 살아나면 → E (tighter budget) 또는 F (다른 VLM)
+
+**Sprint 3 (2–3주): D + 외부 데이터셋 검증**
+- Temporal-spatial 분리 아키텍처로 명확한 ablation 가능하게
+- EgoMCQ 또는 EgoSchema 등에서 cross-dataset 검증
+
+**Sprint 4 (1–2주): Paper rewrite**
+- 새 method section: question-conditional, spatially-localized score
+- 새 ablation tables: spatial 진짜 작동 입증 (gt_gaze_recall, shuffle, mask 진단 결과)
+- 기존 narrative 살아남음
+
+### 13.4 결정 트리
+
+```
+Sprint 1 결과
+├── gt_gaze_recall > 0.20 & shuffle Δ < −3 & acc ≥ 67%
+│    → 기존 narrative 복원 가능 ✓
+│      Sprint 3로 진행 (cross-dataset 검증)
+│
+├── spatial 살았으나 acc < 67%
+│    → trade-off 존재
+│      Sprint 2의 C (shuffle aug) 또는 budget 조정으로 회복 시도
+│
+└── gt_gaze_recall < 0.15 & shuffle Δ ≈ 0
+     → Qwen-VL 자체가 spatial 무시
+       → F (다른 VLM) 검토, 또는 narrative pivot (옵션 A/B, §11.5)
+```
+
+### 13.5 솔직한 위험 평가
+
+이 방향은 "encoder를 의도대로 작동시키는" 데 성공할 가능성과, 그래도 "Qwen-VL의 bag-of-tokens" 한계 때문에 spatial selection이 헤드라인 성능 향상으로 이어지지 않을 가능성이 모두 있음. §6.2 shuffle_kept ±0pp + §11.3 frozen Δ −0.19pp 두 결과는 후자를 강하게 시사. 따라서:
+
+- **낙관적**: Sprint 1 A+B로 spatial selection 활성화 + +1pp 정도 acc 증가. Narrative 살아남음.
+- **현실적**: Spatial 활성화는 성공하지만 acc는 유지/약간 감소. "Method works as designed" 정성 분석 추가 가능하지만 헤드라인 숫자 변동 미미.
+- **비관적**: Qwen이 spatial을 무시하는 한 spatial selection은 어떤 형태로든 inert. Sprint 2에서 F (다른 VLM) 으로 가야 함.
+
+세 시나리오 모두 paper 방어 가능하지만, 비관 시나리오는 시간이 가장 많이 듦 (3–6주 추가).
+
+**핵심 권고**: **Sprint 1 A+B를 1–2주 안에 실행 후 결정**. 가장 적은 비용으로 narrative 복원 가능성을 답함.
