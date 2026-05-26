@@ -28,9 +28,9 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.optim import AdamW
 from torch.utils.data import DataLoader, DistributedSampler
 
-sys.path.insert(0, "/workspace/EgoGazeVQA")
+sys.path.insert(0, "/workspace/trajgaze_st")
 
-from TrajGazeMerge.data.dataset import StreamGazeMergeDataset
+from TrajGazeMerge.data.combined_dataset import CombinedMergeDataset
 from TrajGazeMerge.models.model import (
     load_qwen_lora, get_option_ids, preprocess_item, build_full_inputs, forward_logits
 )
@@ -60,9 +60,8 @@ def setup_ddp():
 
 
 def evaluate(processor, model, base_qwen, option_ids, device, max_items=200):
-    """Evaluate on egtea test split; returns accuracy."""
-    from TrajGazeMerge.data.dataset import StreamGazeMergeDataset
-    test_ds = StreamGazeMergeDataset(split="test", n_vlm_frames=128)
+    """Evaluate on the combined egtea test split; returns accuracy."""
+    test_ds = CombinedMergeDataset(split="test", n_vlm_frames=128)
     test_ds.items = test_ds.items[:max_items]
 
     model.eval()
@@ -81,9 +80,13 @@ def evaluate(processor, model, base_qwen, option_ids, device, max_items=200):
                     continue
                 full_inputs = build_full_inputs(base_qwen, cached)
                 logits = forward_logits(model, full_inputs)
-                option_logits = logits[option_ids]
+                n_opt = len(item["options"])
+                letters = [chr(65 + i) for i in range(n_opt)]
+                if item["answer"] not in letters:
+                    continue
+                option_logits = logits[option_ids[:n_opt]]
                 pred_idx = option_logits.argmax().item()
-                gt_idx   = ["A", "B", "C", "D"].index(item["answer"])
+                gt_idx   = letters.index(item["answer"])
                 correct += int(pred_idx == gt_idx)
                 total   += 1
             except Exception:
@@ -113,13 +116,13 @@ def main():
     base_qwen = model.get_base_model()
 
     model = DDP(model, device_ids=[local_rank], find_unused_parameters=True)
-    option_ids = get_option_ids(processor)
+    option_ids = get_option_ids(processor, 5)   # A–E pool; sliced per item
 
     if is_main:
         print("Model loaded.")
 
     # ── Dataset ───────────────────────────────────────────────────────────────
-    train_ds = StreamGazeMergeDataset(split="train", n_vlm_frames=args.n_frames)
+    train_ds = CombinedMergeDataset(split="train", n_vlm_frames=args.n_frames)
     sampler  = DistributedSampler(train_ds, num_replicas=world_size,
                                   rank=rank, shuffle=True)
     loader   = DataLoader(train_ds, batch_size=1, sampler=sampler,
@@ -160,9 +163,13 @@ def main():
                 # Forward through LoRA model (all visual tokens)
                 logits = forward_logits(model, full_inputs)  # (vocab_size,)
 
-                # MCQ loss: CE over 4 option logits
-                option_logits = logits[option_ids]           # (4,)
-                gt_idx = ["A", "B", "C", "D"].index(item["answer"])
+                # MCQ loss: CE over this item's option logits (4 or 5)
+                n_opt = len(item["options"])
+                letters = [chr(65 + i) for i in range(n_opt)]
+                if item["answer"] not in letters:
+                    continue
+                option_logits = logits[option_ids[:n_opt]]   # (n_opt,)
+                gt_idx = letters.index(item["answer"])
                 loss   = F.cross_entropy(
                     option_logits.unsqueeze(0),
                     torch.tensor([gt_idx], device=device),
@@ -190,7 +197,7 @@ def main():
                             "loss": avg_loss, "elapsed": elapsed,
                         }) + "\n")
 
-                if is_main and n_steps % args.eval_every == 0:
+                if is_main and args.eval_every > 0 and n_steps % args.eval_every == 0:
                     acc, n_eval = evaluate(
                         processor, model.module, base_qwen, option_ids, device
                     )

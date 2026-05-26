@@ -90,11 +90,15 @@ def load_qwen_frozen(device: torch.device):
     return processor, model
 
 
-def get_option_ids(processor) -> list[int]:
-    """Token IDs for 'A', 'B', 'C', 'D' in Qwen tokenizer."""
+def get_option_ids(processor, n: int = 4) -> list[int]:
+    """Token IDs for the first `n` option letters ('A', 'B', ...) in Qwen tokenizer.
+
+    Default n=4 keeps backward compatibility; pass n=5 to cover EgoGazeVQA's
+    A–E options. Callers slice [:k] per item by that item's option count.
+    """
     return [
-        processor.tokenizer.encode(c, add_special_tokens=False)[0]
-        for c in ["A", "B", "C", "D"]
+        processor.tokenizer.encode(chr(65 + i), add_special_tokens=False)[0]
+        for i in range(n)
     ]
 
 
@@ -135,10 +139,13 @@ def preprocess_item(
         return None
 
     options_text = "\n".join(options)
+    letters = [chr(65 + i) for i in range(len(options))]
+    letters_str = ", ".join(letters[:-1]) + (f", or {letters[-1]}"
+                                              if len(letters) > 1 else "")
     user_text = (
         "You are watching a short first-person (egocentric) video clip.\n"
         f"Question: {question}\n\n{options_text}\n\n"
-        "Answer with only the letter (A, B, C, or D) of the correct option."
+        f"Answer with only the letter ({letters_str}) of the correct option."
     )
     messages = [{"role": "user", "content": [
         {"type": "video", "video": frames,
@@ -167,12 +174,16 @@ def preprocess_item(
 
     # Extract visual features from frozen ViT (already in LLM embedding space)
     with torch.no_grad():
-        video_embeds = base_qwen.model.get_video_features(pv_vid, grid_thw).to(emb_dev)
+        # transformers >= 4.51 exposes the visual tower directly; the older
+        # `model.get_video_features` helper was removed.
+        video_embeds = base_qwen.visual(pv_vid, grid_thw=grid_thw).to(emb_dev)
 
         # 3D-RoPE position IDs for the original (full) sequence
-        position_ids, rope_deltas = base_qwen.model.get_rope_index(
+        position_ids, rope_deltas = base_qwen.get_rope_index(
             input_ids=input_ids,
+            image_grid_thw=None,
             video_grid_thw=grid_thw,
+            second_per_grid_ts=None,
             attention_mask=attention_mask,
         )
 

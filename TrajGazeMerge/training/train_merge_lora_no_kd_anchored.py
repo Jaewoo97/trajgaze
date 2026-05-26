@@ -1,7 +1,15 @@
 """
-Experiment 2: TrajGazeMerge (10% visual token select) + Qwen2.5-VL-7B LoRA — CE loss only.
+Anchored TrajGazeMerge variant: gaze + left/right-hand spatial cells are
+mandatory receivers; remaining slots in the 10% token budget are filled by
+the encoder's score top-k.
 
-Identical to train_merge_lora.py but with the KD/teacher removed.
+Default A (when anchor count > target receiver count): the highest-score
+anchors stay, lower-score anchors fall back to source pool. Implemented by
+adding a large constant (ANCHOR_BOOST) to scores_all at anchor positions —
+argsort naturally promotes anchors first, and the top-(N-r) cut keeps the
+highest-score anchors first.
+
+Identical to train_merge_lora_no_kd.py except for the anchor-boost lines.
 Loss: CE(student_logits, label) only (no KL divergence, no teacher model).
 
 Trainable: TrajGaze encoder + Qwen LoRA adapters (ViT frozen).
@@ -37,7 +45,10 @@ from torch.utils.data import DataLoader, DistributedSampler
 sys.path.insert(0, "/workspace/EgoGazeVQA")
 
 from TrajGazeMerge.data.combined_dataset import CombinedMergeDataset
-from TrajGazeMerge.models.merge import gaze_weighted_merge, score_to_qwen_spatial
+from TrajGazeMerge.models.merge import (
+    gaze_weighted_merge, score_to_qwen_spatial, compute_anchor_mask_for_qwen,
+)
+ANCHOR_BOOST = 1.0e6   # ensures anchored cells outrank any non-anchor scores
 from TrajGazeMerge.models.model import (
     load_qwen_lora, get_option_ids, preprocess_item,
     build_merged_inputs, build_full_inputs, forward_logits,
@@ -45,7 +56,7 @@ from TrajGazeMerge.models.model import (
 from TrajGaze_v2.models.model import TrajGazeV2
 
 STAGE1_CKPT = "/workspace/EgoGazeVQA/TrajGaze_v2/checkpoints/stage1_v3/best.pth"
-OUTPUT_ROOT = "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/merge_lora_no_kd"
+OUTPUT_ROOT = "/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints/merge_lora_no_kd_anchored"
 
 
 def parse_args():
@@ -137,6 +148,14 @@ def evaluate(processor, qwen_model, base_qwen, traj_encoder,
                         scores_all = scores_all[:n_video]
                     else:
                         scores_all = scores_all.repeat((n_video + scores_all.shape[0] - 1) // scores_all.shape[0])[:n_video]
+
+                # Anchor boost (gaze + left/right hand cells → mandatory receivers).
+                anchor_spat = compute_anchor_mask_for_qwen(item["traj"], n_spatial).to(scores_all.device)
+                anchor_all  = anchor_spat.unsqueeze(0).expand(T_merged, -1).reshape(-1)
+                if anchor_all.shape[0] != n_video:
+                    anchor_all = anchor_all[:n_video] if anchor_all.shape[0] > n_video \
+                        else anchor_all.repeat((n_video + anchor_all.shape[0] - 1) // anchor_all.shape[0])[:n_video]
+                scores_all = scores_all + ANCHOR_BOOST * anchor_all
 
                 video_det = cached["video_embeds"].detach()
                 merged_video, receiver_idx = gaze_weighted_merge(video_det, scores_all, r)
@@ -244,6 +263,14 @@ def main():
                         scores_all = scores_all.repeat(
                             (n_video + scores_all.shape[0] - 1) // scores_all.shape[0]
                         )[:n_video]
+
+                # Anchor boost (gaze + left/right hand cells → mandatory receivers).
+                anchor_spat = compute_anchor_mask_for_qwen(item["traj"], n_spatial).to(scores_all.device)
+                anchor_all  = anchor_spat.unsqueeze(0).expand(T_merged, -1).reshape(-1)
+                if anchor_all.shape[0] != n_video:
+                    anchor_all = anchor_all[:n_video] if anchor_all.shape[0] > n_video \
+                        else anchor_all.repeat((n_video + anchor_all.shape[0] - 1) // anchor_all.shape[0])[:n_video]
+                scores_all = scores_all + ANCHOR_BOOST * anchor_all
 
                 video_det = cached["video_embeds"].detach()
                 merged_video, receiver_idx = gaze_weighted_merge(video_det, scores_all, r)

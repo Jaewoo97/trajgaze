@@ -11,12 +11,55 @@ gaze_weighted_merge(tokens, patch_scores, r):
 score_to_qwen_spatial(patch_scores, n_spatial):
     - Interpolates TrajGaze 14×14 scores to Qwen's spatial token grid
     - Matches the 14→16→8 pipeline used in stage2.py for mask mapping
+
+compute_anchor_mask_for_qwen(traj, n_spatial):
+    - Builds a (n_spatial,) {0,1} mask marking spatial cells that contain a
+      gaze, left-hand, or right-hand position in ANY trajectory frame.
+    - Used by the anchored TrajGazeMerge variant to force gaze/hand cells
+      into the receiver set ahead of the score-based top-k.
 """
 
 from __future__ import annotations
 
 import torch
 import torch.nn.functional as F
+
+
+def compute_anchor_mask_for_qwen(traj: dict, n_spatial: int) -> torch.Tensor:
+    """
+    Per-item Qwen-grid anchor mask.
+
+    Binning: every (x, y) ∈ [0,1] from gaze_pos / left_pos / right_pos that has
+    its corresponding mask=True is mapped to its spatial cell (row, col) on a
+    side×side grid (side = √n_spatial) and OR'd into the anchor mask.
+
+    Returns:
+        (n_spatial,) float32 with values in {0.0, 1.0}.
+    """
+    side = int(round(n_spatial ** 0.5))
+    if side * side != n_spatial:
+        # Non-square fallback: drop the anchor (returns all-zeros) — the
+        # caller then degrades to pure score-based selection for this item.
+        return torch.zeros(n_spatial, dtype=torch.float32,
+                           device=traj["gaze_pos"].device)
+    device = traj["gaze_pos"].device
+    anchor = torch.zeros(n_spatial, dtype=torch.float32, device=device)
+    for pos_key, mask_key in (("gaze_pos",  "gaze_mask"),
+                              ("left_pos",  "left_mask"),
+                              ("right_pos", "right_mask")):
+        pos = traj.get(pos_key)
+        msk = traj.get(mask_key)
+        if pos is None or msk is None:
+            continue
+        if msk.dtype != torch.bool:
+            msk = msk.bool()
+        if msk.sum().item() == 0:
+            continue
+        pp = pos[msk]                                              # (Tk, 2) in [0,1]
+        cc = (pp[:, 0] * side).long().clamp(0, side - 1)
+        rr = (pp[:, 1] * side).long().clamp(0, side - 1)
+        anchor[rr * side + cc] = 1.0
+    return anchor
 
 
 def score_to_qwen_spatial(patch_scores: torch.Tensor, n_spatial: int) -> torch.Tensor:

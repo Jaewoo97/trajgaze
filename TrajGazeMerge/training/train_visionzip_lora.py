@@ -45,7 +45,7 @@ sys.path.insert(0, "/workspace/EgoGazeVQA/VisionZip/Qwen2_5_VL")
 # VisionZip's modified Qwen2.5-VL (visual encoder returns attn scores + keys)
 from qwen2_5vl_visionzip import Qwen2_5_VLForConditionalGeneration as VisionZipQwen
 
-from TrajGazeMerge.training.train_autogaze_lora import StreamGazeSimpleDataset
+from TrajGazeMerge.data.combined_simple_dataset import CombinedSimpleDataset
 from TrajGazeMerge.models.model import (
     get_option_ids, build_merged_inputs, forward_logits,
 )
@@ -75,7 +75,7 @@ def load_visionzip_lora(device: torch.device):
         QWEN_MODEL,
         torch_dtype=torch.bfloat16,
         device_map={"": device},
-        attn_implementation="flash_attention_2",
+        attn_implementation="flash_attention_2",   # upstream-validated; avoids O(N^2) ViT attn OOM on long video seqs
     )
 
     lora_cfg = LoraConfig(
@@ -112,13 +112,14 @@ def preprocess_visionzip_item(
     from PIL import Image as _PIL
     from qwen_vl_utils import process_vision_info
 
-    options_text = "\n".join(
-        f"{chr(65+i)}. {opt}" for i, opt in enumerate(options)
-    )
+    options_text = "\n".join(options)   # options already "A. ..." prefixed
+    letters = [chr(65 + i) for i in range(len(options))]
+    letters_str = ", ".join(letters[:-1]) + (f", or {letters[-1]}"
+                                              if len(letters) > 1 else "")
     prompt = (
         f"{question}\n"
         f"Options:\n{options_text}\n"
-        "Answer with a single letter (A, B, C, or D)."
+        f"Answer with a single letter ({letters_str})."
     )
     messages = [{
         "role": "user",
@@ -294,7 +295,7 @@ def setup_ddp():
 
 
 def evaluate(processor, model, base_qwen, option_ids, device):
-    test_ds = StreamGazeSimpleDataset(split="test", n_vlm_frames=128)
+    test_ds = CombinedSimpleDataset(split="test", n_vlm_frames=128)
     model.eval()
     correct = 0
     total   = 0
@@ -319,10 +320,14 @@ def evaluate(processor, model, base_qwen, option_ids, device):
                     base_qwen, cached, selected_embeds, receiver_idx
                 )
 
+                n_opt = len(item["options"])
+                letters = [chr(65 + i) for i in range(n_opt)]
+                if item["answer"] not in letters:
+                    continue
                 logits        = forward_logits(model, inputs_dict)
-                option_logits = logits[option_ids]
+                option_logits = logits[option_ids[:n_opt]]
                 pred_idx      = option_logits.argmax().item()
-                gt_idx        = ["A", "B", "C", "D"].index(item["answer"])
+                gt_idx        = letters.index(item["answer"])
                 ok = int(pred_idx == gt_idx)
                 correct += ok
                 total   += 1
@@ -355,11 +360,11 @@ def main():
     processor, model = load_visionzip_lora(device)
     base_qwen  = model.get_base_model()
     model      = DDP(model, device_ids=[local_rank], find_unused_parameters=True)
-    option_ids = get_option_ids(processor)
+    option_ids = get_option_ids(processor, 5)   # A–E pool; sliced per item
     if is_main:
         print("Model loaded.")
 
-    train_ds = StreamGazeSimpleDataset(split="train", n_vlm_frames=args.n_frames)
+    train_ds = CombinedSimpleDataset(split="train", n_vlm_frames=args.n_frames)
     sampler  = DistributedSampler(train_ds, num_replicas=world_size, rank=rank, shuffle=True)
     loader   = DataLoader(train_ds, batch_size=1, sampler=sampler,
                           collate_fn=lambda b: b[0], num_workers=2)
@@ -403,9 +408,13 @@ def main():
                     )
 
                 # Forward + CE loss
+                n_opt = len(item["options"])
+                letters = [chr(65 + i) for i in range(n_opt)]
+                if item["answer"] not in letters:
+                    continue
                 logits        = forward_logits(model, inputs_dict)
-                option_logits = logits[option_ids]
-                gt_idx  = ["A", "B", "C", "D"].index(item["answer"])
+                option_logits = logits[option_ids[:n_opt]]
+                gt_idx  = letters.index(item["answer"])
                 loss    = F.cross_entropy(
                     option_logits.unsqueeze(0),
                     torch.tensor([gt_idx], device=device),
