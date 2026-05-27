@@ -48,9 +48,11 @@ from TrajGaze_v2.models.model_temporal import TrajGazeV2Temporal
 from TrajGaze_v2.data.dataset_temporal import (
     StreamGazeStage1DatasetTemporal, collate_stage1_temporal,
 )
+from TrajGaze_v2.data.dataset_temporal_egovqa import EgoGazeVQAStage1DatasetTemporal
 from TrajGaze_v2.training.loss_schedule import (
     LossWeights, curriculum_weights, total_from_weighted,
 )
+from torch.utils.data import ConcatDataset
 
 
 def parse_args():
@@ -118,6 +120,14 @@ def parse_args():
                         "Same x_iframe used as KV (per-token detail) and query "
                         "conditioning (frame summary). Requires "
                         "--use-patch-temporal-branch.")
+    # Combined-dataset training (StreamGaze + EgoGazeVQA)
+    p.add_argument("--use-egovqa", action="store_true",
+                   help="ConcatDataset StreamGaze + EgoGazeVQA (ego4d+egoexo) for "
+                        "Stage 1. Default: StreamGaze only.")
+    p.add_argument("--use-trajectory-anchor", action="store_true",
+                   help="TAS: multiplicative Gaussian prior over score_head output "
+                        "centred on GT gaze/hand patches. Identity at init "
+                        "(amp gates start at 0); learns σ and α during Stage 1 + 2.")
     return p.parse_args()
 
 
@@ -146,7 +156,17 @@ def main():
               f"batch/GPU={args.batch_size}")
         print(f"[stage1_temporal] output: {args.output_dir}")
 
-    dataset = StreamGazeStage1DatasetTemporal(n_frames=args.n_frames)
+    sg_dataset = StreamGazeStage1DatasetTemporal(n_frames=args.n_frames)
+    if args.use_egovqa:
+        ev_dataset = EgoGazeVQAStage1DatasetTemporal(
+            n_frames=args.n_frames, datasets=("ego4d", "egoexo"),
+        )
+        dataset = ConcatDataset([sg_dataset, ev_dataset])
+        if is_main:
+            print(f"[stage1_temporal] Combined dataset: StreamGaze={len(sg_dataset)} "
+                  f"+ EgoGazeVQA={len(ev_dataset)} = {len(dataset)} clips")
+    else:
+        dataset = sg_dataset
     sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank, shuffle=True)
     loader  = DataLoader(
         dataset,
@@ -164,6 +184,7 @@ def main():
         use_post_fusion_iframe=args.use_post_fusion_iframe,
         use_patch_temporal_branch=args.use_patch_temporal_branch,
         use_iframe_query_conditioning=args.use_iframe_query_conditioning,
+        use_trajectory_anchor=args.use_trajectory_anchor,
     ).to(device)
 
     # Apply gate init / freeze before DDP wrap so DDP picks up the right param state.

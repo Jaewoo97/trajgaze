@@ -72,6 +72,48 @@ def parse_args():
     p.add_argument("--n-traj-frames",   type=int,   default=128)
     p.add_argument("--n-vis-keyframes", type=int,   default=16)
     p.add_argument("--seed",            type=int,   default=42)
+    # Sprint 2 intervention C — anti-bag-of-tokens shuffle augmentation
+    p.add_argument("--shuffle-aug",          action="store_true",
+                   help="Apply shuffle-then-penalize margin loss to discourage "
+                        "bag-of-tokens behavior (Sprint 2 §C).")
+    p.add_argument("--shuffle-prob",         type=float, default=0.5)
+    p.add_argument("--shuffle-margin",       type=float, default=0.5)
+    p.add_argument("--shuffle-lambda",       type=float, default=0.5)
+    p.add_argument("--shuffle-warmup-steps", type=int,   default=200)
+    # Trajectory-grounding plan — ATR (auxiliary trajectory reconstruction)
+    p.add_argument("--use-atr",        action="store_true",
+                   help="ATR: pool merged_video receivers per frame and regress "
+                        "GT gaze/hand coords. Forces selected tokens to carry "
+                        "trajectory information.")
+    p.add_argument("--atr-lambda",     type=float, default=0.5)
+    p.add_argument("--atr-hidden",     type=int,   default=256)
+    # Trajectory-grounding plan — CGM (counterfactual gaze-mask loss)
+    p.add_argument("--cgm-aug",        action="store_true",
+                   help="CGM: zero receivers within --cgm-radius of GT gaze (or "
+                        "hand if --cgm-target=hand) and apply margin loss. "
+                        "Mutually compatible with --shuffle-aug.")
+    p.add_argument("--cgm-target",     choices=["gaze", "hand"], default="gaze")
+    p.add_argument("--cgm-lambda",     type=float, default=0.3)
+    p.add_argument("--cgm-prob",       type=float, default=0.3)
+    p.add_argument("--cgm-radius",     type=float, default=0.2)
+    p.add_argument("--cgm-margin",     type=float, default=0.5)
+    p.add_argument("--cgm-warmup-steps", type=int, default=600)
+    # Combined-dataset training (StreamGaze + EgoGazeVQA)
+    p.add_argument("--use-egovqa", action="store_true",
+                   help="ConcatDataset StreamGaze + EgoGazeVQA (ego4d+egoexo) for "
+                        "Stage 2 training. Default: StreamGaze only.")
+    p.add_argument("--eval-egovqa-egtea", action="store_true",
+                   help="Additionally evaluate on EgoGazeVQA EGTEA (431 items) "
+                        "alongside StreamGaze EGTEA (526 items). Best.pth saved "
+                        "by mean accuracy across val sets.")
+    p.add_argument("--use-hd-epic", action="store_true",
+                   help="Add HD-EPIC P01-P08 (~22k samples) to the train mixture. "
+                        "Trajectory data is placeholder (no real gaze/hand 2D), so "
+                        "HD-EPIC samples train via CE only — no ATR/CGM contribution.")
+    p.add_argument("--eval-hd-epic", action="store_true",
+                   help="Additionally evaluate on HD-EPIC P09 (~3.9k items).")
+    p.add_argument("--dataloader-num-workers", type=int, default=8,
+                   help="DataLoader num_workers for train_ds.")
     return p.parse_args()
 
 
@@ -95,6 +137,7 @@ def load_traj_encoder(model_type, stage1_ckpt, device, n_vis_keyframes):
     has_iframe_query_cond = any(
         k.startswith("encoder.iframe_query_conditioner") for k in state
     )
+    has_trajectory_anchor = any(k.startswith("trajectory_anchor.") for k in state)
 
     if model_type == "full":
         from TrajGaze_v2.models.model_temporal import TrajGazeV2Temporal
@@ -104,6 +147,7 @@ def load_traj_encoder(model_type, stage1_ckpt, device, n_vis_keyframes):
             use_post_fusion_iframe=has_post_iframe,
             use_patch_temporal_branch=has_patch_temporal,
             use_iframe_query_conditioning=has_iframe_query_cond,
+            use_trajectory_anchor=has_trajectory_anchor,
         ).to(device)
     elif model_type == "gaze_only":
         from TrajGaze_v2.models.model_temporal_gaze_only import TrajGazeV2TemporalGazeOnly
@@ -114,7 +158,7 @@ def load_traj_encoder(model_type, stage1_ckpt, device, n_vis_keyframes):
 
     missing, unexpected = model.load_state_dict(state, strict=False)
     print(f"[TrajEncoder] loaded {model_type} from {stage1_ckpt}")
-    print(f"  inferred flags: use_frame_score_branch={has_frame_score}, use_post_fusion_iframe={has_post_iframe}, use_patch_temporal_branch={has_patch_temporal}, use_iframe_query_conditioning={has_iframe_query_cond}")
+    print(f"  inferred flags: use_frame_score_branch={has_frame_score}, use_post_fusion_iframe={has_post_iframe}, use_patch_temporal_branch={has_patch_temporal}, use_iframe_query_conditioning={has_iframe_query_cond}, use_trajectory_anchor={has_trajectory_anchor}")
     if missing:
         print(f"  [warn] missing keys ({len(missing)}): {missing[:8]}{'...' if len(missing) > 8 else ''}")
     if unexpected:
@@ -151,14 +195,11 @@ def score_to_qwen_spatiotemporal(scores, n_spatial, T_merged):
     return scores_spatial.reshape(-1)
 
 
-def evaluate(processor, qwen_model, base_qwen, traj_encoder, option_ids, device, merge_ratio):
-    from TrajGazeMerge.data.dataset import StreamGazeMergeDataset
-    test_ds = StreamGazeMergeDataset(split="test", n_vlm_frames=128, n_traj_frames=128)
-    qwen_model.eval()
-    traj_encoder.eval()
+def _evaluate_one(test_ds, processor, qwen_model, base_qwen, traj_encoder,
+                  option_ids, device, merge_ratio):
+    """Evaluate accuracy on a single val Dataset. Returns (acc, n, per_task)."""
     correct = total = 0
     by_task: dict[str, list] = {}
-
     with torch.no_grad():
         for item in test_ds:
             if item is None:
@@ -189,11 +230,52 @@ def evaluate(processor, qwen_model, base_qwen, traj_encoder, option_ids, device,
                 by_task.setdefault(item.get("task", "unknown"), []).append(ok)
             except Exception:
                 pass
+    per_task = {t: 100.0 * sum(v) / max(1, len(v)) for t, v in sorted(by_task.items())}
+    return 100.0 * correct / max(1, total), total, per_task
+
+
+def evaluate(processor, qwen_model, base_qwen, traj_encoder, option_ids, device,
+             merge_ratio, eval_egovqa_egtea: bool = False,
+             eval_hd_epic: bool = False):
+    """
+    Evaluate on StreamGaze EGTEA always; optionally also on EgoGazeVQA EGTEA
+    and HD-EPIC P09.
+
+    Returns:
+        dict[str, (acc, n, per_task)]  — keyed by val set name
+    """
+    from TrajGazeMerge.data.dataset import StreamGazeMergeDataset
+    qwen_model.eval()
+    traj_encoder.eval()
+
+    val_sets: dict[str, object] = {
+        "streamgaze_egtea": StreamGazeMergeDataset(
+            split="test", n_vlm_frames=128, n_traj_frames=128,
+        ),
+    }
+    if eval_egovqa_egtea:
+        from TrajGazeMerge.data.dataset_egovqa import EgoGazeVQAMergeDataset
+        val_sets["egovqa_egtea"] = EgoGazeVQAMergeDataset(
+            split="test", n_vlm_frames=128, n_traj_frames=128,
+            datasets=("egtea",),
+        )
+    if eval_hd_epic:
+        from TrajGazeMerge.data.dataset_hdepic import HDEpicMergeDataset
+        val_sets["hd_epic_p09"] = HDEpicMergeDataset(
+            split="val", n_vlm_frames=128, n_traj_frames=128,
+        )
+
+    results = {}
+    for name, vs in val_sets.items():
+        acc, n, pt = _evaluate_one(
+            vs, processor, qwen_model, base_qwen, traj_encoder,
+            option_ids, device, merge_ratio,
+        )
+        results[name] = (acc, n, pt)
 
     qwen_model.train()
     traj_encoder.train()
-    per_task = {t: 100.0 * sum(v) / max(1, len(v)) for t, v in sorted(by_task.items())}
-    return 100.0 * correct / max(1, total), total, per_task
+    return results
 
 
 def main():
@@ -224,11 +306,25 @@ def main():
 
     print("All models loaded.", flush=True)
 
-    train_ds = StreamGazeMergeDataset(
-        split="train", n_vlm_frames=args.n_frames, n_traj_frames=args.n_traj_frames,
-    )
+    if args.use_egovqa or args.use_hd_epic:
+        from TrajGazeMerge.data.dataset_combined import build_combined_train_dataset
+        train_ds = build_combined_train_dataset(
+            n_vlm_frames=args.n_frames, n_traj_frames=args.n_traj_frames,
+            use_streamgaze=True,
+            use_egovqa=args.use_egovqa,
+            use_hd_epic=args.use_hd_epic,
+        )
+        print(f"[Stage3-NoKD] Combined train dataset: {len(train_ds)} items")
+    else:
+        train_ds = StreamGazeMergeDataset(
+            split="train", n_vlm_frames=args.n_frames, n_traj_frames=args.n_traj_frames,
+        )
     loader = DataLoader(train_ds, batch_size=1, shuffle=True,
-                        collate_fn=lambda b: b[0], num_workers=2)
+                        collate_fn=lambda b: b[0],
+                        num_workers=args.dataloader_num_workers)
+
+    # ATR head (lazy-init on first batch once we know Qwen's hidden dim).
+    atr_head = None
 
     lora_params = [p for p in qwen_model.parameters() if p.requires_grad]
     enc_params  = list(traj_encoder.parameters())
@@ -242,8 +338,12 @@ def main():
     for epoch in range(args.epochs):
         qwen_model.train()
         traj_encoder.train()
+        if atr_head is not None:
+            atr_head.train()
         optimizer.zero_grad()
-        epoch_loss = epoch_ce = 0.0
+        epoch_loss = epoch_ce = epoch_shuf = 0.0
+        epoch_atr = epoch_cgm = 0.0
+        n_shuf = n_atr = n_cgm = 0
         steps = 0
         t_start = time.time()
 
@@ -279,11 +379,125 @@ def main():
                 loss_ce = torch.nn.functional.cross_entropy(
                     logits_merge[option_ids].unsqueeze(0), gt_tensor
                 )
-                loss = loss_ce / args.grad_accum
+
+                # Sprint 2 — Intervention C: anti-bag-of-tokens shuffle augmentation
+                gstep = epoch * len(loader) + steps
+                use_shuffle = (
+                    args.shuffle_aug
+                    and gstep >= args.shuffle_warmup_steps
+                    and random.random() < args.shuffle_prob
+                )
+                loss_shuf = torch.tensor(0.0, device=device)
+                if use_shuffle:
+                    perm = torch.randperm(merged_video.shape[0], device=device)
+                    merged_shuf = merged_video[perm]
+                    logits_shuf = forward_logits(
+                        qwen_model,
+                        build_merged_inputs(base_qwen, cached, merged_shuf, receiver_idx),
+                    )
+                    gt_idx        = int(gt_tensor.item())
+                    gt_logit_norm = logits_merge[option_ids[gt_idx]].detach()
+                    gt_logit_shuf = logits_shuf[option_ids[gt_idx]]
+                    loss_shuf = torch.nn.functional.relu(
+                        gt_logit_shuf - gt_logit_norm + args.shuffle_margin
+                    )
+
+                # ATR — auxiliary trajectory reconstruction on pooled receivers
+                loss_atr = torch.tensor(0.0, device=device)
+                if args.use_atr:
+                    from TrajGazeMerge.models.trajectory_grounding import (
+                        receivers_to_frame_pool, TrajectoryReconstructionHead,
+                        downsample_traj_to_T_merged, atr_regression_loss,
+                    )
+                    if atr_head is None:
+                        d_in = cached["video_embeds"].shape[-1]
+                        atr_head = TrajectoryReconstructionHead(d_in, args.atr_hidden).to(device)
+                        # Register with optimizer mid-run by adding a new param group.
+                        optimizer.add_param_group({
+                            "params": list(atr_head.parameters()),
+                            "lr":     args.lr_enc,
+                            "weight_decay": 1e-4,
+                        })
+                        print(f"[ATR] head initialized: d_in={d_in}, hidden={args.atr_hidden}", flush=True)
+
+                    pooled, recv_present = receivers_to_frame_pool(
+                        merged_video, receiver_idx, n_spatial, T_merged
+                    )
+                    pred_gaze, pred_hand = atr_head(pooled)
+                    traj = item["traj"]
+                    gt_gaze  = downsample_traj_to_T_merged(traj["gaze_pos" ].to(device).float(), T_merged)
+                    gt_left  = downsample_traj_to_T_merged(traj["left_pos" ].to(device).float(), T_merged)
+                    gt_right = downsample_traj_to_T_merged(traj["right_pos"].to(device).float(), T_merged)
+                    gm = downsample_traj_to_T_merged(traj["gaze_mask" ].to(device), T_merged).bool()
+                    lm = downsample_traj_to_T_merged(traj["left_mask" ].to(device), T_merged).bool()
+                    rm = downsample_traj_to_T_merged(traj["right_mask"].to(device), T_merged).bool()
+                    loss_atr = atr_regression_loss(
+                        pred_gaze, pred_hand, gt_gaze, gt_left, gt_right,
+                        gm, lm, rm, recv_present,
+                    )
+
+                # CGM — counterfactual gaze/hand-region mask loss
+                loss_cgm = torch.tensor(0.0, device=device)
+                use_cgm = (
+                    args.cgm_aug
+                    and gstep >= args.cgm_warmup_steps
+                    and random.random() < args.cgm_prob
+                )
+                if use_cgm:
+                    from TrajGazeMerge.models.trajectory_grounding import (
+                        trajectory_region_receiver_mask,
+                    )
+                    traj = item["traj"]
+                    if args.cgm_target == "gaze":
+                        pos  = traj["gaze_pos" ].to(device).float()             # (T_traj, 2)
+                        mask = traj["gaze_mask"].to(device).bool()              # (T_traj,)
+                        targets     = pos.unsqueeze(1)                          # (T_traj, 1, 2)
+                        target_mask = mask.unsqueeze(1)                         # (T_traj, 1)
+                    else:
+                        l_pos  = traj["left_pos" ].to(device).float()
+                        r_pos  = traj["right_pos"].to(device).float()
+                        l_mask = traj["left_mask"].to(device).bool()
+                        r_mask = traj["right_mask"].to(device).bool()
+                        targets     = torch.stack([l_pos, r_pos], dim=1)        # (T_traj, 2, 2)
+                        target_mask = torch.stack([l_mask, r_mask], dim=1)      # (T_traj, 2)
+
+                    in_region = trajectory_region_receiver_mask(
+                        receiver_idx, T_merged, n_spatial,
+                        targets, target_mask, args.cgm_radius,
+                    )
+                    if in_region.any():
+                        merged_cgm = merged_video.clone()
+                        merged_cgm[in_region] = 0.0
+                        logits_cgm = forward_logits(
+                            qwen_model,
+                            build_merged_inputs(base_qwen, cached, merged_cgm, receiver_idx),
+                        )
+                        gt_idx       = int(gt_tensor.item())
+                        gt_logit_norm = logits_merge[option_ids[gt_idx]].detach()
+                        gt_logit_cgm  = logits_cgm[option_ids[gt_idx]]
+                        loss_cgm = torch.nn.functional.relu(
+                            gt_logit_cgm - gt_logit_norm + args.cgm_margin
+                        )
+
+                loss = (
+                    loss_ce
+                    + args.shuffle_lambda * loss_shuf
+                    + args.atr_lambda     * loss_atr
+                    + args.cgm_lambda     * loss_cgm
+                ) / args.grad_accum
 
                 loss.backward()
                 epoch_loss += loss_ce.item()
                 epoch_ce   += loss_ce.item()
+                if use_shuffle:
+                    epoch_shuf += loss_shuf.item()
+                    n_shuf     += 1
+                if args.use_atr:
+                    epoch_atr += float(loss_atr.item())
+                    n_atr     += 1
+                if use_cgm and isinstance(loss_cgm, torch.Tensor) and loss_cgm.requires_grad:
+                    epoch_cgm += float(loss_cgm.item())
+                    n_cgm     += 1
                 steps      += 1
 
                 if steps % args.grad_accum == 0:
@@ -293,36 +507,62 @@ def main():
 
                 if steps % args.log_every == 0:
                     avg_l = epoch_loss / steps
+                    avg_shuf = epoch_shuf / max(1, n_shuf)
+                    avg_atr  = epoch_atr  / max(1, n_atr)
+                    avg_cgm  = epoch_cgm  / max(1, n_cgm)
+                    extras = []
+                    if args.shuffle_aug: extras.append(f"shuf={avg_shuf:.4f} (n={n_shuf})")
+                    if args.use_atr:     extras.append(f"atr={avg_atr:.4f}")
+                    if args.cgm_aug:     extras.append(f"cgm={avg_cgm:.4f} (n={n_cgm})")
+                    extra = " | " + " | ".join(extras) if extras else ""
                     print(f"Epoch {epoch+1} | step {steps}/{len(loader)} | "
-                          f"loss={avg_l:.4f} | t={time.time()-t_start:.0f}s", flush=True)
+                          f"loss={avg_l:.4f}{extra} | t={time.time()-t_start:.0f}s", flush=True)
                     with open(log_path, "a") as f:
                         f.write(json.dumps({
                             "epoch": epoch+1, "step": steps,
                             "loss": avg_l,
+                            "loss_shuf": avg_shuf if args.shuffle_aug else None,
+                            "n_shuf":    n_shuf if args.shuffle_aug else None,
+                            "loss_atr":  avg_atr if args.use_atr     else None,
+                            "loss_cgm":  avg_cgm if args.cgm_aug     else None,
+                            "n_cgm":     n_cgm   if args.cgm_aug     else None,
                         }) + "\n")
 
                 if steps % args.eval_every == 0:
-                    acc, n_eval, per_task = evaluate(
+                    results = evaluate(
                         processor, qwen_model, base_qwen, traj_encoder,
                         option_ids, device, args.merge_ratio,
+                        eval_egovqa_egtea=args.eval_egovqa_egtea,
+                        eval_hd_epic=args.eval_hd_epic,
                     )
-                    print(f"  → eval: acc={acc:.2f}% (n={n_eval})")
-                    for t, a in per_task.items():
-                        print(f"     {t}: {a:.2f}%")
+                    accs = [r[0] for r in results.values()]
+                    mean_acc = sum(accs) / len(accs)
+                    for name, (acc, n_eval, per_task) in results.items():
+                        print(f"  → eval[{name}]: acc={acc:.2f}% (n={n_eval})")
+                        for t, a in per_task.items():
+                            print(f"     {t}: {a:.2f}%")
+                    if len(results) > 1:
+                        print(f"  → eval[mean]: {mean_acc:.2f}%")
                     with open(log_path, "a") as f:
                         f.write(json.dumps({
                             "type": "eval", "epoch": epoch+1, "step": steps,
-                            "acc": acc, "n_eval": n_eval, "per_task": per_task,
+                            "mean_acc": mean_acc,
+                            "per_val":  {k: {"acc": r[0], "n_eval": r[1], "per_task": r[2]}
+                                         for k, r in results.items()},
                         }) + "\n")
-                    if acc > best_acc:
-                        best_acc = acc
-                        torch.save({
+                    if mean_acc > best_acc:
+                        best_acc = mean_acc
+                        save_dict = {
                             "epoch": epoch, "step": steps,
                             "lora_state":    qwen_model.state_dict(),
                             "encoder_state": traj_encoder.state_dict(),
-                            "acc": acc,
-                        }, os.path.join(args.output_dir, "best.pth"))
-                        print(f"  → saved best ({acc:.2f}%)")
+                            "acc": mean_acc,
+                            "per_val_acc": {k: r[0] for k, r in results.items()},
+                        }
+                        if atr_head is not None:
+                            save_dict["atr_state"] = atr_head.state_dict()
+                        torch.save(save_dict, os.path.join(args.output_dir, "best.pth"))
+                        print(f"  → saved best (mean={mean_acc:.2f}%)")
 
             except Exception:
                 traceback.print_exc()
@@ -341,17 +581,22 @@ def main():
             "encoder_state": traj_encoder.state_dict(), "loss": avg_l,
         }, os.path.join(args.output_dir, f"epoch_{epoch+1:02d}.pth"))
 
-    # Final eval
-    acc, n_eval, per_task = evaluate(
+    # Final eval (always run on both val sets when --eval-egovqa-egtea is on)
+    results = evaluate(
         processor, qwen_model, base_qwen, traj_encoder,
         option_ids, device, args.merge_ratio,
+        eval_egovqa_egtea=args.eval_egovqa_egtea,
+        eval_hd_epic=args.eval_hd_epic,
     )
-    print(f"\n[Final] acc={acc:.2f}%  (n={n_eval})")
-    for t, a in per_task.items():
-        print(f"  {t}: {a:.2f}%")
+    for name, (acc, n_eval, per_task) in results.items():
+        print(f"\n[Final {name}] acc={acc:.2f}%  (n={n_eval})")
+        for t, a in per_task.items():
+            print(f"  {t}: {a:.2f}%")
     with open(log_path, "a") as f:
         f.write(json.dumps({
-            "type": "eval_final", "acc": acc, "n_eval": n_eval, "per_task": per_task,
+            "type": "eval_final",
+            "per_val": {k: {"acc": r[0], "n_eval": r[1], "per_task": r[2]}
+                        for k, r in results.items()},
         }) + "\n")
 
 

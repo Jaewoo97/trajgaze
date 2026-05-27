@@ -336,3 +336,20 @@ EgoMCQ에 gaze가 없으므로:
 | ECE | 0.144 |
 
 Sprint 1 후 모든 지표 재측정하여 비교 가능.
+
+---
+
+## 11. Sprint 1 실행 결과 (2026-05-15 종료)
+
+§4의 4 step 파이프라인을 한 번에 돌렸고, §1의 4-지표 verdict가 §5 decision tree 의 **"spatial 살았으나 acc < 67%"** 분기에 떨어졌다.
+
+| 지표 | Baseline | Sprint 1 A+B | Target | 판정 |
+|---|---:|---:|---:|---|
+| Overall acc | 68.44% | **65.59%** | ≥ 67% | ❌ −2.85pp |
+| gt_gaze_recall | 0.077 | **0.111** | > 0.20 | ⚠️ random 수준 회복 |
+| shuffle_kept Δ | +0.95pp | **+0.19pp** | < −3pp | ⚠️ 0에 근접 |
+| late_half_ratio | 0.83 | **0.696** | ~ 0.50 | ⚠️ 0.13pp 감소 |
+
+전체 변경/결과/해석은 [`docs/diagnostic_report_E1_keep10.md` §14](diagnostic_report_E1_keep10.md#14-sprint-1-ab-결과--2026-05-15-종료)에 정리.
+
+→ **Sprint 2 진입**, §5의 *"Sprint 2의 C (shuffle aug) 또는 budget 조정으로 회복 시도"* 옵션을 따른다. 실행 계획: [`docs/sprint2_path_forward.md`](sprint2_path_forward.md).

@@ -77,9 +77,21 @@ class StreamGazeStage1DatasetTemporal(Dataset):
             for entry in qa_data:
                 stem = os.path.splitext(entry["video_path"])[0]
                 ds   = _find_dataset(stem)
-                if ds in TRAIN_DATASETS and (stem, ds) not in seen:
+                if ds not in TRAIN_DATASETS:
+                    continue
+                # Pick the first non-empty question for this clip+task as a
+                # sample-specific text signal for the QueryEncoder. Fallback
+                # to a task-name prompt so query_emb is never sample-agnostic.
+                first_q = ""
+                for q in entry.get("questions", []):
+                    if q.get("question"):
+                        first_q = q["question"]
+                        break
+                if not first_q:
+                    first_q = f"What is happening in this {task.replace('_', ' ')} clip?"
+                if (stem, ds) not in seen:
                     seen.add((stem, ds))
-                    self.clips.append({"stem": stem, "dataset": ds})
+                    self.clips.append({"stem": stem, "dataset": ds, "question": first_q})
 
         print(f"[StreamGazeStage1DatasetTemporal] {len(self.clips)} unique clips "
               f"(egoexolearn+holoassist, T_sample={n_frames})")
@@ -143,6 +155,7 @@ class StreamGazeStage1DatasetTemporal(Dataset):
             "T_past":          T_past,
             "T_future":        T - T_past,
             "frame_paths":     sampled,                   # all T paths
+            "question":        clip.get("question", ""),  # sample-specific text for QueryEncoder
         }
 
 
@@ -198,6 +211,7 @@ def collate_stage1_temporal(batch: list) -> Optional[dict]:
         "T_past":          torch.tensor([b["T_past"]   for b in batch], dtype=torch.long),
         "T_future":        torch.tensor([b["T_future"] for b in batch], dtype=torch.long),
         "frame_paths":     [b["frame_paths"] for b in batch],
+        "questions":       [b.get("question", "") for b in batch],
     }
 
 

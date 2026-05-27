@@ -94,10 +94,22 @@ def resample_to_T_merged(x: np.ndarray, T_merged: int) -> np.ndarray:
 
 
 def main():
-    parquet_path = f"{RESULTS_DIR}/E1_keep10_diag_v2_per_sample.parquet"
-    if not os.path.exists(parquet_path):
-        parquet_path = f"{RESULTS_DIR}/E1_keep10_diag_per_sample.parquet"
-        print(f"[warn] v2 parquet not found, falling back to {parquet_path}")
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--tag", default=None,
+                    help="If set, use {RESULTS_DIR}/{tag}_per_sample.parquet "
+                         "(e.g. --tag E1_sprint2_1_C_diag). Default: legacy E1_keep10 path.")
+    args = ap.parse_args()
+
+    if args.tag:
+        parquet_path = f"{RESULTS_DIR}/{args.tag}_per_sample.parquet"
+        out_suffix = args.tag
+    else:
+        parquet_path = f"{RESULTS_DIR}/E1_keep10_diag_v2_per_sample.parquet"
+        if not os.path.exists(parquet_path):
+            parquet_path = f"{RESULTS_DIR}/E1_keep10_diag_per_sample.parquet"
+            print(f"[warn] v2 parquet not found, falling back to {parquet_path}")
+        out_suffix = "E1_keep10"
     df = pd.read_parquet(parquet_path)
     print(f"loaded {len(df)} rows from {parquet_path}")
 
@@ -203,12 +215,12 @@ def main():
         ax.legend(fontsize=8)
     fig.suptitle("Per-sample correlation of kept_per_frame with trajectory features")
     fig.tight_layout()
-    fig_path = f"{RESULTS_DIR}/M1_correlations.png"
+    fig_path = f"{RESULTS_DIR}/M1_correlations_{out_suffix}.png"
     fig.savefig(fig_path, dpi=130)
     plt.close(fig)
     print(f"  plot -> {fig_path}")
 
-    out_path = f"{RESULTS_DIR}/PHASE_M1_2_correlations.md"
+    out_path = f"{RESULTS_DIR}/PHASE_M1_2_correlations_{out_suffix}.md"
     with open(out_path, "w") as f:
         f.write("\n".join(lines))
     print(f"summary -> {out_path}")
@@ -216,7 +228,7 @@ def main():
     print("\n".join(lines[:60]))
 
     # Save raw correlations for further analysis
-    np.savez(f"{RESULTS_DIR}/M1_correlations_raw.npz",
+    np.savez(f"{RESULTS_DIR}/M1_correlations_raw_{out_suffix}.npz",
              **{f_name: np.array(correlations[f_name]) for f_name in features})
 
 

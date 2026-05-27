@@ -68,6 +68,10 @@ def parse_args():
     p.add_argument("--n-traj-frames", type=int, default=128)
     p.add_argument("--n-vis-keyframes", type=int, default=16)
     p.add_argument("--split",         default="test", choices=["test", "train"])
+    p.add_argument("--val-dataset",   default="streamgaze",
+                   choices=["streamgaze", "egovqa"],
+                   help="Which val dataset to diagnose (streamgaze EGTEA or "
+                        "EgoGazeVQA EGTEA, both are 'test' split).")
     p.add_argument("--limit",         type=int, default=0, help="if >0, only run first N items (debug)")
     return p.parse_args()
 
@@ -284,10 +288,17 @@ def main():
     option_ids = get_option_ids(processor)
 
     # ── Dataset ───────────────────────────────────────────────────────────────
-    ds = StreamGazeMergeDataset(
-        split=args.split, n_vlm_frames=args.n_frames, n_traj_frames=args.n_traj_frames
-    )
-    print(f"  {args.split} items: {len(ds)}")
+    if args.val_dataset == "egovqa":
+        from TrajGazeMerge.data.dataset_egovqa import EgoGazeVQAMergeDataset
+        ds = EgoGazeVQAMergeDataset(
+            split=args.split, n_vlm_frames=args.n_frames, n_traj_frames=args.n_traj_frames,
+            datasets=("egtea",) if args.split == "test" else ("ego4d", "egoexo"),
+        )
+    else:
+        ds = StreamGazeMergeDataset(
+            split=args.split, n_vlm_frames=args.n_frames, n_traj_frames=args.n_traj_frames
+        )
+    print(f"  {args.split} items (val={args.val_dataset}): {len(ds)}")
 
     rows: list[dict] = []
     n_correct = 0

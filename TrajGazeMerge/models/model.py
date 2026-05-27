@@ -21,6 +21,8 @@ from __future__ import annotations
 
 from typing import Optional
 
+import os
+
 import torch
 import torch.nn.functional as F
 
@@ -59,14 +61,22 @@ def load_qwen_lora(device: torch.device):
         device_map={"": device},
     )
 
+    # LORA_TARGETS env var overrides default attention-only target list.
+    # Example: LORA_TARGETS="q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+    targets_env = os.environ.get("LORA_TARGETS")
+    target_modules = (
+        [m.strip() for m in targets_env.split(",") if m.strip()]
+        if targets_env else ["q_proj", "k_proj", "v_proj", "o_proj"]
+    )
     lora_cfg = LoraConfig(
         r=LORA_RANK,
         lora_alpha=LORA_ALPHA,
-        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+        target_modules=target_modules,
         lora_dropout=LORA_DROPOUT,
         bias="none",
         task_type=TaskType.CAUSAL_LM,
     )
+    print(f"[LoRA] target_modules={target_modules}")
     model = get_peft_model(base_model, lora_cfg)
     model.print_trainable_parameters()
     return processor, model

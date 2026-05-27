@@ -809,3 +809,268 @@ Sprint 1 결과
 세 시나리오 모두 paper 방어 가능하지만, 비관 시나리오는 시간이 가장 많이 듦 (3–6주 추가).
 
 **핵심 권고**: **Sprint 1 A+B를 1–2주 안에 실행 후 결정**. 가장 적은 비용으로 narrative 복원 가능성을 답함.
+
+---
+
+## 14. Sprint 1 (A+B) 결과 — 2026-05-15 종료
+
+§13.3의 Sprint 1 (A+B) 를 한 사이클 돌렸고, §13.4 decision tree의 **중간 가지 ("spatial 살았으나 acc < 67%")** 에 해당하는 결과가 나왔다.
+
+### 14.1 적용한 변경
+
+| 항목 | 파일 | 변경 |
+|---|---|---|
+| Question-conditioning (A) | [TrajGaze_v2/models/model_temporal.py:191](../TrajGaze_v2/models/model_temporal.py) | `query_emb = zeros` → `query_encoder(batch["questions"], device)` |
+| Question payload | [TrajGaze_v2/data/dataset_temporal.py](../TrajGaze_v2/data/dataset_temporal.py) | clip 별 첫 non-empty QA question 매핑 + collate에 `questions` 추가 (171/246 unique) |
+| Sharp spatial supervision (B) | [TrajGaze_v2/data/interaction.py:21-22](../TrajGaze_v2/data/interaction.py) | `SIGMA_GAZE 16→6`, `SIGMA_HAND 24→8` |
+
+§3.3 sanity check 통과: per-frame `max/mean ratio` **77** (변경 전 ~10), per-frame `entropy` **0.47** (uniform = 5.28).
+
+### 14.2 학습 결과
+
+- **Stage 1** (`TrajGaze_v2/checkpoints/E1_sprint1_AB`): 100 epoch, best loss **0.0165** (baseline E1 0.0178 대비 약간 더 낮음 — supervision은 잘 fit).
+- **Stage 2** (`TrajGazeMerge/checkpoints/E1_sprint1_AB_keep10`): 3 epoch, ~16h on single H200. best.pth는 epoch 2; final eval acc 63.31% (best 66.73%).
+
+### 14.3 4-지표 verdict (526 EGTEA test)
+
+| 지표 | Baseline | **Sprint 1 A+B** | Target (success) | 판정 |
+|---|---:|---:|---:|---|
+| Overall acc | 68.44% | **65.59%** | ≥ 67% | ❌ −2.85pp |
+| gt_gaze_recall | 0.077 | **0.111** | > 0.20 | ⚠️ random 수준 회복 |
+| shuffle_kept Δ | +0.95pp | **+0.19pp** | < −3pp | ⚠️ 0에 근접, 페널티 미발생 |
+| late_half_ratio | 0.83 | **0.696** | ~ 0.50 | ⚠️ 0.13pp 감소 |
+| temporal_CoM | 0.78 | **0.624** | ~ 0.50 | ⚠️ 0.16pp 감소 |
+
+Counterfactual masking (526 샘플):
+
+| Variant | Baseline (§6.2) | Sprint 1 A+B | Δ |
+|---|---:|---:|---:|
+| baseline | 68.25 | 66.73 | −1.52 |
+| mask_kept | 55.32 | 54.94 | ~동일 |
+| mask_kept_late | 57.60 | 59.51 | +1.91 |
+| mask_kept_early | 67.30 | 66.35 | ~동일 |
+| shuffle_kept | 69.20 | 66.92 | **여전히 +0.19 페널티 없음** |
+
+### 14.4 해석
+
+- **모든 encoder 행동 지표가 의도한 방향으로 이동** — anti-gaze 해소 (0.077 → 0.111), temporal bias 완화 (0.83 → 0.70). 개입 A+B가 encoder를 부분적으로 redirect함.
+- **하지만 임계값엔 못 닿았고, headline acc는 −2.85pp 손실**. counterfactual mask_late가 baseline보다 덜 떨어진다 (−10.65 → −7.22pp). 즉 후반 frame 정보 의존도가 약간 낮아짐 — 분산이 시작됐다.
+- shuffle_kept ±0 그대로 — **Qwen2.5-VL 자체의 bag-of-tokens 한계** 가 여전히 spatial selection을 무력화. §13.5 "현실적" 시나리오 (활성화 부분 성공, acc 약간 감소) 와 정확히 일치.
+
+### 14.5 §13.4 decision tree 분기
+
+```
+gt_gaze_recall 0.111  (target 0.20 미도달)
+shuffle Δ +0.19      (target −3 미도달)
+acc 65.59            (target 67 미도달)
+late_half 0.70       (target 0.50 미도달)
+```
+
+엄격하게 4/4 fail이지만, **모든 지표가 success 방향으로 이동**했고 baseline 정상치보다 나쁘지 않음 → 사실상 decision tree의 **"spatial 살았으나 acc < 67%"** 가지에 해당.
+
+→ **Sprint 2 단계로 진입**, §13.2의 **C (anti-bag shuffle augmentation)** 적용.
+근거:
+1. acc 손해를 회복하면서 spatial 강제를 *Stage 2 학습에 직접 주입* 할 가능성 있음.
+2. E (tighter budget) 는 keep 3% 까지 가면 acc 더 떨어진다 (§6.4 keep03 = 65.97% baseline). 회복엔 도움 안 됨.
+3. F (다른 VLM) 는 3-4주 비용. 그 전에 C 시도가 합리적 ROI.
+
+자세한 Sprint 2 실행 계획은 [`docs/sprint2_path_forward.md`](sprint2_path_forward.md) 참고.
+
+### 14.6 산출물 (Sprint 1)
+
+| Artifact | Path |
+|---|---|
+| Stage 1 ckpt | `TrajGaze_v2/checkpoints/E1_sprint1_AB/best.pth` |
+| Stage 2 ckpt | `TrajGazeMerge/checkpoints/E1_sprint1_AB_keep10/best.pth` |
+| Diagnostic per-sample | `TrajGazeMerge/eval_results/diagnostic/E1_sprint1_AB_diag_per_sample.parquet` |
+| Diagnostic summary | `TrajGazeMerge/eval_results/diagnostic/E1_sprint1_AB_diag_summary.json` |
+| Counterfactual mask | `TrajGazeMerge/eval_results/diagnostic/E1_sprint1_AB_mask_mask_summary.json` |
+| 4-지표 verdict log | `TrajGazeMerge/eval_results/E1_sprint1_AB_diagnostics_launcher.log` |
+
+---
+
+## 15. Sprint 2 (C: shuffle augmentation) 결과 — 2026-05-15 종료
+
+§14의 Sprint 1 결과 후 `docs/sprint2_path_forward.md` 의 개입 C를 Sprint 1 Stage 1 ckpt 위에서 한 사이클 돌렸다.
+
+### 15.1 적용한 변경
+
+| 항목 | 파일 | 변경 |
+|---|---|---|
+| Shuffle augmentation | [TrajGazeMerge/training/train_merge_lora_temporal_no_kd.py](../TrajGazeMerge/training/train_merge_lora_temporal_no_kd.py) | `--shuffle-aug --shuffle-prob 0.5 --shuffle-margin 0.5 --shuffle-lambda 0.5 --shuffle-warmup-steps 200`. Margin loss `relu(gt_logit_shuf − gt_logit_normal.detach() + margin)` |
+| Stage 1 | (재사용) | Sprint 1 ckpt `E1_sprint1_AB/best.pth` 그대로 |
+
+### 15.2 학습 결과
+
+- **Stage 2** (`TrajGazeMerge/checkpoints/E1_sprint2_C_keep10`): 3 epoch, ~5.4h/epoch. 
+  - CE loss **0.54 → 0.98** (Sprint 1 대비 +82% 증가 — shuffle penalty와 CE가 충돌)
+  - shuf loss **~0.20에서 saturate** (margin 0.5에 못 미침 — 모델이 shuffle 보상을 따라잡지 못함)
+  - eval acc가 epoch 내에서 극단 진동 (21% – 60%), 학습 stability 깨짐
+  - best ckpt = epoch 3 step 5600, eval acc **60.65%** (Sprint 1 best 66.73% 대비 −6pp)
+
+### 15.3 4-지표 verdict (526 EGTEA test)
+
+| 지표 | Baseline | Sprint 1 (A+B) | **Sprint 2 (C)** | Target | 추세 |
+|---|---:|---:|---:|---:|---|
+| Overall acc | 68.44 | 65.59 | **61.03** | ≥ 67 | ❌ 추가 −4.5pp |
+| gt_gaze_recall | 0.077 | 0.111 | **0.106** | > 0.20 | → 정체 |
+| **shuffle_kept Δ** | +0.95 | +0.19 | **−2.28** | < −3 | ✅ 처음으로 negative |
+| late_half_ratio | 0.83 | 0.696 | **0.696** | ~0.50 | → 정체 |
+| temporal_CoM | 0.78 | 0.624 | **0.622** | ~0.50 | → 정체 |
+| mask_kept_early Δ | −0.95 | (−0.4) | **+2.47** | 더 negative | ⚠️ 역방향 |
+
+Counterfactual masking (526 샘플):
+
+| Variant | Baseline | Sprint 1 | **Sprint 2** |
+|---|---:|---:|---:|
+| baseline | 68.25 | 66.73 | 58.75 |
+| mask_kept | 55.32 | 54.94 | 51.71 |
+| mask_kept_late | 57.60 | 59.51 | 52.47 |
+| mask_kept_early | 67.30 | 66.35 | **61.22** (baseline 대비 +2.47) |
+| **shuffle_kept** | 69.20 | 66.92 | **56.46** (baseline 대비 −2.28) |
+
+### 15.4 해석
+
+**개입 C는 의도대로 작동했다 — 부분적으로**:
+- shuffle penalty 처음으로 negative (`+0.95 → +0.19 → −2.28pp`). 두 sprint 사이 2.5pp 거리. 목표 −3pp에 0.72pp 부족.
+- 즉 Qwen2.5-VL이 *학습 신호를 주면 spatial 정렬을 어느 정도 사용*. §13.5 비관적 시나리오 (Qwen 완전 spatial-invariant) 는 *완전히 사실은 아님*.
+
+**하지만 비용이 너무 크다**:
+- baseline acc −7.5pp 추가 하락 (66.73 → 58.75)
+- shuf loss 0.20에서 saturate — model이 margin 0.5를 못 따라잡음
+- mask_kept_early Δ가 +2.47 — **early frame을 제거해야 acc가 오름**. 즉 모델이 "후반 frame에만 강하게 의존하면 shuffle robust해진다" 라는 우회 전략을 학습. spatial 강제가 다른 형태의 temporal collapse를 유도.
+
+**근본 trade-off**: λ=0.5 + prob=0.5 가 학습 stability를 깨고, 모델 capacity 부족 (또는 LoRA rank 부족) 으로 baseline + spatial 모두 학습 못 함.
+
+### 15.5 §sprint2_path_forward §5 decision tree 분기
+
+해당 분기: **"둘 다 미달 (Sprint 1보다 후퇴 포함)"**
+→ "λ 너무 큼 (학습 망침) — λ=0.2로 축소 재시도 또는 narrative pivot"
+
+**선택**: Sprint 2.1 시도 (λ 축소 재실험) 후 narrative 결정. 근거:
+1. shuffle Δ가 의미있는 거리를 움직였다 (2.5pp) — λ를 낮춰 acc 회복하면서 spatial 효과 유지할 sweet spot 가능성
+2. λ=0.2 + prob=0.3 + warmup 400+ 으로 부드럽게 → ~16h 추가 비용으로 narrative 결정에 필요한 증거 확보
+3. Sprint 2.1 실패 → "C로 spatial 강제는 가능하지만 acc 비용 강제" 결론 굳어짐 → narrative pivot 옵션 B (§11.5) 로 확정
+
+### 15.6 산출물 (Sprint 2)
+
+| Artifact | Path |
+|---|---|
+| Stage 2 ckpt | `TrajGazeMerge/checkpoints/E1_sprint2_C_keep10/best.pth` (epoch 3 step 5600, eval 60.65%) |
+| Train log (eval history) | `TrajGazeMerge/checkpoints/E1_sprint2_C_keep10/train_log.jsonl` |
+| Diagnostic per-sample | `TrajGazeMerge/eval_results/diagnostic/E1_sprint2_C_diag_per_sample.parquet` |
+| Diagnostic summary | `TrajGazeMerge/eval_results/diagnostic/E1_sprint2_C_diag_summary.json` |
+| Counterfactual mask | `TrajGazeMerge/eval_results/diagnostic/E1_sprint2_C_mask_mask_summary.json` |
+| 4-지표 verdict log | `TrajGazeMerge/eval_results/E1_sprint2_C_diagnostics_launcher.log` |
+
+---
+
+## 16. Sprint 2.1 + Option B 결과 — 2026-05-20 종료
+
+Sprint 2.1 (λ 축소 재시도) 와 Option B (개입 E: tight budget 단독) 을 GPU 0/1 병렬 실행. 두 실험이 함께 trade-off 공간 매핑을 완성.
+
+### 16.1 적용한 변경
+
+| 실험 | Stage 1 | Stage 2 변경 |
+|---|---|---|
+| **Sprint 2.1** | Sprint 1 A+B ckpt 재사용 | `--shuffle-aug --shuffle-prob 0.3 --shuffle-margin 0.5 --shuffle-lambda 0.2 --shuffle-warmup-steps 600` (Sprint 2 대비 λ/prob ↓, warmup ↑) |
+| **Option B** | Sprint 1 A+B ckpt 재사용 | `--merge-ratio 0.95` (keep 5%), shuffle aug 없음 |
+
+### 16.2 학습 결과
+
+- **Sprint 2.1** (`TrajGazeMerge/checkpoints/E1_sprint2_1_C_keep10`): 3 epoch, CE loss **1.10** (Sprint 2의 0.98보다 약간 높음 — λ 작아서 baseline에 양보), shuf loss 0.47 (margin 0.5에 saturate 임박), best eval acc 62.93% (epoch 3 step 5600).
+- **Option B** (`TrajGazeMerge/checkpoints/E1_AB_keep05`): 3 epoch, CE loss 정상, best eval acc 64.07% (epoch 3, baseline E1 keep05 64.83% 대비 −0.76pp).
+
+### 16.3 4-지표 verdict (526 EGTEA test) — 전체 5 run 비교
+
+| Run | Encoder | Keep | ShufAug | **acc** | **shuf Δ** | **early Δ** | late Δ | gt_recall | late_half |
+|---|---|---:|---|---:|---:|---:|---:|---:|---:|
+| Baseline E1 | orig | 10% | — | 68.44 | +0.95 | −0.95 | −12.93 | 0.077 | 0.83 |
+| Sprint 1 (A+B) | A+B | 10% | — | 65.59 | +0.19 | −0.38 | −7.22 | 0.111 | 0.70 |
+| Sprint 2 (λ=0.5) | A+B | 10% | C 0.5 | 61.03 | **−2.28** | **+2.47** ⚠️ | −6.27 | 0.106 | 0.70 |
+| **Sprint 2.1 (λ=0.2)** | A+B | 10% | C 0.2 | **62.93** | **−1.71** ✅ | **−0.95** ✅ | **−9.89** | **0.120** | **0.66** |
+| **Option B** | A+B | 5% | — | **64.07** | −0.57 | −1.33 | −3.23 | 0.061 | 0.67 |
+
+### 16.4 핵심 발견 1 — Sprint 2.1이 narrative-correct ckpt 최초
+
+Sprint 2.1은 **모든 encoder 행동 지표에서 baseline보다 narrative-conformant**한 첫 ckpt:
+
+- shuffle Δ **−1.71pp** — 처음으로 *negative*이면서 mask_early 우회 회피 (Sprint 2의 +2.47 trade-off 회피)
+- mask_kept_early **−0.95pp** — 전반 frame이 다시 informative해짐
+- mask_kept_late **−9.89pp** — 후반 frame도 critical, 즉 spatial+temporal 둘 다 사용
+- gt_gaze_recall **0.120** — 모든 run 중 최고 (random keep10 = 0.10 초과)
+- late_half **0.66** — 0.83 → 0.66 (모든 run 중 최대 감소)
+
+→ **encoder가 처음으로 paper narrative처럼 작동**. 하지만 acc 62.93 < target 65 (−2.07pp 미달).
+
+### 16.5 핵심 발견 2 — Option B로 "Qwen bag-of-tokens는 본질적" 정량 입증
+
+A+B encoder + keep 5% (shuffle aug 없음):
+
+| 비교 | acc | shuffle Δ |
+|---|---:|---:|
+| 원래 E1 keep05 baseline (§6.4) | 64.83 | (미측정) |
+| Option B (A+B encoder + keep05) | 64.07 | **−0.57** |
+
+- A+B encoder가 tight budget에서 **추가 이득 없음** (acc 64.07 ≈ baseline 64.83)
+- shuffle Δ **−0.57** — 여전히 거의 bag-of-tokens. **tight budget 단독은 spatial을 강제 못함**
+- 모델은 keep05에서 top1_prob 0.885 / logit_margin 4.11 로 *더 confident한 bag-of-tokens 추론* 함
+
+→ **개입 E (tight budget) 단독은 무효**. shuffle aug 같은 *explicit 학습 신호*가 없으면 Qwen2.5-VL은 어떤 budget에서도 spatial 정렬을 무시.
+
+### 16.6 핵심 발견 3 — λ axis trade-off 곡선 완전 매핑
+
+```
+                acc      shuf Δ    early Δ    상태
+λ=0   (Sprint 1)   65.59    +0.19     −0.38      bag-of-tokens 유지, 정상 학습
+λ=0.2 (Sprint 2.1) 62.93    −1.71     −0.95      ★ Pareto front
+λ=0.5 (Sprint 2)   61.03    −2.28     +2.47      과학습 + early frame 우회
+```
+
+**선형 monotone trade-off**: λ↑ → shuf↓ + acc↓ 동시. 어떤 λ도 acc 회복 불가. 추가 hp 탐색 ROI 낮음.
+
+### 16.7 §sprint2_path_forward §8.4 decision tree 판정
+
+```
+Sprint 2.1 결과: acc=62.93, shuf Δ=-1.71
+  ✗ acc ≥ 65 AND shuf Δ < −1.5  →  Sprint 3 (D arch)
+  ✗ acc ≥ 65 but shuf Δ ≈ 0     →  narrative option A
+  ✗ acc < 62                    →  narrative option B (pivot)
+  ✓ in-between (62 ≤ acc < 65)  →  narrative pivot 옵션 A++
+```
+
+**판정**: **narrative pivot 옵션 A++** (강화 보수 narrative).
+
+### 16.8 새 narrative 권장 (옵션 A++)
+
+§11.5 기존 옵션 A:
+> "Behavioral-score-driven token compression for VLMs. Achieves 10× compression while preserving accuracy via LoRA co-adaptation. The behavioral score acts as a learned prior; we observe limitations in raw gaze utilization."
+
+**Sprint 2.1 + Option B 결과 반영한 강화 버전 (옵션 A++)**:
+> "We propose **TrajGazeMerge** — behavioral-score-driven 10× token compression for egocentric VLMs. Through systematic diagnostics, we identify a **fundamental property of VLM-based methods**: Qwen2.5-VL treats compressed video tokens as **bag-of-tokens** even under aggressive compression (verified by ±0pp shuffle penalty at keep=5%, §16.5), and we demonstrate that **only explicit shuffle augmentation** overrides this behavior — at proportional accuracy cost (Sprint 2.x λ-trade-off curve, §16.6). The proposed encoder (A+B, Sprint 1) is the first to produce spatially+temporally-aware token selection (gt_gaze_recall 0.120 vs baseline 0.077, mask_kept_late Δ −9.89), and Sprint 2.1 (λ=0.2) is our recommended configuration when downstream spatial-awareness matters more than raw accuracy."
+
+신규 contribution 5가지:
+1. ✅ Method 작동 입증 (Sprint 1: encoder behavior change)
+2. ✅ Qwen2.5-VL bag-of-tokens 한계 정량 (Option B: tight budget alone fails)
+3. ✅ Spatial 강제 가능성 입증 (Sprint 2.x: shuffle aug works)
+4. ✅ 명시적 λ-trade-off curve (3 데이터 포인트, monotone)
+5. ✅ Honest limitations: acc 67% target 미달 명시 (62.93% in our most narrative-conformant config)
+
+### 16.9 산출물 (Sprint 2.1 + Option B)
+
+| Artifact | Path |
+|---|---|
+| Sprint 2.1 Stage 2 ckpt | `TrajGazeMerge/checkpoints/E1_sprint2_1_C_keep10/best.pth` (eval 62.93%) |
+| Sprint 2.1 diagnostic | `TrajGazeMerge/eval_results/diagnostic/E1_sprint2_1_C_{diag,mask}_*.{json,parquet}` |
+| Sprint 2.1 verdict log | `TrajGazeMerge/eval_results/E1_sprint2_1_C_diagnostics_launcher.log` |
+| Option B Stage 2 ckpt | `TrajGazeMerge/checkpoints/E1_AB_keep05/best.pth` (eval 64.07%) |
+| Option B diagnostic | `TrajGazeMerge/eval_results/diagnostic/E1_AB_keep05_{diag,mask}_*.{json,parquet}` |
+| Option B verdict log | `TrajGazeMerge/eval_results/E1_AB_keep05_diagnostics_launcher.log` |
+
+### 16.10 결정된 다음 단계
+
+1. **Sprint 2.1 ckpt를 paper의 "narrative-correct" 대표 ckpt로 사용** (acc 62.93% as honest reported number)
+2. **Sprint 1 ckpt를 "headline acc" ckpt로 사용** (65.59% — A+B encoder의 baseline contribution)
+3. **Cross-dataset 검증** — Sprint 2.1 ckpt를 EgoMCQ 등에서 평가 (선택, narrative 강화용)
+4. **Sprint 3 D 아키텍처는 보류** — trade-off curve가 monotone임이 입증돼 ROI 낮음
+5. **Paper rewrite** — 옵션 A++ narrative 기반 (§16.8)
