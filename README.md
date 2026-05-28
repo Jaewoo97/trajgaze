@@ -114,6 +114,55 @@ Append the appropriate flags to the Setup B command:
 
 Combined examples are in `TrajGazeMerge/training/run_*.sh`.
 
+### 4d. Direction A — cf-mask augmented training (CF-1, CF-3)
+
+Two runs that turn the cf-mask diagnostic into a training signal (see plan
+`cf-mask-augmented-training.md`). Both share Setup B (StreamGaze + EgoGazeVQA + HD-EPIC)
+and use the same trainer; they differ only in which counterfactual margin losses
+are active.
+
+**CF-1** — CE + cf-mask margin (zero kept-token forward) only:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 PYTHONPATH=. /opt/conda/envs/gaze/bin/python \
+  -m TrajGazeMerge.training.train_merge_lora_batched \
+    --model-type full \
+    --stage1-ckpt TrajGaze_v2/checkpoints/E1_combined_AB_TAS/best.pth \
+    --output-dir TrajGazeMerge/checkpoints/E1_combined_cf1_hdepic_bs8_mb2 \
+    --epochs 3 --merge-ratio 0.9 \
+    --micro-batch 2 --grad-accum 4 \
+    --use-egovqa --use-hd-epic \
+    --eval-egovqa-egtea --eval-hd-epic \
+    --dataloader-num-workers 8 --eval-every 400 \
+    --use-cf-mask --cf-mask-prob 0.3 --cf-mask-margin 1.0 \
+                  --cf-mask-lambda 0.3 --cf-mask-warmup-steps 600
+```
+
+**CF-3** — CE + cf-mask margin **+** shuffle margin (both counterfactuals):
+
+```bash
+CUDA_VISIBLE_DEVICES=1 PYTHONPATH=. /opt/conda/envs/gaze/bin/python \
+  -m TrajGazeMerge.training.train_merge_lora_batched \
+    --model-type full \
+    --stage1-ckpt TrajGaze_v2/checkpoints/E1_combined_AB_TAS/best.pth \
+    --output-dir TrajGazeMerge/checkpoints/E1_combined_cf3_hdepic_bs8_mb2 \
+    --epochs 3 --merge-ratio 0.9 \
+    --micro-batch 2 --grad-accum 4 \
+    --use-egovqa --use-hd-epic \
+    --eval-egovqa-egtea --eval-hd-epic \
+    --dataloader-num-workers 8 --eval-every 400 \
+    --shuffle-aug --shuffle-prob 0.3 --shuffle-margin 1.0 \
+                  --shuffle-lambda 0.3 --shuffle-warmup-steps 600 \
+    --use-cf-mask --cf-mask-prob 0.3 --cf-mask-margin 1.0 \
+                  --cf-mask-lambda 0.3 --cf-mask-warmup-steps 600
+```
+
+Convenience launcher (runs sanity → CF-1 on GPU 0 → CF-3 on GPU 1 in parallel):
+
+```bash
+bash TrajGazeMerge/training/run_cf_pipeline.sh
+```
+
 ---
 
 ## 5. Evaluation — counterfactual mask (cf-mask)
@@ -176,14 +225,18 @@ Plans (out-of-tree, under `~/.claude/plans/`):
 
 ---
 
-## 8. Active experiments (as of 2026-05-27)
+## 8. Direction A runs (CF-1, CF-3) — stopped early at 2026-05-28
 
-- **CF-1** (CE + cf-mask margin only) — GPU 0 — `TrajGazeMerge/checkpoints/E1_combined_cf1_hdepic_bs8_mb2/`
-- **CF-3** (CE + cf-mask margin + shuffle margin) — GPU 1 — `TrajGazeMerge/checkpoints/E1_combined_cf3_hdepic_bs8_mb2/`
+Both runs were stopped at step ~6500 / 14499 (≈ 45 % of epoch 1) before the
+convergence watcher fired. `best.pth` in each output dir corresponds to the
+highest mean eval acc seen up to that point.
+
+- **CF-1**: `TrajGazeMerge/checkpoints/E1_combined_cf1_hdepic_bs8_mb2/best.pth` — `cf_mask` loss converged to ≈ 0.002 (LLM relies on visual when not masked) but mean acc (≈ 54.5) trailed TAS-only-hdepic (56.57).
+- **CF-3**: `TrajGazeMerge/checkpoints/E1_combined_cf3_hdepic_bs8_mb2/best.pth` — both `cf_mask` and `shuf` margin losses stayed near 1.0; mean acc collapsed to ≈ 50.0. Two counterfactual margins together appear adversarial with CE.
 
 Convergence watcher: `TrajGazeMerge/eval/convergence_watcher_cf.sh`
 cf-mask post-eval: `TrajGazeMerge/eval/run_cf_diagnosis.sh`
-Decision gate criteria: see `cf-mask-augmented-training.md` §4.2.
+Decision gate criteria: see plan `cf-mask-augmented-training.md` §4.2.
 
 ---
 
