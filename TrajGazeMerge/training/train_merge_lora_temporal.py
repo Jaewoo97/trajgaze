@@ -71,6 +71,12 @@ def parse_args():
     p.add_argument("--lr-lora",        type=float, default=1e-4)
     p.add_argument("--lr-enc",         type=float, default=1e-5)
     p.add_argument("--alpha",          type=float, default=0.5)
+    p.add_argument("--kd-feat-layers", type=str,   default="",
+                   help="Comma-separated LLM layer indices for feature-MSE KD, "
+                        "e.g. '-1,-2'. Empty disables. Use --kd-feat-layers=-1,-2 (with `=`) "
+                        "to avoid argparse misparsing negative ints as flags.")
+    p.add_argument("--kd-feat-weight", type=float, default=0.3,
+                   help="Weight of feature-level MSE loss term.")
     p.add_argument("--merge-ratio",    type=float, default=0.9)
     p.add_argument("--grad-accum",     type=int,   default=4)
     p.add_argument("--grad-clip",      type=float, default=1.0)
@@ -101,6 +107,53 @@ def setup_ddp():
 
 # ── Model loading ─────────────────────────────────────────────────────────────
 
+def forward_logits_and_hidden(model, inputs_dict, hidden_layers):
+    """
+    Forward pass returning (logits[last_pos], list_of_hidden_at_layer[last_pos]).
+    `hidden_layers` is a list of layer indices into out.hidden_states (which has
+    length num_hidden_layers + 1; index 0 is the embedding output, -1 is the
+    final layer). Negative indices supported.
+    """
+    out = model(
+        inputs_embeds=inputs_dict["inputs_embeds"],
+        attention_mask=inputs_dict["attention_mask"],
+        position_ids=inputs_dict["position_ids"],
+        rope_deltas=inputs_dict["rope_deltas"],
+        use_cache=False,
+        output_hidden_states=True,
+    )
+    logits = out.logits[0, -1, :]
+    return logits, out.hidden_states
+
+
+def feat_kd_loss(hs_student, hs_teacher, layer_indices, n_video_student, n_video_teacher):
+    """
+    축 4b feat-KD: for each layer in layer_indices, take the post-video text-region
+    tail, mean-pool over positions, MSE between teacher and student.
+
+    hs_*: tuple of (num_layers + 1) tensors, each (1, L, d).
+    """
+    if not layer_indices:
+        return hs_student[0].sum() * 0.0
+
+    mses = []
+    for idx in layer_indices:
+        if idx >= len(hs_student) or idx >= len(hs_teacher):
+            continue
+        s = hs_student[idx][0]   # (Ls, d)
+        t = hs_teacher[idx][0]   # (Lt, d)
+        tail_len = min(s.shape[0] - n_video_student, t.shape[0] - n_video_teacher)
+        if tail_len <= 0:
+            continue
+        s_vec = s[-tail_len:].float().mean(dim=0)
+        t_vec = t[-tail_len:].float().mean(dim=0)
+        mses.append(F.mse_loss(s_vec, t_vec))
+
+    if not mses:
+        return hs_student[0].sum() * 0.0
+    return torch.stack(mses).mean()
+
+
 def load_teacher(teacher_ckpt: str, device):
     from TrajGazeMerge.models.model import load_qwen_lora, load_qwen_frozen
     if teacher_ckpt and os.path.exists(teacher_ckpt):
@@ -119,14 +172,40 @@ def load_teacher(teacher_ckpt: str, device):
 
 
 def load_traj_encoder(ckpt_path: str, device, n_vis_keyframes: int = 16) -> TrajGazeV2Temporal:
-    model = TrajGazeV2Temporal(n_vis_keyframes=n_vis_keyframes).to(device)
-    if os.path.exists(ckpt_path):
-        ckpt    = torch.load(ckpt_path, map_location=device, weights_only=False)
-        state   = ckpt.get("model", ckpt.get("model_state_dict", ckpt))
-        missing, unexpected = model.load_state_dict(state, strict=False)
-        print(f"[TrajEnc] Loaded {ckpt_path} | missing={len(missing)} unexpected={len(unexpected)}")
-    else:
+    if not os.path.exists(ckpt_path):
         print(f"[TrajEnc] WARNING: ckpt not found: {ckpt_path}, using random init")
+        return TrajGazeV2Temporal(n_vis_keyframes=n_vis_keyframes).to(device)
+
+    ckpt    = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+    state   = ckpt.get("encoder_state", ckpt.get("model", ckpt.get("model_state_dict", ckpt)))
+
+    # Infer architecture flags from state-dict keys (ckpt does not store config).
+    has_frame_score = any(
+        k.startswith("encoder.frame_attn_pool") or k.startswith("encoder.frame_score_head")
+        for k in state
+    )
+    has_post_iframe = any(k.startswith("encoder.inter_frame_post") for k in state)
+    has_patch_temporal = any(
+        k.startswith("encoder.patch_temporal_query")
+        or k.startswith("encoder.patch_temporal_attn")
+        or k.startswith("encoder.patch_temporal_head")
+        for k in state
+    )
+
+    model = TrajGazeV2Temporal(
+        n_vis_keyframes=n_vis_keyframes,
+        use_frame_score_branch=has_frame_score,
+        use_post_fusion_iframe=has_post_iframe,
+        use_patch_temporal_branch=has_patch_temporal,
+    ).to(device)
+    missing, unexpected = model.load_state_dict(state, strict=False)
+    print(f"[TrajEnc] Loaded {ckpt_path}")
+    print(f"  inferred flags: use_frame_score_branch={has_frame_score}, "
+          f"use_post_fusion_iframe={has_post_iframe}, use_patch_temporal_branch={has_patch_temporal}")
+    if missing:
+        print(f"  [warn] missing keys ({len(missing)}): {missing[:8]}{'...' if len(missing) > 8 else ''}")
+    if unexpected:
+        print(f"  [warn] unexpected keys ({len(unexpected)}): {unexpected[:8]}{'...' if len(unexpected) > 8 else ''}")
     return model
 
 
@@ -335,13 +414,18 @@ def main():
     log_path = os.path.join(args.output_dir, f"train_log_rank{rank}.jsonl")
     best_acc = 0.0
 
+    feat_layers = [int(x) for x in args.kd_feat_layers.split(",") if x.strip()]
+    use_feat_kd = bool(feat_layers) and args.kd_feat_weight > 0
+    if is_main:
+        print(f"[FeatKD] layers={feat_layers}  weight={args.kd_feat_weight}  enabled={use_feat_kd}")
+
     for epoch in range(args.start_epoch, args.epochs):
         sampler.set_epoch(epoch)
         qwen_model.train()
         traj_encoder.train()
         optimizer.zero_grad()
 
-        epoch_loss = epoch_ce = epoch_kl = 0.0
+        epoch_loss = epoch_ce = epoch_kl = epoch_feat = 0.0
         steps = 0
         t_start = time.time()
 
@@ -370,9 +454,16 @@ def main():
 
                 # Teacher: full tokens, frozen
                 with torch.no_grad():
-                    logits_teacher = forward_logits(
-                        teacher_model, build_full_inputs(base_qwen, cached)
-                    )[option_ids].detach()
+                    teacher_inputs = build_full_inputs(base_qwen, cached)
+                    if use_feat_kd:
+                        logits_t_full, hs_teacher = forward_logits_and_hidden(
+                            teacher_model, teacher_inputs, feat_layers
+                        )
+                        logits_teacher = logits_t_full[option_ids].detach()
+                        hs_teacher = tuple(h.detach() for h in hs_teacher)
+                    else:
+                        logits_teacher = forward_logits(teacher_model, teacher_inputs)[option_ids].detach()
+                        hs_teacher = None
 
                 # TrajGaze temporal scores: (T_traj, 196) → (n_video,)
                 scores     = get_patch_scores_temporal(traj_encoder.module, item, device)
@@ -389,9 +480,18 @@ def main():
                 merged_video, receiver_idx = gaze_weighted_merge(
                     video_embeds_detached, scores_all, r,
                 )
-                logits_student = forward_logits(
-                    qwen_model, build_merged_inputs(base_qwen, cached, merged_video, receiver_idx)
-                )[option_ids]
+                student_inputs = build_merged_inputs(base_qwen, cached, merged_video, receiver_idx)
+                if use_feat_kd:
+                    logits_s_full, hs_student = forward_logits_and_hidden(
+                        qwen_model, student_inputs, feat_layers
+                    )
+                    logits_student = logits_s_full[option_ids]
+                else:
+                    logits_student = forward_logits(qwen_model, student_inputs)[option_ids]
+                    hs_student = None
+
+                n_video_student = merged_video.shape[0]
+                n_video_teacher = n_video
 
                 # Loss
                 loss_ce = F.cross_entropy(logits_student.unsqueeze(0), gt_tensor)
@@ -400,12 +500,22 @@ def main():
                     F.softmax(logits_teacher,     dim=-1),
                     reduction="batchmean",
                 )
-                loss = (args.alpha * loss_kl + (1.0 - args.alpha) * loss_ce) / args.grad_accum
+                loss = args.alpha * loss_kl + (1.0 - args.alpha) * loss_ce
+                if use_feat_kd:
+                    loss_feat = feat_kd_loss(
+                        hs_student, hs_teacher, feat_layers,
+                        n_video_student, n_video_teacher,
+                    )
+                    loss = loss + args.kd_feat_weight * loss_feat
+                else:
+                    loss_feat = torch.tensor(0.0, device=device)
+                loss = loss / args.grad_accum
                 loss.backward()
 
                 epoch_loss += loss.item() * args.grad_accum
                 epoch_ce   += loss_ce.item()
                 epoch_kl   += loss_kl.item()
+                epoch_feat += float(loss_feat.item())
                 steps      += 1
 
                 if steps % args.grad_accum == 0:
@@ -415,13 +525,14 @@ def main():
 
                 if is_main and steps % args.log_every == 0:
                     avg_l, avg_ce, avg_kl = epoch_loss/steps, epoch_ce/steps, epoch_kl/steps
+                    avg_feat = epoch_feat/steps
                     print(f"Epoch {epoch+1} | step {steps}/{len(loader)} | "
-                          f"loss={avg_l:.4f} ce={avg_ce:.4f} kl={avg_kl:.4f} | "
+                          f"loss={avg_l:.4f} ce={avg_ce:.4f} kl={avg_kl:.4f} feat={avg_feat:.4f} | "
                           f"t={time.time()-t_start:.0f}s")
                     with open(log_path, "a") as f:
                         f.write(json.dumps({
                             "epoch": epoch+1, "step": steps,
-                            "loss": avg_l, "ce": avg_ce, "kl": avg_kl,
+                            "loss": avg_l, "ce": avg_ce, "kl": avg_kl, "feat": avg_feat,
                         }) + "\n")
 
                 if steps % args.eval_every == 0:

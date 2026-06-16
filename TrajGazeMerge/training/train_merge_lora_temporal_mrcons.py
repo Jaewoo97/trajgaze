@@ -131,14 +131,39 @@ def load_teacher(teacher_ckpt: str, device):
 
 
 def load_traj_encoder(ckpt_path: str, device, n_vis_keyframes: int = 16) -> TrajGazeV2Temporal:
-    model = TrajGazeV2Temporal(n_vis_keyframes=n_vis_keyframes).to(device)
-    if os.path.exists(ckpt_path):
-        ckpt  = torch.load(ckpt_path, map_location=device, weights_only=False)
-        state = ckpt.get("model", ckpt.get("model_state_dict", ckpt))
-        missing, unexpected = model.load_state_dict(state, strict=False)
-        print(f"[TrajEnc] Loaded {ckpt_path} | missing={len(missing)} unexpected={len(unexpected)}")
-    else:
+    if not os.path.exists(ckpt_path):
         print(f"[TrajEnc] WARNING: ckpt not found: {ckpt_path}, using random init")
+        return TrajGazeV2Temporal(n_vis_keyframes=n_vis_keyframes).to(device)
+
+    ckpt  = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+    state = ckpt.get("encoder_state", ckpt.get("model", ckpt.get("model_state_dict", ckpt)))
+
+    has_frame_score = any(
+        k.startswith("encoder.frame_attn_pool") or k.startswith("encoder.frame_score_head")
+        for k in state
+    )
+    has_post_iframe = any(k.startswith("encoder.inter_frame_post") for k in state)
+    has_patch_temporal = any(
+        k.startswith("encoder.patch_temporal_query")
+        or k.startswith("encoder.patch_temporal_attn")
+        or k.startswith("encoder.patch_temporal_head")
+        for k in state
+    )
+
+    model = TrajGazeV2Temporal(
+        n_vis_keyframes=n_vis_keyframes,
+        use_frame_score_branch=has_frame_score,
+        use_post_fusion_iframe=has_post_iframe,
+        use_patch_temporal_branch=has_patch_temporal,
+    ).to(device)
+    missing, unexpected = model.load_state_dict(state, strict=False)
+    print(f"[TrajEnc] Loaded {ckpt_path}")
+    print(f"  inferred flags: use_frame_score_branch={has_frame_score}, "
+          f"use_post_fusion_iframe={has_post_iframe}, use_patch_temporal_branch={has_patch_temporal}")
+    if missing:
+        print(f"  [warn] missing keys ({len(missing)}): {missing[:8]}{'...' if len(missing) > 8 else ''}")
+    if unexpected:
+        print(f"  [warn] unexpected keys ({len(unexpected)}): {unexpected[:8]}{'...' if len(unexpected) > 8 else ''}")
     return model
 
 

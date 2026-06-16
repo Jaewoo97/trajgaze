@@ -21,6 +21,8 @@ from __future__ import annotations
 
 from typing import Optional
 
+import os
+
 import torch
 import torch.nn.functional as F
 
@@ -59,14 +61,22 @@ def load_qwen_lora(device: torch.device):
         device_map={"": device},
     )
 
+    # LORA_TARGETS env var overrides default attention-only target list.
+    # Example: LORA_TARGETS="q_proj,k_proj,v_proj,o_proj,gate_proj,up_proj,down_proj"
+    targets_env = os.environ.get("LORA_TARGETS")
+    target_modules = (
+        [m.strip() for m in targets_env.split(",") if m.strip()]
+        if targets_env else ["q_proj", "k_proj", "v_proj", "o_proj"]
+    )
     lora_cfg = LoraConfig(
         r=LORA_RANK,
         lora_alpha=LORA_ALPHA,
-        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+        target_modules=target_modules,
         lora_dropout=LORA_DROPOUT,
         bias="none",
         task_type=TaskType.CAUSAL_LM,
     )
+    print(f"[LoRA] target_modules={target_modules}")
     model = get_peft_model(base_model, lora_cfg)
     model.print_trainable_parameters()
     return processor, model
@@ -165,9 +175,14 @@ def preprocess_item(
     pv_vid         = inputs["pixel_values_videos"].to(vis_dev, torch.bfloat16)
     grid_thw       = inputs["video_grid_thw"].to(vis_dev)
 
-    # Extract visual features from frozen ViT (already in LLM embedding space)
+    # Extract visual features from frozen ViT (already in LLM embedding space).
+    # transformers >= 4.54 returns a tuple (one tensor per video via torch.split);
+    # older versions returned a single tensor. Normalize to a single (N_video, d) tensor.
     with torch.no_grad():
-        video_embeds = base_qwen.model.get_video_features(pv_vid, grid_thw).to(emb_dev)
+        ve = base_qwen.model.get_video_features(pv_vid, grid_thw)
+        if isinstance(ve, (tuple, list)):
+            ve = torch.cat(ve, dim=0)
+        video_embeds = ve.to(emb_dev)
 
         # 3D-RoPE position IDs for the original (full) sequence
         position_ids, rope_deltas = base_qwen.model.get_rope_index(

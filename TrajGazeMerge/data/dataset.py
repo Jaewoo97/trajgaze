@@ -26,11 +26,11 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-FRAMES_BASE      = "/workspace/datasets/StreamGaze_v2/frames"
-GAZE_BASE        = "/workspace/datasets/StreamGaze_v2/gaze"
-HAND_BASE        = "/workspace/datasets/StreamGaze_v2/hand"
-INTERACTION_BASE = "/workspace/datasets/StreamGaze_v2/interaction"
-QA_BASE          = "/workspace/datasets/StreamGaze_v2/qa"
+FRAMES_BASE      = "/workspace/StreamGaze_v2/frames"
+GAZE_BASE        = "/workspace/StreamGaze_v2/gaze"
+HAND_BASE        = "/workspace/StreamGaze_v2/hand"
+INTERACTION_BASE = "/workspace/StreamGaze_v2/interaction"
+QA_BASE          = "/workspace/StreamGaze_v2/qa"
 EXTRACTED_FPS    = 10.0
 DATASETS         = ["egtea", "egoexolearn", "holoassist"]
 
