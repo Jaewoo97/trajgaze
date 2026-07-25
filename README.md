@@ -11,6 +11,23 @@
 
 ---
 
+## TrajGazeMerge — gaze-trajectory token selection for VisionZip (this fork)
+
+This fork extends EgoGazeVQA with **TrajGazeMerge**: a study of gaze/hand-trajectory-guided
+visual-token selection for Qwen2.5-VL-7B under a fixed **10% token budget** (VisionZip pruning).
+The headline result is **M1 (VZ-complement, 63.01%)** — selecting the gaze/hand-relevant tokens
+VisionZip's content attention discarded, added as a disjoint complement to its 7% content set.
+
+- **Best model — M1 (VZ-complement top-k, 63.01%):** [`MODEL_M1_VZ_COMPLEMENT.md`](MODEL_M1_VZ_COMPLEMENT.md)
+- **Full experiment grid & conclusions:** [`TRAINING_RUNS.md`](TRAINING_RUNS.md)
+- **Scanpath side-channel (63.01 tie, gated off):** [`MODEL_SCANPATH_OURS.md`](MODEL_SCANPATH_OURS.md)
+- **Code:** `TrajGazeMerge/` (models, training, data, eval) · `TrajGaze_v2/` (frozen TAS Stage-1 encoder) · `scripts/` (launch scripts)
+
+Protocol: egtea 2-way eval (n=1011), gaze-overlay frames, 3-epoch LoRA (eff-batch 8, early-stop),
+`--merge-ratio 0.9`. Model weights and raw datasets are **not** included in this repo.
+
+---
+
 ## Overview
 
 This repository provides the official code for **EgoGazeVQA**, a benchmark for evaluating multimodal large language models (MLLMs) on egocentric video understanding tasks with gaze guidance. 

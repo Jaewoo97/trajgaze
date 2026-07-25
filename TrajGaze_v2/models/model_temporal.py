@@ -150,6 +150,9 @@ class TrajGazeV2Temporal(nn.Module):
         n_vis_keyframes:         int  = 16,
         use_frame_score_branch:  bool = False,
         use_post_fusion_iframe:  bool = False,
+        use_patch_temporal_branch: bool = False,
+        use_iframe_query_conditioning: bool = False,
+        use_trajectory_anchor:    bool = False,
     ):
         super().__init__()
         self.query_encoder  = QueryEncoder(d_model=d_query)
@@ -161,10 +164,19 @@ class TrajGazeV2Temporal(nn.Module):
             d_query=d_query, n_layers_l2=n_layers_l2, n_heads_l2=n_heads_l2,
             use_frame_score_branch=use_frame_score_branch,
             use_post_fusion_iframe=use_post_fusion_iframe,
+            use_patch_temporal_branch=use_patch_temporal_branch,
+            use_iframe_query_conditioning=use_iframe_query_conditioning,
         )
         self.traj_decoder  = TrajectoryDecoderTemporal(d_model=d_enc, n_future=t_future_max)
         self.score_decoder = ScoreDecoderTemporal(d_model=d_enc,      n_future=t_future_max)
         self.score_head    = TrajScoreHead(d_enc=d_enc, n_patches=N_PATCHES)
+
+        # TAS — multiplicative Gaussian prior over score_head output.
+        # Identity at init (amp gates start at tanh(0)=0); learnable σ + α.
+        self.use_trajectory_anchor = use_trajectory_anchor
+        if use_trajectory_anchor:
+            from TrajGazeMerge.models.trajectory_grounding import TrajectoryAnchorModule
+            self.trajectory_anchor = TrajectoryAnchorModule(grid=14)
 
     # ── Stage 1 ───────────────────────────────────────────────────────────────
 
@@ -184,7 +196,11 @@ class TrajGazeV2Temporal(nn.Module):
         device  = past["left_pos"].device
         B       = past["left_pos"].shape[0]
 
-        query_emb = torch.zeros(B, self.query_encoder.d_model, device=device)
+        queries = batch.get("questions", None)
+        if queries is not None and any(q for q in queries):
+            query_emb = self.query_encoder(queries, device)
+        else:
+            query_emb = torch.zeros(B, self.query_encoder.d_model, device=device)
 
         # Visual features for past frames
         visual_feat = None
@@ -200,6 +216,10 @@ class TrajGazeV2Temporal(nn.Module):
 
         # TrajScoreHead — primary inference-time score output
         score_head_out = self.score_head(context)   # (B, T_past, 196)
+
+        # TAS — anchor scores to GT gaze/hand patches.
+        if self.use_trajectory_anchor:
+            score_head_out = self.trajectory_anchor(score_head_out, past)
 
         # Trajectory decoder (with cross-attn weights)
         traj_pred, dec_attn = self.traj_decoder(context, T_f_max, return_cross_weights=True)
@@ -258,7 +278,10 @@ class TrajGazeV2Temporal(nn.Module):
             visual_feat = self.visual_encoder(frame_paths, T, device)
 
         _, context, _ = self.encoder(traj_batch, query_emb, visual_feat)
-        return self.score_head(context)   # (B, T, 196)
+        scores = self.score_head(context)   # (B, T, 196)
+        if self.use_trajectory_anchor:
+            scores = self.trajectory_anchor(scores, traj_batch)
+        return scores
 
     def save(self, path: str):
         torch.save({"model_state_dict": self.state_dict()}, path)

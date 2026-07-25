@@ -35,7 +35,7 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, Dataset, DistributedSampler
 
 sys.path.insert(0, "/workspace/EgoGazeVQA")
-sys.path.insert(0, "/workspace/EgoGazeVQA/AutoGaze")
+sys.path.insert(0, "/workspace/AutoGaze_pub")  # public NVlabs/AutoGaze code (autogaze pkg)
 
 from TrajGazeMerge.models.model import (
     load_qwen_lora, get_option_ids, preprocess_item, forward_logits, build_merged_inputs
@@ -44,7 +44,10 @@ from TrajGazeMerge.models.merge import gaze_weighted_merge
 
 # ── Constants ────────────────────────────────────────────────────────────────
 AUTOGAZE_CKPT = (
-    "/workspace/EgoGazeVQA/AutoGaze/exps/streamgaze_fold_c_grpo/checkpoint_ep0_iter18000/checkpoint_gaze"
+    # Official public NVlabs/AutoGaze weights (nvidia/AutoGaze on HF). NOTE: this is the
+    # authors' general pretrained gaze model, NOT the deleted project-internal
+    # streamgaze_fold_c_grpo GRPO checkpoint — see table note.
+    "/workspace/autogaze_weights/nvidia_AutoGaze"
 )
 FRAMES_BASE   = "/workspace/datasets/StreamGaze_v2/frames"
 QA_BASE       = "/workspace/datasets/StreamGaze_v2/qa"
@@ -193,6 +196,7 @@ def compute_ag_scores(
     ag_transform,
     T_merged: int,
     n_spatial: int,
+    grid_hw: Optional[tuple] = None,
 ) -> torch.Tensor:
     """
     Run AutoGaze and return continuous importance scores for all Qwen visual tokens.
@@ -228,16 +232,21 @@ def compute_ag_scores(
     mask_fine = gaze_out["gazing_mask"][-1]            # (1, T=16, 256)
     scores_fine = mask_fine.float().squeeze(0).mean(dim=0).cpu()  # (256,)
 
-    # Map 16×16 → Qwen's spatial grid (typically 8×8=64 after 2×2 spatial merge)
+    # Map 16×16 AutoGaze saliency → Qwen's spatial token grid.
+    # Qwen grids are generally NON-square (e.g. 12×18=216 after 2×2 merge), so we
+    # must resize to the actual (h_q, w_q); assuming a square side over-/under-counts.
     s16 = scores_fine.reshape(1, 1, 16, 16)
-    side = int(round(n_spatial ** 0.5))
-    if side * side == n_spatial and 16 % side == 0:
-        # Integer downsampling: avg pool
-        factor = 16 // side
-        scores_q = F.avg_pool2d(s16, kernel_size=factor, stride=factor).flatten()
-    else:
+    if grid_hw is not None and grid_hw[0] * grid_hw[1] == n_spatial:
+        h_q, w_q = int(grid_hw[0]), int(grid_hw[1])
         scores_q = F.interpolate(
-            s16, size=(side, side), mode="bilinear", align_corners=False
+            s16, size=(h_q, w_q), mode="bilinear", align_corners=False
+        ).flatten()
+    else:
+        # Fallback (no grid given / mismatch): 1-D resize the flat saliency to
+        # exactly n_spatial so the token count always matches.
+        scores_q = F.interpolate(
+            scores_fine.reshape(1, 1, -1), size=int(n_spatial),
+            mode="linear", align_corners=False,
         ).flatten()
 
     # Tile across T_merged frames → (T_merged * n_spatial,)

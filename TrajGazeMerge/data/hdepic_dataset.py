@@ -42,8 +42,13 @@ import torch
 from torch.utils.data import Dataset
 
 ROOT          = "/workspace/HD-EPIC"
-FRAMES_BASE   = os.path.join(ROOT, "frames_extracted")
+# GAZE_OVERLAY=1 (default) → frames_gaze mirror with the gaze marker drawn in
+# pixels (matches StreamGaze viz + EgoGazeVQA gaze); =0 → raw frames_extracted.
+FRAMES_BASE   = os.path.join(
+    ROOT, "frames_gaze" if os.environ.get("GAZE_OVERLAY", "1") == "1"
+    else "frames_extracted")
 HAND_BASE     = os.path.join(ROOT, "hand_locations")
+GAZE_BASE     = os.path.join(ROOT, "gaze")
 INTER_BASE    = os.path.join(ROOT, "interaction")
 VQA_BASE      = "/workspace/hd-epic-annotations/vqa-benchmark"
 VAL_SPLIT_OUT = os.path.join(ROOT, "val_items.json")
@@ -148,7 +153,10 @@ def _frames_for_inputs(inputs: dict, question: str, n_total: int) -> list[str]:
 
 def _load_traj_hdepic(stem: str, frame_paths: list[str],
                        n_traj_frames: int) -> tuple[dict, list[str]]:
-    """Mirror StreamGaze _load_traj for HD-EPIC. Gaze is absent for HD-EPIC."""
+    """Mirror StreamGaze _load_traj for HD-EPIC. Gaze is read from
+    /workspace/HD-EPIC/gaze/{stem}.json (Aria MPS CPF→camera-rgb pixel
+    projection, see scripts/project_hdepic_gaze.py). Values are
+    normalized [0,1]; missing recordings → gaze-absent (hand-only)."""
     sampled = _sample_paths(frame_paths, n_traj_frames)
     T = len(sampled)
     if T == 0:
@@ -161,6 +169,14 @@ def _load_traj_hdepic(stem: str, frame_paths: list[str],
             hand_json = json.load(open(hand_path))
         except Exception:
             hand_json = {}
+
+    gaze_path = os.path.join(GAZE_BASE, f"{stem}.json")
+    gaze_json: dict = {}
+    if os.path.exists(gaze_path):
+        try:
+            gaze_json = json.load(open(gaze_path))
+        except Exception:
+            gaze_json = {}
 
     npz_path = os.path.join(INTER_BASE, f"{stem}.npz")
     npz = np.load(npz_path) if os.path.exists(npz_path) else None
@@ -203,6 +219,12 @@ def _load_traj_hdepic(stem: str, frame_paths: list[str],
                 right_pos[t, 1] = float(rh[1]) / img_h
                 right_mask[t] = True
 
+        gv = gaze_json.get(fname)
+        if gv and gv[0] is not None:
+            gaze_pos[t, 0] = float(gv[0])
+            gaze_pos[t, 1] = float(gv[1])
+            gaze_mask[t] = True
+
         if npz is not None and fname in int_idx:
             ii = int_idx[fname]
             d_left[t]      = npz["d_left"][ii]
@@ -217,6 +239,8 @@ def _load_traj_hdepic(stem: str, frame_paths: list[str],
             left_vel[t] = left_pos[t] - left_pos[t - 1]
         if right_mask[t] and right_mask[t - 1]:
             right_vel[t] = right_pos[t] - right_pos[t - 1]
+        if gaze_mask[t] and gaze_mask[t - 1]:
+            gaze_speed[t, 0] = float(np.linalg.norm(gaze_pos[t] - gaze_pos[t - 1]))
 
     traj = {
         "gaze_pos":    torch.from_numpy(gaze_pos),

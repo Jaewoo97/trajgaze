@@ -173,6 +173,18 @@ def preprocess_visionzip_item(
     video_token_id  = base_qwen.config.video_token_id
     video_positions = (input_ids[0] == video_token_id).nonzero(as_tuple=True)[0]
 
+    # Question-stem embedding (options EXCLUDED → no answer leakage) for
+    # query-conditioned complement selection. Mean of the question's token
+    # embeddings in the LLM input-embedding space — the same space video_embeds
+    # live in, so cosine(video_embeds, query_emb) ranks tokens by question relevance.
+    try:
+        q_ids = processor.tokenizer(question, add_special_tokens=False)["input_ids"]
+        query_emb = (base_qwen.get_input_embeddings()(
+            torch.tensor(q_ids, device=emb_dev)).mean(0)
+            if len(q_ids) > 0 else None)
+    except Exception:
+        query_emb = None
+
     return {
         "input_ids":       input_ids,
         "attention_mask":  attention_mask,
@@ -183,6 +195,7 @@ def preprocess_visionzip_item(
         "video_positions": video_positions,
         "attn_scores":     attn_scores,
         "attn_key":        attn_key,
+        "query_emb":       query_emb,
         "emb_dev":         emb_dev,
     }
 
@@ -195,6 +208,7 @@ def visionzip_select_tokens(
     attn_key:     torch.Tensor,   # (1, N, d_k) key vectors for clustering
     dominant_ratio:   float = DOMINANT_RATIO,
     contextual_ratio: float = CONTEXTUAL_RATIO,
+    dominant_score:   torch.Tensor | None = None,  # (N,) override score for dominant top-k
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """
     VisionZip two-stage selection:
@@ -212,7 +226,8 @@ def visionzip_select_tokens(
     contextual_num = max(1, int(contextual_ratio * N))
 
     # ── 1. Dominant tokens ────────────────────────────────────────────────────
-    _, topk_indices = torch.topk(attn_scores, dominant_num)
+    dom_score = attn_scores if dominant_score is None else dominant_score
+    _, topk_indices = torch.topk(dom_score, dominant_num)
     topk_sorted, _  = topk_indices.sort()
 
     dom_mask       = torch.zeros(N, dtype=torch.bool, device=video_embeds.device)
@@ -283,6 +298,17 @@ def parse_args():
     p.add_argument("--grad-clip",   type=float, default=1.0)
     p.add_argument("--log-every",   type=int,   default=20)
     p.add_argument("--n-frames",    type=int,   default=128)
+    p.add_argument("--dominant-ratio",   type=float, default=DOMINANT_RATIO,
+                   help="Fraction of tokens kept as raw dominant (default 0.05).")
+    p.add_argument("--contextual-ratio", type=float, default=CONTEXTUAL_RATIO,
+                   help="Fraction of tokens kept as merged contextual (default 0.05). "
+                        "Total budget = dominant + contextual.")
+    p.add_argument("--no-hdepic",   dest="include_hdepic", action="store_false",
+                   help="Train/eval on StreamGaze+EgoGazeVQA only (drop HD-EPIC); "
+                        "val then = SG egtea + EG egtea.")
+    p.set_defaults(include_hdepic=True)
+    p.add_argument("--early-stop",  action="store_true",
+                   help="Stop after epoch 2 if egtea val did not improve over epoch 1.")
     return p.parse_args()
 
 
@@ -294,8 +320,10 @@ def setup_ddp():
     return rank, local_rank, dist.get_world_size()
 
 
-def evaluate(processor, model, base_qwen, option_ids, device):
-    test_ds = CombinedSimpleDataset(split="test", n_vlm_frames=128)
+def evaluate(processor, model, base_qwen, option_ids, device, include_hdepic=True,
+             dominant_ratio=DOMINANT_RATIO, contextual_ratio=CONTEXTUAL_RATIO):
+    test_ds = CombinedSimpleDataset(split="test", n_vlm_frames=128,
+                                    include_hdepic=include_hdepic)
     model.eval()
     correct = 0
     total   = 0
@@ -314,7 +342,8 @@ def evaluate(processor, model, base_qwen, option_ids, device):
                     continue
 
                 selected_embeds, receiver_idx = visionzip_select_tokens(
-                    cached["video_embeds"], cached["attn_scores"], cached["attn_key"]
+                    cached["video_embeds"], cached["attn_scores"], cached["attn_key"],
+                    dominant_ratio=dominant_ratio, contextual_ratio=contextual_ratio,
                 )
                 inputs_dict = build_merged_inputs(
                     base_qwen, cached, selected_embeds, receiver_idx
@@ -351,8 +380,10 @@ def main():
     if is_main:
         os.makedirs(args.output_dir, exist_ok=True)
         print(f"[VisionZip LoRA] output: {args.output_dir}")
+        budget = (args.dominant_ratio + args.contextual_ratio) * 100
         print(f"[VisionZip LoRA] GPUs={world_size}, "
-              f"dominant={DOMINANT_RATIO*100:.0f}%+contextual={CONTEXTUAL_RATIO*100:.0f}%=10%, "
+              f"dominant={args.dominant_ratio*100:.1f}%+contextual={args.contextual_ratio*100:.1f}%"
+              f"={budget:.1f}%, "
               f"epochs={args.epochs}, lr={args.lr}, grad_accum={args.grad_accum}")
 
     if is_main:
@@ -364,7 +395,8 @@ def main():
     if is_main:
         print("Model loaded.")
 
-    train_ds = CombinedSimpleDataset(split="train", n_vlm_frames=args.n_frames)
+    train_ds = CombinedSimpleDataset(split="train", n_vlm_frames=args.n_frames,
+                                     include_hdepic=args.include_hdepic)
     sampler  = DistributedSampler(train_ds, num_replicas=world_size, rank=rank, shuffle=True)
     loader   = DataLoader(train_ds, batch_size=1, sampler=sampler,
                           collate_fn=lambda b: b[0], num_workers=2)
@@ -374,6 +406,7 @@ def main():
 
     log_path = os.path.join(args.output_dir, f"train_log_rank{rank}.jsonl")
     best_acc = 0.0
+    epoch_accs: list[float] = []
 
     for epoch in range(args.epochs):
         sampler.set_epoch(epoch)
@@ -398,10 +431,12 @@ def main():
 
                 n_video = cached["video_embeds"].shape[0]
 
-                # VisionZip selection: 5% dominant + 5% contextual
+                # VisionZip selection: dominant (raw) + contextual (merged)
                 with torch.no_grad():
                     selected_embeds, receiver_idx = visionzip_select_tokens(
-                        cached["video_embeds"], cached["attn_scores"], cached["attn_key"]
+                        cached["video_embeds"], cached["attn_scores"], cached["attn_key"],
+                        dominant_ratio=args.dominant_ratio,
+                        contextual_ratio=args.contextual_ratio,
                     )
                     inputs_dict = build_merged_inputs(
                         base_qwen, cached, selected_embeds, receiver_idx
@@ -468,11 +503,15 @@ def main():
         if is_main:
             print(f"Evaluating epoch {epoch+1} on full EGTEA val set ...")
             acc, n_eval, per_task = evaluate(
-                processor, model.module, base_qwen, option_ids, device
+                processor, model.module, base_qwen, option_ids, device,
+                include_hdepic=args.include_hdepic,
+                dominant_ratio=args.dominant_ratio,
+                contextual_ratio=args.contextual_ratio,
             )
             print(f"  Overall: {acc:.2f}%  (n={n_eval})")
             for task, task_acc in per_task.items():
                 print(f"    {task}: {task_acc:.2f}%")
+            epoch_accs.append(acc)
             with open(log_path, "a") as f:
                 f.write(json.dumps({
                     "epoch": epoch + 1, "eval_acc": acc,
@@ -487,6 +526,17 @@ def main():
                 }, os.path.join(args.output_dir, "best.pth"))
                 print(f"  → saved best (acc={acc:.2f}%)")
         dist.barrier()
+
+        # Early-stop: kill if epoch-2 egtea val did not improve over epoch-1.
+        stop = torch.zeros(1, device=device)
+        if is_main and args.early_stop and (epoch + 1) == 2 and len(epoch_accs) >= 2 \
+                and epoch_accs[1] <= epoch_accs[0]:
+            stop[0] = 1.0
+            print(f"  Early stop: epoch2 {epoch_accs[1]:.2f}% <= epoch1 "
+                  f"{epoch_accs[0]:.2f}% → skipping epoch 3.", flush=True)
+        dist.broadcast(stop, src=0)
+        if stop.item() > 0:
+            break
 
     dist.destroy_process_group()
 

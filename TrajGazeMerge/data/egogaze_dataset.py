@@ -35,6 +35,10 @@ from TrajGazeMerge.data.dataset import _sample_paths, _get_image_wh
 ROOT = "/workspace/EgoGazeVQA"
 METADATA = os.path.join(ROOT, "metadata.csv")
 
+# Frame variant fed to the VLM. GAZE_OVERLAY=1 (default) → upstream "gaze" set
+# with the gaze marker drawn in pixels (benchmark-intended); =0 → raw "no_gaze".
+_EG_FRAME_SUB = "gaze" if os.environ.get("GAZE_OVERLAY", "1") == "1" else "no_gaze"
+
 
 def _parse_options(raw: str) -> list[str]:
     """'A: foo|B: bar|...' → ['A. foo', 'B. bar', ...] (StreamGaze option style)."""
@@ -237,7 +241,7 @@ class EgoGazeVQADataset(Dataset):
         return len(self.items)
 
     def _frame_paths(self, ds: str, video_id: str, subclip: str) -> list[str]:
-        d = os.path.join(ROOT, ds, "no_gaze", video_id)
+        d = os.path.join(ROOT, ds, _EG_FRAME_SUB, video_id)
         if not os.path.isdir(d):
             return []
         prefix = subclip + "_"
@@ -267,6 +271,7 @@ class EgoGazeVQADataset(Dataset):
 
         return {
             "vlm_frame_paths":  _sample_paths(frame_paths, self.n_vlm_frames),
+            "full_frame_paths": frame_paths,
             "traj_frame_paths": traj_frame_paths,
             "traj":             traj,
             "question":         it["question"],

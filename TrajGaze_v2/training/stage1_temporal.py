@@ -48,9 +48,13 @@ from TrajGaze_v2.models.model_temporal import TrajGazeV2Temporal
 from TrajGaze_v2.data.dataset_temporal import (
     StreamGazeStage1DatasetTemporal, collate_stage1_temporal,
 )
+# EgoGazeVQAStage1DatasetTemporal lives in TrajGaze_v2.data.dataset_temporal_egovqa
+# but that module isn't present on this branch — only StreamGaze Stage-1 is needed for
+# the TAS pretrain. Lazy-import it inside the --use-egovqa branch instead.
 from TrajGaze_v2.training.loss_schedule import (
     LossWeights, curriculum_weights, total_from_weighted,
 )
+from torch.utils.data import ConcatDataset
 
 
 def parse_args():
@@ -107,6 +111,27 @@ def parse_args():
                    help="Add a second InterFrameTransformer AFTER per-frame visual "
                         "fusion, gated residual, applied to enriched_context. "
                         "(b2) architecture variant.")
+    p.add_argument("--use-patch-temporal-branch", action="store_true",
+                   help="E1: patch-level temporal modulation. 196 learned patch queries "
+                        "cross-attend to x_iframe (B*T, 4, D), producing (B, T, 196) "
+                        "modulation map elementwise-multiplied into per_frame_scores. "
+                        "Mutually exclusive with --use-frame-score-branch.")
+    p.add_argument("--use-iframe-query-conditioning", action="store_true",
+                   help="E1+B: condition the static patch_temporal_query on per-frame "
+                        "x_iframe context (mean-pooled over 4 tokens, MLP, additive). "
+                        "Same x_iframe used as KV (per-token detail) and query "
+                        "conditioning (frame summary). Requires "
+                        "--use-patch-temporal-branch.")
+    # Combined-dataset training (StreamGaze + EgoGazeVQA)
+    p.add_argument("--use-egovqa", action="store_true",
+                   help="ConcatDataset StreamGaze + EgoGazeVQA (ego4d+egoexo) for "
+                        "Stage 1. Default: StreamGaze only.")
+    p.add_argument("--use-hd-epic", action="store_true",
+                   help="Also ConcatDataset HD-EPIC (P01–P08; P09 held out) for Stage 1.")
+    p.add_argument("--use-trajectory-anchor", action="store_true",
+                   help="TAS: multiplicative Gaussian prior over score_head output "
+                        "centred on GT gaze/hand patches. Identity at init "
+                        "(amp gates start at 0); learns σ and α during Stage 1 + 2.")
     return p.parse_args()
 
 
@@ -135,7 +160,26 @@ def main():
               f"batch/GPU={args.batch_size}")
         print(f"[stage1_temporal] output: {args.output_dir}")
 
-    dataset = StreamGazeStage1DatasetTemporal(n_frames=args.n_frames)
+    sg_dataset = StreamGazeStage1DatasetTemporal(n_frames=args.n_frames)
+    parts = [sg_dataset]
+    part_names = [f"StreamGaze={len(sg_dataset)}"]
+    if args.use_egovqa:
+        from TrajGaze_v2.data.dataset_temporal_egovqa import EgoGazeVQAStage1DatasetTemporal
+        ev_dataset = EgoGazeVQAStage1DatasetTemporal(
+            n_frames=args.n_frames, datasets=("ego4d", "egoexo"),
+        )
+        parts.append(ev_dataset); part_names.append(f"EgoGazeVQA={len(ev_dataset)}")
+    if args.use_hd_epic:
+        from TrajGaze_v2.data.dataset_temporal_hdepic import HDEpicStage1DatasetTemporal
+        hd_dataset = HDEpicStage1DatasetTemporal(n_frames=args.n_frames)
+        parts.append(hd_dataset); part_names.append(f"HDEpic={len(hd_dataset)}")
+    if len(parts) > 1:
+        dataset = ConcatDataset(parts)
+        if is_main:
+            print(f"[stage1_temporal] Combined dataset: " + " + ".join(part_names) +
+                  f" = {len(dataset)} clips")
+    else:
+        dataset = sg_dataset
     sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank, shuffle=True)
     loader  = DataLoader(
         dataset,
@@ -151,6 +195,9 @@ def main():
         n_vis_keyframes=args.n_vis_keyframes,
         use_frame_score_branch=args.use_frame_score_branch,
         use_post_fusion_iframe=args.use_post_fusion_iframe,
+        use_patch_temporal_branch=args.use_patch_temporal_branch,
+        use_iframe_query_conditioning=args.use_iframe_query_conditioning,
+        use_trajectory_anchor=args.use_trajectory_anchor,
     ).to(device)
 
     # Apply gate init / freeze before DDP wrap so DDP picks up the right param state.

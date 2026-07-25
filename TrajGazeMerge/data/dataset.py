@@ -297,6 +297,7 @@ class StreamGazeMergeDataset(Dataset):
 
         return {
             "vlm_frame_paths":  vlm_frame_paths,
+            "full_frame_paths": frame_paths,
             "traj_frame_paths": traj_frame_paths,
             "traj":             traj,
             "question":         item["question"],
