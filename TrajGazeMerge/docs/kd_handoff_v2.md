@@ -654,3 +654,87 @@ Two predictions worth recording before the fact, so the result can falsify them:
    wrong.
 2. **The warm-start is overlay-trained**, so as on SG some of any drop is distribution shift
    rather than lost information. Only this retrain separates the two.
+
+---
+
+## 12. Checkpoint anatomy and facts for the paper
+
+Established by opening the shipped checkpoints directly (`torch.load(..., mmap=True)`), not by
+reading the code. Recorded because three of these contradict what is currently written down.
+
+### 12.1 What a "student checkpoint" actually contains
+
+`visionzip_kd_selection_SGonly_overlay/best.pth` — keys `{acc, epoch, lora_state, pred_state}`,
+`epoch=2`, `acc=70.15`:
+
+| key | tensors | params | what it is |
+|---|---|---|---|
+| `pred_state` | 16 | **3.95 M** | the distilled student head |
+| `lora_state` → LoRA | 224 | 10.09 M | rank-16 adapters on `q/k/v/o_proj` |
+| `lora_state` → base | 729 | **8.29 B** | **the entire frozen backbone** |
+
+**`lora_state` is a misnomer: it holds the whole 7B model**, because `state_dict()` on a
+`PeftModel` returns base weights too. That is the 16.6 GB, not optimizer state — v1 §1's
+"~16.6 GB (LoRA state + optimizer)" is wrong on both counts; there is no optimizer state in the
+file. Only **14 M** parameters are ever trained, so a weights-only export is **~30 MB**. Every
+epoch checkpoint currently re-saves the frozen backbone.
+
+### 12.2 LoRA configuration — the `r{=}64` in the draft is from a different model line
+
+The checkpoint tensors settle it: `layers.0.self_attn.q_proj.lora_A.default.weight` is
+`(16, 3584)`, i.e. **$r{=}16$**, and `models/model.py` sets `LORA_RANK=16, LORA_ALPHA=32`.
+`r=64, α=128` appears only in the **PLLaVA** line (`train_pllava_trajgaze_kd_r64_v3.py`,
+`eval_pllava_*`). If Qwen2.5-VL numbers are being reported, the Stage-2 paragraph must say
+$r{=}16,\alpha{=}32$.
+
+Also `target_modules=["q_proj","k_proj","v_proj","o_proj"]` — the **feed-forward sub-layers are
+not adapted**. "all attention projection layers" is true but reads as if everything is covered;
+state the MLP exclusion explicitly.
+
+### 12.3 The student, precisely
+
+`TrajSaliencePredictor` is a **standalone module**, not a head inside the LLM. Its `in_dim` is
+read from the backbone only to match width.
+
+```
+tok_proj : LN(3584) → Linear(3584→512) → GELU
+attn_proj: Linear(1→512)          ← per-clip standardized ViT importance
+ctx_proj : LN(3584) → Linear(3584→512) → GELU   ← per-frame mean embedding, O(N)
+head     : LN(512) → Linear(512→512) → GELU → Linear(512→1)
+```
+
+`attn_proj` having shape `(512, 1)` is a **verifiable claim for reviewers**: the module has no
+input path wide enough for a 2-D gaze coordinate or the 15-channel trajectory tensor. It cannot
+consume gaze even in principle.
+
+Its output selects *which* tokens reach the VLM; it never contributes features to the forward
+pass. The frozen TAS encoder (35.8 M) is called only in the training loop; `evaluate()` never
+touches it — though it is still *loaded* before the `--eval-ckpt` branch, so `--stage1-ckpt`
+is required even for a gaze-free eval. Harmless, but confusing when demonstrating the claim.
+
+### 12.4 Rows prepared for the results table
+
+Teacher = **mean of the 3 per-task runs** (§8), not a single run and not the best of N:
+
+```latex
+\sys-T (SG-only teacher) & 71.36 & 63.24 & 57.66 & 93.40 & 73.27 & 74.48 & 56.38 & 71.17 \\
+\sys + KD (gaze-overlay) & 76.56 & 70.59 & 56.76 & 91.67 & 69.31 & 65.62 & 53.19 & 70.15 \\
+```
+
+Column order GSM / NFI / SR / OAR / OI-E / OI-H / FAP / Avg. `past_object_transition_prediction`
+has **2 items** and no column, but is inside every Avg — state that in the caption.
+
+Against the draft's visible rows the KD student is best on **GSM (+1.56 over \sys)** and **NFI
+(+2.94 over PruneVid)** — the two gaze-driven tasks, which is the story. It is *not* best on
+OI-E/OI-H (Full-token leads by ~10) or Avg.
+
+**Both margins are inside the measured noise.** §8 shows NFI swinging 2.95 and SR 2.70 across
+re-evaluations of identical weights. The student row is a **single run**; the teacher row is a
+3-run mean. Before bolding anything, evaluate the student ≥3× as well.
+
+### 12.5 Open discrepancies to resolve before submission
+
+1. Student rows are single runs (§8 requires ≥3).
+2. Machine-1 vs machine-2 mixing — the draft's baselines were measured elsewhere; the same
+   VisionZip checkpoint reads GSM 65.62 there and 70.31 here.
+3. §2.1 still unresolved: no SG-only VisionZip bar exists, so "+8 over VisionZip" is unverified.

@@ -98,6 +98,10 @@ def parse_args():
                    help="Permanently set l_score_traj weight to 0 (the noisiest "
                         "of the 4 losses, chains decoder x encoder attention). "
                         "Yields 3-loss training: l_traj + l_score_past + l_score_fut.")
+    p.add_argument("--drop-loss-traj", action="store_true",
+                   help="Zero l_traj (masked trajectory prediction).")
+    p.add_argument("--drop-loss-score-fut", action="store_true",
+                   help="Zero l_score_future (attention/future-relevance alignment).")
     p.add_argument("--no-visual", action="store_true",
                    help="Skip DINOv2 visual encoding entirely. The encoder falls "
                         "back to its trajectory-only score path (no visual "
@@ -284,20 +288,25 @@ def main():
 
             if args.use_curriculum:
                 weights = curriculum_weights(global_step, total_steps)
-                if args.drop_loss_score_traj:
-                    weights = LossWeights(
-                        traj         = weights.traj,
-                        score_past   = weights.score_past,
-                        score_future = weights.score_future,
-                        score_traj   = 0.0,
-                    )
-                loss = total_from_weighted(loss_dict, weights)
-            elif args.drop_loss_score_traj:
-                loss = (loss_dict["loss_traj"]
-                        + loss_dict["loss_score_past"]
-                        + loss_dict["loss_score_fut"])
             else:
-                loss = loss_dict["loss"]
+                weights = LossWeights(traj=1.0, score_past=1.0,
+                                      score_future=1.0, score_traj=1.0)
+            weights = LossWeights(
+                traj         = 0.0 if args.drop_loss_traj       else weights.traj,
+                score_past   = weights.score_past,
+                score_future = 0.0 if args.drop_loss_score_fut  else weights.score_future,
+                score_traj   = 0.0 if args.drop_loss_score_traj else weights.score_traj,
+            )
+            # NOTE: total_from_weighted() is deliberately NOT used here. It *skips*
+            # zero-weight terms (loss_schedule.py), which detaches traj_decoder /
+            # score_decoder from the autograd graph. DDP is built without
+            # find_unused_parameters (see below) and would then raise
+            # "Expected to have finished reduction in the prior iteration".
+            # Multiplying by 0.0 keeps every parameter in the reducer with a zero grad.
+            loss = (weights.traj         * loss_dict["loss_traj"]
+                  + weights.score_past   * loss_dict["loss_score_past"]
+                  + weights.score_future * loss_dict["loss_score_fut"]
+                  + weights.score_traj   * loss_dict["loss_score_traj"])
 
             if not torch.isfinite(loss):
                 if is_main:

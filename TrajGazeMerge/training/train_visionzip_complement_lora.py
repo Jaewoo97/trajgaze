@@ -142,8 +142,18 @@ def parse_args():
                         "fused = norm(attn) + lambda*norm(traj).")
     p.add_argument("--fusion-norm", choices=["minmax", "rank"], default="minmax",
                    help="Per-video normalization of attn/traj before fusion.")
+    p.add_argument("--select-geom", choices=["spatiotemporal", "no_spatial", "no_temporal"],
+                   default="spatiotemporal",
+                   help="Table 7 geometry ablation on a fixed fused score "
+                        "s = norm(attn) + norm(traj). 'no_spatial' keeps whole top frames; "
+                        "'no_temporal' keeps top patches in every frame; 'spatiotemporal' "
+                        "= unchanged two-pool complement path.")
     p.add_argument("--stage1-ckpt",   default=STAGE1_DEFAULT,
                    help="Frozen TAS Stage-1 encoder (learned mode only).")
+    p.add_argument("--random-encoder", action="store_true",
+                   help="Table 6 'No pretrain': build the trajectory encoder with random "
+                        "weights (architecture flags still inferred from --stage1-ckpt) "
+                        "instead of loading the pretrained Stage-1 weights.")
     p.add_argument("--n-vis-keyframes", type=int, default=16)
     p.add_argument("--horizon",       type=float, default=2.0,
                    help="Anticipatory extrapolation horizon in frames (anticipatory mode).")
@@ -399,6 +409,33 @@ def select_complementary(cached, item, device, mode, encoder, hp,
     attn_key     = cached["attn_key"]
     N = video_embeds.shape[0]
 
+    # Table 7 geometry ablation. Fixed fused score s = norm(attn) + norm(traj); only the
+    # geometric constraint on which (frame, patch) tokens may be kept changes. Runs before
+    # the content/complement logic and bypasses VisionZip entirely.
+    geom = hp.get("select_geom", "spatiotemporal") if isinstance(hp, dict) else "spatiotemporal"
+    if geom in ("no_spatial", "no_temporal"):
+        T = int(cached["grid_thw"][0, 0].item())
+        n_spatial = N // max(1, T)
+        if T * n_spatial == N:                  # same layout guard 'coverage' uses
+            dev  = video_embeds.device
+            traj = _traj_scores(cached, item, device, mode, encoder, hp).to(dev)
+            s = _norm_scores(attn_scores.to(dev), "minmax") + _norm_scores(traj, "minmax")
+            k = max(1, int((content_ratio + traj_ratio) * N))
+            if geom == "no_spatial":            # keep whole top frames
+                n_keep_f = max(1, min(T, round(k / n_spatial)))
+                fw = s.view(T, n_spatial).sum(dim=1)
+                frames = torch.topk(fw, n_keep_f).indices
+                idx = ((frames * n_spatial).view(-1, 1)
+                       + torch.arange(n_spatial, device=dev)).reshape(-1)
+            else:                               # no_temporal: top patches in EVERY frame
+                per_f = max(1, min(n_spatial, round(k / T)))
+                cols = torch.topk(s.view(T, n_spatial), per_f, dim=1).indices
+                rows = torch.arange(T, device=dev).view(-1, 1)
+                idx = (rows * n_spatial + cols).reshape(-1)
+            idx = idx.sort().values
+            return video_embeds[idx], idx
+        # non-factorable grid -> fall through to the free spatiotemporal path
+
     if complement_mode == "fusion":
         traj_scores = _traj_scores(cached, item, device, mode, encoder, hp).to(attn_scores.device)
         fused = _norm_scores(attn_scores, fusion_norm) \
@@ -570,6 +607,7 @@ def main():
         horizon=args.horizon, sigma_g=args.sigma_g, sigma_h=args.sigma_h,
         alpha_hand=args.alpha_hand, sigma_v=args.sigma_v, sigma_gh=args.sigma_gh,
         mask_modality=args.mask_modality,
+        select_geom=args.select_geom,
     )
 
     if is_main:
@@ -579,6 +617,10 @@ def main():
               f"content={args.content_ratio*100:.1f}% ∪ traj={args.traj_ratio*100:.1f}% = "
               f"{(args.content_ratio+args.traj_ratio)*100:.0f}%, "
               f"epochs={args.epochs}, lr={args.lr}, grad_accum={args.grad_accum}", flush=True)
+        # Args are not serialized into the checkpoint, so echo the ablation switches:
+        # a later --eval-ckpt run silently reverts to the defaults unless they are re-passed.
+        print(f"[VZ-complement] ablation: select_geom={args.select_geom}, "
+              f"random_encoder={args.random_encoder}, source={args.source}", flush=True)
         if args.traj_pool_mode == "anticipatory":
             print(f"[VZ-complement] anticip hp: horizon={args.horizon} σ_g={args.sigma_g} "
                   f"σ_h={args.sigma_h} α_hand={args.alpha_hand}", flush=True)
@@ -602,7 +644,8 @@ def main():
 
     encoder = None
     if args.traj_pool_mode == "learned":
-        encoder = load_traj_encoder("full", args.stage1_ckpt, device, args.n_vis_keyframes)
+        encoder = load_traj_encoder("full", args.stage1_ckpt, device, args.n_vis_keyframes,
+                                    random_init=args.random_encoder)
         encoder.eval()
         for p in encoder.parameters():
             p.requires_grad_(False)

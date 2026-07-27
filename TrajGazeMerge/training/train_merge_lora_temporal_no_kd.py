@@ -117,7 +117,7 @@ def parse_args():
     return p.parse_args()
 
 
-def load_traj_encoder(model_type, stage1_ckpt, device, n_vis_keyframes):
+def load_traj_encoder(model_type, stage1_ckpt, device, n_vis_keyframes, random_init=False):
     ckpt  = torch.load(stage1_ckpt, map_location="cpu", weights_only=False)
     state = ckpt.get("encoder_state", ckpt.get("model", ckpt.get("model_state_dict", ckpt)))
 
@@ -156,8 +156,15 @@ def load_traj_encoder(model_type, stage1_ckpt, device, n_vis_keyframes):
         from TrajGaze_v2.models.model_temporal_hand_only import TrajGazeV2TemporalHandOnly
         model = TrajGazeV2TemporalHandOnly(n_vis_keyframes=n_vis_keyframes).to(device)
 
-    missing, unexpected = model.load_state_dict(state, strict=False)
-    print(f"[TrajEncoder] loaded {model_type} from {stage1_ckpt}")
+    if random_init:
+        # Table 6 "No pretrain": architecture flags are still inferred from the ckpt
+        # above so the score tensors keep the same shape, but no weights are loaded.
+        missing, unexpected = [], []
+        print(f"[TrajEncoder] RANDOM-INIT {model_type} "
+              f"(arch flags read from {stage1_ckpt}; weights NOT loaded)")
+    else:
+        missing, unexpected = model.load_state_dict(state, strict=False)
+        print(f"[TrajEncoder] loaded {model_type} from {stage1_ckpt}")
     print(f"  inferred flags: use_frame_score_branch={has_frame_score}, use_post_fusion_iframe={has_post_iframe}, use_patch_temporal_branch={has_patch_temporal}, use_iframe_query_conditioning={has_iframe_query_cond}, use_trajectory_anchor={has_trajectory_anchor}")
     if missing:
         print(f"  [warn] missing keys ({len(missing)}): {missing[:8]}{'...' if len(missing) > 8 else ''}")

@@ -283,7 +283,7 @@ rather than simply dropping it.
 
 \paragraph{VLM and LoRA.}
 We use Qwen2.5-VL-7B~\cite{wang2024qwen2vl} with LoRA adapters~\cite{hu2022lora}
-($r{=}64$, $\alpha{=}128$) injected into all attention projection layers.
+($r{=}16$, $\alpha{=}32$) injected into all attention projection layers.
 The merged token sequence $\hat{\mathbf{F}}$ replaces the full visual token sequence
 in the VLM's input, and the model predicts a distribution over the $K$ answer options.
 
