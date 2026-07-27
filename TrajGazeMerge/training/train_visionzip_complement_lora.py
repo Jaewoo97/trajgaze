@@ -73,8 +73,9 @@ def _augment_options(item):
     out["answer"] = chr(65 + gt_new)
     return out
 
-sys.path.insert(0, "/workspace/trajgaze_st")
-sys.path.insert(0, "/workspace/EgoGazeVQA/VisionZip/Qwen2_5_VL")
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, _REPO)
+sys.path.insert(0, os.path.join(_REPO, "VisionZip", "Qwen2_5_VL"))
 
 from TrajGazeMerge.data.combined_dataset import CombinedMergeDataset
 from TrajGazeMerge.models.model import (
@@ -170,6 +171,12 @@ def parse_args():
     p.add_argument("--no-mid-eval", action="store_true",
                    help="Disable the mid-epoch eval/checkpoint.")
     p.set_defaults(include_hdepic=True)
+    p.add_argument("--max-eval-items", type=int, default=0,
+                   help="Evaluate only the first N items (0 = full split). For quick "
+                        "smoke evals; the reported accuracy is not comparable to the "
+                        "published full-split numbers.")
+    p.add_argument("--eval-progress-every", type=int, default=0,
+                   help="Print a running accuracy line every N scored items (0 = silent).")
     p.add_argument("--source", choices=["sg", "eg", "both"], default="both",
                    help="Train/eval on a single benchmark only (sg=StreamGaze, eg=EgoGazeVQA). "
                         "Filters the combined dataset to that source; per-source acc then equals "
@@ -498,12 +505,16 @@ def evaluate(processor, model, base_qwen, option_ids, device, mode, encoder, hp,
              content_ratio, traj_ratio, include_hdepic=True,
              complement_mode="topk", nms_radius=1,
              fusion_lambda=1.0, fusion_norm="minmax",
-             query_ratio=0.0, query_mode="cosine", source="both"):
+             query_ratio=0.0, query_mode="cosine", source="both",
+             max_items=0, progress_every=0):
     test_ds = CombinedMergeDataset(
         split="test", n_vlm_frames=128, n_traj_frames=128, include_hdepic=include_hdepic,
     )
     if source in ("sg", "eg"):
         test_ds.items = [it for it in test_ds.items if it[0] == source]
+    if max_items:
+        test_ds.items = test_ds.items[:max_items]
+        print(f"[eval] limited to first {len(test_ds.items)} items", flush=True)
     model.eval()
     correct = 0; total = 0
     by_task: dict[str, list] = {}
@@ -538,6 +549,11 @@ def evaluate(processor, model, base_qwen, option_ids, device, mode, encoder, hp,
                 by_src.setdefault(src, []).append(ok)
             except Exception:
                 pass
+            if progress_every and total and total % progress_every == 0:
+                running = " ".join(
+                    f"{s}={100.0*sum(v)/len(v):.2f}({len(v)})" for s, v in sorted(by_src.items()))
+                print(f"[eval] {total}/{len(test_ds)} | acc={100.0*correct/total:.2f}% | {running}",
+                      flush=True)
     model.train()
     per_task = {t: 100.0 * sum(v) / max(1, len(v)) for t, v in sorted(by_task.items())}
     per_src = {s: [100.0 * sum(v) / max(1, len(v)), len(v)] for s, v in sorted(by_src.items())}
@@ -606,8 +622,12 @@ def main():
                 fusion_lambda=args.fusion_lambda, fusion_norm=args.fusion_norm,
                 query_ratio=args.query_ratio, query_mode=args.query_mode,
                 source=args.source,
+                max_items=args.max_eval_items,
+                progress_every=args.eval_progress_every,
             )
             print(f"[eval-only] Overall: {acc:.2f}%  (n={n_eval})", flush=True)
+            for task, task_acc in per_task.items():
+                print(f"[eval-only]     {task}: {task_acc:.2f}%", flush=True)
             for s, (s_acc, s_n) in per_src.items():
                 print(f"[eval-only] [src] {s}: {s_acc:.2f}%  (n={s_n})", flush=True)
         dist.barrier()

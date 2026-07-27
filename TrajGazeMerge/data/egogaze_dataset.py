@@ -32,12 +32,29 @@ from torch.utils.data import Dataset
 
 from TrajGazeMerge.data.dataset import _sample_paths, _get_image_wh
 
-ROOT = "/workspace/EgoGazeVQA"
+ROOT = os.environ.get("EG_ROOT", "/workspace/EgoGazeVQA")
 METADATA = os.path.join(ROOT, "metadata.csv")
 
-# Frame variant fed to the VLM. GAZE_OVERLAY=1 (default) → upstream "gaze" set
-# with the gaze marker drawn in pixels (benchmark-intended); =0 → raw "no_gaze".
-_EG_FRAME_SUB = "gaze" if os.environ.get("GAZE_OVERLAY", "1") == "1" else "no_gaze"
+# Frame variant. The upstream "gaze" set has the gaze marker drawn in pixels
+# (benchmark-intended); "no_gaze" is the same footage without it.
+#
+# Split by consumer, exactly as _SG_{,VLM_}FRAME_SUB in dataset.py, so the
+# teacher can keep the overlay while the student does not:
+#   _EG_FRAME_SUB      → traj_frame_paths, read by the frozen TAS encoder (TRAIN
+#                        only). Keep at "gaze": stage1_tas_3way_overlay was
+#                        trained on overlay frames.
+#   _EG_VLM_FRAME_SUB  → vlm_frame_paths, the student's actual input. Set
+#                        VLM_GAZE_OVERLAY=0 for a genuinely gaze-free student.
+# VLM_GAZE_OVERLAY defaults to GAZE_OVERLAY, so unset behaviour is unchanged.
+#
+# The two variants hold identical filenames per video (verified: 263 videos
+# across egtea/ego4d/egoexo, no mismatches), so the sampling indices agree and
+# the gaze/hand/interaction lookups — all keyed by frame basename — are
+# unaffected by which variant a path list came from.
+_GAZE_OVERLAY     = os.environ.get("GAZE_OVERLAY", "1")
+_EG_FRAME_SUB     = "gaze" if _GAZE_OVERLAY == "1" else "no_gaze"
+_EG_VLM_FRAME_SUB = ("gaze" if os.environ.get("VLM_GAZE_OVERLAY", _GAZE_OVERLAY) == "1"
+                     else "no_gaze")
 
 
 def _parse_options(raw: str) -> list[str]:
@@ -240,8 +257,9 @@ class EgoGazeVQADataset(Dataset):
     def __len__(self) -> int:
         return len(self.items)
 
-    def _frame_paths(self, ds: str, video_id: str, subclip: str) -> list[str]:
-        d = os.path.join(ROOT, ds, _EG_FRAME_SUB, video_id)
+    def _frame_paths(self, ds: str, video_id: str, subclip: str,
+                     sub: Optional[str] = None) -> list[str]:
+        d = os.path.join(ROOT, ds, sub or _EG_FRAME_SUB, video_id)
         if not os.path.isdir(d):
             return []
         prefix = subclip + "_"
@@ -269,8 +287,16 @@ class EgoGazeVQADataset(Dataset):
         if not traj:
             return None
 
+        if _EG_VLM_FRAME_SUB == _EG_FRAME_SUB:
+            vlm_source = frame_paths                     # avoid a second listdir
+        else:
+            vlm_source = self._frame_paths(it["ds"], it["video_id"], it["subclip"],
+                                           sub=_EG_VLM_FRAME_SUB)
+            if not vlm_source:
+                return None
+
         return {
-            "vlm_frame_paths":  _sample_paths(frame_paths, self.n_vlm_frames),
+            "vlm_frame_paths":  _sample_paths(vlm_source, self.n_vlm_frames),
             "full_frame_paths": frame_paths,
             "traj_frame_paths": traj_frame_paths,
             "traj":             traj,

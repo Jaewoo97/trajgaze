@@ -290,3 +290,143 @@ Under `/NHNHOME/VILAB/vilab_yj/trajgaze`:
 §5.1 / §5.2 are now the top levers — agreement is only 0.46–0.50 and soft-field distillation is
 untested. §5.3 (response KD) is the other untried transfer. Both should be measured **per
 source**, against §6.3's 70.15 / 56.08, since §6.3 settles that per-source students dominate.
+
+> **Superseded by §7.** §5.1 is refuted and §5.2/§5.3 are shown to be capped inside the noise
+> floor. Do not start from §6.5.
+
+---
+
+## 7. Machine-2 re-measurement and the selection-KD refutation (2026-07-27)
+
+Same port as §6 (2× B200). Everything here is the joint protocol: EGTEA 1011, gaze-free eval,
+`GAZE_OVERLAY=1`, 10% budget at 7/3 unless stated. Accuracies are also given as **item counts
+out of 1011**, because every effect in this section is smaller than one percentage point and
+percentages hide that.
+
+### 7.1 Both machine-1 checkpoints reproduce here
+
+Pulled from HF (`Peanuttoad/gaze_dataset_full`) and re-scored on this machine:
+
+| checkpoint | §2 value | here | Δ items |
+|---|---|---|---|
+| `visionzip_lora_sgeg_overlay` (content-only VisionZip) | 62.51 | **62.51** (632) | 0 |
+| `visionzip_kd_selection_overlay` (KD student, ep1) | 62.31 | **62.41** (631) | +1 |
+
+The bar reproduces exactly; the student to within one item. The port is faithful.
+
+Per source the same student moved **SG +4 / EG −3** (358→362, 272→269) and cancelled out. That
+is the numeric noise floor from re-scoring *identical weights* — bf16/flash-attn on different
+hardware. **Any per-source difference under ~4 items is not a measurement.**
+
+This also corrects §6.1: the one-sided EG deviation is real but only ~0.6 points (3 items),
+matching §6.1's own joint-teacher figure. It is far too small to explain §6.2's −2.47 on EG.
+
+### 7.2 §6.2's 61.33 was a bad training run, not the environment
+
+| student | SG 526 | EG 485 | 1011 |
+|---|---|---|---|
+| machine-1, re-scored here | 68.82 (362) | 55.46 (269) | **62.41** (631) |
+| machine-2 (§6.2 ep1) | 69.01 (363) | 52.99 (257) | 61.33 (620) |
+
+Identical eval, identical protocol: **−11 items, essentially all EG** (SG +1). The log shows
+one clean attempt, no crash, no resume. §6.2's number should not be used as the joint-student
+baseline; 62.41 is the sound reference.
+
+Note this also removes §6.2's "inverted pattern": on the sound checkpoint the gaps versus the
+joint teacher are SG −0.57 / EG −0.21, i.e. §2's original pattern.
+
+### 7.3 The ceiling: privileged information is worth 3 items
+
+| system | gaze at test | items /1011 |
+|---|---|---|
+| M1 joint teacher | **yes** | 635 |
+| content-only VisionZip | no | **632** |
+| KD student @ 7/3 | no | 631 |
+
+**Having the gaze/hand streams at inference is worth 3 items over content-only pruning**, and
+the gaze-free student already sits 1 item under the bar and 4 under the teacher.
+
+So any distillation whose teacher is the M1 gaze model is capped at **+4 items**, against a
+noise floor of 3–4 items (§7.1) and ~11 items across training runs (§7.2). §5.2 (soft-field)
+and §5.3 (response KD from M1) are inside the noise *by construction* — not because they are
+untuned, but because there is almost nothing at the source to transfer. This is independent of
+the mechanism in §7.4.
+
+### 7.4 §5.1 is refuted: higher agreement makes the student worse
+
+`--freeze-lora` run (new flag): LoRA held at the §7.1 student's weights, **only** the
+`TrajSaliencePredictor` trained on the selection-KD BCE. Because the readout cannot move, any
+accuracy change is attributable to selection alone.
+
+| | agree | SG | EG | 1011 |
+|---|---|---|---|---|
+| start | ~0.41 | 362 | 269 | 631 |
+| after 1 epoch | **0.455** | **354** | 269 | **623** |
+
+Agreement rose and accuracy fell by **8 items, all on SG, with EG exactly unchanged**. §5.1
+predicted the opposite and specifically predicted the gain would appear "especially on
+SG/GSM". §6.2 hinted at this (agree 0.409→0.474 while accuracy fell 61.33→60.63) but could not
+separate a worse selection from a damaged readout; frozen, there is no ambiguity.
+
+### 7.5 Split sweep: SG and EG want opposite budget allocations
+
+Eval-only on the §7.1 student, total budget fixed at 10% (all points verified at 1380 tokens),
+varying only the content∶complement division:
+
+| split | SG items | EG items | total |
+|---|---|---|---|
+| 8/2 | **364** | 258 | 622 |
+| 7/3 (M1 default) | 362 | 269 | 631 |
+| 6/4 | 361 | **271** | **632** |
+| 5/5 | 357 | 269 | 626 |
+
+**SG falls monotonically as complement replaces content; EG rises then saturates.** The
+complement helps EG and hurts SG — inverting §3's expected story ("the gaze complement helps
+SG… on EG the complement only ties content-only pruning").
+
+6/4 is an interior optimum but beats the 7/3 default by 1 item, i.e. nothing. Its
+632/361/271 is identical to the VisionZip baseline on all three figures; the compositions
+genuinely differ, so this is presumed coincidence but was not verified per-item.
+
+This gives a *structural* reason the single joint student underperforms, separate from §6.2's
+training-schedule story: the two benchmarks disagree about how to spend the budget, and one
+global split cannot satisfy both. SG's optimum is at or beyond 8/2, EG's is near 6/4.
+
+### 7.6 Port gap in §4 (affects any VisionZip-side eval)
+
+`TrajGazeMerge/training/train_autogaze_lora.py` hardcoded `/workspace/datasets/StreamGaze_v2/…`
+for `FRAMES_BASE`/`QA_BASE`, while `data/dataset.py` had been made env-driven via `SG_ROOT`.
+On any other machine every `qa_path` missed and was silently `continue`d, so
+`StreamGazeSimpleDataset` returned **0 items** and `CombinedSimpleDataset` scored **EG-only
+(485)** while reporting it as the full set. Fixed to use `SG_ROOT`; now 1011 (sg=526, eg=485),
+matching `CombinedMergeDataset`. **Any VisionZip-side eval run on a ported machine before this
+fix is invalid.**
+
+Also: §6.4 lists the smoke test at `TrajGazeMerge/scripts/smoke_kd.py`; it is at
+`scripts/smoke_kd.py`.
+
+### 7.7 Artifacts
+
+Under `/NHNHOME/VILAB/vilab_yj/trajgaze`:
+
+- machine-1 checkpoints: `datasets/trajgazemerge/hf_m1/aaai/{visionzip_lora_sgeg_overlay,
+  visionzip_kd_selection_overlay}/best.pth` — kept in a separate `hf_m1/` root because the
+  latter collides by name with the local §6.2 run directory.
+- logs: `eval_m1bar_{visionzip,kdstudent}.log`, `eval_split_{8_2,6_4,5_5}.log`,
+  `kd_train_frozenlora.log`
+- new flags in `train_visionzip_kd_lora.py`: `--freeze-lora`, `--balance-sources`
+  (epoch-size-preserving, resampled per epoch), and `--warmstart-ckpt` now carries
+  `pred_state` when the checkpoint has one, so a *student* checkpoint resumes at its own score
+  instead of being paired with a fresh random head.
+- `train_visionzip_lora.py` gained `--eval-ckpt` and per-source reporting (it had neither).
+
+### 7.8 Next
+
+Selection distillation from the gaze teacher is closed: refuted mechanically (§7.4) and capped
+below noise (§7.3). To improve the gaze-free student at a fixed 10%/7:3 budget, a distillation
+target is needed whose teacher is meaningfully better than 635 items — the M1 gaze model is
+not. Untested candidates: a teacher at a larger token budget (student unchanged; teacher exists
+only at train time), or an ensemble-of-seeds teacher distilled back into one student.
+
+Before any of it, pin the noise floor with seed repeats. Every number in §7 is a single run,
+and the effects being chased are 1–4 items.

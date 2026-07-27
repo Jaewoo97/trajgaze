@@ -41,7 +41,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-ROOT          = "/workspace/HD-EPIC"
+ROOT          = os.environ.get("HD_ROOT", "/workspace/HD-EPIC")
 # GAZE_OVERLAY=1 (default) → frames_gaze mirror with the gaze marker drawn in
 # pixels (matches StreamGaze viz + EgoGazeVQA gaze); =0 → raw frames_extracted.
 FRAMES_BASE   = os.path.join(
@@ -50,7 +50,9 @@ FRAMES_BASE   = os.path.join(
 HAND_BASE     = os.path.join(ROOT, "hand_locations")
 GAZE_BASE     = os.path.join(ROOT, "gaze")
 INTER_BASE    = os.path.join(ROOT, "interaction")
-VQA_BASE      = "/workspace/hd-epic-annotations/vqa-benchmark"
+VQA_BASE      = os.environ.get(
+    "HD_VQA_BASE", os.path.join(ROOT, "vqa-benchmark")
+    if os.environ.get("HD_ROOT") else "/workspace/hd-epic-annotations/vqa-benchmark")
 VAL_SPLIT_OUT = os.path.join(ROOT, "val_items.json")
 
 VAL_PARTICIPANT = "P09"

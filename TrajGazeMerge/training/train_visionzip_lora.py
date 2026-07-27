@@ -39,8 +39,9 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, DistributedSampler
 from transformers import AutoProcessor
 
-sys.path.insert(0, "/workspace/EgoGazeVQA")
-sys.path.insert(0, "/workspace/EgoGazeVQA/VisionZip/Qwen2_5_VL")
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, _REPO)
+sys.path.insert(0, os.path.join(_REPO, "VisionZip", "Qwen2_5_VL"))
 
 # VisionZip's modified Qwen2.5-VL (visual encoder returns attn scores + keys)
 from qwen2_5vl_visionzip import Qwen2_5_VLForConditionalGeneration as VisionZipQwen
@@ -309,6 +310,14 @@ def parse_args():
     p.set_defaults(include_hdepic=True)
     p.add_argument("--early-stop",  action="store_true",
                    help="Stop after epoch 2 if egtea val did not improve over epoch 1.")
+    p.add_argument("--eval-ckpt", default=None,
+                   help="Skip training: load this best.pth (lora_state), run one "
+                        "evaluate() with per-source logging, exit.")
+    p.add_argument("--source", choices=["sg", "eg", "both"], default="both",
+                   help="Train/eval on a single benchmark only (sg=StreamGaze, eg=EgoGazeVQA). "
+                        "Matches the flag the M1/KD trainers already take, so a content-only "
+                        "baseline can be trained in the same regime as an SG-only student — "
+                        "a jointly-trained baseline scored on SG is not a fair comparison.")
     return p.parse_args()
 
 
@@ -321,16 +330,24 @@ def setup_ddp():
 
 
 def evaluate(processor, model, base_qwen, option_ids, device, include_hdepic=True,
-             dominant_ratio=DOMINANT_RATIO, contextual_ratio=CONTEXTUAL_RATIO):
+             dominant_ratio=DOMINANT_RATIO, contextual_ratio=CONTEXTUAL_RATIO,
+             source="both"):
     test_ds = CombinedSimpleDataset(split="test", n_vlm_frames=128,
                                     include_hdepic=include_hdepic)
+    if source in ("sg", "eg"):
+        test_ds.items = [it for it in test_ds.items if it[0] == source]
     model.eval()
     correct = 0
     total   = 0
     by_task: dict[str, list] = {}
+    by_src:  dict[str, list] = {}
 
     with torch.no_grad():
-        for item in test_ds:
+        # Indexed (not iterated) so each item can be tagged with its source from the
+        # flat (src, local_idx) list — SG/EG must be reported separately.
+        for idx in range(len(test_ds)):
+            src  = test_ds.items[idx][0]
+            item = test_ds[idx]
             if item is None:
                 continue
             try:
@@ -361,12 +378,14 @@ def evaluate(processor, model, base_qwen, option_ids, device, include_hdepic=Tru
                 correct += ok
                 total   += 1
                 by_task.setdefault(item["task"], []).append(ok)
+                by_src.setdefault(src, []).append(ok)
             except Exception:
                 pass
 
     model.train()
     per_task = {t: 100.0 * sum(v) / max(1, len(v)) for t, v in sorted(by_task.items())}
-    return 100.0 * correct / max(1, total), total, per_task
+    per_src  = {s: [100.0 * sum(v) / max(1, len(v)), len(v)] for s, v in sorted(by_src.items())}
+    return 100.0 * correct / max(1, total), total, per_task, per_src
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -395,8 +414,36 @@ def main():
     if is_main:
         print("Model loaded.")
 
+    if args.eval_ckpt:
+        if is_main:
+            print(f"[eval-only] loading LoRA from {args.eval_ckpt}", flush=True)
+            st = torch.load(args.eval_ckpt, map_location="cpu")
+            sd = st["lora_state"] if "lora_state" in st else st
+            missing, unexpected = model.module.load_state_dict(sd, strict=False)
+            print(f"[eval-only] loaded (missing={len(missing)} unexpected={len(unexpected)})",
+                  flush=True)
+            acc, n_eval, per_task, per_src = evaluate(
+                processor, model.module, base_qwen, option_ids, device,
+                include_hdepic=args.include_hdepic,
+                dominant_ratio=args.dominant_ratio,
+                contextual_ratio=args.contextual_ratio,
+                source=args.source,
+            )
+            print(f"[eval-only] Overall: {acc:.2f}%  (n={n_eval})", flush=True)
+            for task, task_acc in per_task.items():
+                print(f"[eval-only]     {task}: {task_acc:.2f}%", flush=True)
+            for s, (s_acc, s_n) in per_src.items():
+                print(f"[eval-only]     [src] {s}: {s_acc:.2f}%  (n={s_n})", flush=True)
+        dist.barrier(); dist.destroy_process_group(); return
+
     train_ds = CombinedSimpleDataset(split="train", n_vlm_frames=args.n_frames,
                                      include_hdepic=args.include_hdepic)
+    if args.source in ("sg", "eg"):
+        n_before = len(train_ds.items)
+        train_ds.items = [it for it in train_ds.items if it[0] == args.source]
+        if is_main:
+            print(f"[source={args.source}] train filtered {n_before} → {len(train_ds.items)} items",
+                  flush=True)
     sampler  = DistributedSampler(train_ds, num_replicas=world_size, rank=rank, shuffle=True)
     loader   = DataLoader(train_ds, batch_size=1, sampler=sampler,
                           collate_fn=lambda b: b[0], num_workers=2)
@@ -502,20 +549,23 @@ def main():
         dist.barrier()
         if is_main:
             print(f"Evaluating epoch {epoch+1} on full EGTEA val set ...")
-            acc, n_eval, per_task = evaluate(
+            acc, n_eval, per_task, per_src = evaluate(
                 processor, model.module, base_qwen, option_ids, device,
                 include_hdepic=args.include_hdepic,
                 dominant_ratio=args.dominant_ratio,
                 contextual_ratio=args.contextual_ratio,
+                source=args.source,
             )
             print(f"  Overall: {acc:.2f}%  (n={n_eval})")
             for task, task_acc in per_task.items():
                 print(f"    {task}: {task_acc:.2f}%")
+            for s, (s_acc, s_n) in per_src.items():
+                print(f"    [src] {s}: {s_acc:.2f}%  (n={s_n})")
             epoch_accs.append(acc)
             with open(log_path, "a") as f:
                 f.write(json.dumps({
                     "epoch": epoch + 1, "eval_acc": acc,
-                    "n_eval": n_eval, "per_task": per_task,
+                    "n_eval": n_eval, "per_task": per_task, "per_src": per_src,
                 }) + "\n")
             if acc > best_acc:
                 best_acc = acc

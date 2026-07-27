@@ -26,11 +26,12 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-FRAMES_BASE      = "/workspace/datasets/StreamGaze_v2/frames"
-GAZE_BASE        = "/workspace/datasets/StreamGaze_v2/gaze"
-HAND_BASE        = "/workspace/datasets/StreamGaze_v2/hand"
-INTERACTION_BASE = "/workspace/datasets/StreamGaze_v2/interaction"
-QA_BASE          = "/workspace/datasets/StreamGaze_v2/qa"
+SG_ROOT          = os.environ.get("SG_ROOT", "/workspace/datasets/StreamGaze_v2")
+FRAMES_BASE      = os.path.join(SG_ROOT, "frames")
+GAZE_BASE        = os.path.join(SG_ROOT, "gaze")
+HAND_BASE        = os.path.join(SG_ROOT, "hand")
+INTERACTION_BASE = os.path.join(SG_ROOT, "interaction")
+QA_BASE          = os.path.join(SG_ROOT, "qa")
 EXTRACTED_FPS    = 10.0
 DATASETS         = ["egtea", "egoexolearn", "holoassist"]
 
@@ -57,15 +58,41 @@ def _parse_ts(ts: str) -> float:
     return 0.0
 
 
+# Frame variant, mirroring _EG_FRAME_SUB in egogaze_dataset.py. "viz" has the gaze
+# marker (red circle + green dot) DRAWN INTO THE PIXELS; "original" is the same
+# footage without it. That marker is the only gaze signal a "gaze-free" student
+# would otherwise still receive — removing the trajectory-coordinate stream does
+# not remove it, and drawing it needs an eye-tracker.
+#
+# The two consumers are separated so the teacher can keep the overlay while the
+# student does not:
+#   _SG_FRAME_SUB      → traj_frame_paths, read by the frozen TAS encoder (TRAIN
+#                        only). Keep at "viz": stage1_tas_3way_overlay was trained
+#                        on overlay frames, and retraining it is 100 epochs × 4 GPUs.
+#   _SG_VLM_FRAME_SUB  → vlm_frame_paths, the student's actual input. Set
+#                        VLM_GAZE_OVERLAY=0 for a genuinely gaze-free student.
+# VLM_GAZE_OVERLAY defaults to GAZE_OVERLAY, so unset behaviour is unchanged.
+#
+# The gaze/hand/interaction paths below keep their own "viz" directory name —
+# that is a layout convention for the trajectory data, not an overlay variant.
+_GAZE_OVERLAY     = os.environ.get("GAZE_OVERLAY", "1")
+_SG_FRAME_SUB     = "viz" if _GAZE_OVERLAY == "1" else "original"
+_SG_VLM_FRAME_SUB = ("viz" if os.environ.get("VLM_GAZE_OVERLAY", _GAZE_OVERLAY) == "1"
+                     else "original")
+
+
 def _find_dataset(stem: str) -> Optional[str]:
+    # Teacher variant: always present, so dataset resolution never depends on
+    # whether the non-overlay frames have been extracted for this split.
     for ds in DATASETS:
-        if os.path.isdir(os.path.join(FRAMES_BASE, ds, "viz", stem)):
+        if os.path.isdir(os.path.join(FRAMES_BASE, ds, _SG_FRAME_SUB, stem)):
             return ds
     return None
 
 
-def _get_frame_paths(stem: str, dataset: str, ts_sec: float) -> list[str]:
-    frame_dir = os.path.join(FRAMES_BASE, dataset, "viz", stem)
+def _get_frame_paths(stem: str, dataset: str, ts_sec: float,
+                     sub: Optional[str] = None) -> list[str]:
+    frame_dir = os.path.join(FRAMES_BASE, dataset, sub or _SG_FRAME_SUB, stem)
     if not os.path.isdir(frame_dir):
         return []
     cutoff = max(1, int(ts_sec * EXTRACTED_FPS))
@@ -279,6 +306,7 @@ class StreamGazeMergeDataset(Dataset):
     def __getitem__(self, idx: int) -> Optional[dict]:
         item = self.items[idx]
         ts_sec      = _parse_ts(item["time_stamp"])
+        # Teacher stream — what the frozen TAS encoder reads (overlay by default).
         frame_paths = _get_frame_paths(item["stem"], item["dataset"], ts_sec)
         if not frame_paths:
             return None
@@ -293,11 +321,21 @@ class StreamGazeMergeDataset(Dataset):
         if not traj:
             return None
 
-        vlm_frame_paths = _sample_paths(frame_paths, self.n_vlm_frames)
+        # Student stream — the VLM's actual input, possibly a different frame
+        # variant. Both directories hold identical per-video frame counts, so the
+        # same timestamp cutoff and sampling indices keep the two streams aligned.
+        if _SG_VLM_FRAME_SUB == _SG_FRAME_SUB:
+            vlm_source = frame_paths                     # avoid a second listdir
+        else:
+            vlm_source = _get_frame_paths(item["stem"], item["dataset"], ts_sec,
+                                          sub=_SG_VLM_FRAME_SUB)
+            if not vlm_source:
+                return None
+        vlm_frame_paths = _sample_paths(vlm_source, self.n_vlm_frames)
 
         return {
             "vlm_frame_paths":  vlm_frame_paths,
-            "full_frame_paths": frame_paths,
+            "full_frame_paths": vlm_source,
             "traj_frame_paths": traj_frame_paths,
             "traj":             traj,
             "question":         item["question"],
