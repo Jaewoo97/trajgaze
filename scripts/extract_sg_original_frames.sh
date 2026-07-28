@@ -41,30 +41,37 @@ one () {
     local target
     target=$(ls -1 "$VIZ/$stem" 2>/dev/null | wc -l)
 
-    # Skip only if it already MATCHES viz. A non-empty dir is not enough: the two
-    # encodes can declare different frame rates (holoassist does — same nb_frames,
-    # 24.46 vs 29.83 fps), and `-vf fps=10` samples by time, so a plain extraction
-    # lands on different moments while looking perfectly healthy.
-    if [ "$target" -gt 0 ] && [ "$(ls -1 "$d" 2>/dev/null | wc -l)" = "$target" ]; then
-        echo "[extract] skip $stem (matches viz: $target)" >>"$LOG"
+    # NEVER skip on a frame-count match. The retiming below derives the output count from
+    # the viz count, so count parity is CONSTRUCTED, not observed — a stem extracted at the
+    # wrong moments still counts correctly and would then be skipped forever. That guard
+    # let 54/180 egoexolearn stems stay wrong across re-runs (kd_handoff_v2.md §7.4a).
+    # Alignment is checked afterwards, by pixels: scripts/verify_frame_alignment.py.
+    if [ "${FORCE:-0}" != "1" ] && grep -qxF "$stem" "$OUT/.aligned" 2>/dev/null; then
+        echo "[extract] skip $stem (pixel-verified marker present)" >>"$LOG"
         return 0
     fi
 
-    # Retime the input to the viz frame rate so frame k is the same moment in both
-    # variants. Both encodes hold the same frame sequence, so fps_viz follows from
-    # the viz jpg count: fps_viz = nb_frames * 10 / n_viz_jpgs.
-    local rate=""
+    # Rebuild timestamps from the frame INDEX at the viz rate, so output frame k is viz
+    # frame k. Both encodes hold the same frame sequence, so the rate follows from the viz
+    # jpg count: fps_viz = nb_frames * 10 / n_viz_jpgs.
+    #
+    # setpts, NOT `-r` as an input option. `-r` reinterprets container timestamps, which is
+    # a no-op on CFR input but re-spaces the frames of a VFR one. egoexolearn's originals
+    # carry a bogus r_frame_rate (235/12) with a true average matching viz (22.30), i.e.
+    # effectively VFR — `-r` put 54/180 stems on different moments while producing exactly
+    # the right frame count. setpts=N/RATE/TB is index-based and immune to that.
+    local vf="fps=10"
     if [ "$target" -gt 0 ]; then
         local nb
         nb=$(ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames \
              -of csv=p=0 "$mp4" 2>/dev/null)
         if [ "$nb" -gt 0 ] 2>/dev/null; then
-            rate="-r $(python3 -c "print(f'{$nb*10/$target:.9f}')")"
+            vf="setpts=N/$(python3 -c "print(f'{$nb*10/$target:.9f}')")/TB,fps=10"
         fi
     fi
 
     rm -rf "$d"; mkdir -p "$d"
-    ffmpeg -nostdin -v error $rate -i "$mp4" -vf fps=10 -q:v 2 "$d/frame_%06d.jpg" \
+    ffmpeg -nostdin -v error -i "$mp4" -vf "$vf" -q:v 2 "$d/frame_%06d.jpg" \
         || { echo "[extract] FAIL $stem" >>"$LOG"; return 1; }
     local got
     got=$(ls -1 "$d" | wc -l)
@@ -80,4 +87,16 @@ find "$WORK" -name '*.mp4' | sort | xargs -P "$JOBS" -I{} bash -c 'one "$@"' _ {
 
 echo "[extract] done; $(ls -1 "$OUT" | wc -l) video dirs" >>"$LOG"
 rm -rf "$WORK"
-echo "=== extract $DS original frames DONE $(date -Is) ===" >>"$LOG"
+
+# Counting frames cannot detect the failure this script is most prone to, so the run is
+# not complete until pixels agree. Stems that pass get a .aligned marker, which is what the
+# skip guard above keys on — so a re-run repairs exactly the stems that are still wrong.
+echo "[extract] verifying alignment by pixels" >>"$LOG"
+if python3 "$REPO/scripts/verify_frame_alignment.py" "$DS" >>"$LOG" 2>&1; then
+    ls -1 "$OUT" >"$OUT/.aligned"   # sibling manifest, never inside a frame dir
+    echo "=== extract $DS original frames DONE — PIXEL-VERIFIED $(date -Is) ===" >>"$LOG"
+else
+    echo "=== extract $DS original frames DONE but ALIGNMENT FAILED — see above;" \
+         "do not train on this tree $(date -Is) ===" >>"$LOG"
+    exit 1
+fi

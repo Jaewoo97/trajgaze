@@ -3,6 +3,15 @@
 Written 2026-07-27, revised the same day (§1 rescoped, §7.4 / §10 / §11 added). Supersedes
 `kd_handoff.md` as the working task definition; v1 remains the record of how we got here.
 
+**Revised 2026-07-28.** Added §2.2a and §10.3 (per-task breakdowns of both *overlay* students, the
+baselines the two overlay-free retrains will be read against) and §13 (environment migration).
+§5 and §9 were rewritten: the remaining training work is **two runs — the SG and EG overlay-free
+students** — and §9 now records the Table 6/7 ablation that has been occupying the GPUs since 22:33.
+Three factual corrections are marked inline: §5-1 vs §9 disagreed about whether the SG overlay-free
+retrain had started (**it started and was SIGTERM'd at step 480/2900**); §10.1 mis-attributed the EG
+student row to machine 1 (**it is a machine-2 measurement**); and §5-5 understated the seeding gap
+(**no trainer seeds any RNG at all**).
+
 **One teacher and one student per benchmark.** What is dropped is *joint* training, not
 EgoGazeVQA. Each of StreamGaze and EgoGazeVQA gets its own M1 teacher and its own gaze-free
 student, selected with `--source {sg,eg}`.
@@ -106,6 +115,39 @@ VisionZip.** That run is the first item in §5.
 The specialist's gains concentrate in the **gaze-driven** tasks (GSM, non-fixated object) —
 which is where the privileged signal should help, and where any new method must show up.
 
+### 2.2a SG overlay student vs its teacher, per task — the baseline the no-overlay run must be read against
+
+Both overlay students were trained **on this machine on 2026-07-27**, best = epoch 2, scored by the
+training loop's own `evaluate()`. Recorded here in full so the no-overlay retrains (§9) have a
+like-for-like row to sit next to. Item counts are derived from §8's per-task `n` and sum **exactly**
+to the reported total (49+48+1+21+50+88+70+42 = 369).
+
+`visionzip_kd_selection_SGonly_overlay/best.pth` — `70.15% (n=526)`, log `kd_train_sgonly.log:396-406`.
+Teacher column is the 3-run mean from §8.
+
+| task | n | student % | items | teacher (mean of 3) | Δ items |
+|---|---|---|---|---|---|
+| GSM  `past_gaze_sequence_matching` | 64 | **76.56** | 49 | 71.36 | **+3** |
+| NFI  `past_non_fixated_object_identification` | 68 | **70.59** | 48 | 63.24 | **+5** |
+| OTP  `past_object_transition_prediction` | 2 | 50.00 | 1 | — | — |
+| SR   `past_scene_recall` | 37 | 56.76 | 21 | 57.66 | 0 |
+| OAR  `present_object_attribute_recognition` | 96 | 91.67 | 88 | 93.40 | −2 |
+| OI-E `present_object_identification_easy` | 101 | 69.31 | 70 | 73.27 | −4 |
+| OI-H `present_object_identification_hard` | 64 | 65.62 | 42 | 74.48 | **−6** |
+| FAP  `present_future_action_prediction` | 94 | 53.19 | 50 | 56.38 | −3 |
+| **Avg** | **526** | **70.15** | **369** | 71.17 | **−6** |
+
+The trade is legible: the gaze-free student **gains on the two gaze-driven columns** (GSM +3, NFI +5)
+and **loses on object identification** (OI-H −6, OI-E −4). It does not beat its teacher overall; it
+beats it exactly where the privileged signal was supposed to matter.
+
+**This is the column profile the no-overlay student has to be compared against**, not just the 369
+total — the overlay is a *pixel* cue, so if it is carrying the GSM/NFI gains those two columns should
+fall hardest when it is removed.
+
+Caveat: single run, and §8 measures a 5-item spread on re-evaluation of identical weights. Columns
+with n < 40 (SR, OTP) move ≥2.7% per question — do not read those Δ.
+
 ### 2.3 Reference numbers, EG (this machine, EG egtea n=485)
 
 All from v1 §6.1 / §6.3 / §7.2, all machine-2, all `GAZE_OVERLAY=1` (marker in the pixels),
@@ -180,19 +222,35 @@ trainers already had it. **Run one trainer per source** — a `--source both` ru
 
 ## 5. Open items, in order
 
-1. **SG student retrained overlay-free** — running (§9). The one number that decides whether a
-   genuinely gaze-free student is viable at all; 354 is the bar it must beat.
-2. **SG-only VisionZip bar** — **not running.** §9 records that it was started and stopped at step
-   2580/2900 with no checkpoint. Until it exists, §2.1 stands and "+8 over VisionZip" must not be
-   quoted. (An earlier revision of this list said "running"; that was stale.)
-3. **Does agreement help on SG?** `--freeze-lora --source sg` from the existing SG specialist,
-   one epoch. The LoRA is held fixed, so any change is selection alone. Up ⇒ selection-KD is
-   alive on SG and soft-field distillation is next; down ⇒ v1 §7.4 generalises and the
-   remaining 8 items need a different mechanism.
-4. **Training noise floor** — two seed repeats of the SG specialist run. Needs a `--seed` flag
-   (not yet present). Every training number in this document is a single run, and the target
-   margins are 8 items.
-5. **EG specialist student** (§11) — deferred, not blocked.
+Revised 2026-07-28. The two remaining *training* jobs are the overlay-free students, SG and EG.
+Everything else on this list is either closed or not scheduled.
+
+1. **SG student retrained overlay-free** — **queued, behind the Table 6/7 ablation** (§9).
+   The one number that decides whether a genuinely gaze-free student is viable at all;
+   **354 is the bar it must beat**, and §2.2a is the per-task profile to compare against.
+   Prerequisite: the holoassist `original` frame re-download (§9).
+2. **EG student retrained overlay-free** — **queued, behind item 1** (§11). Bar: **272 items /
+   56.08%**, per-task in §10.3. Needs a launcher; none exists yet (`run_kd_sg_nooverlay.sh` is the
+   template). No frame download needed — EG `no_gaze` is already parity-verified.
+3. **SG-only VisionZip bar** — **closed, will not be re-run.** The user holds this measurement
+   outside this repo. **§2.1's pending cell is still literally empty**, so until the held value is
+   pasted into that table "+8 over VisionZip" remains unquotable *in this document*. Filling that
+   cell is a transcription task, not a GPU task.
+4. **Does agreement help on SG?** — **still unanswered; the run that exists does not answer it.**
+   `kd_train_frozenlora.log` was launched with **`--source both`, not `--source sg`**, warm-started
+   from the machine-1 *joint* student, and died during epoch 2 of 3 with only one eval recorded
+   (61.62%, n=1011, agree 0.455 → 0.476). So it speaks to the joint setting, partially. The SG
+   question needs `--freeze-lora --source sg` from the SG specialist. Not scheduled.
+5. **Training noise floor** — not scheduled, and **worse than previously recorded.** §5 used to say
+   a `--seed` flag was missing; in fact **none of the three trainers seeds any RNG at all** — no
+   `torch.manual_seed` / `random.seed` / `np.random.seed`, and `DistributedSampler` is constructed
+   without `seed=`. Data order is reproducible by PyTorch's default; LoRA init and dropout are not.
+   `--balance-seed` exists but only reseeds source balancing. Consequence: every repeat run in this
+   document differs by unrecorded nondeterminism, and two "seeds" would not be a seed comparison.
+   The 4-line idiom to copy is `train_merge_lora_temporal_no_kd.py:293-296`.
+6. **Repeat every student eval ≥3×** — not scheduled. Every student number here is a single run
+   while teacher rows are 3-run means (§8). `repeat_student_r1.log` died before scoring, which is
+   why the student side never got past one sample.
 
 ---
 
@@ -393,6 +451,109 @@ Post-fix parity, re-verified independently:
 **egtea was clean throughout, so every SG number already published stands.** What this
 invalidates is nothing measured; it is what it would have silently broken in the retrain.
 
+### 7.4a The local repair did NOT actually fix it — 13/66 stems were still misaligned
+
+Measured 2026-07-28, and it is the reason the frames were re-downloaded rather than reused.
+
+`fix_sg_original_fps.sh` was verified by **frame count** — and by that test it passed, 66/66. The
+table above says "count mismatch: 0" and that is true. **Count parity does not imply index
+alignment**, which is the property that actually matters, and this section said so two paragraphs
+earlier without then testing for it.
+
+Pixel comparison against `viz` at the same index (mean absolute difference, middle frame of each
+stem; the published marker-free build is the reference for what "correct" looks like):
+
+| | stems | mean MAD vs `viz` |
+|---|---|---|
+| locally repaired `original`, stems that changed | 14 | **13.70** |
+| published build, same stems | 14 | **3.69** |
+
+3.69 is JPEG-noise level — same moment, marker gone. **13.70 is not.** 13 of the 14 changed stems
+sat further from `viz` than the published build, the worst by a wide margin:
+
+| stem | published | local repair |
+|---|---|---|
+| `z045-june-24-22-gopro` | 3.18 | **26.34** |
+| `z176-sep-05-22-rashult_disassemble` | 3.76 | **26.31** |
+| `z168-sep-01-22-espresso` | 3.66 | **24.75** |
+| `R206-11Nov-ATV` | 4.48 | **15.94** |
+| `R196-25Oct-RAM` | 3.69 | **14.10** |
+
+A MAD of 26 against a 3-ish noise floor is unrelated footage. The other 52 stems are **byte-identical**
+between the two builds — exactly the P-prefixed CFR recordings that never needed retiming. Every
+divergent stem is an `R###`/`z###` recording, which is the same population the fps defect hit.
+
+**Consequence.** Had the overlay-free retrain launched on the locally repaired frames, 13 holoassist
+training videos would have fed the student frames from the wrong moments while the teacher read the
+right ones — the precise silent corruption §7.4 exists to prevent, undetectable in an egtea eval
+because holoassist is training-only.
+
+**Resolution.** `frames/holoassist/original` now holds the published build
+(`Peanuttoad/gaze_dataset_full` → `StreamGaze_v2/frames_shards_holoassist_original`, 8 tars / 29.09 GB),
+verified before swapping: 66 stems, **642,515 jpgs**, per-stem count parity with `viz` 66/66, zero
+stems missing. The old tree is retained as `frames/holoassist/original.OLD_local_repair` — **it should
+not be used**, and any result produced from it is suspect.
+
+**Rule this generalises to:** when two frame trees must be index-aligned, verifying counts is not
+verifying alignment. Compare pixels at a shared index on at least the stems that were transformed.
+
+### 7.4b egoexolearn was worse — 54/180 stems, and the verifier could never have caught it
+
+Found 2026-07-28 by applying §7.4a's pixel test to the datasets it had not been run on.
+**egtea is clean (35/35, MAD ≤ 3.5), so no published SG number is affected** — but egoexolearn is
+StreamGaze *training* data, and 54 of its 180 stems held frames from the wrong moments, MAD up to
+68 against a ~3 noise floor. Visually they are unrelated footage: at the same index one shows
+writing in a notebook, the other handling flasks at a bench.
+
+**Why the check was vacuous, not merely weak.** `extract_sg_original_frames.sh` computes its
+retiming rate as `nb_frames × 10 / n_viz_jpgs` — derived *from the viz count*. So the output is
+forced to have exactly as many frames as viz **whatever the timing does**. The script then
+verified... the frame count. It constructs the property it checks, so the check cannot fail. 52 of
+the 54 broken stems had counts matching `viz` exactly.
+
+**Root cause.** The retiming was applied as `ffmpeg -r RATE -i in.mp4`, an *input* option that
+reinterprets container timestamps. That is a no-op on constant-rate input, which is why holoassist
+mostly survived it. egoexolearn's originals declare a bogus `r_frame_rate` (`235/12` = 19.58 fps)
+while their true average matches viz (22.30 fps) — effectively VFR. Forcing an input rate on a VFR
+stream re-spaces every frame.
+
+Measured on `beeabf86-…`, mean MAD vs `viz` across the clip:
+
+| method | MAD | |
+|---|---|---|
+| `-r RATE -i` (what shipped) | **46.98** | different footage |
+| `setpts=N/RATE/TB,fps=10` | **2.80** | same moment, marker gone |
+
+`setpts` rebuilds timestamps from the frame **index**, so it is immune to whatever the container
+claims. It is what the published holoassist build used, which is why that build was clean.
+
+**Resolution.** All 54 stems re-extracted with `setpts` and swapped in; the old tree is kept as
+`frames/egoexolearn/original.OLD_broken` and must not be used. Whole-dataset pixel verification now
+passes everywhere:
+
+| dataset | stems | aligned | median MAD |
+|---|---|---|---|
+| egtea (eval) | 35 | **35** | 3.26 |
+| holoassist (train) | 66 | **66** | 2.98 |
+| egoexolearn (train) | 180 | **180** | 2.89 |
+
+**Impact had this not been caught.** 739 of 5799 SG training items — **12.7%**, and 18.8% of the
+egoexolearn portion — would have shown the student one moment while the teacher scored another.
+Worst hit was `past_object_transition_prediction` at 34% of its items. It is training-only data, so
+an egtea eval would have reported nothing wrong. A run was in fact started on the bad frames at
+11:18 and killed at step 2140/2900 once this was found.
+
+**Tooling added.** `scripts/verify_frame_alignment.py` (per-stem pixel check),
+`scripts/refix_egoexolearn_original.sh` (the repair), `scripts/make_sanity_check_figures.py` plus
+`docs/sanity_check/` (side-by-side figures for all six dataset variants).
+`extract_sg_original_frames.sh` now uses `setpts`, refuses to skip on a count match, and runs the
+pixel verifier before declaring success.
+
+**A note on thresholds.** A bare MAD cut is not enough: fast-moving clips read 8–12 while correctly
+aligned. The discriminating signal is *shape* — for an aligned stem MAD(k) is a sharp V centred on
+k=0 (11.7 at k=0 vs 34.3 one frame away); a misaligned stem is flat and high across the window
+(53.4 / 49.3 / 52.2 / 53.1 / 53.2). The verifier tests for that V.
+
 ---
 
 ## 8. Measurement protocol — eval is NOT deterministic
@@ -462,37 +623,72 @@ Rules that follow:
 - [x] SG student measured on `original` → **354 items** (single run)
 - [x] **M1 EG-only teacher per-task** — Spat./Temp./Caus./Avg (§10)
 
-### In progress
+### In progress (2026-07-28 02:07) — Table 6/7 ablation, `scripts/run_ablation_tab6_tab7.sh`
 
-*Nothing running.* All extraction finished and was verified; no GPU job is active.
+A workstream that post-dates this document's first revision. §9 previously read "*Nothing running.*"
+— that was true at 22:45 and false 17 minutes later. GPUs are 2, so rows run **serially**.
 
-### Halted by user instruction (2026-07-27)
+| row | state | ETA |
+|---|---|---|
+| `tab7_nospatial` | trained 2900/2900 (`kept=9.4%`), **in eval** | ~02:25 |
+| `tab7_notemporal` | queued | ~04:20 |
+| `tab6_scoreonly` | queued | ~06:15 |
+| `tab6_nopretrain` (2nd retry) | queued | ~08:10 |
 
-- [ ] **SG student retrain** with `VLM_GAZE_OVERLAY=0 GAZE_OVERLAY=1 --source sg`, warm-started
-      from the overlay-trained M1 SG-only teacher (~4.3 h) — `scripts/run_kd_sg_nooverlay.sh`,
-      log `kd_train_sgonly_nooverlay.log`. **Not started.** This remains the highest-probability
-      lever on the 354 number: that figure is an overlay-trained model run off-distribution, so
-      removing the shift should recover much of the 15-item overlay loss. It would also be the
-      first run to use the repaired holoassist frames.
+- **Stage-1 `score-only` encoder: done.** 100/100 epochs, `exit=0`, best loss 0.0168 at epoch 13,
+  `TrajGaze_v2/checkpoints/stage1_scoreonly_overlay/best.pth` (147 MB). This unblocks
+  `tab6_scoreonly`.
+- **Stage-2: 0 of 4 rows have produced a checkpoint.** `ablation_table6_7.md` is a spec with every
+  result cell still empty.
+- `kept=9.4%` held to the last step, matching the **9.38%** realized budget `ablation_table6_7.md`
+  §0a predicts for `no_spatial` — evidence the geometry branch actually engaged.
+- **`tab6_nopretrain` has now failed twice.** Run 1 (22:33–23:59) reached step 2280/2900 and was
+  killed by the container re-provisioning (§13). Retry 1 died **22 seconds in** at 00:22:43,
+  `exit=1` (rank 1 exitcode 1, rank 0 SIGTERM, no traceback captured). If the 2nd retry dies the
+  same way, suspect the `--random-encoder` path itself rather than the environment.
 
-Prerequisites are all in place — extraction complete and verified, streams decoupled, assertion
-added — so this is a single launch whenever it is wanted.
+### Queued behind the ablation
 
-### To do
+- [ ] **holoassist `original` frames — re-download (~29 GB), prerequisite for the SG retrain.**
+      Replace the locally fps-repaired frames with the published, verified build:
+      `Peanuttoad/gaze_dataset_full` → `StreamGaze_v2/frames_shards_holoassist_original/`
+      (8 tars; skip `videos_holoassist_original.tar`, 19 GB, not needed). Its README documents
+      66 stems / 642,515 frames, 1:1 index alignment with `viz`, the same 32 retimed stems §7.4
+      found, and verification by off-dot pixel MAD ≈ 3 with 0 green-dot pixels. Verify **per stem**
+      against `viz` before swapping — a short `original` does not error, it silently shrinks the
+      epoch (§7.4).
+- [ ] **SG student retrain**, `VLM_GAZE_OVERLAY=0 GAZE_OVERLAY=1 --source sg`, warm-started from
+      `$M1_SGONLY` (~4.3 h) — `scripts/run_kd_sg_nooverlay.sh`, log `kd_train_sgonly_nooverlay.log`.
+      Bar **354 items**; per-task target profile in §2.2a.
+      **Correction to the previous revision, which said this had "Not started":** it *did* start
+      2026-07-27 18:05:34 and ran to **step 480/2900** before **SIGTERM at 18:24:41**. The stream
+      decoupling was confirmed live (`[KD] frame streams: student VLM='original' teacher TAS='viz'`).
+      No weights were written, so it is not resumable — clear the stale
+      `visionzip_kd_selection_SGonly_nooverlay/train_log_rank0.jsonl` and start over.
+      (§5 item 1 simultaneously claimed this was "running". Both statements were wrong.)
+- [ ] **EG student retrain** (§11), same flags with `--source eg` and `$M1_EGONLY` (~2 h).
+      Bar **272 items**; per-task in §10.3. **Needs a launcher** — `scripts/run_kd_eg_nooverlay.sh`
+      does not exist; copy the SG one. No download needed.
+
+### To do (not scheduled)
 
 - [ ] Repeat the student eval ≥3× before publishing any student number (§8); every student
       figure in this document is a single run.
-- [ ] Per-task breakdown of the no-overlay student — GSM and NFI are *defined* in terms of
-      gaze and are expected to carry most of the 15-item drop.
-- [ ] **EG specialist student** (§11) — deferred by the user, not blocked. Everything it needs is
-      in place: `no_gaze` frames verified, decoupling implemented, `--source eg` supported.
+- [ ] Per-task breakdown of both no-overlay students — for SG, GSM and NFI are *defined* in terms
+      of gaze and are expected to carry most of the 15-item drop; §2.2a shows they are also exactly
+      where the overlay student out-performs its teacher. For EG the column to watch is temporal
+      (§10.3).
+- [ ] Paste the user-held SG-only VisionZip value into §2.1's empty cell (§5 item 3).
 
 ### Explicitly dropped
 
 - No-overlay **VisionZip** bar — user decision.
-- SG-only VisionZip bar (§2.1) — training was started then stopped at step 2580/2900 of
-  epoch 1, no checkpoint written. **§2's "+8 over VisionZip" therefore remains unverified**
-  and must not be quoted.
+- SG-only VisionZip bar (§2.1) — **will not be re-run.** The local attempt stopped at step
+  2580/2900 of epoch 1 with no checkpoint, but the user holds this measurement outside the repo.
+  §2.1's cell is nonetheless still empty, so **"+8 over VisionZip" stays unquotable from this
+  document** until that value is transcribed in.
+- **EG overlay specialist student — reuse, do not retrain.** `visionzip_kd_selection_EGonly_overlay/best.pth`
+  (56.08% / 272 items, §10.3) stands as the EG overlay row. User decision, 2026-07-28.
 - Stage-1 TAS retraining on `original` — 100 epochs × 4 GPUs, out of budget. The teacher's
   visual branch stays overlay-trained; state this as an assumption, not a verified equivalence.
 
@@ -524,9 +720,14 @@ Logs: `eval_m1_egonly.log`, `eval_egteacher_pertask.log`, `eval_egonlyteacher_r2
 | system | gaze at test | Spat. | Temp. | Caus. | Avg |
 |---|---|---|---|---|---|
 | **M1 joint teacher, on EG** | **yes** | 40.49 (66) | **43.12 (69)** | 83.95 (136) | **55.88 (271)** |
-| EG specialist KD student (v1 §6.3) | no | 40.49 (66) | 42.50 (68) | 85.19 (138) | 56.08 (272) |
+| EG specialist KD student (**this machine**, §10.3) | no | 40.49 (66) | 42.50 (68) | 85.19 (138) | 56.08 (272) |
 | **M1 EG-only teacher** (mean of 3) | **yes** | 39.88 (65) | 36.25 (58) | **86.11 (139.5)** | 54.02 (262) |
 | joint KD student (v1 §6.3) | no | 38.04 (62) | 36.25 (58) | 84.57 (137) | 52.99 (257) |
+
+> **Provenance correction.** The EG specialist student row was previously labelled "(v1 §6.3)", i.e.
+> attributed to machine 1. It is not: `kd_train_egonly.log` (this machine, 2026-07-27, epoch 2)
+> reproduces all four values **to two decimals**. The row is a machine-2 measurement — see §10.3.
+> The joint-student row genuinely is v1's and stays labelled as such.
 
 The joint-student row comes from the §6.2 run that v1 §7.2 later identified as a **bad training
 run**, so treat it as a lower bound rather than a fair joint baseline. The joint-teacher row is new
@@ -613,6 +814,28 @@ Also worth noting for the paper: with 5 options, chance is 20%. The teacher clea
 causal (86.42) but only ~2× on spatial and temporal (39.88 / 36.25). EG's difficulty is
 concentrated in exactly the two columns where the gaze complement does not help.
 
+### 10.3 EG overlay student, per task — measured here, not inherited from v1
+
+`visionzip_kd_selection_EGonly_overlay/best.pth` — `56.08% (n=485)`, best = epoch 2, trained **on
+this machine 2026-07-27**, log `kd_train_egonly.log:163-168`. Item counts sum exactly to the total
+(66+68+138 = 272). Teacher column is §10's mean of 3.
+
+| qa_type | n | student % | items | teacher (mean of 3) | Δ items |
+|---|---|---|---|---|---|
+| Spatial | 163 | 40.49 | 66 | 39.88 | +1 |
+| **Temporal** | 160 | **42.50** | **68** | 36.25 | **+10** |
+| Causal | 162 | 85.19 | 138 | 86.11 | −2 |
+| **Avg** | **485** | **56.08** | **272** | 54.02 | **+9** |
+
+This is the same profile §10.2 derived, now confirmed from the local training log rather than from
+v1: the whole +9 is **temporal**, spatial and causal are flat within noise.
+
+**It also removes §10.2's caveat 1.** That caveat warned the teacher and student rows came from
+different eval paths and machines. The student row is machine-2, from the training loop; the teacher
+row is machine-2, via `--eval-ckpt`. The eval-path difference stands; the machine difference does
+not. Caveats 2 (teacher may be the ep2 snapshot) and 3 (the "more optimisation steps" reading) are
+unaffected.
+
 ---
 
 ## 11. EgoGazeVQA specialist student — not yet run
@@ -620,9 +843,11 @@ concentrated in exactly the two columns where the gaze complement does not help.
 Deferred by the user in favour of finishing the SG side; **not blocked**. Recorded here so the
 next session does not re-derive the setup.
 
-What exists today is the *overlay-trained* EG student, 56.08 / 272 items (§2.3) — trained and
-evaluated on `gaze` frames, i.e. with the marker in the pixels. It is the EG analogue of the SG
-student's 369, and the same criticism applies: it is not gaze-free in the sense §7 means.
+What exists today is the *overlay-trained* EG student, 56.08 / 272 items (§2.3, **per-task in
+§10.3**) — trained and evaluated on `gaze` frames, i.e. with the marker in the pixels. It is the EG
+analogue of the SG student's 369, and the same criticism applies: it is not gaze-free in the sense
+§7 means. **It is being reused, not retrained** (user decision, §9 "Explicitly dropped"), so §10.3
+is the fixed baseline this run is measured against.
 
 Everything the overlay-free run needs is in place:
 
@@ -737,4 +962,79 @@ re-evaluations of identical weights. The student row is a **single run**; the te
 1. Student rows are single runs (§8 requires ≥3).
 2. Machine-1 vs machine-2 mixing — the draft's baselines were measured elsewhere; the same
    VisionZip checkpoint reads GSM 65.62 there and 70.31 here.
-3. §2.1 still unresolved: no SG-only VisionZip bar exists, so "+8 over VisionZip" is unverified.
+3. §2.1 still unresolved: the SG-only VisionZip cell is empty, so "+8 over VisionZip" is
+   unquotable from this document until the user's held value is transcribed in (§5 item 3).
+
+---
+
+## 13. Environment migration, 2026-07-28 — paths moved, nothing was lost
+
+Recorded because it killed a run mid-epoch and because the current fix is one symlink deep.
+
+### 13.1 What happened
+
+At **00:01** the container was re-provisioned and the storage root changed:
+
+```
+/NHNHOME/VILAB/vilab_yj/…   →   /NHNHOME/WORKSPACE/26msit001_A/vilab_yj/…
+```
+
+`env.sh` hardcodes the old prefix in four places (`REPO`, `DATA`, `PATH`, `HF_HOME`), the three
+`visionzip_complement_learned_*` checkpoint symlinks and `stage1_tas_3way_overlay` all resolve
+through it, and ~13 launcher scripts open with a literal `cd /NHNHOME/VILAB/vilab_yj/trajgaze`.
+For ~20 minutes nothing in the repo could launch.
+
+At **00:21** a compatibility symlink was created:
+
+```
+/NHNHOME/VILAB -> /NHNHOME/WORKSPACE/26msit001_A
+```
+
+That restored every path at once. Verified 02:07: `$STAGE1_CKPT` 147,568,266 B, `$M1_SGONLY` and
+`$M1_EGONLY` 16,625,163,681 B each, `$SG_ROOT`/`$EG_ROOT` present, `which python` → the venv,
+torch 2.11.0+cu128 / peft 0.15.1, 2 GPUs visible. **No source edits were needed and none were made.**
+
+### 13.2 No data was lost
+
+| asset | check | result |
+|---|---|---|
+| SG frames, `viz` ↔ `original` | stem counts per dataset | egtea 35/35, holoassist 66/66, egoexolearn 180/180 |
+| holoassist fps repair (§7.4) | per-stem `viz` vs `original` jpg counts | match on spot-check |
+| EG frames, `gaze` ↔ `no_gaze` | stem counts | egtea 82, ego4d 27, egoexo 154 — parity |
+| teacher / stage-1 checkpoints | size + resolve | all 4 intact |
+| venv, HF cache (Qwen2.5-VL-7B) | import + list | intact |
+
+### 13.3 The fix is fragile — state it as a known risk
+
+Everything currently works **because of a single symlink**. If it is removed, the same total outage
+returns. The durable fix is four lines in `env.sh`, deriving the roots from the file's own location
+instead of hardcoding them:
+
+```bash
+export REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+_VJ="$(dirname "$REPO")"
+export DATA="$_VJ/datasets/trajgazemerge"
+export PATH="$_VJ/envs/trajgaze/bin:$PATH"
+export HF_HOME="$_VJ/.cache/huggingface"
+```
+
+The launcher scripts would still need `cd "$(dirname "$0")/.."`, which
+`scripts/run_ablation_tab6_tab7.sh:16` already uses. Not done — deliberately out of scope while runs
+are in flight.
+
+### 13.4 Three long runs have been lost to interruption
+
+All three died with **no checkpoint**, because the trainers only save at epoch end. A 1-epoch
+ablation row that dies at 79% leaves nothing at all.
+
+| run | reached | cause |
+|---|---|---|
+| SG-only VisionZip bar | 2580/2900, epoch 1/2 | hard kill, no signal recorded |
+| SG KD student, no-overlay | 480/2900, epoch 1/2 | SIGTERM 18:24:41 |
+| `tab6_nopretrain` | 2280/2900, epoch 1/1 | container re-provisioning, 00:01 |
+
+Mitigations for anything long-running from here: launch **detached under tmux** (`/usr/bin/tmux` is
+available) so a terminal or SSH loss cannot take the job with it; use the KD trainer's `--resume`,
+which restores from the newest `epoch_*.pth` and therefore saves epoch 1 if epoch 2 dies. Neither
+helps a death inside epoch 1 — only periodic mid-epoch checkpointing would, and that is not
+implemented.

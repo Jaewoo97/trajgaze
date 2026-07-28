@@ -1,22 +1,60 @@
 # Re-running Table 6 (Stage-1 pretraining objectives) and Table 7 (spatial vs. temporal selection) for the current \sys method
 
-**Audience:** whoever re-runs these two ablations on a fresh machine.
-**Why this exists:** `paper/main.tex` now describes the *current* method — VisionZip-complement
-selection at a 10% visual-token budget (7% VZ content ∪ 3% frozen-trajectory complement).
-The numbers currently sitting in Tables 6 and 7 are **stale**: they were produced by an
-earlier method variant (their "Spatio-temporal / All-losses" rows land at ~67–68%, whereas the
-current \sys StreamGaze number is ~69–70%). Both tables must be regenerated with the current
-pipeline. This document specifies exactly what each row means for the current method, what code
-to add, the exact train/eval commands, and the empty result tables to fill. **It does not contain
-any measured numbers — you produce those.**
+**Status: both tables are measured.** Results in **§2.6** (Table 6) and **§3.3** (Table 7),
+run log and gates in **§0a**. Regenerate at any time with
+`source env.sh && python scripts/collect_ablation_tab6_tab7.py`.
+
+**Audience:** whoever re-runs these two ablations, or defends them in review.
+**Why this exists:** `paper/main.tex` describes the *current* method — VisionZip-complement
+selection at a 10% visual-token budget (7% VZ content ∪ 3% frozen-trajectory complement) — while
+the numbers sitting in its Tables 6 and 7 came from an earlier method variant (their
+"Spatio-temporal / All-losses" rows land at ~67–68%, against the current \sys StreamGaze ~69–70%).
+This document defines what each row means for the current method, records the code that was added,
+the commands as actually run, and the measured results.
+
+**`paper/main.tex` has not been updated yet** — it still holds the old-method values, and the
+`paper/` tree is not in this repository. Replacing those two tables with §2.6 / §3.3, plus §0a's
+five caption disclosures, is the one remaining task.
+
+> Sections §2.3, §2.4 and §3.1 are written as "code to add". That code **is already merged**
+> (commit `9c6a85a`); those blocks are kept as the specification the implementation was checked
+> against, and §0a lists the two places the implementation deliberately deviates from them.
 
 ---
 
-## 0a. STATUS — resolved decisions and machine-specific corrections (2026-07-27)
+## 0a. STATUS — resolved decisions and machine-specific corrections (2026-07-27, updated 2026-07-28)
 
-The code this document asks for **has been implemented** and the runs are in progress. The
+The code this document asks for **has been implemented** (commit `9c6a85a`). The
 decisions left open below (§5) were resolved as follows; where this section disagrees with the
 rest of the document, **this section wins**.
+
+**Run status (2026-07-28 08:25) — COMPLETE.** Stage-1 for "Only score loss" is done
+(`TrajGaze_v2/checkpoints/stage1_scoreonly_overlay/best.pth`, 100 ep, exit=0; the epoch-100 log
+line confirms the intended composition, `loss 0.0144 = score_past 0.0006 + score_traj 0.0137`,
+i.e. `traj` and `score_fut` are zeroed). All four Stage-2 rows finished and passed the gates —
+`exit=0`, `n=526` on `per_src.sg`, and the expected `pct_kept` per geometry. Results are in §2.6
+and §3.3; `scripts/collect_ablation_tab6_tab7.py` exits 0 and regenerates both tables.
+
+| row | overall | macro-7 | kept | log |
+|---|---|---|---|---|
+| `tab6_nopretrain_overlay` | 65.02 | 64.55 | 9.99% | `tab6_nopretrain_overlay.log` |
+| `tab6_scoreonly_overlay` | 66.92 | 65.83 | 9.99% | `tab6_scoreonly_overlay.log` |
+| `tab7_nospatial_overlay` | 62.93 | 61.88 | 9.38% | `tab7_nospatial_overlay.log` |
+| `tab7_notemporal_overlay` | 67.30 | 66.19 | 9.91% | `tab7_notemporal_overlay.log` |
+
+Every row is a **single run evaluated once**. §8 of `kd_handoff_v2.md` puts the eval noise floor at
+3–4 items (0.6–0.8 macro points) with per-task columns swinging up to 2.95, so gaps below ~1 point
+carry no information — see the readings in §2.6 and §3.3 for which comparisons survive that.
+
+> **Incident — node reprovision, 2026-07-27 23:59.** `/NHNHOME/VILAB` is a symlink on node-local
+> nvme pointing at the lustre root `/NHNHOME/WORKSPACE/26msit001_A`. The node was reprovisioned
+> around midnight, wiping the local disk and the alias with it, which killed `tab6_nopretrain` at
+> step 2280/2900 (no checkpoint; artifacts kept as `*.dead-20260727`) and left `$REPO`, `$DATA`,
+> the venv on `$PATH`, `$HF_HOME`, and the four in-repo checkpoint symlinks dangling. No data was
+> lost — everything lives on lustre. `env.sh` now recreates the alias if it is missing, so a
+> future reprovision self-heals. Long runs must be launched with `setsid` as well: an earlier run
+> (`kd_train_sgonly_nooverlay.log`) died on `SignalException: got signal: 15` when its launching
+> session ended.
 
 | Decision | Resolution |
 |---|---|
@@ -74,24 +112,38 @@ contain raw tokens only (no VisionZip contextual merge), while the free row is t
 two-pool selector; (4) Avg is a macro-7 with OTP (n=2) excluded; (5) LoRA r=16, α=32.
 
 **Reproduce:** `scripts/run_ablation_tab6_tab7.sh` runs the four new rows;
-`scripts/collect_ablation_tab6_tab7.py` assembles both tables.
+`scripts/collect_ablation_tab6_tab7.py` assembles both tables. **Launch with `setsid nohup … &`**
+— a plain background launch dies with the session (see the incident note above).
+
+> **Second incident — cold `torch.hub` cache, 2026-07-28 00:22.** With `$HOME/.cache` wiped by the
+> same reprovision, both DDP ranks re-downloaded DINOv2 simultaneously and one lost the extract
+> race in `torch.hub._get_cache_or_reload`: `OSError: [Errno 39] Directory not empty: 'dinov2'`.
+> It killed the first row 33 s in; the driver moved on and the rest ran normally on the
+> now-warm cache. `env.sh` pins `TORCH_HOME` to lustre so the cache outlives a reprovision, and
+> `scripts/rerun_tab6_nopretrain.sh` re-runs the lost row after the driver's other rows finish.
+> Only a *cold* cache races — a warm one needs no download.
 
 ---
 
 ## 0. Environment and shared protocol (read once)
 
-```bash
-# --- paths that may need adjusting on the target machine ---
-REPO=/workspace/trajgaze_st                                   # this repo
-CKPT=/workspace/EgoGazeVQA/TrajGazeMerge/checkpoints          # LoRA (Stage-2) output root
-S1ROOT=/workspace/EgoGazeVQA/TrajGaze_v2/checkpoints          # Stage-1 encoder output root
-S1=$S1ROOT/stage1_tas_3way_overlay/best.pth                   # current (frozen) Stage-1 encoder = "All losses"
+The `/workspace/…` paths and the `/opt/conda/envs/trajgaze` interpreter this section originally
+listed are from machine 1 and do not exist here. On this machine everything comes from `env.sh`:
 
-# --- environment (mandatory) ---
-cd $REPO
-export PATH=/opt/conda/envs/trajgaze/bin:$PATH               # the 'trajgaze' conda env
-export GAZE_OVERLAY=1                                         # frames must be the gaze-overlay base; REQUIRED
+```bash
+cd /NHNHOME/VILAB/vilab_yj/trajgaze && source env.sh
+# sets REPO, DATA, SG_ROOT/EG_ROOT/HD_ROOT, GAZE_OVERLAY=1, PATH (venv), TORCH_HOME,
+#      HF_HOME, TORCHRUN, and STAGE1_CKPT / M1_JOINT / M1_SGONLY / M1_EGONLY
+unset VLM_GAZE_OVERLAY        # env.sh does not clear it; a stale 0 voids every run (§0a)
+
+CKPT=$REPO/TrajGazeMerge/checkpoints      # Stage-2 LoRA output root
+S1ROOT=$REPO/TrajGaze_v2/checkpoints      # Stage-1 encoder output root
+S1=$STAGE1_CKPT                           # "All losses" encoder (stage1_tas_3way_overlay/best.pth)
 ```
+
+`$TORCHRUN` is `python -m torch.distributed.run`, not the `torchrun` shim — bare `torchrun`
+resolves to the system python, which has no `peft`. Commands below that still say `torchrun`
+were written for machine 1; use `$TORCHRUN`.
 
 Invariants that must hold for every run below (they define "our protocol"):
 
@@ -108,10 +160,10 @@ Invariants that must hold for every run below (they define "our protocol"):
 
 **Constant-LR consequence (important, saves compute):** `train_visionzip_complement_lora`
 has no LR scheduler, so epoch-1 of an N-epoch run is bit-identical to a standalone 1-epoch run.
-Recent \sys ablations were run at `--epochs 1` (or `2`, taking best-of-2). Pick one policy and
-apply it to *every* row of a table so rows are comparable. This spec uses `--epochs 2` +
-best-of-2 as the default (matches how the specialist grid was produced); `--epochs 1` is the
-cheap option. **Whatever you pick, keep it identical across all rows of the same table.**
+Pick one policy and apply it to *every* row of a table so rows are comparable.
+**What was run: `--epochs 1` for all four ablation rows** (§0a). The \sys row is *not* on that
+policy — it is the epoch-2 best-of-2 specialist — which is disclosure item (1) in §0a's caption
+list, not something to paper over.
 
 **Eval command (identical for every row).** After a Stage-2 run finishes, its own end-of-epoch
 eval already prints `Overall:` and a per-task breakdown filtered to `--source sg`. To (re)measure
@@ -177,14 +229,15 @@ Stage-2 pipeline.
 | Row | Encoder pretraining | Loss terms kept |
 |---|---|---|
 | **No pretrain** | none — random-init encoder, frozen | (Stage-1 skipped entirely) |
-| **Only score loss** | Stage-1 with patch-score regression only | `loss_score_past` (drop `loss_traj`, `loss_score_fut`, `loss_score_traj`) |
+| **Only score loss** | Stage-1 with patch-score regression only | `loss_score_past` **+ `loss_score_traj`** (drop `loss_traj`, `loss_score_fut`) |
 | **All losses** = \sys | current full Stage-1 | all four (this is the existing `$S1`) |
 
-> Decision point: whether "score loss" includes `loss_score_traj`. Recommended = **exclude** it
-> (keep only `loss_score_past`, the clean per-patch regression on observed frames) so the row is a
-> pure "score-regression-only" encoder. If you prefer "all score-family terms", keep
-> `loss_score_past`+`loss_score_traj`+`loss_score_fut` and only drop `loss_traj`. Pick one and note
-> it in the caption. The commands below implement the recommended (minimal) version.
+> **Resolved (§0a).** This section originally recommended dropping `loss_score_traj` too. That is
+> wrong: `score_head` — the only head Stage-2 consumes (`model_temporal.py:281`) — is supervised by
+> `loss_score_traj` alone, so the minimal version would have shipped a randomly initialised
+> inference head and collapsed this row onto "No pretrain". The row as run keeps
+> `loss_score_past + loss_score_traj`, which the epoch-100 log confirms
+> (`loss 0.0144 = 0.0006 + 0.0137`). State it this way in the caption.
 
 ### 2.3 Code to add (Stage-1 loss toggles)
 
@@ -257,63 +310,82 @@ weights are ignored.)
 
 ### 2.5 Commands
 
-**Stage-1 pretraining (2 new encoders; "All losses" reuses the existing `$S1`).**
-Mirror `launch_stage1_tas_3way.sh`; only the loss flags change.
+**Stage-1 pretraining (1 new encoder; "All losses" reuses the existing `$S1`, "No pretrain" needs
+no Stage-1 at all — it is handled at Stage-2 by `--random-encoder`).**
+
+As run on this machine, 2026-07-27 22:02–22:32 (`stage1_scoreonly.log`, exit=0, 100 ep, 30 min):
 
 ```bash
-# --- "Only score loss" encoder (drop traj + future + score_traj; keep score_past) ---
-CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=4 --master_port=29827 \
+CUDA_VISIBLE_DEVICES=0,1 $TORCHRUN --nproc_per_node=2 --master_port=29827 \
   -m TrajGaze_v2.training.stage1_temporal \
   --output-dir $S1ROOT/stage1_scoreonly_overlay \
-  --epochs 100 --lr 3e-4 --batch-size 2 \
-  --use-egovqa --use-hd-epic --use-trajectory-anchor \
-  --drop-loss-traj --drop-loss-score-fut --drop-loss-score-traj
-#  → produces $S1ROOT/stage1_scoreonly_overlay/best.pth
-
-# --- "No pretrain": no Stage-1 run needed (handled at Stage-2 via --random-encoder) ---
+  --epochs 100 --lr 3e-4 --batch-size 4 \
+  --use-trajectory-anchor \
+  --drop-loss-traj --drop-loss-score-fut
+#  → $S1ROOT/stage1_scoreonly_overlay/best.pth
 ```
 
-**Stage-2 LoRA (3 rows). Same protocol; only the encoder source differs.**
+Three deliberate differences from `launch_stage1_tas_3way.sh`, all forced by this machine (§0a):
+2 GPUs × batch 4 instead of 4 × 2 (same eff-batch 8); **no `--use-egovqa --use-hd-epic`** because
+`dataset_temporal_{egovqa,hdepic}.py` do not exist on this branch, so the encoder trains on
+StreamGaze only (246 clips) while `$S1` saw all three corpora — **this is caption disclosure (2)**;
+and `--drop-loss-score-traj` is *not* passed, per §2.2.
+
+Verify from the log rather than trusting the flags: the epoch-100 line must read
+`loss ≈ score_past + score_traj` with `traj`/`score_fut` excluded from the sum. The resulting
+encoder must also load into Stage-2 with no missing keys — `tab6_scoreonly_overlay.log` shows
+`[TrajEncoder] loaded full` and the same inferred architecture flags as `$S1`
+(`use_trajectory_anchor=True`, all other branch flags False).
+
+**Stage-2 LoRA (2 rows; "All losses" reuses `$M1_SGONLY` per §0a).** Do not run these by hand —
+`scripts/run_ablation_tab6_tab7.sh` holds the protocol in one `run_row()` so no row can silently
+differ from another, which is the whole point of an ablation table. It is reproduced here only to
+show what each row is:
 
 ```bash
-S1_SCORE=$S1ROOT/stage1_scoreonly_overlay/best.pth
+# shared by every row of BOTH tables
+--traj-pool-mode learned --complement-mode topk \
+--content-ratio 0.07 --traj-ratio 0.03 \
+--source sg --no-hdepic --epochs 1 --lr 1e-4 --grad-accum 4     # 2-GPU DDP, eff-batch 8
 
-# Row: No pretrain (random encoder; --stage1-ckpt only supplies arch flags)
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=29631 \
-  -m TrajGazeMerge.training.train_visionzip_complement_lora \
-  --traj-pool-mode learned --complement-mode topk --stage1-ckpt $S1 --random-encoder \
-  --content-ratio 0.07 --traj-ratio 0.03 --source both --no-hdepic \
-  --epochs 2 --lr 1e-4 --grad-accum 4 --early-stop \
-  --output-dir $CKPT/tab6_nopretrain_overlay
-
+# Row: No pretrain   (--stage1-ckpt supplies architecture flags only; weights ignored)
+--stage1-ckpt "$STAGE1_CKPT" --random-encoder    --output-dir $CKPT/tab6_nopretrain_overlay
 # Row: Only score loss
-CUDA_VISIBLE_DEVICES=2,3 torchrun --nproc_per_node=2 --master_port=29632 \
-  -m TrajGazeMerge.training.train_visionzip_complement_lora \
-  --traj-pool-mode learned --complement-mode topk --stage1-ckpt $S1_SCORE \
-  --content-ratio 0.07 --traj-ratio 0.03 --source both --no-hdepic \
-  --epochs 2 --lr 1e-4 --grad-accum 4 --early-stop \
-  --output-dir $CKPT/tab6_scoreonly_overlay
-
-# Row: All losses = current \sys — reuse the existing main \sys StreamGaze result
-#   (its encoder is $S1). Only run this if you want a fresh number under identical epochs.
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=29633 \
-  -m TrajGazeMerge.training.train_visionzip_complement_lora \
-  --traj-pool-mode learned --complement-mode topk --stage1-ckpt $S1 \
-  --content-ratio 0.07 --traj-ratio 0.03 --source both --no-hdepic \
-  --epochs 2 --lr 1e-4 --grad-accum 4 --early-stop \
-  --output-dir $CKPT/tab6_alllosses_overlay
+--stage1-ckpt "$S1ROOT/stage1_scoreonly_overlay/best.pth" \
+                                                 --output-dir $CKPT/tab6_scoreonly_overlay
 ```
 
-Read the SG per-task numbers from each run's own end-of-epoch `--source sg` eval, or re-measure
-with the §0 eval command. Take best-of-2 per row.
+Two corrections to what this section said before: rows train **`--source sg`**, not `--source both`
+(§0a), and at **1 epoch** without `--early-stop`, so there is no best-of-N to take. Each row's own
+end-of-epoch eval is the number — it is already filtered to `--source sg` and already writes
+`per_task` to `train_log_rank0.jsonl`, so no separate `--eval-ckpt` pass is needed.
 
-### 2.6 Result table to fill (StreamGaze EGTEA, n=526)
+### 2.6 Result — measured 2026-07-28 (StreamGaze EGTEA, n=526)
 
-| Stage-1 objective | GSM | NFI | OTP | SR | OAR | OI-E | OI-H | FAP | **Avg** |
-|---|---|---|---|---|---|---|---|---|---|
-| No pretrain       |  |  |  |  |  |  |  |  |  |
-| Only score loss   |  |  |  |  |  |  |  |  |  |
-| All losses (\sys) |  |  |  |  |  |  |  |  |  |
+OTP is **not** a column here — §0a drops it from *both* tables (n=2 of 526, so it only ever reads
+0/50/100%). Avg is the macro-average over the 7 columns below, as emitted by
+`scripts/collect_ablation_tab6_tab7.py`.
+
+| Stage-1 objective | GSM | NFI | SR | OAR | OI-E | OI-H | FAP | **Avg** |
+|---|---|---|---|---|---|---|---|---|
+| No pretrain       | 60.94 | 61.76 | 64.86 | 87.50 | 65.35 | 62.50 | 48.94 | **64.55** |
+| Only score loss   | 60.94 | 64.71 | 59.46 | 88.54 | 68.32 | 65.62 | 53.19 | **65.83** |
+| All losses (\sys) | 71.36 | 63.24 | 57.66 | 93.40 | 73.27 | 74.48 | 56.38 | **69.97** |
+
+Measured 2026-07-28. Both ablation rows are single 1-epoch runs, exit=0, n=526, `pct_kept` 9.99%;
+item-level `Overall:` was 65.02 / 66.92. The \sys row is the mean of 3 evals of `$M1_SGONLY`.
+
+**Reading.** The ordering the table needs holds — random 64.55 < score-only 65.83 < all-losses
+69.97 — but only the gap to \sys is comfortably outside the noise floor (**+5.42** and **+4.14**
+macro-7 points). **"No pretrain" vs "Only score loss" is 1.28 points and is *not* evidence**: they
+are identical on GSM (60.94 both) and trade SR against OI-E/FAP, and SR alone swings 2.70 across
+re-evals of identical weights (§8 of `kd_handoff_v2.md`). Do not claim a monotone three-way
+ordering from single runs; claim that pretraining with the full objective beats both alternatives.
+
+The \sys advantage is concentrated where the encoder is supposed to matter: **GSM +10.42** over
+both ablated encoders, plus OI-H +8.86 / OI-E +4.95 over score-only. Note "No pretrain" wins SR
+(64.86, the best of the three) — with 37 items that is one or two questions and should not be
+bolded or discussed.
 
 ---
 
@@ -389,48 +461,56 @@ Plumb `hp["select_geom"] = args.select_geom` where the other `hp` fields are set
 non-square layouts), fall back to the global `spatiotemporal` path (guard with
 `if T*n_spatial==N`), exactly as `coverage` does at `:477`.
 
-> Note on the Spatio-temporal row: the cleanest 3-way uses `s`-global-top-k for all three rows
-> (identical scoring, only geometry differs). That makes the Spatio-temporal control a
-> single-fused-pool number, which can differ slightly from the two-pool \sys headline (C∪G).
-> Decide in the caption whether the "Spatio-temporal" row is (i) the `s`-global control (clean
-> 3-way, recommended) or (ii) the real two-pool \sys result. Do **not** mix: if the constrained
-> rows use fused `s`, the free row should too.
+> **Resolved (§0a): the free row is the real two-pool \sys, not an `s`-global control.** That makes
+> the scoring differ between the constrained rows (fused `s`, raw tokens only) and the free row
+> (VisionZip content ∪ trajectory complement, with the contextual merge) — a known confound, and
+> **caption disclosure (3)**. It was chosen so the table's third row is the deployed system rather
+> than a control that appears nowhere else in the paper. If a reviewer objects, the clean 3-way is
+> one extra row: `--select-geom spatiotemporal` with the same encoder and protocol.
 
-### 3.2 Commands (same frozen encoder $S1, same protocol)
+### 3.2 Commands (same frozen encoder `$STAGE1_CKPT`, same protocol as §2.5)
+
+Run via `scripts/run_ablation_tab6_tab7.sh`; the row-specific flags are the only difference:
 
 ```bash
-# Row: No spatial (whole frames)
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=29641 \
-  -m TrajGazeMerge.training.train_visionzip_complement_lora \
-  --traj-pool-mode learned --stage1-ckpt $S1 --select-geom no_spatial \
-  --content-ratio 0.07 --traj-ratio 0.03 --source both --no-hdepic \
-  --epochs 2 --lr 1e-4 --grad-accum 4 --early-stop \
-  --output-dir $CKPT/tab7_nospatial_overlay
-
-# Row: No temporal (all frames)
-CUDA_VISIBLE_DEVICES=2,3 torchrun --nproc_per_node=2 --master_port=29642 \
-  -m TrajGazeMerge.training.train_visionzip_complement_lora \
-  --traj-pool-mode learned --stage1-ckpt $S1 --select-geom no_temporal \
-  --content-ratio 0.07 --traj-ratio 0.03 --source both --no-hdepic \
-  --epochs 2 --lr 1e-4 --grad-accum 4 --early-stop \
-  --output-dir $CKPT/tab7_notemporal_overlay
-
-# Row: Spatio-temporal control (fused s, global top-k)  [omit if using the real \sys headline]
-CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=29643 \
-  -m TrajGazeMerge.training.train_visionzip_complement_lora \
-  --traj-pool-mode learned --stage1-ckpt $S1 --select-geom spatiotemporal \
-  --content-ratio 0.07 --traj-ratio 0.03 --source both --no-hdepic \
-  --epochs 2 --lr 1e-4 --grad-accum 4 --early-stop \
-  --output-dir $CKPT/tab7_spatiotemporal_overlay
+# Row: No spatial (keep whole top frames)
+--stage1-ckpt "$STAGE1_CKPT" --select-geom no_spatial   --output-dir $CKPT/tab7_nospatial_overlay
+# Row: No temporal (keep top patches in every frame)
+--stage1-ckpt "$STAGE1_CKPT" --select-geom no_temporal  --output-dir $CKPT/tab7_notemporal_overlay
+# Row: Spatio-temporal = \sys — not re-run; reuses $M1_SGONLY's 3 existing evals (§0a)
 ```
 
-### 3.3 Result table to fill (StreamGaze EGTEA, n=526; OTP dropped as in the paper — 7 tasks)
+The geometry actually fired if `pct_kept` in `train_log_rank0.jsonl` sits at 9.38% (`no_spatial`,
+exact because whole frames divide evenly) or ~9.9–10.2% (`no_temporal`). A row logging 10.0%
+throughout is running the unconstrained selector and is not the experiment it claims to be.
+
+### 3.3 Result — measured 2026-07-28 (StreamGaze EGTEA, n=526; OTP dropped — 7 tasks)
 
 | Selection | GSM | NFI | SR | OAR | OI-E | OI-H | FAP | **Avg** |
 |---|---|---|---|---|---|---|---|---|
-| No spatial       |  |  |  |  |  |  |  |  |
-| No temporal      |  |  |  |  |  |  |  |  |
-| Spatio-temporal  |  |  |  |  |  |  |  |  |
+| No spatial       | 57.81 | 61.76 | 56.76 | 89.58 | 59.41 | 57.81 | 50.00 | **61.88** |
+| No temporal      | 73.44 | 63.24 | 51.35 | 90.62 | 65.35 | 67.19 | 52.13 | **66.19** |
+| Spatio-temporal (\sys) | 71.36 | 63.24 | 57.66 | 93.40 | 73.27 | 74.48 | 56.38 | **69.97** |
+
+Both constrained rows are single 1-epoch runs, exit=0, n=526. Logged `pct_kept` averaged **9.38%**
+(`no_spatial`) and **9.91%** (`no_temporal`) over training — `no_spatial` is exactly the uniform-grid
+figure in §0a because whole frames divide evenly, while `no_temporal` runs slightly under §0a's
+10.19% because that figure is for the uniform N=13824 grid and per-clip grids vary.
+The \sys row is the mean of 3 evals of `$M1_SGONLY` (§8 of `kd_handoff_v2.md`),
+which is a 2-epoch best-of-2 model — the training budget favours it, as §0a's caption rule requires
+disclosing. Item-level `Overall:` for the two constrained rows was 62.93 / 67.30.
+
+**Reading.** Both constraints cost real accuracy (−8.09 / −3.78 macro-7 against a 0.6–0.8-point
+noise floor), so the table's claim — the budget must be free in space *and* time — holds, and
+forcing whole frames is the worse of the two constraints by 4.31 points.
+
+Two things the caption should not overstate:
+
+- **`no_temporal` beats \sys on GSM** (73.44 vs 71.36, +2.08). Keeping every frame and taking each
+  frame's top patches is *better* for gaze-sequence matching than the deployed selector. The row's
+  deficit is concentrated in OI-E (−7.92) and OI-H (−7.29) instead.
+- **SR is not evidence.** Its 37 items make one question worth 2.70%, and §8 measures SR swinging
+  2.70 across re-evals of identical weights, so the 51.35 / 57.66 gap is inside the floor.
 
 ---
 
@@ -450,39 +530,47 @@ CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=29643 \
 | OI-H | `present_object_identification_hard` |
 | FAP  | `present_future_action_prediction` |
 
-OTP is the 8th task; the paper reports it in Table 6 but drops it in Table 7 (and in the main
-results). "Avg" in the paper = the per-task-averaged accuracy printed as `Overall:` for the SG
-source (n=526), not a task-macro average — confirm which your caption means and compute
-consistently across rows.
+OTP is the 8th task. **Resolved (§0a): it is dropped from *both* tables** — 2 items of 526, so it
+can only ever read 0/50/100%. It is still measured and still sits inside the item-level `Overall:`.
+
+**Avg is the macro-average over the 7 columns above**, computed by
+`scripts/collect_ablation_tab6_tab7.py`, *not* the `Overall:` line. The two differ by roughly a
+point because the columns have very unequal n (OI-E 101 vs SR 37) — e.g. `no_spatial` reads
+macro-7 61.88 against `Overall:` 62.93. Quote one or the other consistently; the tables here are
+macro-7 throughout, including the \sys row.
 
 ---
 
-## 5. Caveats and decisions (resolve before you start)
+## 5. Caveats and decisions — all resolved, kept for the reasoning
 
-1. **LoRA rank.** Code uses **r=16/α=32** (`train_visionzip_lora.py:54-55`); the paper text says
-   r=64/α=128. Either (a) fix the paper to r=16/α=32, or (b) bump `LORA_RANK/LORA_ALPHA` and re-run
-   **everything** (main results too) — do not run Tables 6/7 at a different rank than the main table.
-2. **Epochs / best-of-N.** Constant LR ⇒ ep1==1-epoch. Recent \sys ablations used `--epochs 1` or
-   `2` (best-of-2). Use the **same** policy for every row of a table; state it in the caption.
-3. **Train source.** The main \sys model is **joint** (`--source both`); Tables 6/7 evaluate the
-   StreamGaze slice (`--source sg`). Above trains joint + evals SG (faithful). Cheaper alternative:
-   train `--source sg` (SG-only) — but that changes the model, so don't mix joint and SG-only rows.
-4. **Reuse the shared row.** Table 6 "All losses" and Table 7 "Spatio-temporal" are both the \sys
-   model. You only strictly need to run the **2 new encoders** (Table 6) and **2 new geometries**
-   (Table 7); the third row can reuse the main \sys StreamGaze result — as long as epochs/rank/source
-   match. Re-run it fresh only if those don't match.
-5. **Table 7 scoring confound.** Keep the fused score `s` identical across all three rows so the
-   only variable is geometry (see §3.1 note). If the Spatio-temporal row uses the real two-pool C∪G
-   while the constrained rows use fused `s`, that's a confound — avoid it.
-6. **Checkpoint hygiene.** All output dirs above use fresh `tab6_*`/`tab7_*`/`stage1_scoreonly_*`
-   names. Do **not** overwrite `$S1` or the joint/main-method checkpoints.
-7. **`--early-stop` at `--epochs 2`** only prints a cosmetic "skipping epoch 3" line; both epochs
-   still run. Drop it if using `--epochs 1`.
-8. **No fabricated numbers.** Fill the tables only from real runs. The stale values currently in
-   `main.tex` Tables 6/7 are from the old method and must not be carried over.
+Every decision below was settled in §0a before the runs; the resolution is repeated here so this
+list is not read as still-open. What each became:
 
-## 6. Compute budget (rough)
+1. **LoRA rank** → the code (r=16/α=32) is correct and `paper/method.tex` was fixed. Nothing re-run.
+2. **Epochs / best-of-N** → `--epochs 1`, no `--early-stop`, for all four rows. The \sys row is a
+   2-epoch best-of-2 model, which is why the caption must disclose the budget asymmetry.
+3. **Train source** → `--source sg`. Every row trains *and* evaluates on StreamGaze only, so no row
+   mixes a joint model with an SG-slice eval.
+4. **Reuse the shared row** → done: Table 6 "All losses" and Table 7 "Spatio-temporal" are both the
+   mean of `$M1_SGONLY`'s 3 existing evals, not a fresh run.
+5. **Table 7 scoring confound** → knowingly accepted, see §3.1. The free row is the deployed
+   two-pool selector while the constrained rows use fused `s`; this is caption disclosure (3).
+6. **Checkpoint hygiene** → held. `$S1` and the main-method checkpoints were never written to; all
+   output went to fresh `tab6_*` / `tab7_*` / `stage1_scoreonly_overlay` directories.
+7. **`--early-stop`** → not passed, since the rows are 1 epoch.
+8. **No fabricated numbers** → every figure in §2.6 and §3.3 comes from a gated run
+   (exit=0, n=526, expected `pct_kept`). `main.tex` Tables 6/7 have **not** been touched yet — they
+   still hold the old-method values and must be replaced with §2.6 / §3.3.
 
-- Table 6: **2** Stage-1 pretrains (4-GPU, 100 ep each) + **2–3** Stage-2 LoRA runs (2-GPU, ≤2 ep).
-- Table 7: **2–3** Stage-2 LoRA runs (2-GPU, ≤2 ep) — **no** new Stage-1 (reuses `$S1`).
-- Two Stage-2 runs are co-resident on 4 GPUs (0,1 + 2,3), as in the example commands.
+## 6. Compute budget — measured, this machine (2 × B200)
+
+| stage | what it cost |
+|---|---|
+| Stage-1 "Only score loss" | 100 ep in **30 min** (2 GPUs, batch/GPU 4, SG-only 246 clips) |
+| Stage-2 row, training | 2900 steps in **~1.75 h** (≈2.15 s/step) |
+| Stage-2 row, end-of-epoch eval | **~18 min** (526 items) |
+| **4 rows, serial** | **~8 h** wall clock (00:22 → 08:25) |
+
+Rows are serial by necessity — 2 GPUs, so the "two co-resident 2-GPU runs" this document assumed
+is not possible here. "No pretrain" is not cheaper than the others despite skipping Stage-1: the
+random encoder still runs at Stage-2.
