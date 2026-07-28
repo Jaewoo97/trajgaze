@@ -3,13 +3,28 @@
 Written 2026-07-27, revised the same day (§1 rescoped, §7.4 / §10 / §11 added). Supersedes
 `kd_handoff.md` as the working task definition; v1 remains the record of how we got here.
 
-**Revised 2026-07-28.** Added §2.2a and §10.3 (per-task breakdowns of both *overlay* students, the
-baselines the two overlay-free retrains will be read against) and §13 (environment migration).
-§5 and §9 were rewritten: the remaining training work is **two runs — the SG and EG overlay-free
-students** — and §9 now records the Table 6/7 ablation that has been occupying the GPUs since 22:33.
-Three factual corrections are marked inline: §5-1 vs §9 disagreed about whether the SG overlay-free
-retrain had started (**it started and was SIGTERM'd at step 480/2900**); §10.1 mis-attributed the EG
-student row to machine 1 (**it is a machine-2 measurement**); and §5-5 understated the seeding gap
+**Revised 2026-07-28.** The overlay-free students both exist now — **§7.7 is the section to read**.
+
+New: §2.2a / §10.3 (per-task for both *overlay* students, the baselines), **§7.7** (both
+overlay-free students, per task), §7.4a / §7.4b (the frame-extraction defects), §10.4 (the
+warm-start confound), §12.3a (measured module sizes), §13 (environment migration).
+
+Four results changed what this document says:
+
+1. **The overlay is worth 9 items, not 15** (§7.2). Retraining on `original` recovered 6 of the
+   15, so the two gaze channels are 7 vs 9 — comparable, not 2×.
+2. **Frame extraction was broken on two datasets** — 13/66 holoassist and **54/180 egoexolearn**
+   stems sampled the wrong moments while holding the right frame *count*, because the count was
+   derived from the target (§7.4a, §7.4b). 12.7% of SG training items were affected. egtea, the
+   eval split, was clean, so no published number moves.
+3. **§10.2 is retracted.** It read v1 §7.5 backwards; that sweep says the complement *helps* EG.
+   The EG student's temporal margin was the pixel marker, and it disappears without it (§7.7).
+4. **"The student beats its teacher" is a training-budget artefact** (§10.4) — the student is
+   warm-started from the teacher and then trained for twice the optimizer steps.
+
+Corrections marked inline: §5-1 vs §9 disagreed about whether the SG overlay-free retrain had
+started (**it started and was SIGTERM'd at step 480/2900**); §10.1 mis-attributed the EG student
+row to machine 1 (**it is a machine-2 measurement**); and §5-5 understated the seeding gap
 (**no trainer seeds any RNG at all**).
 
 **One teacher and one student per benchmark.** What is dropped is *joint* training, not
@@ -18,13 +33,14 @@ student, selected with `--source {sg,eg}`.
 
 > An earlier revision of this document declared the task "StreamGaze only". That was too strong:
 > the measurement behind it (§1) rules out the *joint* setting, not EG. EG is back in scope as a
-> separate specialist pair. Current EG state: teacher measured (§10), student **not yet run**
-> (§11) — deferred by the user in favour of finishing the SG side first.
+> separate specialist pair. **Both EG models now exist**: teacher (§10), overlay student (§10.3),
+> overlay-free student (§7.7, §11).
 
 > **Read §7 first.** "gaze-free" in §1–§6 means *no trajectory-coordinate stream*. It does
 > **not** mean the frames are free of gaze: the SG `viz` frames have the gaze marker drawn into
-> the pixels, and that channel turns out to matter about twice as much as the one this project
-> removes. §7 documents it and the setup that fixes it.
+> the pixels, and that channel is worth **more** than the one this project removes — 9 items vs
+> 7, measured in §7.2 after the overlay-free retrain. §7.7 has the genuinely marker-free numbers;
+> §1–§6 do not.
 
 ---
 
@@ -327,7 +343,7 @@ that M1 "needs an eye-tracker at test time — that is exactly what the KD stude
 **not** hold: drawing the marker requires knowing the gaze, so the student still needs an
 eye-tracker.
 
-### 7.2 The pixel channel is worth ~2× the stream
+### 7.2 The pixel channel is worth more than the stream — 9 items vs 7, not 15 vs 7
 
 `videos_*_original.tar` (same footage, no overlay) exists for all three datasets. Extracting
 egtea and re-scoring the SG specialist student, changing nothing else:
@@ -335,18 +351,24 @@ egtea and re-scoring the SG specialist student, changing nothing else:
 | SG KD student | frames | SG | items |
 |---|---|---|---|
 | as reported in §2 | `viz` (marker present) | 70.15 | 369 |
-| **true gaze-free** | `original` (no marker) | **67.30** | **354** |
+| overlay-trained, scored off-distribution | `original` (no marker) | 67.30 | 354 |
+| **retrained on `original`** (§7.7) | `original` (no marker) | **68.44** | **360** |
+
+The 15-item figure this section originally reported was flagged as an **upper bound**, because
+that student was *trained* on `viz` and so paid distribution shift on top of any lost
+information. Retraining on `original` settles it: **6 of the 15 items come back**.
 
 | gaze channel removed | cost |
 |---|---|
 | trajectory coordinate stream (teacher → student, both on `viz`) | **7 items** |
-| **pixel overlay** (student, `viz` → `original`) | **15 items** |
+| **pixel overlay** (student retrained on `original`) | **9 items** |
+| ~~pixel overlay, upper bound from the off-distribution score~~ | ~~15 items~~ |
 
-**The project removed the smaller of the two gaze channels and kept the larger one.**
+**The project still removed the smaller of the two gaze channels** — but the gap is 1.3×, not
+the 2× this section previously claimed. Both channels are worth roughly the same.
 
-Caveat: this student was *trained* on `viz`, so 15 items conflates the overlay's information
-content with distribution shift. It is an **upper bound** on overlay dependence; retraining on
-`original` (§9) is the clean measurement.
+Per-task, the loss lands where it should: GSM, the gaze-driven task, is the single largest drop
+(§7.7).
 
 ### 7.3 Setup: teacher keeps the overlay, student does not
 
@@ -556,6 +578,67 @@ k=0 (11.7 at k=0 vs 34.3 one frame away); a misaligned stem is flat and high acr
 
 ---
 
+### 7.7 Both overlay-free students, measured 2026-07-28
+
+The runs §7.3 was set up for. Trained with `VLM_GAZE_OVERLAY=0 GAZE_OVERLAY=1` — student pixels
+have no marker, teacher TAS stream keeps it — on the **repaired frame trees** (§7.4a, §7.4b);
+these are the first runs whose `original` frames are pixel-verified against `viz`.
+Logs `kd_train_sgonly_nooverlay.log`, `kd_train_egonly_nooverlay.log`.
+
+| student | best ep | Avg | items | overlay counterpart | Δ |
+|---|---|---|---|---|---|
+| SG overlay-free | 1 of 2 | 68.44 | **360** | 369 (§2.2a) | **−9** |
+| EG overlay-free | 2 of 2 | 55.26 | **268** | 272 (§10.3) | **−4** |
+
+**SG, per task** — teacher column is §8's 3-run mean.
+
+| task | n | overlay (§2.2a) | overlay-free | Δ items |
+|---|---|---|---|---|
+| **GSM** | 64 | 76.56 (49) | 70.31 (45) | **−4** |
+| NFI | 68 | 70.59 (48) | 67.65 (46) | −2 |
+| OTP | 2 | 50.00 (1) | 50.00 (1) | 0 |
+| SR | 37 | 56.76 (21) | 51.35 (19) | −2 |
+| OAR | 96 | 91.67 (88) | 89.58 (86) | −2 |
+| **OI-E** | 101 | 69.31 (70) | 71.29 (72) | **+2** |
+| **OI-H** | 64 | 65.62 (42) | 67.19 (43) | **+1** |
+| FAP | 94 | 53.19 (50) | 51.06 (48) | −2 |
+| **Avg** | 526 | 70.15 (369) | **68.44 (360)** | **−9** |
+
+§2.2a predicted that if the overlay were carrying the GSM/NFI gains, those columns should fall
+hardest. **GSM is the single largest drop.** The reverse is also informative: object
+identification *improves* without the marker (OI-E +2, OI-H +1) — for those tasks the marker is
+an occluder, not a cue.
+
+**EG, per qa_type.**
+
+| qa_type | n | overlay (§10.3) | overlay-free | Δ items |
+|---|---|---|---|---|
+| Spat. | 163 | 40.49 (66) | 42.94 (70) | **+4** |
+| **Temp.** | 160 | 42.50 (68) | 36.88 (59) | **−9** |
+| Caus. | 162 | 85.19 (138) | 85.80 (139) | +1 |
+| **Avg** | 485 | 56.08 (272) | **55.26 (268)** | **−4** |
+
+**§11's prediction 1 holds**: EG leans on the overlay less than SG (4 items vs 9).
+
+**And it overturns §10.2.** That section read the EG student's whole +9 over its teacher as
+temporal, and attributed it to dropping the trajectory complement. Removing the overlay drops
+temporal to **59 — the teacher's own level (58)**. The temporal advantage was overlay-driven,
+not complement-driven. See §10.2's correction note and §10.4.
+
+**Caveats.**
+- **Best-of-2 is inside the noise on SG**: ep1 360, ep2 358. §8's floor is 4–5 items, so the
+  choice between them is arbitrary and 359 is the honest figure. §8 also warns that best-of-N
+  is an upward-biased estimator.
+- Single runs. Of the deltas above only SG's GSM (−4) and EG's temporal (−9) clear the noise
+  floor; the ±1–2 entries are not measurements.
+- Row for the paper table (Overall = (360+268)/1011 = 62.12%):
+
+```latex
+KD (raw video) & 70.31 & 67.65 & 51.35 & 89.58 & 71.29 & 67.19 & 51.06 & 68.44 & 42.94 & 36.88 & 85.80 & 55.26 & 62.12 \\
+```
+
+---
+
 ## 8. Measurement protocol — eval is NOT deterministic
 
 Re-scoring the **same checkpoint** on the **same machine** with the **same flags**:
@@ -647,38 +730,51 @@ A workstream that post-dates this document's first revision. §9 previously read
   `exit=1` (rank 1 exitcode 1, rank 0 SIGTERM, no traceback captured). If the 2nd retry dies the
   same way, suspect the `--random-encoder` path itself rather than the environment.
 
-### Queued behind the ablation
+### Completed 2026-07-28 (was "queued behind the ablation")
 
-- [ ] **holoassist `original` frames — re-download (~29 GB), prerequisite for the SG retrain.**
-      Replace the locally fps-repaired frames with the published, verified build:
-      `Peanuttoad/gaze_dataset_full` → `StreamGaze_v2/frames_shards_holoassist_original/`
-      (8 tars; skip `videos_holoassist_original.tar`, 19 GB, not needed). Its README documents
-      66 stems / 642,515 frames, 1:1 index alignment with `viz`, the same 32 retimed stems §7.4
-      found, and verification by off-dot pixel MAD ≈ 3 with 0 green-dot pixels. Verify **per stem**
-      against `viz` before swapping — a short `original` does not error, it silently shrinks the
-      epoch (§7.4).
-- [ ] **SG student retrain**, `VLM_GAZE_OVERLAY=0 GAZE_OVERLAY=1 --source sg`, warm-started from
-      `$M1_SGONLY` (~4.3 h) — `scripts/run_kd_sg_nooverlay.sh`, log `kd_train_sgonly_nooverlay.log`.
-      Bar **354 items**; per-task target profile in §2.2a.
-      **Correction to the previous revision, which said this had "Not started":** it *did* start
-      2026-07-27 18:05:34 and ran to **step 480/2900** before **SIGTERM at 18:24:41**. The stream
-      decoupling was confirmed live (`[KD] frame streams: student VLM='original' teacher TAS='viz'`).
-      No weights were written, so it is not resumable — clear the stale
-      `visionzip_kd_selection_SGonly_nooverlay/train_log_rank0.jsonl` and start over.
-      (§5 item 1 simultaneously claimed this was "running". Both statements were wrong.)
-- [ ] **EG student retrain** (§11), same flags with `--source eg` and `$M1_EGONLY` (~2 h).
-      Bar **272 items**; per-task in §10.3. **Needs a launcher** — `scripts/run_kd_eg_nooverlay.sh`
-      does not exist; copy the SG one. No download needed.
+- [x] **Table 6/7 ablation — all 4 rows.** `tab7_nospatial` 62.93, `tab7_notemporal` 67.30,
+      `tab6_scoreonly` 66.92, `tab6_nopretrain` 65.02 (3rd attempt; the first two died to the
+      reprovision and to an `exit=1` 22 s in). Both tables assemble cleanly via
+      `scripts/collect_ablation_tab6_tab7.py` and are monotone in the expected direction —
+      No pretrain 64.55 < Only score loss 65.83 < All losses 69.97, and No spatial 61.88 <
+      No temporal 66.19 < Spatio-temporal 69.97. Written up separately in `ablation_table6_7.md`.
+- [x] **holoassist `original` replaced** with the published build and pixel-verified (§7.4a) —
+      the local repair had left 13/66 stems on the wrong moments.
+- [x] **egoexolearn `original` repaired** — 54/180 stems re-extracted with `setpts` (§7.4b).
+      All three SG trees now pass per-stem pixel verification.
+- [x] **SG overlay-free student** — 68.44 / **360 items**, beats the 354 bar (§7.7).
+- [x] **EG overlay-free student** — 55.26 / **268 items** (§7.7, §11), launched automatically
+      by `scripts/chain_kd_sg_then_eg.sh`.
+- [x] **§7.2 resolved**: the overlay is worth **9 items**, not the 15-item upper bound.
+- [x] **§10.2 retracted and replaced** by §10.4 — the EG student's margin over its teacher is a
+      training-budget artefact, not a method effect.
+
+### Nothing is queued or running
+
+All GPU work in this document is finished. The historical note worth keeping: the SG overlay-free
+retrain was attempted three times before it produced a checkpoint —
+
+| attempt | reached | ended by |
+|---|---|---|
+| 2026-07-27 18:05 | step 480/2900 | SIGTERM at 18:24 |
+| 2026-07-28 11:18 | step 2140/2900 | killed once §7.4b was found — it was on the bad egoexolearn frames |
+| 2026-07-28 12:58 | complete | `exit=0` at 17:09, **360 items** |
+
+Only the third ran on pixel-verified frames. Attempts 1 and 2 produced no weights.
 
 ### To do (not scheduled)
 
-- [ ] Repeat the student eval ≥3× before publishing any student number (§8); every student
-      figure in this document is a single run.
-- [ ] Per-task breakdown of both no-overlay students — for SG, GSM and NFI are *defined* in terms
-      of gaze and are expected to carry most of the 15-item drop; §2.2a shows they are also exactly
-      where the overlay student out-performs its teacher. For EG the column to watch is temporal
-      (§10.3).
+- [ ] **Retrain the EG-only teacher at equal budget** (4 epochs / 632 optimizer steps, ~1 h) and
+      re-compare. Until this exists, §10.1's "student beats teacher" is confounded by the
+      warm-start (§10.4), and the defensible claim is *matches* the teacher without gaze.
+- [ ] Repeat every student eval ≥3× before publishing any student number (§8); every student
+      figure in this document is a single run, and SG's best-of-2 (360 vs 358) is inside the
+      noise floor.
 - [ ] Paste the user-held SG-only VisionZip value into §2.1's empty cell (§5 item 3).
+- [ ] `--seed` and global RNG seeding (§5 item 5) — still absent from all three trainers.
+- [ ] Clean up the retained backups once nothing needs them:
+      `frames/holoassist/original.OLD_local_repair`, `frames/egoexolearn/original.OLD_broken`,
+      and the `_dl_holoassist_original` / `_refix_egoexolearn` / `_probe` staging dirs (~85 GB).
 
 ### Explicitly dropped
 
@@ -798,17 +894,46 @@ causal and spatial are flat within noise. At 10 items — 2.5× the 3–4 item f
 a 160-item column — this is the one EG effect large enough to be a measurement rather than a
 coincidence.
 
-Read with v1 §7.5 (EG *rises* as complement replaces content, SG falls), the reading is that the
-trajectory complement actively hurts EG's temporal questions, and dropping it is a gain rather
-than a loss. That is the opposite of v1 §3's expectation. Two caveats before leaning on it:
+> **RETRACTED 2026-07-28.** This section used to conclude, from v1 §7.5, that "the trajectory
+> complement actively hurts EG's temporal questions, and dropping it is a gain rather than a
+> loss." **That inverts what §7.5 measured**, and two further results contradict it. The
+> paragraph is kept below, struck through, because §1 and §12 cite this reading.
+>
+> ~~Read with v1 §7.5 (EG rises as complement replaces content, SG falls), the reading is that
+> the trajectory complement actively hurts EG's temporal questions, and dropping it is a gain
+> rather than a loss.~~
+>
+> **1. v1 §7.5 says the opposite.** Its sweep holds the 10% budget fixed and varies the
+> content∶complement split. On EG, *more* complement is *better*:
+>
+> | split | EG items |
+> |---|---|
+> | 8/2 (least complement) | 258 |
+> | 7/3 (default) | 269 |
+> | **6/4** | **271** |
+> | 5/5 | 269 |
+>
+> and its own summary line reads **"The complement helps EG and hurts SG."** So dropping the
+> complement should cost EG, not gain it.
+>
+> **2. The student never drops the complement anyway.** The budget stays 7/3. What changes is
+> *who chooses* the 3% — the gaze/hand field or the RGB predictor (§12.3).
+>
+> **3. The temporal margin was the overlay.** §7.7 retrained the EG student without the pixel
+> marker: temporal falls 68 → **59**, i.e. back to the teacher's 58. The +10 was not the
+> complement being dropped; it was the marker being visible.
+>
+> The surviving explanation is §10.4's — the student is the teacher plus 2 more epochs.
+
+Caveats that still apply to the +9 as measured:
 
 1. The two rows come from **different eval paths** — the teacher via `--eval-ckpt`, the student
    from the training loop — and the student is a single run (the teacher is now a mean of 3).
 2. The teacher checkpoint is probably the ep2 snapshot rather than the best epoch (§2.3), which
    would depress every teacher column by an unknown amount.
-3. §10.1b now shows the joint *teacher* reaches the same temporal level (69 items) with gaze
-   fully available, so "dropping the complement helps temporal" is not the only reading — "more
-   optimisation steps help temporal" fits all four systems at once and is the simpler one.
+3. §10.1b shows the joint *teacher* reaches the same temporal level (69 items) with gaze fully
+   available, so "more optimisation steps help temporal" fits all four systems at once and is
+   the simpler reading. §10.4 makes that quantitative.
 
 Also worth noting for the paper: with 5 options, chance is 20%. The teacher clears it by ~4× on
 causal (86.42) but only ~2× on spatial and temporal (39.88 / 36.25). EG's difficulty is
@@ -834,14 +959,90 @@ v1: the whole +9 is **temporal**, spatial and causal are flat within noise.
 different eval paths and machines. The student row is machine-2, from the training loop; the teacher
 row is machine-2, via `--eval-ckpt`. The eval-path difference stands; the machine difference does
 not. Caveats 2 (teacher may be the ep2 snapshot) and 3 (the "more optimisation steps" reading) are
-unaffected.
+unaffected — and §10.4 now makes 3 quantitative.
+
+### 10.4 "The EG student beats its teacher" is mostly a training-budget artefact
+
+Do not put this claim in the paper as written. The student is **warm-started from the teacher and
+then trained further**, so the comparison is not like-for-like.
+
+`kd_train_egonly.log:10` and `kd_train_egonly_nooverlay.log:11`, both runs:
+
+```
+[KD] warm-started LoRA from .../visionzip_complement_learned_EGonly_overlay/best.pth
+     (missing=0 unexpected=0)
+```
+
+That is `$M1_EGONLY` — the exact checkpoint whose score is the "teacher" row. `missing=0
+unexpected=0` confirms the whole teacher LoRA was inherited, so this is not a partial load.
+
+EG train is 1265 items; at eff-batch 8 that is **158 optimizer steps per epoch** (the log's
+`step 620/633` is per-rank micro-steps ÷ grad-accum 4).
+
+| | optimizer steps on the LoRA |
+|---|---|
+| EG-only teacher | 2 epochs = **316** |
+| EG student | inherits 316, adds 2 epochs = **632 cumulative** |
+
+So "student 272 > teacher 262" compares **632 steps against 316**. Three things make the
+optimisation reading the strong one:
+
+1. **The overlay-free student also wins (+6) with strictly less information than the teacher** —
+   no gaze coordinates *and* no marker in the pixels, while the teacher has both (§7.7). An
+   information-based explanation cannot produce that; a training-budget one can.
+2. **The teacher checkpoint is probably ep2, not its best epoch** (§2.3). Against a best-epoch
+   teacher (54.85 ≈ 266 items) the margins shrink to +6 (overlay) and +2 (overlay-free).
+3. **SG shows the opposite sign.** With the same warm-start advantage the SG student lands
+   *below* its teacher (369 vs 375). SG gets 725 steps/epoch, so its teacher was already well
+   optimised and the extra epochs buy little. The effect appears only on the benchmark that is
+   most undertrained — which is what §10.1b predicted.
+
+The repo already flagged this pattern for a different experiment —
+`scripts/run_kd_experiments.sh:23-24`: *"this stacks epochs on top of an already-trained student,
+so any gain is NOT attributable to the flag alone."* The same caveat belongs on §10.1's teacher
+comparison and was missing.
+
+**Note this is not a KD violation.** There are two distinct "teachers": the *distilled* one is the
+frozen TAS encoder (`--stage1-ckpt`), which produces the BCE labels; the M1 checkpoint only
+supplies the LoRA initialisation and is never distilled (v1 §3 states this). Warm-starting from
+the privileged model is standard in LUPI settings, and v1 §5-4 lists it as an improvement. What is
+not defensible is *comparing against that same checkpoint* and calling the difference a method
+effect.
+
+**The clean experiment**, and it is cheap: retrain the EG-only teacher to 4 epochs (632 steps) and
+re-compare at equal budget. ~1 h at 29 min/epoch. §10.1b already framed the prediction — watch
+whether the temporal column climbs toward 68. Until then the defensible claim is
+**"matches the teacher without gaze at test time"**, not "beats it".
 
 ---
 
-## 11. EgoGazeVQA specialist student — not yet run
+## 11. EgoGazeVQA specialist student — DONE 2026-07-28
 
-Deferred by the user in favour of finishing the SG side; **not blocked**. Recorded here so the
-next session does not re-derive the setup.
+Both EG students now exist. The overlay one (§10.3) is reused rather than retrained (user
+decision); the overlay-free one was run 2026-07-28 and is reported in **§7.7**.
+
+| EG student | frames | Avg | items |
+|---|---|---|---|
+| overlay (`gaze`), §10.3 | marker present | 56.08 | 272 |
+| **overlay-free (`no_gaze`)** | marker removed | **55.26** | **268** |
+
+Log `kd_train_egonly_nooverlay.log`, `exit=0` at 18:35:27, best = epoch 2. The §7.3 assertion
+fired as required: `[KD] frame streams: student VLM='no_gaze'  teacher TAS='gaze'`.
+
+**Both predictions this section recorded in advance were testable, and both resolved:**
+
+1. *"The EG overlay should cost less than SG's 15 items."* — **Held.** EG pays 4 items, SG 9
+   (§7.7). EG leans on the marker less, as v1 §7.5's opposite budget preferences suggested.
+2. *"The warm-start is overlay-trained, so some of any drop is distribution shift."* — **Confirmed
+   on SG**, where retraining recovered 6 of 15 items (§7.2). EG's drop is too small (4 items,
+   at the noise floor) to decompose the same way.
+
+The run was launched automatically after the SG one by `scripts/chain_kd_sg_then_eg.sh`, which
+gates on the SG *process* exiting rather than on GPU memory — the SG job briefly frees memory
+between its training loop and its end-of-epoch eval, and the launcher's own `wait_gpu` would
+start EG on top of it.
+
+The setup notes below are kept for reference.
 
 What exists today is the *overlay-trained* EG student, 56.08 / 272 items (§2.3, **per-task in
 §10.3**) — trained and evaluated on `gaze` frames, i.e. with the marker in the pixels. It is the EG
@@ -937,6 +1138,52 @@ pass. The frozen TAS encoder (35.8 M) is called only in the training loop; `eval
 touches it — though it is still *loaded* before the `--eval-ckpt` branch, so `--stage1-ckpt`
 is required even for a gaze-free eval. Harmless, but confusing when demonstrating the claim.
 
+### 12.3a What the deployed model actually costs — measured, not estimated
+
+Counted from the checkpoints directly (`torch.load(..., map_location="cpu")`), 2026-07-28.
+
+| component | params | trained | **at inference** |
+|---|---|---|---|
+| Qwen2.5-VL-7B backbone | 8.29 B | frozen | ✅ |
+| LoRA (r=16, q/k/v/o) | 10.09 M | ✅ | ✅ |
+| **`TrajSaliencePredictor`** | **3.95 M** | ✅ | ✅ |
+| TAS Stage-1 encoder (the teacher) | **36.85 M** | frozen | ❌ **train-only** |
+
+Trainable total is **14.04 M — 0.17% of the system.**
+
+Inside the teacher, most of the mass is a generic vision backbone, not trajectory machinery:
+
+| submodule | params | share |
+|---|---|---|
+| `visual_encoder.dino` | 22.06 M | 59.9% |
+| `encoder.inter_frame` | 4.74 M | 12.9% |
+| `score_decoder.decoder` | 3.26 M | 8.8% |
+| `traj_decoder.decoder` | 3.20 M | 8.7% |
+| `query_encoder.embedding` | 1.05 M | 2.8% |
+| `encoder.pe` (buffer) | 1.05 M | 2.8% |
+
+§12.3's "35.8 M" and the 36.85 M above are the same number: 36,852,576 − 1,048,576
+(`encoder.pe`, a buffer rather than a parameter) = **35,804,000**. Quote whichever, but say which.
+
+**The point is the inference column.** `evaluate()` never calls `_traj_scores` or the TAS encoder,
+so what the method removes at deployment is the eye-tracker *and* a 36.85 M encoder — dominated by
+running DINOv2 over every frame. What it adds is one **3.95 M** head (15.8 MB fp32) that reuses
+`video_embeds` and `attn_scores` already computed for VisionZip, in O(N). No frame is re-encoded.
+
+`topk_in_avail` is a function, not a module — **zero parameters** (`torch.topk` plus indexing).
+
+Inside the student, the two 3584→512 projections are essentially all of it:
+
+| | params | share |
+|---|---|---|
+| `tok_proj` | 1,842,688 | 46.6% |
+| `ctx_proj` | 1,842,688 | 46.6% |
+| `head` | 264,193 | 6.7% |
+| `attn_proj` | **1,024** | 0.0% |
+
+`attn_proj` being `Linear(1→512)` is the reviewer-checkable claim from §12.3 — 1,024 parameters,
+scalar input, no path wide enough for a 2-D gaze coordinate.
+
 ### 12.4 Rows prepared for the results table
 
 Teacher = **mean of the 3 per-task runs** (§8), not a single run and not the best of N:
@@ -959,11 +1206,19 @@ re-evaluations of identical weights. The student row is a **single run**; the te
 
 ### 12.5 Open discrepancies to resolve before submission
 
-1. Student rows are single runs (§8 requires ≥3).
+1. Student rows are single runs (§8 requires ≥3). SG's best-of-2 spread is 2 items — inside the
+   noise floor — so which epoch is "best" is arbitrary there.
 2. Machine-1 vs machine-2 mixing — the draft's baselines were measured elsewhere; the same
    VisionZip checkpoint reads GSM 65.62 there and 70.31 here.
 3. §2.1 still unresolved: the SG-only VisionZip cell is empty, so "+8 over VisionZip" is
    unquotable from this document until the user's held value is transcribed in (§5 item 3).
+4. **Do not write "the gaze-free student beats its gaze-using teacher."** It is true only on EG
+   and only against a teacher trained for half the optimizer steps (§10.4). Either retrain the
+   teacher at equal budget or phrase it as *matching* the teacher without gaze at test time.
+5. **"gaze-free" needs qualifying wherever §2/§10's numbers appear.** Those rows are `viz`/`gaze`
+   frames with the marker in the pixels; only the trajectory-coordinate stream is removed (§7).
+   The genuinely marker-free rows are in §7.7. Label them distinctly in the paper — e.g.
+   `KD (gaze-overlay)` vs `KD (raw video)`.
 
 ---
 
