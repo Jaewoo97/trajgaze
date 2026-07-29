@@ -412,30 +412,50 @@ order) and EG raw was run alone on both GPUs via `scripts/run_vitkd_eg_raw_1ep.s
 |---|---|---|
 | P1 (1 ep) | `recall_traj` 0.0398 → **0.1134** · `recall_P` 0.3984 → **0.4083** · `recall_S` 0.4005 → **0.4403** | 1h11m |
 | gate | **PASS** — frozen 266 / tuned 263, Δ **−3** items, cos 0.99479, n=485 | 27m |
-| P2 (1 ep) | **53.40% (259)** · re-scored 3×, identical | 41m + 16m |
+| P2 ep1 | **53.40% (259)** · re-scored 3×, identical | 41m + 16m |
+| P2 ep2 | **53.81% (261)** — added afterwards to budget-match the bar, see below | 44m |
 
-**Per-task, n=485.** Item counts sum exactly (137 + 63 + 59 = 259).
+**Per-task, n=485.** Item counts sum exactly in both epochs (137+63+59 = 259; 139+64+58 = 261).
 
-| task | n | ViT-KD | items | KD student §7.7 | Δ items | M1 EG teacher (r2) |
+| task | n | P2 ep1 | P2 ep2 | KD student §7.7 | ep2 − student | M1 EG teacher (r2) |
 |---|---|---|---|---|---|---|
-| causal | 162 | 84.57 | 137 | 85.80 (139) | −2 | 85.80 (139) |
-| **spatial** | 163 | 38.65 | **63** | 42.94 (70) | **−7** | 39.88 (65) |
-| temporal | 160 | 36.88 | 59 | 36.88 (59) | 0 | 36.25 (58) |
-| **Avg** | 485 | **53.40** | **259** | 55.26 (**268**) | **−9** | 54.02 (262) |
+| causal | 162 | 84.57 (137) | **85.80 (139)** | 85.80 (139) | **0** | 85.80 (139) |
+| **spatial** | 163 | 38.65 (63) | 39.26 (**64**) | 42.94 (70) | **−6** | 39.88 (65) |
+| temporal | 160 | 36.88 (59) | 36.25 (58) | 36.88 (59) | −1 | 36.25 (58) |
+| **Avg** | 485 | 53.40 (**259**) | **53.81 (261)** | 55.26 (**268**) | **−7** | 54.02 (**262**) |
 
 #### The bar is missed, and the whole miss is one column
 
-259 vs the 268 bar is **−9 items**, outside §8's ±4 floor. **Seven of the nine are
-`spatial`**; `temporal` is identical to the student and `causal` is inside noise.
+Budget-matched (ep2), 261 vs 268 is **−7 items**, outside §8's ±4 floor. **Six of the seven
+are `spatial`.** `causal` is *identical* to both the student and the teacher (139), and
+`temporal` is within one item of both.
 
-#### But this −9 is NOT budget-matched — unlike SG's +7
+**ViT-KD lands within 1 item of the M1 teacher (261 vs 262) at zero extra inference
+parameters** — no eye-tracker, no 36.85M TAS encoder. On EG the thing it fails to match is
+not the teacher but the 3.95M KD *student*, which beats its own teacher here (268 > 262).
 
-§5.5 could call SG's +6/+7 budget-matched because both sides had M1 warm-start + **2**
-LoRA epochs. Here the ViT-KD readout got **1** epoch against the KD student's 2. The −9 is
-therefore confounded with half the optimizer budget and **must not be reported as
-"ViT-KD loses on EG"** until the epoch-2 row lands. *(P2 epoch 2 was launched 16:47 via
-`scripts/run_vitkd_eg_raw_p2ep2.sh`; SG's own ep1→ep2 moved 366→367, so the expectation is
-that −9 survives roughly intact and simply becomes interpretable.)*
+#### Budget-matching, and a tension in §5.4/§5.5 this exposed
+
+The comparison had to be made twice because Phase 2's epoch index *is* the readout budget:
+the LLM LoRA is frozen through Phase 1, so a P2 epoch-*k* checkpoint has had exactly *k*
+epochs of readout training. The KD student bar had 2.
+
+| | SG | EG |
+|---|---|---|
+| ViT-KD **ep1** (1 P2 epoch) | 366 | 259 |
+| ViT-KD **ep2** (2 P2 epochs = budget-matched) | 367 | **261** |
+| KD student bar (2 epochs) | 360 | 268 |
+| **Δ, budget-matched** | **+7** | **−7** |
+
+> **§5.5's reported row is not the budget-matched one.** §5.4's headline "+7 ... this
+> comparison is budget-matched (both are M1 warm-start + 2 epochs of LoRA)" is true of
+> **ep2 (367)**. But §5.5 reports **ep1 (366, +6)**, which had one P2 epoch — half the
+> student's budget — while inheriting §5.4's budget-matched language. The two claims are
+> about different checkpoints and the doc currently reads as if they were one. Fix by
+> reporting ep2 for both sources, or by dropping "budget-matched" from the ep1 row.
+
+Either choice is internally consistent, and **the sign flips between sources either way**:
++7/−7 at ep2, +6/−9 at ep1. That flip, not the magnitude, is the setting-3 result.
 
 #### The selection did not transfer — and this part is budget-independent
 
@@ -518,26 +538,38 @@ Slots under the existing `KD (raw video)` row of the main results table (StreamG
 EgoGazeVQA n=485 · Overall n=1011). The EG columns are ordered **Spat. · Temp. · Caus.** as
 in that table, which is *not* the order §5.7 tabulates them.
 
+**Pick one and use it for both sources** — §5.7 shows the two rows differ by whether the
+readout got 1 or 2 epochs, and mixing them across the SG and EG blocks is what makes
+§5.5's "budget-matched" claim wrong.
+
+**(A) ep2 — budget-matched to the KD student, recommended for the comparison rows:**
+
 ```latex
 KD (gaze-overlay)   & 76.56 & 70.59 & 56.76 & 91.67 & 69.31 & 65.62 & 53.19 & 70.15 & 40.49 & 42.50 & 85.19 & 56.08 & 63.40 \\
 KD (raw video)      & 70.31 & 67.65 & 51.35 & 89.58 & 71.29 & 67.19 & 51.06 & 68.44 & 42.94 & 36.88 & 85.80 & 55.26 & 62.12 \\
+ViT-KD (raw video)  & 60.94 & 63.24 & 59.46 & 89.58 & 75.25 & 73.44 & 56.38 & 69.77 & 39.26 & 36.25 & 85.80 & 53.81 & 62.12 \\
+```
+
+**(B) ep1 — the §5.4 "honest row" that avoids SG's GSM collapse, NOT budget-matched:**
+
+```latex
 ViT-KD (raw video)  & 70.31 & 61.76 & 56.76 & 91.67 & 72.28 & 70.31 & 54.26 & 69.58 & 38.65 & 36.88 & 84.57 & 53.40 & 61.82 \\
 ```
 
-| block | source | items |
-|---|---|---|
-| SG | §5.5, P2 **epoch 1** (the honest row per §5.4) | 366 → 69.58% |
-| EG | §5.7, P2 **epoch 1** | 259 → 53.40% |
-| Overall | pooled items, (366 + 259) / 1011 | **625 → 61.82%** |
+| variant | SG | EG | Overall |
+|---|---|---|---|
+| (A) ep2 | 367 → 69.77% | 261 → 53.81% | (367+261)/1011 = **628 → 62.12%** |
+| (B) ep1 | 366 → 69.58% | 259 → 53.40% | (366+259)/1011 = **625 → 61.82%** |
 
-The Overall convention is verified against the existing row: KD (raw video) =
-(360 + 268) / 1011 = 62.12 ✓.
+Overall convention verified against the existing row: KD (raw video) = (360+268)/1011 =
+62.12 ✓. Note (A) ties KD (raw video) at 62.12 overall by coincidence — 628 vs 628 items —
+while differing on every column; do not let the tie imply equivalence.
 
-**This row is provisional on the EG side.** Its EG block carries the §5.7 budget confound —
-1 P2 epoch against the student's 2 — while its SG block does not. Swap in the epoch-2 EG
-numbers when `run_vitkd_eg_raw_p2ep2.sh` lands, or state the asymmetry in the caption. The
-two blocks also differ in P1: SG's P2 consumed the P1 **epoch-2** adapter, EG's the
-**epoch-1** adapter.
+**Neither variant is free.** (A) is budget-matched but carries §5.4's warning that SG's ep2
+trades 6 GSM items for object columns — visible above as GSM 70.31 → 60.94. (B) avoids that
+but gives the readout half the student's epochs on both sources. **State which one the
+caption uses.** Both blocks also inherit the P1 asymmetry: SG's P2 consumed the P1 epoch-2
+adapter, EG's the epoch-1 adapter (§5.7 ran P1 for one epoch).
 
 ---
 
@@ -638,9 +670,12 @@ box — otherwise an unrelated job stalls all 12 jobs for the 15-minute cap each
       separates "raw video lacks the signal" from "distillation cannot reach GSM".
 - [x] **3 · EG raw video — COMPLETE**, 4h05m, out of order and at 1 epoch/phase (§5.7).
       P1 → gate PASS (Δ −3) → P2 **259 items**, 9 below the 268 bar, but not budget-matched.
-- [ ] **3b · EG raw video, P2 epoch 2** — in flight since 16:47 (`run_vitkd_eg_raw_p2ep2.sh`).
-      This is what makes §5.7's −9 interpretable; until it lands the EG row is provisional.
+- [x] **3b · EG raw video, P2 epoch 2 — COMPLETE** 17:31, **261 items (53.81%)**. Budget-matched
+      to the 268 bar: **−7**. Chain handed back automatically; sg_ovl resumed 17:31 from step ~1600.
 - [ ] 4 · EG overlay — P1 → gate → P2
+- [ ] **Decide ep1 vs ep2 for the paper row and apply it to BOTH sources** (§5.9). This is a
+      real choice, not bookkeeping: ep2 is budget-matched but costs SG 6 GSM items; ep1 avoids
+      that but halves the readout budget on both sources. §5.5 currently mixes the two.
 
 ### Per setting, gates that must be checked, not assumed
 - [ ] integrity gate **PASS** (|Δ| ≤ 4 items) before its Phase 2 is allowed to start
@@ -683,11 +718,15 @@ box — otherwise an unrelated job stalls all 12 jobs for the 15-minute cap each
    readout jointly in one run; v3 trains them in sequence. The LLM's extra optimizer budget
    is matched, but the co-adaptation is not. Do not present the two rows as if they came
    from the same recipe.
-8. **Epoch counts are no longer uniform across the matrix** (§6 note). Settings 1-2 are
-   P1 2ep + P2 2ep; setting 3 is 1ep + 1ep. Consequences that must be stated, not implied:
-   SG's P2 consumed the P1 **epoch-2** adapter and EG's the **epoch-1** adapter, and EG's
-   readout had **half** the optimizer budget of the KD-student bar it is compared against.
-   Until §5.7's 3b row lands, EG's −9 is confounded and cannot be read as a loss.
+8. **Epoch counts are no longer uniform across the matrix** (§6 note). Settings 1-2 run P1
+   for 2 epochs; setting 3 ran it for 1. So SG's P2 consumed the P1 **epoch-2** adapter and
+   EG's the **epoch-1** adapter — state it. Phase 2 was brought to 2 epochs on both sources
+   (§5.7 3b), so the *readout* budget is uniform and the +7/−7 comparison is matched; the
+   Phase-1 asymmetry is not.
+8a. **Quote the budget-matched pair, or say you are not.** A P2 epoch-*k* checkpoint has had
+   exactly *k* epochs of readout training, so ep1 rows are half the KD student's budget.
+   §5.5 currently reports ep1 while carrying §5.4's ep2 "budget-matched" wording — do not
+   propagate that. See §5.9 for the two self-consistent options.
 9. **SG and EG failed in different ways — do not merge them.** SG recovered the selection
    (`recall_traj` 0.383) and it bought no gaze-task accuracy (§5.4). EG never recovered the
    selection on the test distribution at all (`recall_traj` 0.113, `recall_P` +0.0099), while
