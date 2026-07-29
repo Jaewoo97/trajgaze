@@ -28,6 +28,7 @@
 # Copyright 2025 Senqiao Yang
 # ------------------------------------------------------------------------
 
+import contextlib
 import math
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -36,6 +37,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import CrossEntropyLoss
+from torch.utils.checkpoint import checkpoint as _torch_checkpoint
 
 from transformers.activations import ACT2FN
 from transformers.cache_utils import Cache, DynamicCache, SlidingWindowCache, StaticCache
@@ -174,6 +176,17 @@ def apply_rotary_pos_emb_flashatt(
     return q_embed, k_embed
 
 
+def _score_chunk_colsum(q_chunk, k_t, scale):
+    """One query chunk's contribution to the key-wise softmax column sum.
+
+    Factored out of the loop below so it can be wrapped in gradient checkpointing:
+    the [chunk, T] softmax map is what would otherwise have to be stored for
+    backward, and at video sequence lengths that does not fit.
+    """
+    lg = torch.matmul(q_chunk, k_t) / scale       # [chunk, T]
+    return F.softmax(lg, dim=-1).sum(dim=0)       # [T]
+
+
 class Qwen2_5_VLVisionFlashAttention2(nn.Module):
     def __init__(self, dim: int, num_heads: int = 16) -> None:
         super().__init__()
@@ -188,6 +201,8 @@ class Qwen2_5_VLVisionFlashAttention2(nn.Module):
         rotary_pos_emb: Optional[torch.Tensor] = None,
         position_embeddings: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
         return_logits: bool = False,
+        grad_logits: bool = False,
+        query_frac: float = 1.0,
     ) -> torch.Tensor:
         seq_length = hidden_states.shape[0]
         q, k, v = self.qkv(hidden_states).reshape(seq_length, 3, self.num_heads, -1).permute(1, 0, 2, 3).unbind(0)
@@ -214,7 +229,10 @@ class Qwen2_5_VLVisionFlashAttention2(nn.Module):
         attn_output = self.proj(attn_output)
 
         if return_logits:
-            with torch.no_grad():
+            # grad_logits=True keeps this branch in the autograd graph so the score
+            # itself can be distilled (see TrajGazeMerge/training/train_vit_selection_kd.py).
+            # Default stays no_grad, and the full-query path is bit-identical either way.
+            with contextlib.nullcontext() if grad_logits else torch.no_grad():
                 qh = q.permute(1, 0, 2).float()  # [H, T, D]
                 kh = k.permute(1, 0, 2).float()  # [H, T, D]
                 H, T, D = qh.shape
@@ -226,20 +244,39 @@ class Qwen2_5_VLVisionFlashAttention2(nn.Module):
                 #   logits.mean(0).sum(0)  ==  mean_h sum_query softmax
                 # is then byte-identical to the original full-matrix path.
                 CH = 2048
-                colsum = torch.empty(H, T, device=qh.device, dtype=torch.float32)
+                starts = list(range(0, T, CH))
+                if grad_logits and query_frac < 1.0:
+                    # Training-only cost control. The score is a sum over query rows,
+                    # so a random subset of query chunks is an unbiased estimator up to
+                    # the constant |Q|/|Q'|; only the within-item ranking is consumed
+                    # downstream, so that constant is irrelevant. Eval never subsamples.
+                    n_keep = max(1, int(round(len(starts) * query_frac)))
+                    perm = torch.randperm(len(starts), device="cpu")[:n_keep].tolist()
+                    starts = [starts[i] for i in sorted(perm)]
+                per_head = []
                 for h in range(H):
                     kt = kh[h].transpose(0, 1)  # [D, T]
                     acc = torch.zeros(T, device=qh.device, dtype=torch.float32)
-                    for c in range(0, T, CH):
-                        lg = torch.matmul(qh[h, c:c + CH], kt) / scale  # [chunk, T]
-                        acc += F.softmax(lg, dim=-1).sum(dim=0)
-                    colsum[h] = acc
+                    for c in starts:
+                        q_chunk = qh[h, c:c + CH]
+                        if grad_logits:
+                            part = _torch_checkpoint(
+                                _score_chunk_colsum, q_chunk, kt, scale,
+                                use_reentrant=False)
+                        else:
+                            part = _score_chunk_colsum(q_chunk, kt, scale)
+                        acc = acc + part
+                    per_head.append(acc)
+                colsum = torch.stack(per_head, dim=0)    # [H, T]
                 attn_logits = colsum.unsqueeze(1)        # [H, 1, T]
                 return_k = k.permute(1, 0, 2)            # [H, T, D]
         else:
             attn_logits = None
             return_k = None
-        torch.cuda.empty_cache()
+        if not grad_logits:
+            # Frees the chunk scratch. Under grad_logits the graph still holds live
+            # references, so this would only cost a synchronize for nothing.
+            torch.cuda.empty_cache()
         return attn_output, attn_logits, return_k
 
 
@@ -386,13 +423,21 @@ class Qwen2_5_VLVisionBlock(nn.Module):
         rotary_pos_emb: Optional[torch.Tensor] = None,
         position_embeddings: Optional[Tuple[torch.Tensor, torch.Tensor]] = None,
         return_logits: bool = False,
+        grad_logits: bool = False,
+        query_frac: float = 1.0,
     ) -> torch.Tensor:
+        attn_kwargs = {}
+        if grad_logits or query_frac != 1.0:
+            # Only the flash attention class accepts these; keep the call signature
+            # unchanged for the eager/sdpa classes so nothing else has to move.
+            attn_kwargs = dict(grad_logits=grad_logits, query_frac=query_frac)
         attn, logits, attn_key = self.attn(
             self.norm1(hidden_states),
             cu_seqlens=cu_seqlens,
             rotary_pos_emb=rotary_pos_emb,
             position_embeddings=position_embeddings,
             return_logits=return_logits,
+            **attn_kwargs,
         )
         hidden_states = hidden_states +attn
         hidden_states = hidden_states + self.mlp(self.norm2(hidden_states))
@@ -545,17 +590,33 @@ class Qwen2_5_VisionTransformerPretrainedModel(Qwen2_5_VLPreTrainedModel):
 
         return window_index, cu_window_seqlens
 
-    def forward(self, hidden_states: torch.Tensor, grid_thw: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        hidden_states: torch.Tensor,
+        grid_thw: torch.Tensor,
+        grad_last_block: bool = False,
+        score_query_frac: float = 1.0,
+    ) -> torch.Tensor:
         """
         Args:
             hidden_states (`torch.Tensor` of shape `(seq_len, hidden_size)`):
                 The final hidden states of the model.
             grid_thw (`torch.Tensor` of shape `(num_images_or_videos, 3)`):
                 The temporal, height and width of feature shape of each image in LLM.
+            grad_last_block: run blocks 0..N-2 under no_grad and the LAST block (plus
+                the merger and the attention score) WITH grad. Used to fine-tune only
+                the block the VisionZip score depends on. Default False keeps the
+                whole encoder inference-only, exactly as before.
+            score_query_frac: training-only subsampling of query chunks in the score
+                computation; ignored unless grad_last_block.
 
         Returns:
             `torch.Tensor`: hidden_states.
         """
+        if grad_last_block and self.gradient_checkpointing and self.training:
+            raise RuntimeError(
+                "grad_last_block is incompatible with the module's own gradient "
+                "checkpointing path; disable gradient_checkpointing on visual.")
         hidden_states = self.patch_embed(hidden_states)
         rotary_pos_emb = self.rot_pos_emb(grid_thw)
         window_index, cu_window_seqlens = self.get_window_index(grid_thw)
@@ -603,6 +664,15 @@ class Qwen2_5_VisionTransformerPretrainedModel(Qwen2_5_VLPreTrainedModel):
                 # hidden_states = self._gradient_checkpointing_func(
                 #     blk.__call__, hidden_states, cu_seqlens_now, None, position_embeddings
                 # )
+            elif grad_last_block:
+                # Only the last block (and everything after it) carries gradient.
+                # Blocks 0..N-2 are frozen by construction, so their activations are
+                # never stored — which is what makes this affordable at video lengths.
+                if layer_num == len_blocks-1:
+                    hidden_states, logits, attn_key = blk(hidden_states, cu_seqlens=cu_seqlens_now, position_embeddings=position_embeddings, return_logits=True, grad_logits=True, query_frac=score_query_frac)
+                else:
+                    with torch.no_grad():
+                        hidden_states, _, _ = blk(hidden_states, cu_seqlens=cu_seqlens_now, position_embeddings=position_embeddings, return_logits=False)
             else:
                 if layer_num == len_blocks-1:
                     hidden_states, logits, attn_key = blk(hidden_states, cu_seqlens=cu_seqlens_now, position_embeddings=position_embeddings, return_logits=True)
@@ -614,13 +684,16 @@ class Qwen2_5_VisionTransformerPretrainedModel(Qwen2_5_VLPreTrainedModel):
         hidden_states = hidden_states[reverse_indices, :]
 
 
-        with torch.no_grad():
-            attn_mean = logits.mean(dim=0)  
+        with contextlib.nullcontext() if grad_last_block else torch.no_grad():
+            attn_mean = logits.mean(dim=0)
 
-            attn_mean = attn_mean.sum(dim=0) 
+            attn_mean = attn_mean.sum(dim=0)
             attn_mean = attn_mean.view(attn_mean.shape[0]//4, -1).mean(dim=-1)
             attn_mean = attn_mean[reverse_indices]
 
+        # attn_key only ever feeds the contextual clustering, which is a non-
+        # differentiable argmax + index gather, so it stays detached in both modes.
+        with torch.no_grad():
             attn_key = attn_key.view(attn_key.shape[0], attn_key.shape[1]//4, 4, attn_key.shape[-1]).mean(dim=2)
             attn_key = attn_key[:, reverse_indices, :].mean(dim=0).unsqueeze(0)
 

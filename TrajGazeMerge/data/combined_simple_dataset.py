@@ -19,7 +19,7 @@ from torch.utils.data import Dataset
 
 from TrajGazeMerge.training.train_autogaze_lora import StreamGazeSimpleDataset
 from TrajGazeMerge.data.egogaze_dataset import (
-    EgoGazeVQADataset, _parse_options, _frame_gfn, ROOT, _EG_FRAME_SUB,
+    EgoGazeVQADataset, _parse_options, _frame_gfn, ROOT, _EG_VLM_FRAME_SUB,
 )
 from TrajGazeMerge.data.hdepic_dataset import HDEpicDataset
 
@@ -40,7 +40,10 @@ class EgoGazeSimpleDataset(Dataset):
         return len(self.items)
 
     def _frame_paths(self, ds, video_id, subclip):
-        d = os.path.join(ROOT, ds, _EG_FRAME_SUB, video_id)
+        # VLM variant: this dataset yields vlm_frame_paths only (no traj stream), so
+        # it must follow VLM_GAZE_OVERLAY. It used to read _EG_FRAME_SUB, which is
+        # GAZE_OVERLAY-driven — VLM_GAZE_OVERLAY=0 was silently ignored here.
+        d = os.path.join(ROOT, ds, _EG_VLM_FRAME_SUB, video_id)
         if not os.path.isdir(d):
             return []
         prefix = subclip + "_"

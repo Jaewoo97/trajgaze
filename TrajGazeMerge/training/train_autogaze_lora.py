@@ -56,7 +56,20 @@ AUTOGAZE_CKPT = (
 SG_ROOT       = os.environ.get("SG_ROOT", "/workspace/datasets/StreamGaze_v2")
 # See TrajGazeMerge/data/dataset.py::_SG_FRAME_SUB — "viz" frames have the gaze
 # marker burned into the pixels; GAZE_OVERLAY=0 selects the non-overlay "original".
-_SG_FRAME_SUB = "viz" if os.environ.get("GAZE_OVERLAY", "1") == "1" else "original"
+#
+# Two variants, split by consumer exactly as in data/dataset.py:
+#   _SG_FRAME_SUB     → dataset RESOLUTION only (_find_dataset). The teacher variant
+#                       is always present, so resolution never depends on whether the
+#                       non-overlay frames were extracted for this split.
+#   _SG_VLM_FRAME_SUB → vlm_frame_paths, i.e. what the VLM actually sees.
+# This file used to read GAZE_OVERLAY for BOTH, so StreamGazeSimpleDataset — and
+# therefore CombinedSimpleDataset and train_visionzip_lora.py — silently ignored
+# VLM_GAZE_OVERLAY and fed the student overlay frames. Same class of silent failure
+# the KD trainer's stream assertion exists to catch.
+_SG_FRAME_SUB     = "viz" if os.environ.get("GAZE_OVERLAY", "1") == "1" else "original"
+_SG_VLM_FRAME_SUB = ("viz" if os.environ.get(
+                        "VLM_GAZE_OVERLAY", os.environ.get("GAZE_OVERLAY", "1")) == "1"
+                     else "original")
 FRAMES_BASE   = os.path.join(SG_ROOT, "frames")
 QA_BASE       = os.path.join(SG_ROOT, "qa")
 DATASETS      = ["egtea", "egoexolearn", "holoassist"]
@@ -101,7 +114,8 @@ def _find_dataset(stem: str) -> Optional[str]:
 
 
 def _get_frame_paths(stem: str, dataset: str, ts_sec: float) -> list[str]:
-    frame_dir = os.path.join(FRAMES_BASE, dataset, _SG_FRAME_SUB, stem)
+    # VLM variant: this list becomes vlm_frame_paths, the model's actual input.
+    frame_dir = os.path.join(FRAMES_BASE, dataset, _SG_VLM_FRAME_SUB, stem)
     if not os.path.isdir(frame_dir):
         return []
     cutoff = max(1, int(ts_sec * EXTRACTED_FPS))

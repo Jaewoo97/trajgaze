@@ -26,9 +26,12 @@ import argparse
 import datetime
 import json
 import os
+import random
 import sys
 import time
 import traceback
+
+import numpy as np
 
 import torch
 import torch.distributed as dist
@@ -313,6 +316,24 @@ def parse_args():
     p.add_argument("--eval-ckpt", default=None,
                    help="Skip training: load this best.pth (lora_state), run one "
                         "evaluate() with per-source logging, exit.")
+    p.add_argument("--vit-lora-ckpt", default=None,
+                   help="Phase 2 of the ViT selection-distillation ablation: load a "
+                        "vit_lora_state from train_vit_selection_kd.py and FREEZE it, "
+                        "so selection comes from the distilled ViT attention while this "
+                        "run re-adapts the LLM readout. Pair with --dominant-ratio 0.065 "
+                        "--contextual-ratio 0.035 to match the teacher's raw/merged mix.")
+    p.add_argument("--seed", type=int, default=0,
+                   help="Seeds torch/cuda/random/numpy. Absent from every other trainer "
+                        "in this repo, so 'repeat runs' there differ by unrecorded "
+                        "nondeterminism (kd_handoff_v2 §5 item 5).")
+    p.add_argument("--ckpt-every-steps", type=int, default=0,
+                   help="Mid-epoch checkpoint of the LoRA tensors only (~40 MB, vs the "
+                        "16.6 GB a full state_dict costs — §12.1). 0 disables. Without "
+                        "it a death inside epoch 1 leaves nothing at all (§13.4).")
+    p.add_argument("--resume", action="store_true",
+                   help="Continue from the newest epoch_*.pth / step_latest.pth in "
+                        "--output-dir. Safe on a fresh run, so a supervisor can relaunch "
+                        "the same command after a crash.")
     p.add_argument("--source", choices=["sg", "eg", "both"], default="both",
                    help="Train/eval on a single benchmark only (sg=StreamGaze, eg=EgoGazeVQA). "
                         "Matches the flag the M1/KD trainers already take, so a content-only "
@@ -388,10 +409,93 @@ def evaluate(processor, model, base_qwen, option_ids, device, include_hdepic=Tru
     return 100.0 * correct / max(1, total), total, per_task, per_src
 
 
+# ── Frame-variant reporting ───────────────────────────────────────────────────
+
+def report_frame_variant(split, include_hdepic, source, n_frames=128):
+    """Print the frame directory this run will actually read, and fail loudly if
+    VLM_GAZE_OVERLAY asks for a variant the dataset did not deliver.
+
+    This trainer's dataset (CombinedSimpleDataset) used to read GAZE_OVERLAY for
+    the VLM frames on BOTH sources, so VLM_GAZE_OVERLAY=0 was silently ignored and
+    the model trained on overlay frames while the log claimed otherwise. Fixed in
+    train_autogaze_lora.py::_SG_VLM_FRAME_SUB and combined_simple_dataset.py; this
+    check exists so a regression cannot be silent again — the failure changes no
+    shape, raises no error, and does not show up in the accuracy.
+    """
+    from TrajGazeMerge.data.dataset import _SG_VLM_FRAME_SUB
+    from TrajGazeMerge.data.egogaze_dataset import _EG_VLM_FRAME_SUB
+    want = {"sg": _SG_VLM_FRAME_SUB, "eg": _EG_VLM_FRAME_SUB}
+
+    gz  = os.environ.get("GAZE_OVERLAY", "1")
+    vgz = os.environ.get("VLM_GAZE_OVERLAY", gz)
+    print(f"[VZ] GAZE_OVERLAY={gz} VLM_GAZE_OVERLAY={vgz} → "
+          f"SG vlm='{_SG_VLM_FRAME_SUB}' EG vlm='{_EG_VLM_FRAME_SUB}'", flush=True)
+
+    ds = CombinedSimpleDataset(split=split, n_vlm_frames=n_frames,
+                               include_hdepic=include_hdepic)
+    if source in ("sg", "eg"):
+        ds.items = [it for it in ds.items if it[0] == source]
+    seen = {}
+    for i in range(min(200, len(ds))):
+        src = ds.items[i][0]
+        if src in seen:
+            continue
+        it = ds[i]
+        if it is None or not it.get("vlm_frame_paths"):
+            continue
+        p = it["vlm_frame_paths"][0]
+        seen[src] = p
+        sub = os.path.basename(os.path.dirname(os.path.dirname(p)))
+        print(f"[VZ] {src} student VLM: {sub}/{os.path.basename(os.path.dirname(p))}/"
+              f"{os.path.basename(p)}", flush=True)
+        if src in want and sub != want[src]:
+            raise RuntimeError(
+                f"[VZ] frame-variant mismatch on {src}: VLM_GAZE_OVERLAY implies "
+                f"'{want[src]}' but the dataset yielded '{sub}'.")
+    if not seen:
+        raise RuntimeError(f"[VZ] frame-variant probe: first 200 {split} items all None")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
+
+def lora_only_state(module):
+    """Just the LoRA tensors. state_dict() on a PeftModel returns the whole frozen
+    8.29B backbone (§12.1), which is why every epoch checkpoint in this repo is
+    16.6 GB; mid-epoch checkpointing is only affordable on this subset."""
+    return {k: v.detach().cpu() for k, v in module.state_dict().items() if "lora_" in k}
+
+
+def find_resume_ckpt(output_dir):
+    """Newest usable checkpoint, preferring a further-along mid-epoch file."""
+    import re
+    best, best_key = None, (-1, -1)
+    if not os.path.isdir(output_dir):
+        return None
+    for fn in os.listdir(output_dir):
+        m = re.fullmatch(r"epoch_(\d+)\.pth", fn)
+        if m:
+            key = (int(m.group(1)), 1 << 30)
+        elif fn == "step_latest.pth":
+            try:
+                st = torch.load(os.path.join(output_dir, fn), map_location="cpu")
+            except Exception:
+                continue
+            key = (st.get("epoch", 0), st.get("step", 0))
+        else:
+            continue
+        if key > best_key:
+            best_key, best = key, os.path.join(output_dir, fn)
+    return best
+
 
 def main():
     args = parse_args()
+
+    torch.manual_seed(args.seed)
+    torch.cuda.manual_seed_all(args.seed)
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+
     rank, local_rank, world_size = setup_ddp()
     is_main = rank == 0
     device  = torch.device(f"cuda:{local_rank}")
@@ -406,9 +510,37 @@ def main():
               f"epochs={args.epochs}, lr={args.lr}, grad_accum={args.grad_accum}")
 
     if is_main:
+        report_frame_variant("test" if args.eval_ckpt else "train",
+                             args.include_hdepic, args.source, args.n_frames)
+
+    if is_main:
         print("Loading VisionZip Qwen2.5-VL-7B + LoRA ...")
     processor, model = load_visionzip_lora(device)
     base_qwen  = model.get_base_model()
+
+    # Phase 2 of the ViT selection-distillation ablation. The adapter is loaded and
+    # left frozen: this run trains the LLM readout against the distilled selection,
+    # it does not train the ViT. Loaded BEFORE the DDP wrap so every rank is identical.
+    if args.vit_lora_ckpt:
+        from TrajGazeMerge.training.train_vit_selection_kd import (
+            attach_vit_lora, load_vit_lora_state,
+        )
+        st = torch.load(args.vit_lora_ckpt, map_location="cpu")
+        vit_state = st["vit_lora_state"] if "vit_lora_state" in st else st
+        # r/alpha come from the checkpoint, not from flags, so the adapter cannot be
+        # rebuilt with a different scaling than the one that was trained.
+        r = st.get("vit_lora_r", vit_state["0.lora_A"].shape[0])
+        alpha = st.get("vit_lora_alpha", 2 * r)
+        wrappers = attach_vit_lora(base_qwen, r=r, alpha=alpha)
+        load_vit_lora_state(wrappers, vit_state)
+        for w in wrappers:
+            w.lora_A.requires_grad_(False)
+            w.lora_B.requires_grad_(False)
+        if is_main:
+            print(f"[VZ] ViT LoRA loaded from {args.vit_lora_ckpt} "
+                  f"(r={r}, {len(wrappers)} modules, FROZEN); "
+                  f"selection now comes from the distilled ViT attention.", flush=True)
+
     model      = DDP(model, device_ids=[local_rank], find_unused_parameters=True)
     option_ids = get_option_ids(processor, 5)   # A–E pool; sliced per item
     if is_main:
@@ -418,6 +550,14 @@ def main():
         if is_main:
             print(f"[eval-only] loading LoRA from {args.eval_ckpt}", flush=True)
             st = torch.load(args.eval_ckpt, map_location="cpu")
+            # A checkpoint trained against a distilled ViT is meaningless without that
+            # ViT: its LoRA keys are named for the wrapped modules, so loading it bare
+            # would silently fall back to plain VisionZip selection and score a
+            # different method than the file claims.
+            if st.get("vit_lora_ckpt") and not args.vit_lora_ckpt:
+                raise RuntimeError(
+                    f"[eval-only] {args.eval_ckpt} was trained with "
+                    f"--vit-lora-ckpt {st['vit_lora_ckpt']}; pass the same flag here.")
             sd = st["lora_state"] if "lora_state" in st else st
             missing, unexpected = model.module.load_state_dict(sd, strict=False)
             print(f"[eval-only] loaded (missing={len(missing)} unexpected={len(unexpected)})",
@@ -455,7 +595,33 @@ def main():
     best_acc = 0.0
     epoch_accs: list[float] = []
 
-    for epoch in range(args.epochs):
+    # Resume. Loaded on every rank so all replicas start from identical weights; the
+    # per-epoch sampler seed makes the replayed data order identical too, so skipping
+    # `start_step` items reproduces where the dead run left off.
+    start_epoch, start_step = 0, 0
+    if args.resume:
+        ck = find_resume_ckpt(args.output_dir)
+        if ck:
+            st = torch.load(ck, map_location="cpu")
+            model.module.load_state_dict(st["lora_state"], strict=False)
+            if "opt_state" in st:
+                optimizer.load_state_dict(st["opt_state"])
+            start_epoch, start_step = st.get("epoch", 0), st.get("step", 0)
+            epoch_accs = st.get("epoch_accs", [])
+            best_acc = max(epoch_accs) if epoch_accs else 0.0
+            if is_main:
+                print(f"[VZ] resumed from {ck}: epoch {start_epoch} step {start_step}, "
+                      f"prior accs {epoch_accs}", flush=True)
+        elif is_main:
+            print(f"[VZ] --resume: nothing in {args.output_dir}; fresh start", flush=True)
+
+    if start_epoch >= args.epochs:
+        if is_main:
+            print(f"[VZ] TRAINING COMPLETE (already at epoch {start_epoch}/{args.epochs})",
+                  flush=True)
+        dist.barrier(); dist.destroy_process_group(); return
+
+    for epoch in range(start_epoch, args.epochs):
         sampler.set_epoch(epoch)
         model.train()
         optimizer.zero_grad()
@@ -464,6 +630,9 @@ def main():
         t_start    = time.time()
 
         for step, item in enumerate(loader):
+            # Mid-epoch resume: fast-forward past what this rank already consumed.
+            if epoch == start_epoch and step < start_step:
+                continue
             if item is None:
                 continue
             try:
@@ -525,10 +694,21 @@ def main():
                             "loss": avg_loss, "pct_kept": pct_kept, "elapsed": elapsed,
                         }) + "\n")
 
+                if (is_main and args.ckpt_every_steps
+                        and (step + 1) % args.ckpt_every_steps == 0):
+                    tmp = os.path.join(args.output_dir, "step_latest.pth.tmp")
+                    torch.save({"lora_state": lora_only_state(model.module),
+                                "opt_state": optimizer.state_dict(),
+                                "epoch": epoch, "step": step + 1,
+                                "epoch_accs": epoch_accs}, tmp)
+                    os.replace(tmp, os.path.join(args.output_dir, "step_latest.pth"))
+
             except Exception:
                 if is_main:
                     traceback.print_exc()
                 continue
+
+        start_step = 0     # only the resumed epoch is partially skipped
 
         if n_steps % args.grad_accum != 0:
             torch.nn.utils.clip_grad_norm_(lora_params, args.grad_clip)
@@ -541,9 +721,14 @@ def main():
             print(f"\n=== Epoch {epoch+1}/{args.epochs} | "
                   f"avg_loss={avg_loss:.4f} | time={elapsed:.0f}s ===")
             torch.save({
-                "epoch": epoch,
+                "epoch": epoch + 1,          # completed epochs, so --resume continues after it
+                "step": 0,
                 "lora_state": model.module.state_dict(),
                 "loss": avg_loss,
+                "epoch_accs": epoch_accs,
+                # Marker, not the weights: a Phase-2 checkpoint is only valid when the
+                # same distilled ViT is attached, and the eval path enforces that.
+                "vit_lora_ckpt": args.vit_lora_ckpt,
             }, os.path.join(args.output_dir, f"epoch_{epoch+1:02d}.pth"))
 
         dist.barrier()
@@ -570,9 +755,12 @@ def main():
             if acc > best_acc:
                 best_acc = acc
                 torch.save({
-                    "epoch": epoch,
+                    "epoch": epoch + 1,
+                    "step": 0,
                     "lora_state": model.module.state_dict(),
                     "acc": acc,
+                    "epoch_accs": epoch_accs,
+                    "vit_lora_ckpt": args.vit_lora_ckpt,
                 }, os.path.join(args.output_dir, "best.pth"))
                 print(f"  → saved best (acc={acc:.2f}%)")
         dist.barrier()
