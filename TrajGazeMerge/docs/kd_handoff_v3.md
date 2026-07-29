@@ -9,8 +9,9 @@ Everything in v2 still holds. In particular v2 §8 (eval is not deterministic, �
 v2 §10.4 (the warm-start confound) and v2 §12.5 (what not to claim) apply verbatim to
 every number produced here.
 
-**Status at time of writing: run 1 of 4 is training.** All numbers below marked *live*
-are from a run in flight and will move.
+**Status 2026-07-29 16:50: settings 1 and 3 complete, 2 paused mid-Phase-1, 4 not started.**
+The matrix was run out of order — see the §6 note and §5.7. Numbers marked *live* are from a
+run in flight and will move.
 
 ---
 
@@ -400,6 +401,144 @@ intersection separates "shared ceiling" from "coincidental tie". ~30 min once th
   video's information content, not the method's capacity.
 - GSM stays near 45 → selection distillation cannot reach GSM under either condition.
 
+### 5.7 SETTING 3 — EG raw video (2026-07-29, 4h05m end to end)
+
+Run **out of matrix order** and **at one epoch per phase**. Setting 2 was still in Phase 1
+and the serial chain would not have reached EG for another 10.4 h; `sg_ovl` was paused at
+epoch 1 step ~1600 (its `step_latest.pth` is intact, `--resume` replays the seeded sampler
+order) and EG raw was run alone on both GPUs via `scripts/run_vitkd_eg_raw_1ep.sh`.
+
+| stage | result | wall |
+|---|---|---|
+| P1 (1 ep) | `recall_traj` 0.0398 → **0.1134** · `recall_P` 0.3984 → **0.4083** · `recall_S` 0.4005 → **0.4403** | 1h11m |
+| gate | **PASS** — frozen 266 / tuned 263, Δ **−3** items, cos 0.99479, n=485 | 27m |
+| P2 (1 ep) | **53.40% (259)** · re-scored 3×, identical | 41m + 16m |
+
+**Per-task, n=485.** Item counts sum exactly (137 + 63 + 59 = 259).
+
+| task | n | ViT-KD | items | KD student §7.7 | Δ items | M1 EG teacher (r2) |
+|---|---|---|---|---|---|---|
+| causal | 162 | 84.57 | 137 | 85.80 (139) | −2 | 85.80 (139) |
+| **spatial** | 163 | 38.65 | **63** | 42.94 (70) | **−7** | 39.88 (65) |
+| temporal | 160 | 36.88 | 59 | 36.88 (59) | 0 | 36.25 (58) |
+| **Avg** | 485 | **53.40** | **259** | 55.26 (**268**) | **−9** | 54.02 (262) |
+
+#### The bar is missed, and the whole miss is one column
+
+259 vs the 268 bar is **−9 items**, outside §8's ±4 floor. **Seven of the nine are
+`spatial`**; `temporal` is identical to the student and `causal` is inside noise.
+
+#### But this −9 is NOT budget-matched — unlike SG's +7
+
+§5.5 could call SG's +6/+7 budget-matched because both sides had M1 warm-start + **2**
+LoRA epochs. Here the ViT-KD readout got **1** epoch against the KD student's 2. The −9 is
+therefore confounded with half the optimizer budget and **must not be reported as
+"ViT-KD loses on EG"** until the epoch-2 row lands. *(P2 epoch 2 was launched 16:47 via
+`scripts/run_vitkd_eg_raw_p2ep2.sh`; SG's own ep1→ep2 moved 366→367, so the expectation is
+that −9 survives roughly intact and simply becomes interpretable.)*
+
+#### The selection did not transfer — and this part is budget-independent
+
+| | train window, end of ep1 | test (egtea) | gap |
+|---|---|---|---|
+| SG `recall_traj` | 0.394 | **0.3636** | −0.03 |
+| **EG `recall_traj`** | **0.520** | **0.1134** | **−0.41** |
+| SG `recall_P` | 0.469 | 0.4602 | −0.01 |
+| EG `recall_P` | 0.498 | 0.4083 | −0.09 |
+
+**This is not under-training.** EG's Phase 1 had 158 optimizer steps to SG's 725 per epoch
+(1265 items vs 5799, at grad_accum 4 × 2 ranks) and still fit its *own* distribution
+**harder** than SG did — `recall_traj` 0.520 vs 0.394. It simply does not reach egtea.
+
+Both sources test on egtea, so the shift is not unique to EG; what differs is which
+training sets precede it — SG trains on egoexolearn+holoassist and transfers, EG trains on
+ego4d+egoexo and does not. Two readings survive and this run cannot separate them: the
+ego4d/egoexo→egtea gap is larger, or 1265 items cannot constrain even 61k parameters
+against a dataset-specific shortcut. Both predict the same thing — a second P1 epoch would
+raise train recall further while test stays flat.
+
+This makes EG a **different negative from SG's**. §5.4's SG finding was "the selection was
+recovered but bought no gaze-task accuracy". EG's is "the selection was never recovered on
+the test distribution at all" — `recall_P` moved +0.0099, i.e. the tokens egtea actually
+receives are within 1% of stock VisionZip's. Do not merge the two into one sentence.
+
+#### Three identical re-scores are not §8's spread
+
+P2's in-process eval (world_size 2) and two `--eval-ckpt` repeats (world_size 1, separate
+GPUs) all returned **53.40% / 84.57 / 38.65 / 36.88**, bit-identical. All three used seed 0
+on the same code path, and the eval is an `argmax` with no sampling, so this bounds
+re-scoring jitter at **0 for this checkpoint** — it does not reproduce the ±4 spread §8
+measured by re-scoring identical SG weights. Report it as "3 identical re-scores", never as
+a mean ± spread.
+
+#### A VisionZip reference, of sorts
+
+The gate's frozen arm — frozen-ViT selection, frozen features, M1's EG readout — scored
+**266 items (54.85%)**. v2 §9 dropped the overlay-free VisionZip bar, so this is the closest
+reference that exists, and it sits within noise of the 268 the row has to beat. It is *not*
+a fair VisionZip baseline: M1's LoRA was trained for the 7% ∪ 3% complement, not for
+VisionZip's selection, so 266 is a floor. Quote it only with that caveat.
+
+### 5.8 Cost model, measured — for whoever schedules settings 4+
+
+From setting 1's complete logs. Useful because the §6 estimate ("EG ≈ 2.5 h/setting") was
+low: EG runs **4.75 s/step**, 18% slower than SG's 4.04, so a full 2+2-epoch EG setting is
+≈3 h 45 m, not 2.5 h.
+
+| stage | unit cost | derivation |
+|---|---|---|
+| P1 train | 4.04 s/step SG · **4.75 s/step EG** | ep1 11,727 s / 2900 |
+| P1 epoch-end eval | 2.38 s/item | (25,920 − 23,234 − 180) / 2 / 526 |
+| gate | 3.42 s/item, 1 GPU | 1,774 s / 526 |
+| P2 train | 2.08 s/step SG · 2.45 s/step EG | 1,166 s at step 560 |
+| P2 epoch-end eval | 1.52 s/item | (13,860 − 12,064 − 200) / 2 / 526 |
+
+Sizes: SG train 5799 / test 526; **EG train 1265 / test 485** → 633 P1 steps/epoch on 2 GPUs.
+
+**Two structural inefficiencies, both unfixed, neither affecting any number:**
+
+1. **Blocks 0..30 are computed twice per Phase-1 step (~0.71 s, 17%).** The LoRA is on
+   block 31 only, and `qwen2_5vl_visionzip.py:667-675` already runs 0..30 under `no_grad`
+   in the adapted pass — but `train_vit_selection_kd.py:550-551` then runs a second
+   *complete* 32-block frozen forward. The trunk is bit-identical and could be shared.
+   `vitkd_integrity_gate.py:115-132` is worse: it calls `preprocess_visionzip_item` twice,
+   re-decoding all 128 JPEGs when only the adapter flag differs.
+2. **The GPU idles ~28% of wall time** (`nvidia-smi` at 1 Hz reports 0% util in 28% of
+   samples, at 26 GB of 183 GB). `preprocess_video` runs in the training loop rather than
+   in the DataLoader workers; `num_workers=2` of 16 cores only assembles path lists.
+
+**What must not be used to go faster:** batching (§4.2 — the score is an unmasked full-T×T
+column sum, so packing two videos lets them attend across each other and changes the
+distilled quantity); `--score-query-frac < 1.0` (§5.1 chose 1.0 so train and eval scores are
+identical, and it is the OOM knob); fewer frames (changes N and every bar).
+
+### 5.9 Paper-ready row — the main table's raw-video block
+
+Slots under the existing `KD (raw video)` row of the main results table (StreamGaze n=526 ·
+EgoGazeVQA n=485 · Overall n=1011). The EG columns are ordered **Spat. · Temp. · Caus.** as
+in that table, which is *not* the order §5.7 tabulates them.
+
+```latex
+KD (gaze-overlay)   & 76.56 & 70.59 & 56.76 & 91.67 & 69.31 & 65.62 & 53.19 & 70.15 & 40.49 & 42.50 & 85.19 & 56.08 & 63.40 \\
+KD (raw video)      & 70.31 & 67.65 & 51.35 & 89.58 & 71.29 & 67.19 & 51.06 & 68.44 & 42.94 & 36.88 & 85.80 & 55.26 & 62.12 \\
+ViT-KD (raw video)  & 70.31 & 61.76 & 56.76 & 91.67 & 72.28 & 70.31 & 54.26 & 69.58 & 38.65 & 36.88 & 84.57 & 53.40 & 61.82 \\
+```
+
+| block | source | items |
+|---|---|---|
+| SG | §5.5, P2 **epoch 1** (the honest row per §5.4) | 366 → 69.58% |
+| EG | §5.7, P2 **epoch 1** | 259 → 53.40% |
+| Overall | pooled items, (366 + 259) / 1011 | **625 → 61.82%** |
+
+The Overall convention is verified against the existing row: KD (raw video) =
+(360 + 268) / 1011 = 62.12 ✓.
+
+**This row is provisional on the EG side.** Its EG block carries the §5.7 budget confound —
+1 P2 epoch against the student's 2 — while its SG block does not. Swap in the epoch-2 EG
+numbers when `run_vitkd_eg_raw_p2ep2.sh` lands, or state the asymmetry in the caption. The
+two blocks also differ in P1: SG's P2 consumed the P1 **epoch-2** adapter, EG's the
+**epoch-1** adapter.
+
 ---
 
 ## 6. Run matrix — four settings, serial, in this order
@@ -412,6 +551,13 @@ intersection separates "shared ceiling" from "coincidental tie". ~30 min once th
 | 4 | **EG overlay** | `GAZE_OVERLAY=1 VLM_GAZE_OVERLAY=1` | `gaze` | 272 |
 
 Each: `P1 → gate → P2`. Setting *n* completes before *n+1* starts (2 GPUs, both used).
+
+> **Order was broken on 2026-07-29.** Setting 3 was run *before* setting 2 finished, because
+> the serial chain put EG 10.4 h out and the budget was 4 h. `sg_ovl` was paused mid-Phase-1
+> (step ~1600) and resumes from `step_latest.pth`; setting 3 ran alone via
+> `scripts/run_vitkd_eg_raw_1ep.sh` at **one epoch per phase** (§5.7). Settings 1 and 2 are
+> 2+2. Nothing else about the protocol changed, but the epoch counts are no longer uniform
+> across the matrix and every comparison between them must say which side had what.
 
 The two variants answer different questions:
 - **raw** — can attention learn the gaze signal when the marker is *not* in the pixels?
@@ -433,6 +579,8 @@ The two variants answer different questions:
 | `scripts/run_vitkd_all.sh` | 12-job serial chain, `.done` markers + `--resume` |
 | `scripts/vitkd_status.sh` | one-screen supervision report |
 | `scripts/measure_vitkd_step0.py` | §5.1 |
+| `scripts/run_vitkd_eg_raw_1ep.sh` | §5.7 — setting 3 alone, 1 epoch/phase, out of matrix order |
+| `scripts/run_vitkd_eg_raw_p2ep2.sh` | §5.7 3b — P2 epoch 2, then hands the GPUs back to the chain |
 
 ### Changed
 | file | change |
@@ -481,11 +629,17 @@ box — otherwise an unrelated job stalls all 12 jobs for the 15-minute cap each
 
 ## 9. TODO
 
-### Running (updated 2026-07-29 12:20)
+### Running (updated 2026-07-29 16:50)
 - [x] **1 · SG raw video — COMPLETE**, 11h32m. P1 → gate PASS → P2 366/367 items (§5.4, §5.5)
-- [ ] **2 · SG overlay** — P1 in flight. Frame streams verified `viz`/`viz` vs setting 1's
-      `original`/`viz`, i.e. §4.1's fix is doing its job. **This is the decisive run for §5.6.**
-- [ ] 3 · EG raw video — P1 → gate → P2
+- [ ] **2 · SG overlay** — **PAUSED** at P1 epoch 1 step ~1600 to free the GPUs for setting 3.
+      `step_latest.pth` intact; relaunching `run_vitkd_all.sh` resumes it (≤200 steps replayed).
+      Frame streams were verified `viz`/`viz` vs setting 1's `original`/`viz`, i.e. §4.1's fix
+      is doing its job. **Still the decisive run for §5.6** — it is the only thing that
+      separates "raw video lacks the signal" from "distillation cannot reach GSM".
+- [x] **3 · EG raw video — COMPLETE**, 4h05m, out of order and at 1 epoch/phase (§5.7).
+      P1 → gate PASS (Δ −3) → P2 **259 items**, 9 below the 268 bar, but not budget-matched.
+- [ ] **3b · EG raw video, P2 epoch 2** — in flight since 16:47 (`run_vitkd_eg_raw_p2ep2.sh`).
+      This is what makes §5.7's −9 interpretable; until it lands the EG row is provisional.
 - [ ] 4 · EG overlay — P1 → gate → P2
 
 ### Per setting, gates that must be checked, not assumed
@@ -529,3 +683,16 @@ box — otherwise an unrelated job stalls all 12 jobs for the 15-minute cap each
    readout jointly in one run; v3 trains them in sequence. The LLM's extra optimizer budget
    is matched, but the co-adaptation is not. Do not present the two rows as if they came
    from the same recipe.
+8. **Epoch counts are no longer uniform across the matrix** (§6 note). Settings 1-2 are
+   P1 2ep + P2 2ep; setting 3 is 1ep + 1ep. Consequences that must be stated, not implied:
+   SG's P2 consumed the P1 **epoch-2** adapter and EG's the **epoch-1** adapter, and EG's
+   readout had **half** the optimizer budget of the KD-student bar it is compared against.
+   Until §5.7's 3b row lands, EG's −9 is confounded and cannot be read as a loss.
+9. **SG and EG failed in different ways — do not merge them.** SG recovered the selection
+   (`recall_traj` 0.383) and it bought no gaze-task accuracy (§5.4). EG never recovered the
+   selection on the test distribution at all (`recall_traj` 0.113, `recall_P` +0.0099), while
+   fitting its *own* training distribution harder than SG did (§5.7). "The ViT cannot absorb
+   the gaze signal" is supported by neither.
+10. **"3 identical re-scores" ≠ a 3-run mean.** §5.7's repeats share seed 0 and code path, so
+   they bound jitter at 0 rather than sampling §8's ±4. v3 §9's "repeat every student eval
+   ≥3×" is therefore **still open** for every row, EG included.
