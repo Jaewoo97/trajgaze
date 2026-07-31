@@ -1,0 +1,25 @@
+25% teacher (M1 SG-only, content 15% ∪ traj 10%), best-of-2 epochs
+per-task accuracy, SG egtea test, n=526
+
+task      n      train ep1      train ep2     re-score 1     re-score 2     re-score 3  re-score mean   10% ref
+---------------------------------------------------------------------------------------------------------------
+GSM      64    75.00%( 48)    78.12%( 50)    76.56%( 49)    76.56%( 49)    76.56%( 49)         76.56%    71.36%
+NFI      68    64.71%( 44)    63.24%( 43)    63.24%( 43)    63.24%( 43)    63.24%( 43)         63.24%    63.24%
+OTP       2     0.00%(  0)    50.00%(  1)    50.00%(  1)    50.00%(  1)    50.00%(  1)         50.00%        --
+SR       37    64.86%( 24)    54.05%( 20)    54.05%( 20)    54.05%( 20)    54.05%( 20)         54.05%    57.66%
+OAR      96    90.62%( 87)    91.67%( 88)    91.67%( 88)    91.67%( 88)    91.67%( 88)         91.67%    93.40%
+OI-E    101    68.32%( 69)    75.25%( 76)    75.25%( 76)    75.25%( 76)    73.27%( 74)         74.59%    73.27%
+OI-H     64    73.44%( 47)    76.56%( 49)    73.44%( 47)    75.00%( 48)    75.00%( 48)         74.48%    74.48%
+FAP      94    51.06%( 48)    57.45%( 54)    59.57%( 56)    61.70%( 58)    61.70%( 58)         60.99%    56.38%
+---------------------------------------------------------------------------------------------------------------
+Avg     526    69.77%(367)    72.43%(381)    72.24%(380)    72.81%(383)    72.43%(381)         72.49%    71.29%
+
+re-scores of the SAME checkpoint: n=3, max 72.81% (383), mean 72.49% (381), min 72.24% (380), spread 0.57 pt
+
+The 10% ref column is v2 §8's 3-run MEAN over re-scores of identical weights
+(Overall 71.29% = 375 items, a 4-run mean). Compare it to the re-score mean
+column, not to max: max is best-of-N and v2 §8 calls that upward-biased.
+OTP has no 10% reference and its n=2 makes one question worth 50 points.
+
+item-count check: every per-task percentage lands on an integer and the
+per-task counts sum to each run's own Overall count.

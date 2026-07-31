@@ -37,3 +37,6 @@ export STAGE1_CKPT=$REPO/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pt
 export M1_JOINT=$REPO/TrajGazeMerge/checkpoints/visionzip_complement_learned_overlay/best.pth
 export M1_SGONLY=$REPO/TrajGazeMerge/checkpoints/visionzip_complement_learned_SGonly_overlay/best.pth
 export M1_EGONLY=$REPO/TrajGazeMerge/checkpoints/visionzip_complement_learned_EGonly_overlay/best.pth
+
+# 25%-budget teacher (content 15% ∪ traj 10%), SG-only, 1 epoch — scripts/run_vitkd25_sg_raw.sh
+export M1_SGONLY_B25=$REPO/TrajGazeMerge/checkpoints/visionzip_complement_learned_SGonly_overlay_b25/best.pth
