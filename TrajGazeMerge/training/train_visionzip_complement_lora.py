@@ -162,6 +162,13 @@ def parse_args():
     p.add_argument("--grad-accum", type=int,   default=4)
     p.add_argument("--grad-clip",  type=float, default=1.0)
     p.add_argument("--log-every",  type=int,   default=20)
+    p.add_argument("--max-steps", type=int, default=0,
+                   help="benchmark only: stop after N micro-steps, skipping the "
+                        "end-of-epoch save and eval. 0 = off. Single-rank use only "
+                        "(the counter is rank-local).")
+    p.add_argument("--bench-warmup", type=int, default=50,
+                   help="micro-steps excluded from the efficiency summary; the peak "
+                        "memory counter is reset once at this boundary.")
     p.add_argument("--n-frames",   type=int,   default=128)
     # Trajectory-geometry hyperparameters (anticipatory mode)
     p.add_argument("--sigma-g",    type=float, default=2.0)
@@ -697,6 +704,12 @@ def main():
     best_acc = 0.0
     epoch_accs: list[float] = []
 
+    # Efficiency instrumentation (docs/kd_efficiency.md). Imported here rather than at
+    # module scope: these trainers already import each other and a new top-level edge
+    # is not worth the risk for a probe.
+    from TrajGazeMerge.training.bench_probe import BenchProbe
+    probe = BenchProbe(args.bench_warmup)
+
     for epoch in range(args.epochs):
         sampler.set_epoch(epoch)
         model.train()
@@ -705,6 +718,7 @@ def main():
         t_start = time.time()
 
         for step, item in enumerate(loader):
+            if probe.done(args.max_steps): break
             if item is None: continue
             try:
                 if args.option_aug:
@@ -739,6 +753,7 @@ def main():
                 loss.backward()
                 epoch_loss += loss.item() * args.grad_accum
                 n_steps += 1
+                probe.step()
 
                 if n_steps % args.grad_accum == 0:
                     torch.nn.utils.clip_grad_norm_(lora_params, args.grad_clip)
@@ -749,17 +764,25 @@ def main():
                     avg_loss = epoch_loss / n_steps
                     elapsed = time.time() - t_start
                     pct_kept = 100.0 * recv_idx.shape[0] / max(1, n_video)
+                    bw = probe.window()
                     print(f"Epoch {epoch+1} | step {n_steps}/{len(loader)} | "
-                          f"loss={avg_loss:.4f} | kept={pct_kept:.1f}% | t={elapsed:.0f}s",
+                          f"loss={avg_loss:.4f} | kept={pct_kept:.1f}% | t={elapsed:.0f}s | "
+                          f"{bw['s_per_step']:.2f}s/step | {bw['peak_gb']:.1f}GB",
                           flush=True)
                     with open(log_path, "a") as f:
                         f.write(json.dumps({
                             "epoch": epoch+1, "step": n_steps,
                             "loss": avg_loss, "pct_kept": pct_kept, "elapsed": elapsed,
+                            **bw,
                         }) + "\n")
             except Exception:
                 if is_main: traceback.print_exc()
                 continue
+
+        if probe.done(args.max_steps):
+            if is_main:
+                print("[BENCH] " + json.dumps(probe.summary()), flush=True)
+            break
 
         if n_steps % args.grad_accum != 0:
             torch.nn.utils.clip_grad_norm_(lora_params, args.grad_clip)

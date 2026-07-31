@@ -311,6 +311,13 @@ def parse_args():
     p.add_argument("--grad-accum", type=int, default=4)
     p.add_argument("--grad-clip", type=float, default=1.0)
     p.add_argument("--log-every", type=int, default=20)
+    p.add_argument("--max-steps", type=int, default=0,
+                   help="benchmark only: stop after N micro-steps, skipping the "
+                        "end-of-epoch save and eval. 0 = off. Single-rank use only "
+                        "(the counter is rank-local).")
+    p.add_argument("--bench-warmup", type=int, default=50,
+                   help="micro-steps excluded from the efficiency summary; the peak "
+                        "memory counter is reset once at this boundary.")
     p.add_argument("--ckpt-every-steps", type=int, default=200,
                    help="Mid-epoch adapter-only checkpoint (~250 KB). 0 disables. "
                         "The epoch-end-only trainers lose everything on a mid-epoch "
@@ -520,6 +527,12 @@ def main():
     log_path = os.path.join(args.output_dir, f"train_log_rank{rank}.jsonl")
     best = -1.0
 
+    # Efficiency instrumentation (docs/kd_efficiency.md). Imported here rather than at
+    # module scope: these trainers already import each other and a new top-level edge
+    # is not worth the risk for a probe.
+    from TrajGazeMerge.training.bench_probe import BenchProbe
+    probe = BenchProbe(args.bench_warmup)
+
     for epoch in range(start_epoch, args.epochs):
         sampler.set_epoch(epoch)
         optimizer.zero_grad(set_to_none=True)
@@ -533,6 +546,7 @@ def main():
         t0 = time.time()
 
         for step, item in enumerate(loader):
+            if probe.done(args.max_steps): break
             # Resume lands mid-epoch: skip what this rank already consumed. The
             # sampler is seeded per epoch, so the order is identical on replay.
             if epoch == start_epoch and step < start_step:
@@ -576,6 +590,7 @@ def main():
                 win_sel += sel.item(); win_anc += anchor.item()
                 win_rp += m["recall_P"]; win_rt += m["recall_traj"]
                 n_steps += 1; win_n += 1
+                probe.step()
 
                 if (step + 1) % args.grad_accum == 0:
                     for p in params:
@@ -595,11 +610,16 @@ def main():
                           f"[cum sel={ep_sel/max(1,n_steps):.4f} "
                           f"rtraj={ep_rt/max(1,n_steps):.3f}] | "
                           f"t={int(time.time()-t0)}s", flush=True)
+                    bw = probe.window()
+                    print(f"Epoch {epoch+1} | step {step+1} | "
+                          f"{bw['s_per_step']:.2f}s/step | {bw['peak_gb']:.1f}GB",
+                          flush=True)
                     with open(log_path, "a") as f:
                         f.write(json.dumps({
                             "epoch": epoch + 1, "step": step + 1,
                             "win_sel": win_sel / w, "win_anchor": win_anc / w,
                             "win_recall_P": win_rp / w, "win_recall_traj": win_rt / w,
+                            **bw,
                         }) + "\n")
                     win_sel = win_anc = win_rp = win_rt = 0.0
                     win_n = 0
@@ -618,6 +638,11 @@ def main():
                 traceback.print_exc()
                 optimizer.zero_grad(set_to_none=True)
                 continue
+
+        if probe.done(args.max_steps):
+            if is_main:
+                print("[BENCH] " + json.dumps(probe.summary()), flush=True)
+            break
 
         start_step = 0        # only the resumed epoch is partially skipped
         dist.barrier()

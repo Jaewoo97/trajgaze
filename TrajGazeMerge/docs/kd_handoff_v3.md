@@ -39,6 +39,9 @@ for it: it asks *where* the distilled knowledge should live, not whether distill
 | **ViT-KD (this document)** | **pure VisionZip on a distilled ViT** | no | **0** |
 | VisionZip content-only | pure VisionZip, stock ViT | no | 0 |
 
+> The **36.85 M** is inherited from v2 §12.3a and **does not match measurement**: the
+> encoder as loaded counts 35,795,606 parameters. Read §5.10d before quoting either.
+
 ### 1.1 Bars to beat (v2, overlay-free unless stated)
 
 | setting | bar | source |
@@ -571,6 +574,126 @@ but gives the readout half the student's epochs on both sources. **State which o
 caption uses.** Both blocks also inherit the P1 asymmetry: SG's P2 consumed the P1 epoch-2
 adapter, EG's the epoch-1 adapter (§5.7 ran P1 for one epoch).
 
+### 5.10 Efficiency — training and deployment cost
+
+Measured 2026-07-30. One B200, batch 1, effective batch 8 (`--grad-accum 8` on a single
+rank = the recorded runs' `4 × 2 ranks`), 250 steps after 50 discarded warmup steps.
+Full protocol, reproduction commands and per-window raw data: **`docs/kd_efficiency.md`**.
+
+Instrumentation is `TrajGazeMerge/training/bench_probe.py`, wired into all four trainers
+and always on. It changes no tensor, no RNG draw and no control flow, so an instrumented
+run is bit-identical to an uninstrumented one; `--max-steps` is the one flag that does
+alter control flow and it defaults to 0.
+
+#### Training
+
+| system | trainer | it/s | s/step | GPU mem (GB) | trainable params |
+|---|---|--:|--:|--:|--:|
+| M1 SG specialist teacher | `train_visionzip_complement_lora` | 0.506 | 1.977 | 29.7 (32.3) | 10.09 M |
+| KD student, raw video | `train_visionzip_kd_lora` | 0.509 | 1.963 | 30.3 (33.0) | 14.04 M |
+| **ViT-KD Phase 1** | `train_vit_selection_kd` | 0.259 | 3.862 | 22.4 (27.8) | 61,440 |
+| **ViT-KD Phase 2** | `train_visionzip_lora` | 0.542 | 1.844 | 29.5 (32.2) | 10.09 M |
+
+Memory is the allocator peak, with the nvidia-smi peak in parentheses. Spread across the
+13 post-warmup log windows of each job is ±5%, so **differences under ~5% in this table
+are not measurements**.
+
+#### Deployment, per item
+
+| system | gaze @ test | extra params | extra mem | extra latency | % of shared |
+|---|:--:|--:|--:|--:|--:|
+| M1 SG specialist teacher | **yes** | 35.80 M | 143.2 MB | 57.98 ms | 3.57% |
+| KD student, raw video | no | 3.95 M | 15.8 MB | 1.64 ms | 0.10% |
+| **ViT-KD** | no | **0** | **0** | **0** | **0%** |
+
+Shared = **1624.9 ms/item**, the work every row does regardless of how the 10% is chosen:
+frame decode + ViT 1579.1, input build 0.3, one 7B forward over the kept tokens 45.4. The
+LLM term is shared *by construction* — all three keep exactly 10%, so it cannot be
+attributed to any row. Roughly half the first term is host-side JPEG decode (§5.1 timed
+the frozen ViT forward alone at 0.73 s), so against a GPU-only denominator the teacher's
+overhead is ~7.4% rather than 3.57%. **Say which denominator you used.**
+
+ViT-KD's 0 is **after folding**: training produces 61,440 rank-8 LoRA parameters on
+`visual.blocks[31]` which merge into the ViT weights. Write "folded into the ViT", never
+"no module".
+
+#### 5.10a Three things this changes
+
+**1. §2.5's cost argument does not survive measurement.** §2.5 gives three reasons for
+splitting the protocol and the third is *Cost* — "Phase 1 runs no VLM forward/backward".
+Phase 1 is in fact the **most expensive step in the pipeline**: 3.862 s/step against the
+KD student's 1.963 and Phase 2's 1.844. Removing the 7B forward/backward does not make
+the step cheap, because the ViT case replaces it with a second full ViT trunk pass
+(§5.8 item 1 already recorded blocks 0..30 being computed twice, ~0.71 s) and a backward
+through the ViT — neither of which the predictor line ever had. The `--freeze-lora`
+"~3-5x faster per epoch" v2 measured was for the *predictor* case and does not transfer.
+§2.5's other two reasons — no moving target, and the gate needs a finished ViT — are
+correctness arguments and stand unchanged.
+
+The memory column shows the same structure from the other side: Phase 1 peaks at
+**22.4 GB against ~30 GB** for every row that runs the LLM, consistent with §5.1's
+independently measured "grad fwd+bwd, `query_frac=1.0` → peak 21.7 GB".
+
+**2. ViT-KD is the cheapest to deploy and the most expensive to train.** Its two phases
+sum to **5.71 s/item** — an effective 0.175 it/s, **2.9× the KD student** at equal epochs.
+Quote the sum. Phase 2 alone (0.542 it/s) is the *fastest* row in the training table,
+which inverts the actual cost. This is §10-7 applied to cost rather than to accuracy.
+
+**3. The KD student is free to train.** 0.509 it/s against its own teacher's 0.506 — a
+0.6% difference, inside the ±5% window spread — for +0.7 GB. The 3.95 M predictor and the
+distillation loss cost no measurable time. Whatever KD costs, it is not throughput.
+
+And what the deployment table does **not** show is a speedup. Even the teacher's TAS pass
+is 3.57% of the per-item cost, so removing it is not a latency story. What the 36 M →
+4 M → 0 progression actually removes is the **eye-tracker requirement** and 143 MB of
+weights. Report it that way rather than as an inference-time gain.
+
+#### 5.10b A benchmarking trap, recorded so it is not rediscovered
+
+`torch.distributed.run` pins `OMP_NUM_THREADS=1` **only when `nproc_per_node > 1`**. Every
+recorded 2-GPU run on this box got it implicitly; a `--nproc_per_node=1` rerun does not,
+and torch then takes all 72 cores per process. The first pass at this benchmark measured
+the teacher at **8.2 s/step** — 99 threads, 1271% CPU, load average 291 — against the
+**2.14 s/step** the same trainer with the same arguments is on record for in
+`tab6_nopretrain_overlay.log`. That 3.8× was the thread pool spinning, not the method.
+`scripts/bench_kd_efficiency.sh` exports it now; any single-rank rerun from this repo
+must do the same or the number is meaningless.
+
+#### 5.10c Cross-check against the recorded 2-GPU runs
+
+Per-rank throughput is 1 item/step either way, so s/step compares directly. One GPU has
+no DDP all-reduce, so the measurement should land at or slightly **below** the history —
+and every row that has a history does.
+
+| job | measured (1 GPU) | historic (2 GPU) | delta | source |
+|---|--:|--:|--:|---|
+| teacher | 1.977 | *(2.14)* | *(−7.6%)* | `tab6_nopretrain_overlay.log` — same trainer and arguments, different Stage-1 objective |
+| KD student | 1.963 | 2.22 – 2.29 | −12.9% | `kd_train_sgonly_nooverlay.log`, 6650 s / 6440 s over 2900 steps |
+| ViT-KD P1 | 3.862 | 4.04 | −4.4% | §5.8 |
+| ViT-KD P2 | 1.844 | 2.08 | −11.3% | §5.8 |
+
+**The teacher row has no true history.** Its checkpoint
+(`visionzip_complement_learned_SGonly_overlay`) is a symlink into `$DATA/aaai/`, and
+`scripts/launch_vzcomp_learned_overlay.sh` shows it was trained on a different machine —
+`/workspace/trajgaze_st`, log written to `/tmp`. Nothing survives. The 2.14 s/step above
+is `tab6_nopretrain_overlay`, which runs the *same trainer with the same arguments* but a
+different Stage-1 objective, so it bounds the step cost without being a rerun of this
+row. Treat the teacher as a single measurement.
+
+#### 5.10d The TAS encoder parameter count is unresolved
+
+`load_traj_encoder("full", $STAGE1_CKPT, device, 16)` measures **35,795,606 parameters**
+(35.80 M, fp32). §1 of this document quotes **36.85 M**; v2 §12.3 quotes **35.8 M**; and
+v2 §1165 reconciles those two as "the same number: 36,852,576 − 1,048,576" = 35,804,000.
+The measurement is 8,394 below even that.
+
+Three numbers, one encoder. **Pick one and use it everywhere** — the deployment table
+above reports the measured 35.80 M, which is *not* what §1 says. Resolving which is
+correct is a paper-consistency task, not a measurement one, and is deliberately left open.
+
+Counts that did check out exactly: `TrajSaliencePredictor` **3,950,593** = v2's 3.95 M;
+the ViT adapter **61,440** = §2.2's 61,440; the LLM LoRA **10,092,544** (r=16).
+
 ---
 
 ## 6. Run matrix — four settings, serial, in this order
@@ -735,3 +858,10 @@ box — otherwise an unrelated job stalls all 12 jobs for the 15-minute cap each
 10. **"3 identical re-scores" ≠ a 3-run mean.** §5.7's repeats share seed 0 and code path, so
    they bound jitter at 0 rather than sampling §8's ±4. v3 §9's "repeat every student eval
    ≥3×" is therefore **still open** for every row, EG included.
+11. **Cost claims come from §5.10, and ViT-KD's is the sum of two phases** — 5.71 s/item,
+   2.9× the KD student. Phase 2 alone is the fastest row in the training table and reads
+   as the opposite of the truth. The deployment table is not a speedup story either: the
+   teacher's TAS pass is 3.57% of the per-item cost, so what KD removes is the eye-tracker
+   and 143 MB of weights, not latency. Every efficiency row is a single measurement on one
+   GPU with `OMP_NUM_THREADS=1` (§5.10b); differences under ~5% there are not measurements
+   either.

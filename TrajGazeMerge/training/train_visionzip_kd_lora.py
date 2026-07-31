@@ -90,6 +90,13 @@ def parse_args():
     p.add_argument("--grad-accum", type=int,   default=2)
     p.add_argument("--grad-clip",  type=float, default=1.0)
     p.add_argument("--log-every",  type=int,   default=20)
+    p.add_argument("--max-steps", type=int, default=0,
+                   help="benchmark only: stop after N micro-steps, skipping the "
+                        "end-of-epoch save and eval. 0 = off. Single-rank use only "
+                        "(the counter is rank-local).")
+    p.add_argument("--bench-warmup", type=int, default=50,
+                   help="micro-steps excluded from the efficiency summary; the peak "
+                        "memory counter is reset once at this boundary.")
     p.add_argument("--n-frames",   type=int,   default=128)
     p.add_argument("--no-hdepic", dest="include_hdepic", action="store_false",
                    help="2-way: StreamGaze + EgoGazeVQA only (exclude HD-EPIC).")
@@ -465,6 +472,12 @@ def main():
     if is_main and epoch_accs:
         print(f"[KD] prior epoch accs {epoch_accs} → best_acc={best_acc:.2f}", flush=True)
 
+    # Efficiency instrumentation (docs/kd_efficiency.md). Imported here rather than at
+    # module scope: these trainers already import each other and a new top-level edge
+    # is not worth the risk for a probe.
+    from TrajGazeMerge.training.bench_probe import BenchProbe
+    probe = BenchProbe(args.bench_warmup)
+
     for epoch in range(start_epoch, args.epochs):
         if do_balance:
             # Re-roll so a different SG subset (and EG remainder) is drawn each epoch;
@@ -478,6 +491,7 @@ def main():
         t_start = time.time()
 
         for step, item in enumerate(loader):
+            if probe.done(args.max_steps): break
             if item is None: continue
             try:
                 with torch.no_grad():
@@ -530,6 +544,7 @@ def main():
                 loss.backward()
                 epoch_loss += ce_val; epoch_kd += kd_loss.item()
                 epoch_agree += agree; n_steps += 1
+                probe.step()
 
                 if n_steps % args.grad_accum == 0:
                     if lora_params:
@@ -541,20 +556,27 @@ def main():
                 if is_main and n_steps % args.log_every == 0:
                     elapsed = time.time() - t_start
                     pct_kept = 100.0 * n_kept / max(1, n_video)
+                    bw = probe.window()
                     print(f"Epoch {epoch+1} | step {n_steps}/{len(loader)} | "
                           f"ce={epoch_loss/n_steps:.4f} | kd={epoch_kd/n_steps:.4f} | "
                           f"agree={epoch_agree/n_steps:.3f} | kept={pct_kept:.1f}% | "
-                          f"t={elapsed:.0f}s", flush=True)
+                          f"t={elapsed:.0f}s | {bw['s_per_step']:.2f}s/step | "
+                          f"{bw['peak_gb']:.1f}GB", flush=True)
                     with open(log_path, "a") as f:
                         f.write(json.dumps({
                             "epoch": epoch+1, "step": n_steps,
                             "ce": epoch_loss/n_steps, "kd": epoch_kd/n_steps,
                             "agree": epoch_agree/n_steps, "pct_kept": pct_kept,
-                            "elapsed": elapsed,
+                            "elapsed": elapsed, **bw,
                         }) + "\n")
             except Exception:
                 if is_main: traceback.print_exc()
                 continue
+
+        if probe.done(args.max_steps):
+            if is_main:
+                print("[BENCH] " + json.dumps(probe.summary()), flush=True)
+            break
 
         if n_steps % args.grad_accum != 0:
             if lora_params:
