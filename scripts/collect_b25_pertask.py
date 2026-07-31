@@ -109,7 +109,11 @@ def main():
     ap.add_argument("--source", choices=sorted(SOURCES), default="sg",
                     help="which benchmark's task list and 10%% reference to use")
     ap.add_argument("--prefix", default=None,
-                    help="log basename stem; defaults to the source's own")
+                    help="log basename stem; defaults to the source's own teacher run. "
+                         "Point it at a p2 log to tabulate the student instead.")
+    ap.add_argument("--label", default=None,
+                    help="title line. Defaults to the teacher wording, which is wrong "
+                         "for any other --prefix — set it when tabulating a student.")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
@@ -137,7 +141,8 @@ def main():
         return 1
 
     L = []
-    L.append("25%% teacher (M1 %s-only, content 15%% ∪ traj 10%%), best-of-2 epochs"
+    L.append(args.label or
+             "25%% teacher (M1 %s-only, content 15%% ∪ traj 10%%), best-of-2 epochs"
              % args.source.upper())
     L.append("per-task accuracy, %s egtea test, n=%d" % (args.source.upper(), n_total))
     L.append("")

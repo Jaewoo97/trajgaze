@@ -41,6 +41,32 @@ three re-scores also clears the 10% teacher, so the result does not depend on be
 Per task the gain concentrated where the larger complement should put it: GSM +5.20 and
 FAP +4.61, against SR −3.61 and OAR −1.73.
 
+The SG student completed at this budget too, and it is the closest thing to a prediction
+for the EG run — same recipe, one epoch per phase, raw video:
+
+| SG student @25%, 1 epoch per phase | measured | 10% counterpart (v3 §5.4, P1/P2 ep1) |
+|---|---|---|
+| P1 `recall_traj`, frozen → tuned | 0.1358 → **0.5343** (Δ +0.3986) | 0.0435 → 0.3636 (Δ +0.3202) |
+| P1 `recall_P` | 0.4428 → **0.5571** (Δ +0.1143) | 0.3985 → 0.4602 (Δ +0.0618) |
+| P1 `recall_S` | 0.4481 → **0.6154** (Δ +0.1673) | 0.4019 → 0.5263 (Δ +0.1244) |
+| integrity gate | frozen 364 / tuned 366, **Δ +2**, cos 0.99137 → PASS | frozen 372 / tuned 369, Δ −3, cos 0.9915 |
+| **P2 accuracy** | **71.10% — 374 items** | 69.58% — 366 items |
+
+**+8 items at a matched readout budget** (both are P2 epoch 1), above v2 §8's ±4 floor.
+That puts the gaze-free student within **1 item** of the *10%* gaze-using teacher (375),
+and narrows the gap to its own 25% teacher from 9 items to 7.
+
+Where the +8 came from is worth carrying into the EG run: NFI +5, SR +3, OI-E +3 — and
+**GSM went the other way, 45 → 43 items, despite `recall_traj` nearly doubling**. That is
+v3 §5.6 reproducing at a second budget: GSM is governed by whether the gaze marker is
+visible in the pixels, not by which tokens get selected, so on raw video no amount of
+selection fidelity buys it. Expect the same shape on EG — recovered selection paying off
+in the object/scene columns, not in the gaze-driven one.
+
+Note the frozen baselines are all **higher** at 25% than at 10% — dominant widens from
+6.5% to 17.5%, so more of the teacher's complement falls into it by chance. Read the
+delta, never the absolute, and do not compare either against v3 §5.4's 0.383.
+
 **The EG numbers to beat** — 10% budget, v3 §5.7, EGTEA test n=485:
 
 | system | Caus. (162) | Spat. (163) | Temp. (160) | Avg | items |
@@ -285,7 +311,14 @@ failure at `lr 2e-5`: six hours spent to produce a conclusion about the optimise
 
 Note the frozen `recall_traj` baseline is **not** v3's 0.042 at this budget — dominant
 widened from 6.5% to 17.5%, so more of the complement lands there by chance. Phase 1's
-epoch-end eval prints frozen and tuned together; read the delta, not the absolute.
+epoch-end eval prints frozen and tuned together; read the delta, not the absolute. On SG
+at this budget the frozen baseline came out at 0.1358; §1 has the full set to compare
+against, though EG's own baseline will differ.
+
+One EG-specific caution from v3 §5.7: at 10% the EG Phase 1 fit its *training* window
+harder than SG did (`recall_traj` 0.520 vs 0.394) and still reached only 0.113 on EGTEA
+— a −0.41 train/test gap, against SG's −0.03. A high windowed `recall_traj` during
+training therefore does **not** predict the epoch-end number here. Wait for the eval.
 
 ---
 

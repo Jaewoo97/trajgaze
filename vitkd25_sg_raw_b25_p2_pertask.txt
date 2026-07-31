@@ -1,0 +1,18 @@
+25% ViT-KD student (SG raw video), P1 1 epoch -> gate PASS -> P2 1 epoch
+per-task accuracy, SG egtea test, n=526
+
+task      n      train ep1   10% ref
+------------------------------------
+GSM      64    67.19%( 43)    71.36%
+NFI      68    69.12%( 47)    63.24%
+OTP       2    50.00%(  1)        --
+SR       37    64.86%( 24)    57.66%
+OAR      96    90.62%( 87)    93.40%
+OI-E    101    75.25%( 76)    73.27%
+OI-H     64    68.75%( 44)    74.48%
+FAP      94    55.32%( 52)    56.38%
+------------------------------------
+Avg     526    71.10%(374)    71.29%
+
+item-count check: every per-task percentage lands on an integer and the
+per-task counts sum to each run's own Overall count.
