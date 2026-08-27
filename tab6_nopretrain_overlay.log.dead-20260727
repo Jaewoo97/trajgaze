@@ -1,0 +1,177 @@
+=== tab6_nopretrain_overlay start 2026-07-27T22:33:20+09:00 ===
+[VZ-complement] output: /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGazeMerge/checkpoints/tab6_nopretrain_overlay
+[VZ-complement] mode=learned, GPUs=2, content=7.0% ∪ traj=3.0% = 10%, epochs=1, lr=0.0001, grad_accum=4
+[VZ-complement] ablation: select_geom=spatiotemporal, random_encoder=True, source=sg
+[VZ-complement] learned encoder: /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pth
+[VZ-complement] complement_mode=topk
+Loading VisionZip Qwen2.5-VL-7B + LoRA ...
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:05,  1.45s/it]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:06,  1.54s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.39s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:04,  1.46s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:04<00:02,  1.35s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:04<00:02,  1.40s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:05<00:01,  1.36s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:05<00:01,  1.39s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.00it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:05<00:00,  1.17s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.02s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:06<00:00,  1.20s/it]
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/query_encoder.py:108: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/query_encoder.py:108: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/encoder_temporal.py:193: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.inter_frame = nn.TransformerEncoder(
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/encoder_temporal.py:193: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.inter_frame = nn.TransformerEncoder(
+[TrajEncoder] RANDOM-INIT full (arch flags read from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pth; weights NOT loaded)
+  inferred flags: use_frame_score_branch=False, use_post_fusion_iframe=False, use_patch_temporal_branch=False, use_iframe_query_conditioning=False, use_trajectory_anchor=True
+[TrajEncoder] RANDOM-INIT full (arch flags read from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pth; weights NOT loaded)
+  inferred flags: use_frame_score_branch=False, use_post_fusion_iframe=False, use_patch_temporal_branch=False, use_iframe_query_conditioning=False, use_trajectory_anchor=True
+Model loaded.
+[StreamGazeMergeDataset] split=train (egoexolearn+holoassist) → 5799 items across 8 tasks
+[StreamGazeMergeDataset] split=train (egoexolearn+holoassist) → 5799 items across 8 tasks
+[EgoGazeVQADataset] split=train (ego4d+egoexo) → 1265 items
+[CombinedMergeDataset] split=train → 7064 items (sg=5799, eg=1265)
+[EgoGazeVQADataset] split=train (ego4d+egoexo) → 1265 items
+[CombinedMergeDataset] split=train → 7064 items (sg=5799, eg=1265)
+[source=sg] train filtered 7064 → 5799 items
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Keyword argument `do_sample_frames` is not a valid argument for this processor and will be ignored.
+Keyword argument `do_sample_frames` is not a valid argument for this processor and will be ignored.
+[rank0]:[W727 22:33:43.281492767 reducer.cpp:1502] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank1]:[W727 22:33:43.417921076 reducer.cpp:1502] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+Epoch 1 | step 20/2900 | loss=1.6325 | kept=10.0% | t=46s
+Epoch 1 | step 40/2900 | loss=1.4229 | kept=10.0% | t=95s
+Epoch 1 | step 60/2900 | loss=1.2167 | kept=10.0% | t=139s
+Epoch 1 | step 80/2900 | loss=1.2669 | kept=10.0% | t=185s
+Epoch 1 | step 100/2900 | loss=1.3073 | kept=10.0% | t=230s
+Epoch 1 | step 120/2900 | loss=1.2621 | kept=10.0% | t=277s
+Epoch 1 | step 140/2900 | loss=1.2134 | kept=10.0% | t=323s
+Epoch 1 | step 160/2900 | loss=1.2009 | kept=10.0% | t=368s
+Epoch 1 | step 180/2900 | loss=1.1761 | kept=10.0% | t=413s
+Epoch 1 | step 200/2900 | loss=1.1863 | kept=10.0% | t=458s
+Epoch 1 | step 220/2900 | loss=1.1961 | kept=10.0% | t=505s
+Epoch 1 | step 240/2900 | loss=1.1890 | kept=10.0% | t=550s
+Epoch 1 | step 260/2900 | loss=1.1827 | kept=10.0% | t=597s
+Epoch 1 | step 280/2900 | loss=1.1849 | kept=10.0% | t=643s
+Epoch 1 | step 300/2900 | loss=1.1893 | kept=10.0% | t=689s
+Epoch 1 | step 320/2900 | loss=1.1811 | kept=10.0% | t=733s
+Epoch 1 | step 340/2900 | loss=1.1677 | kept=10.0% | t=778s
+Epoch 1 | step 360/2900 | loss=1.1553 | kept=10.0% | t=823s
+Epoch 1 | step 380/2900 | loss=1.1414 | kept=10.0% | t=869s
+Epoch 1 | step 400/2900 | loss=1.1261 | kept=10.0% | t=914s
+Epoch 1 | step 420/2900 | loss=1.1264 | kept=10.0% | t=958s
+Epoch 1 | step 440/2900 | loss=1.1176 | kept=10.0% | t=1003s
+Epoch 1 | step 460/2900 | loss=1.1076 | kept=10.0% | t=1048s
+Epoch 1 | step 480/2900 | loss=1.1038 | kept=10.0% | t=1093s
+Epoch 1 | step 500/2900 | loss=1.0884 | kept=10.0% | t=1138s
+Epoch 1 | step 520/2900 | loss=1.0924 | kept=10.0% | t=1182s
+Epoch 1 | step 540/2900 | loss=1.0834 | kept=10.0% | t=1228s
+Epoch 1 | step 560/2900 | loss=1.0765 | kept=10.0% | t=1273s
+Epoch 1 | step 580/2900 | loss=1.0605 | kept=10.0% | t=1319s
+Epoch 1 | step 600/2900 | loss=1.0431 | kept=10.0% | t=1365s
+Epoch 1 | step 620/2900 | loss=1.0372 | kept=10.0% | t=1412s
+Epoch 1 | step 640/2900 | loss=1.0486 | kept=10.0% | t=1456s
+Epoch 1 | step 660/2900 | loss=1.0503 | kept=10.0% | t=1501s
+Epoch 1 | step 680/2900 | loss=1.0489 | kept=10.0% | t=1546s
+Epoch 1 | step 700/2900 | loss=1.0425 | kept=10.0% | t=1591s
+Epoch 1 | step 720/2900 | loss=1.0393 | kept=10.0% | t=1636s
+Epoch 1 | step 740/2900 | loss=1.0360 | kept=10.0% | t=1683s
+Epoch 1 | step 760/2900 | loss=1.0376 | kept=10.0% | t=1726s
+Epoch 1 | step 780/2900 | loss=1.0439 | kept=10.0% | t=1771s
+Epoch 1 | step 800/2900 | loss=1.0454 | kept=10.0% | t=1816s
+Epoch 1 | step 820/2900 | loss=1.0381 | kept=10.0% | t=1861s
+Epoch 1 | step 840/2900 | loss=1.0370 | kept=10.0% | t=1906s
+Epoch 1 | step 860/2900 | loss=1.0322 | kept=10.0% | t=1951s
+Epoch 1 | step 880/2900 | loss=1.0347 | kept=10.0% | t=1997s
+Epoch 1 | step 900/2900 | loss=1.0381 | kept=10.0% | t=2043s
+Epoch 1 | step 920/2900 | loss=1.0342 | kept=10.0% | t=2089s
+Epoch 1 | step 940/2900 | loss=1.0333 | kept=10.0% | t=2134s
+Epoch 1 | step 960/2900 | loss=1.0305 | kept=10.0% | t=2178s
+Epoch 1 | step 980/2900 | loss=1.0233 | kept=10.0% | t=2223s
+Epoch 1 | step 1000/2900 | loss=1.0238 | kept=10.0% | t=2267s
+Epoch 1 | step 1020/2900 | loss=1.0171 | kept=10.0% | t=2310s
+Epoch 1 | step 1040/2900 | loss=1.0099 | kept=10.0% | t=2354s
+Epoch 1 | step 1060/2900 | loss=1.0129 | kept=10.0% | t=2399s
+Epoch 1 | step 1080/2900 | loss=1.0080 | kept=10.0% | t=2443s
+Epoch 1 | step 1100/2900 | loss=1.0025 | kept=10.0% | t=2487s
+Epoch 1 | step 1120/2900 | loss=0.9961 | kept=10.0% | t=2532s
+Epoch 1 | step 1140/2900 | loss=1.0010 | kept=10.0% | t=2576s
+Epoch 1 | step 1160/2900 | loss=0.9931 | kept=10.0% | t=2621s
+Epoch 1 | step 1180/2900 | loss=0.9878 | kept=10.0% | t=2666s
+Epoch 1 | step 1200/2900 | loss=0.9847 | kept=10.0% | t=2709s
+Epoch 1 | step 1220/2900 | loss=0.9889 | kept=10.0% | t=2754s
+Epoch 1 | step 1240/2900 | loss=0.9828 | kept=10.0% | t=2799s
+Epoch 1 | step 1260/2900 | loss=0.9807 | kept=10.0% | t=2843s
+Epoch 1 | step 1280/2900 | loss=0.9780 | kept=10.0% | t=2887s
+Epoch 1 | step 1300/2900 | loss=0.9725 | kept=10.0% | t=2930s
+Epoch 1 | step 1320/2900 | loss=0.9700 | kept=10.0% | t=2974s
+Epoch 1 | step 1340/2900 | loss=0.9652 | kept=10.0% | t=3019s
+Epoch 1 | step 1360/2900 | loss=0.9642 | kept=10.0% | t=3062s
+Epoch 1 | step 1380/2900 | loss=0.9630 | kept=10.0% | t=3106s
+Epoch 1 | step 1400/2900 | loss=0.9616 | kept=10.0% | t=3149s
+Epoch 1 | step 1420/2900 | loss=0.9610 | kept=10.0% | t=3193s
+Epoch 1 | step 1440/2900 | loss=0.9609 | kept=10.0% | t=3238s
+Epoch 1 | step 1460/2900 | loss=0.9593 | kept=10.0% | t=3281s
+Epoch 1 | step 1480/2900 | loss=0.9606 | kept=10.0% | t=3326s
+Epoch 1 | step 1500/2900 | loss=0.9582 | kept=10.0% | t=3370s
+Epoch 1 | step 1520/2900 | loss=0.9597 | kept=10.0% | t=3414s
+Epoch 1 | step 1540/2900 | loss=0.9586 | kept=10.0% | t=3459s
+Epoch 1 | step 1560/2900 | loss=0.9566 | kept=10.0% | t=3502s
+Epoch 1 | step 1580/2900 | loss=0.9526 | kept=10.0% | t=3545s
+Epoch 1 | step 1600/2900 | loss=0.9544 | kept=10.0% | t=3588s
+Epoch 1 | step 1620/2900 | loss=0.9518 | kept=10.0% | t=3631s
+Epoch 1 | step 1640/2900 | loss=0.9476 | kept=10.0% | t=3674s
+Epoch 1 | step 1660/2900 | loss=0.9462 | kept=10.0% | t=3717s
+Epoch 1 | step 1680/2900 | loss=0.9459 | kept=10.0% | t=3761s
+Epoch 1 | step 1700/2900 | loss=0.9430 | kept=10.0% | t=3805s
+Epoch 1 | step 1720/2900 | loss=0.9401 | kept=10.0% | t=3850s
+Epoch 1 | step 1740/2900 | loss=0.9374 | kept=10.0% | t=3894s
+Epoch 1 | step 1760/2900 | loss=0.9309 | kept=10.0% | t=3938s
+Epoch 1 | step 1780/2900 | loss=0.9286 | kept=10.0% | t=3983s
+Epoch 1 | step 1800/2900 | loss=0.9265 | kept=10.0% | t=4027s
+Epoch 1 | step 1820/2900 | loss=0.9281 | kept=10.0% | t=4070s
+Epoch 1 | step 1840/2900 | loss=0.9285 | kept=10.0% | t=4116s
+Epoch 1 | step 1860/2900 | loss=0.9278 | kept=10.0% | t=4162s
+Epoch 1 | step 1880/2900 | loss=0.9278 | kept=10.0% | t=4210s
+Epoch 1 | step 1900/2900 | loss=0.9300 | kept=10.0% | t=4254s
+Epoch 1 | step 1920/2900 | loss=0.9287 | kept=10.0% | t=4302s
+Epoch 1 | step 1940/2900 | loss=0.9285 | kept=10.0% | t=4352s
+Epoch 1 | step 1960/2900 | loss=0.9272 | kept=10.0% | t=4398s
+Epoch 1 | step 1980/2900 | loss=0.9243 | kept=10.0% | t=4446s
+Epoch 1 | step 2000/2900 | loss=0.9244 | kept=10.0% | t=4492s
+Epoch 1 | step 2020/2900 | loss=0.9238 | kept=10.0% | t=4543s
+Epoch 1 | step 2040/2900 | loss=0.9242 | kept=10.0% | t=4591s
+Epoch 1 | step 2060/2900 | loss=0.9211 | kept=10.0% | t=4638s
+Epoch 1 | step 2080/2900 | loss=0.9198 | kept=10.0% | t=4686s
+Epoch 1 | step 2100/2900 | loss=0.9222 | kept=10.0% | t=4734s
+Epoch 1 | step 2120/2900 | loss=0.9205 | kept=10.0% | t=4782s
+Epoch 1 | step 2140/2900 | loss=0.9213 | kept=10.0% | t=4831s
+Epoch 1 | step 2160/2900 | loss=0.9174 | kept=10.0% | t=4878s
+Epoch 1 | step 2180/2900 | loss=0.9148 | kept=10.0% | t=4926s
+Epoch 1 | step 2200/2900 | loss=0.9122 | kept=10.0% | t=4973s
+Epoch 1 | step 2220/2900 | loss=0.9118 | kept=10.0% | t=5022s
+Epoch 1 | step 2240/2900 | loss=0.9132 | kept=10.0% | t=5070s
+Epoch 1 | step 2260/2900 | loss=0.9114 | kept=10.0% | t=5119s
+Epoch 1 | step 2280/2900 | loss=0.9095 | kept=10.0% | t=5168s

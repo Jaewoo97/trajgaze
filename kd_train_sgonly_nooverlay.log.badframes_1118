@@ -1,0 +1,228 @@
+=== SG KD student, VLM_GAZE_OVERLAY=0 — waiting for GPUs 2026-07-28T11:18:26+09:00 ===
+=== GPUs free, starting 2026-07-28T11:18:26+09:00 ===
+[KD] output: /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGazeMerge/checkpoints/visionzip_kd_selection_SGonly_nooverlay
+[KD] selection distillation: RGB predictor mimics gaze/hand top-k; content=7.0% ∪ traj=3.0% = 10%; λ_sel=1.0, lr=0.0001, pred_lr=0.001, grad_accum=4, GPUs=2 (eff-batch 8), source=sg
+[KD] gaze/hand used at TRAIN only (teacher labels); eval is gaze-free.
+Loading VisionZip Qwen2.5-VL-7B + LoRA ...
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:02<00:09,  2.36s/it]Loading checkpoint shards:  20%|██        | 1/5 [00:02<00:09,  2.47s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:05<00:08,  2.85s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:05<00:08,  2.85s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:09<00:06,  3.12s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:09<00:06,  3.20s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:11<00:02,  2.74s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:11<00:02,  2.80s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:11<00:00,  1.98s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:11<00:00,  2.39s/it]
+Loading checkpoint shards: 100%|██████████| 5/5 [00:11<00:00,  2.02s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:11<00:00,  2.38s/it]
+[KD] warm-started LoRA from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGazeMerge/checkpoints/visionzip_complement_learned_SGonly_overlay/best.pth (missing=0 unexpected=0)
+[KD] warm-start predictor: none in ckpt → fresh head
+[KD] predictor: in_dim=3584, params=3.95M
+/NHNHOME/WORKSPACE/26msit001_A/vilab_yj/trajgaze/TrajGaze_v2/models/query_encoder.py:108: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(
+/NHNHOME/WORKSPACE/26msit001_A/vilab_yj/trajgaze/TrajGaze_v2/models/query_encoder.py:108: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(
+/NHNHOME/VILAB/vilab_yj/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/NHNHOME/VILAB/vilab_yj/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/NHNHOME/VILAB/vilab_yj/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/NHNHOME/VILAB/vilab_yj/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/NHNHOME/VILAB/vilab_yj/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+/NHNHOME/VILAB/vilab_yj/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+/NHNHOME/WORKSPACE/26msit001_A/vilab_yj/trajgaze/TrajGaze_v2/models/encoder_temporal.py:193: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.inter_frame = nn.TransformerEncoder(
+/NHNHOME/WORKSPACE/26msit001_A/vilab_yj/trajgaze/TrajGaze_v2/models/encoder_temporal.py:193: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.inter_frame = nn.TransformerEncoder(
+[TrajEncoder] loaded full from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pth
+  inferred flags: use_frame_score_branch=False, use_post_fusion_iframe=False, use_patch_temporal_branch=False, use_iframe_query_conditioning=False, use_trajectory_anchor=True
+[TrajEncoder] loaded full from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pth
+  inferred flags: use_frame_score_branch=False, use_post_fusion_iframe=False, use_patch_temporal_branch=False, use_iframe_query_conditioning=False, use_trajectory_anchor=True
+Model + teacher encoder loaded.
+[StreamGazeMergeDataset] split=train (egoexolearn+holoassist) → 5799 items across 8 tasks
+[StreamGazeMergeDataset] split=train (egoexolearn+holoassist) → 5799 items across 8 tasks
+[EgoGazeVQADataset] split=train (ego4d+egoexo) → 1265 items
+[EgoGazeVQADataset] split=train (ego4d+egoexo) → 1265 items
+[CombinedMergeDataset] split=train → 7064 items (sg=5799, eg=1265)
+[source=sg] train filtered 7064 → 5799 items
+[CombinedMergeDataset] split=train → 7064 items (sg=5799, eg=1265)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+[KD] frame streams: student VLM='original'  teacher TAS='viz'
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Keyword argument `do_sample_frames` is not a valid argument for this processor and will be ignored.
+Keyword argument `do_sample_frames` is not a valid argument for this processor and will be ignored.
+It looks like you are trying to rescale already rescaled images. If the input images have pixel values between 0 and 1, set `do_rescale=False` to avoid rescaling them again.
+[rank1]:[W728 11:19:18.937690393 reducer.cpp:1502] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank0]:[W728 11:19:18.939103421 reducer.cpp:1502] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+It looks like you are trying to rescale already rescaled images. If the input images have pixel values between 0 and 1, set `do_rescale=False` to avoid rescaling them again.
+Epoch 1 | step 20/2900 | ce=0.4253 | kd=1.3672 | agree=0.089 | kept=10.0% | t=46s
+Epoch 1 | step 40/2900 | ce=0.5128 | kd=1.2453 | agree=0.138 | kept=10.0% | t=90s
+Epoch 1 | step 60/2900 | ce=0.3899 | kd=1.1846 | agree=0.151 | kept=10.0% | t=133s
+Epoch 1 | step 80/2900 | ce=0.5011 | kd=1.1461 | agree=0.157 | kept=10.0% | t=177s
+Epoch 1 | step 100/2900 | ce=0.4862 | kd=1.1164 | agree=0.163 | kept=10.0% | t=220s
+Epoch 1 | step 120/2900 | ce=0.4789 | kd=1.0856 | agree=0.174 | kept=10.0% | t=265s
+Epoch 1 | step 140/2900 | ce=0.4987 | kd=1.0660 | agree=0.178 | kept=10.0% | t=309s
+Epoch 1 | step 160/2900 | ce=0.4729 | kd=1.0472 | agree=0.186 | kept=10.0% | t=354s
+Epoch 1 | step 180/2900 | ce=0.5051 | kd=1.0298 | agree=0.191 | kept=10.0% | t=399s
+Epoch 1 | step 200/2900 | ce=0.5312 | kd=1.0131 | agree=0.200 | kept=10.0% | t=445s
+Epoch 1 | step 220/2900 | ce=0.5207 | kd=1.0016 | agree=0.204 | kept=10.0% | t=490s
+Epoch 1 | step 240/2900 | ce=0.5096 | kd=0.9891 | agree=0.207 | kept=10.0% | t=534s
+Epoch 1 | step 260/2900 | ce=0.5219 | kd=0.9752 | agree=0.212 | kept=10.0% | t=578s
+Epoch 1 | step 280/2900 | ce=0.5071 | kd=0.9655 | agree=0.215 | kept=10.0% | t=622s
+Epoch 1 | step 300/2900 | ce=0.5169 | kd=0.9541 | agree=0.220 | kept=10.0% | t=667s
+Epoch 1 | step 320/2900 | ce=0.5036 | kd=0.9410 | agree=0.225 | kept=10.0% | t=712s
+Epoch 1 | step 340/2900 | ce=0.4997 | kd=0.9314 | agree=0.230 | kept=10.0% | t=757s
+Epoch 1 | step 360/2900 | ce=0.4968 | kd=0.9205 | agree=0.236 | kept=10.0% | t=804s
+Epoch 1 | step 380/2900 | ce=0.5026 | kd=0.9113 | agree=0.241 | kept=10.0% | t=849s
+Epoch 1 | step 400/2900 | ce=0.5219 | kd=0.9058 | agree=0.243 | kept=10.0% | t=895s
+Epoch 1 | step 420/2900 | ce=0.5212 | kd=0.8990 | agree=0.246 | kept=10.0% | t=939s
+Epoch 1 | step 440/2900 | ce=0.5352 | kd=0.8898 | agree=0.252 | kept=10.0% | t=985s
+Epoch 1 | step 460/2900 | ce=0.5250 | kd=0.8848 | agree=0.254 | kept=10.0% | t=1031s
+Epoch 1 | step 480/2900 | ce=0.5325 | kd=0.8781 | agree=0.256 | kept=10.0% | t=1076s
+Epoch 1 | step 500/2900 | ce=0.5199 | kd=0.8723 | agree=0.258 | kept=10.0% | t=1123s
+Epoch 1 | step 520/2900 | ce=0.5242 | kd=0.8675 | agree=0.259 | kept=10.0% | t=1168s
+Epoch 1 | step 540/2900 | ce=0.5163 | kd=0.8617 | agree=0.262 | kept=10.0% | t=1214s
+Epoch 1 | step 560/2900 | ce=0.5104 | kd=0.8550 | agree=0.265 | kept=10.0% | t=1260s
+Epoch 1 | step 580/2900 | ce=0.5184 | kd=0.8506 | agree=0.268 | kept=10.0% | t=1306s
+Epoch 1 | step 600/2900 | ce=0.5071 | kd=0.8461 | agree=0.269 | kept=10.0% | t=1352s
+Epoch 1 | step 620/2900 | ce=0.4971 | kd=0.8410 | agree=0.272 | kept=10.0% | t=1398s
+Epoch 1 | step 640/2900 | ce=0.5078 | kd=0.8363 | agree=0.275 | kept=10.0% | t=1445s
+Epoch 1 | step 660/2900 | ce=0.5180 | kd=0.8329 | agree=0.276 | kept=10.0% | t=1489s
+Epoch 1 | step 680/2900 | ce=0.5250 | kd=0.8304 | agree=0.277 | kept=10.0% | t=1535s
+Epoch 1 | step 700/2900 | ce=0.5198 | kd=0.8265 | agree=0.278 | kept=10.0% | t=1581s
+Epoch 1 | step 720/2900 | ce=0.5133 | kd=0.8218 | agree=0.281 | kept=10.0% | t=1626s
+Epoch 1 | step 740/2900 | ce=0.5122 | kd=0.8191 | agree=0.282 | kept=10.0% | t=1673s
+Epoch 1 | step 760/2900 | ce=0.5192 | kd=0.8173 | agree=0.283 | kept=10.0% | t=1715s
+Epoch 1 | step 780/2900 | ce=0.5323 | kd=0.8150 | agree=0.284 | kept=10.0% | t=1760s
+Epoch 1 | step 800/2900 | ce=0.5317 | kd=0.8120 | agree=0.286 | kept=10.0% | t=1806s
+Epoch 1 | step 820/2900 | ce=0.5263 | kd=0.8090 | agree=0.287 | kept=10.0% | t=1852s
+Epoch 1 | step 840/2900 | ce=0.5248 | kd=0.8060 | agree=0.288 | kept=10.0% | t=1896s
+Epoch 1 | step 860/2900 | ce=0.5326 | kd=0.8034 | agree=0.289 | kept=10.0% | t=1942s
+Epoch 1 | step 880/2900 | ce=0.5327 | kd=0.8008 | agree=0.291 | kept=10.0% | t=1988s
+Epoch 1 | step 900/2900 | ce=0.5383 | kd=0.7985 | agree=0.292 | kept=10.0% | t=2032s
+Epoch 1 | step 920/2900 | ce=0.5363 | kd=0.7959 | agree=0.292 | kept=10.0% | t=2077s
+Epoch 1 | step 940/2900 | ce=0.5285 | kd=0.7918 | agree=0.295 | kept=10.0% | t=2123s
+Epoch 1 | step 960/2900 | ce=0.5323 | kd=0.7905 | agree=0.296 | kept=10.0% | t=2168s
+Epoch 1 | step 980/2900 | ce=0.5326 | kd=0.7882 | agree=0.297 | kept=10.0% | t=2214s
+Epoch 1 | step 1000/2900 | ce=0.5429 | kd=0.7867 | agree=0.298 | kept=10.0% | t=2260s
+Epoch 1 | step 1020/2900 | ce=0.5413 | kd=0.7852 | agree=0.299 | kept=10.0% | t=2304s
+Epoch 1 | step 1040/2900 | ce=0.5366 | kd=0.7827 | agree=0.300 | kept=10.0% | t=2349s
+Epoch 1 | step 1060/2900 | ce=0.5375 | kd=0.7800 | agree=0.302 | kept=10.0% | t=2395s
+Epoch 1 | step 1080/2900 | ce=0.5373 | kd=0.7778 | agree=0.303 | kept=10.0% | t=2440s
+Epoch 1 | step 1100/2900 | ce=0.5358 | kd=0.7764 | agree=0.304 | kept=10.0% | t=2485s
+Epoch 1 | step 1120/2900 | ce=0.5291 | kd=0.7745 | agree=0.304 | kept=10.0% | t=2531s
+Epoch 1 | step 1140/2900 | ce=0.5313 | kd=0.7728 | agree=0.305 | kept=10.0% | t=2578s
+Epoch 1 | step 1160/2900 | ce=0.5277 | kd=0.7707 | agree=0.306 | kept=10.0% | t=2623s
+Epoch 1 | step 1180/2900 | ce=0.5233 | kd=0.7686 | agree=0.307 | kept=10.0% | t=2669s
+Epoch 1 | step 1200/2900 | ce=0.5202 | kd=0.7668 | agree=0.308 | kept=10.0% | t=2714s
+Epoch 1 | step 1220/2900 | ce=0.5203 | kd=0.7660 | agree=0.308 | kept=10.0% | t=2760s
+Epoch 1 | step 1240/2900 | ce=0.5161 | kd=0.7641 | agree=0.310 | kept=10.0% | t=2806s
+Epoch 1 | step 1260/2900 | ce=0.5125 | kd=0.7633 | agree=0.310 | kept=10.0% | t=2852s
+Epoch 1 | step 1280/2900 | ce=0.5097 | kd=0.7627 | agree=0.310 | kept=10.0% | t=2897s
+Epoch 1 | step 1300/2900 | ce=0.5040 | kd=0.7615 | agree=0.310 | kept=10.0% | t=2942s
+Epoch 1 | step 1320/2900 | ce=0.5063 | kd=0.7597 | agree=0.311 | kept=10.0% | t=2986s
+Epoch 1 | step 1340/2900 | ce=0.5049 | kd=0.7582 | agree=0.312 | kept=10.0% | t=3032s
+Epoch 1 | step 1360/2900 | ce=0.5079 | kd=0.7572 | agree=0.312 | kept=10.0% | t=3077s
+Epoch 1 | step 1380/2900 | ce=0.5060 | kd=0.7568 | agree=0.312 | kept=10.0% | t=3122s
+Epoch 1 | step 1400/2900 | ce=0.5047 | kd=0.7556 | agree=0.313 | kept=10.0% | t=3167s
+Epoch 1 | step 1420/2900 | ce=0.5083 | kd=0.7540 | agree=0.313 | kept=10.0% | t=3213s
+Epoch 1 | step 1440/2900 | ce=0.5136 | kd=0.7526 | agree=0.314 | kept=10.0% | t=3258s
+Epoch 1 | step 1460/2900 | ce=0.5114 | kd=0.7514 | agree=0.315 | kept=10.0% | t=3303s
+Epoch 1 | step 1480/2900 | ce=0.5101 | kd=0.7497 | agree=0.316 | kept=10.0% | t=3349s
+Epoch 1 | step 1500/2900 | ce=0.5093 | kd=0.7483 | agree=0.317 | kept=10.0% | t=3394s
+Epoch 1 | step 1520/2900 | ce=0.5093 | kd=0.7477 | agree=0.317 | kept=10.0% | t=3439s
+Epoch 1 | step 1540/2900 | ce=0.5122 | kd=0.7462 | agree=0.318 | kept=10.0% | t=3485s
+Epoch 1 | step 1560/2900 | ce=0.5146 | kd=0.7454 | agree=0.319 | kept=10.0% | t=3529s
+Epoch 1 | step 1580/2900 | ce=0.5123 | kd=0.7453 | agree=0.319 | kept=10.0% | t=3573s
+Epoch 1 | step 1600/2900 | ce=0.5125 | kd=0.7446 | agree=0.319 | kept=10.0% | t=3617s
+Epoch 1 | step 1620/2900 | ce=0.5100 | kd=0.7433 | agree=0.320 | kept=10.0% | t=3661s
+Epoch 1 | step 1640/2900 | ce=0.5080 | kd=0.7424 | agree=0.320 | kept=10.0% | t=3705s
+Epoch 1 | step 1660/2900 | ce=0.5073 | kd=0.7415 | agree=0.321 | kept=10.0% | t=3748s
+Epoch 1 | step 1680/2900 | ce=0.5057 | kd=0.7398 | agree=0.322 | kept=10.0% | t=3791s
+Epoch 1 | step 1700/2900 | ce=0.5060 | kd=0.7384 | agree=0.322 | kept=10.0% | t=3834s
+Epoch 1 | step 1720/2900 | ce=0.5025 | kd=0.7371 | agree=0.323 | kept=10.0% | t=3878s
+Epoch 1 | step 1740/2900 | ce=0.5011 | kd=0.7361 | agree=0.324 | kept=10.0% | t=3922s
+Epoch 1 | step 1760/2900 | ce=0.4977 | kd=0.7350 | agree=0.324 | kept=10.0% | t=3965s
+Epoch 1 | step 1780/2900 | ce=0.4927 | kd=0.7347 | agree=0.324 | kept=10.0% | t=4009s
+Epoch 1 | step 1800/2900 | ce=0.4986 | kd=0.7332 | agree=0.325 | kept=10.0% | t=4052s
+Epoch 1 | step 1820/2900 | ce=0.5020 | kd=0.7320 | agree=0.326 | kept=10.0% | t=4095s
+Epoch 1 | step 1840/2900 | ce=0.4980 | kd=0.7317 | agree=0.326 | kept=10.0% | t=4139s
+Epoch 1 | step 1860/2900 | ce=0.5002 | kd=0.7302 | agree=0.327 | kept=10.0% | t=4183s
+Epoch 1 | step 1880/2900 | ce=0.5007 | kd=0.7293 | agree=0.327 | kept=10.0% | t=4227s
+Epoch 1 | step 1900/2900 | ce=0.5030 | kd=0.7281 | agree=0.327 | kept=10.0% | t=4271s
+Epoch 1 | step 1920/2900 | ce=0.5026 | kd=0.7273 | agree=0.328 | kept=10.0% | t=4314s
+Epoch 1 | step 1940/2900 | ce=0.5055 | kd=0.7265 | agree=0.328 | kept=10.0% | t=4356s
+Epoch 1 | step 1960/2900 | ce=0.5056 | kd=0.7259 | agree=0.328 | kept=10.0% | t=4400s
+Epoch 1 | step 1980/2900 | ce=0.5048 | kd=0.7251 | agree=0.329 | kept=10.0% | t=4443s
+Epoch 1 | step 2000/2900 | ce=0.5014 | kd=0.7243 | agree=0.329 | kept=10.0% | t=4485s
+Epoch 1 | step 2020/2900 | ce=0.4997 | kd=0.7232 | agree=0.330 | kept=10.0% | t=4529s
+Epoch 1 | step 2040/2900 | ce=0.4987 | kd=0.7228 | agree=0.330 | kept=10.0% | t=4573s
+Epoch 1 | step 2060/2900 | ce=0.4955 | kd=0.7220 | agree=0.331 | kept=10.0% | t=4617s
+Epoch 1 | step 2080/2900 | ce=0.4948 | kd=0.7213 | agree=0.331 | kept=10.0% | t=4660s
+Epoch 1 | step 2100/2900 | ce=0.4979 | kd=0.7201 | agree=0.331 | kept=10.0% | t=4704s
+Epoch 1 | step 2120/2900 | ce=0.4960 | kd=0.7191 | agree=0.332 | kept=10.0% | t=4747s
+Epoch 1 | step 2140/2900 | ce=0.4964 | kd=0.7182 | agree=0.332 | kept=10.0% | t=4791s
+W0728 12:39:14.959000 908537 /NHNHOME/WORKSPACE/26msit001_A/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py:739] Received 1 death signal, shutting down workers
+W0728 12:39:14.964000 908537 /NHNHOME/WORKSPACE/26msit001_A/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 908633 closing signal SIGHUP
+W0728 12:39:14.965000 908537 /NHNHOME/WORKSPACE/26msit001_A/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 908634 closing signal SIGHUP
+W0728 12:39:17.976000 908537 /NHNHOME/WORKSPACE/26msit001_A/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 908633 closing signal SIGTERM
+Traceback (most recent call last):
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 731, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 908, in _invoke_run
+    time.sleep(monitor_interval)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 86, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 908537 got signal: 1
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/run.py", line 994, in <module>
+    main()
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 362, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/run.py", line 990, in main
+    run(args)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/run.py", line 981, in run
+    elastic_launch(
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 170, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 308, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/metrics/api.py", line 134, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 740, in run
+    self._shutdown(e.sigval)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/local_elastic_agent.py", line 416, in _shutdown
+    self._pcontext.close(death_sig)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 661, in close
+    self._close(death_sig=death_sig, timeout=timeout)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 1024, in _close
+    handler.proc.wait(time_to_wait)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/subprocess.py", line 2047, in _wait
+    time.sleep(delay)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 86, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 908537 got signal: 15

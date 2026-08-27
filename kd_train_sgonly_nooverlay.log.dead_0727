@@ -1,0 +1,122 @@
+=== SG KD student, VLM_GAZE_OVERLAY=0 — waiting for GPUs 2026-07-27T17:53:33+09:00 ===
+=== GPUs free, starting 2026-07-27T18:05:34+09:00 ===
+[KD] output: /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGazeMerge/checkpoints/visionzip_kd_selection_SGonly_nooverlay
+[KD] selection distillation: RGB predictor mimics gaze/hand top-k; content=7.0% ∪ traj=3.0% = 10%; λ_sel=1.0, lr=0.0001, pred_lr=0.001, grad_accum=4, GPUs=2 (eff-batch 8), source=sg
+[KD] gaze/hand used at TRAIN only (teacher labels); eval is gaze-free.
+Loading VisionZip Qwen2.5-VL-7B + LoRA ...
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.12s/it]Loading checkpoint shards:  20%|██        | 1/5 [00:01<00:04,  1.13s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.07s/it]Loading checkpoint shards:  40%|████      | 2/5 [00:02<00:03,  1.08s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.07s/it]Loading checkpoint shards:  60%|██████    | 3/5 [00:03<00:02,  1.08s/it]Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.07s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.27it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.09it/s]
+Loading checkpoint shards:  80%|████████  | 4/5 [00:04<00:01,  1.07s/it]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.27it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:04<00:00,  1.09it/s]
+[KD] warm-started LoRA from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGazeMerge/checkpoints/visionzip_complement_learned_SGonly_overlay/best.pth (missing=0 unexpected=0)
+[KD] warm-start predictor: none in ckpt → fresh head
+[KD] predictor: in_dim=3584, params=3.95M
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/query_encoder.py:108: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/query_encoder.py:108: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/swiglu_ffn.py:51: UserWarning: xFormers is not available (SwiGLU)
+  warnings.warn("xFormers is not available (SwiGLU)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/attention.py:33: UserWarning: xFormers is not available (Attention)
+  warnings.warn("xFormers is not available (Attention)")
+/home/vi_lab/.cache/torch/hub/facebookresearch_dinov2_main/dinov2/layers/block.py:40: UserWarning: xFormers is not available (Block)
+  warnings.warn("xFormers is not available (Block)")
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/encoder_temporal.py:193: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.inter_frame = nn.TransformerEncoder(
+/NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/models/encoder_temporal.py:193: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.inter_frame = nn.TransformerEncoder(
+[TrajEncoder] loaded full from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pth
+  inferred flags: use_frame_score_branch=False, use_post_fusion_iframe=False, use_patch_temporal_branch=False, use_iframe_query_conditioning=False, use_trajectory_anchor=True
+[TrajEncoder] loaded full from /NHNHOME/VILAB/vilab_yj/trajgaze/TrajGaze_v2/checkpoints/stage1_tas_3way_overlay/best.pth
+  inferred flags: use_frame_score_branch=False, use_post_fusion_iframe=False, use_patch_temporal_branch=False, use_iframe_query_conditioning=False, use_trajectory_anchor=True
+Model + teacher encoder loaded.
+[StreamGazeMergeDataset] split=train (egoexolearn+holoassist) → 5799 items across 8 tasks
+[StreamGazeMergeDataset] split=train (egoexolearn+holoassist) → 5799 items across 8 tasks
+[EgoGazeVQADataset] split=train (ego4d+egoexo) → 1265 items
+[CombinedMergeDataset] split=train → 7064 items (sg=5799, eg=1265)
+[EgoGazeVQADataset] split=train (ego4d+egoexo) → 1265 items
+[CombinedMergeDataset] split=train → 7064 items (sg=5799, eg=1265)
+[source=sg] train filtered 7064 → 5799 items
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+[KD] frame streams: student VLM='original'  teacher TAS='viz'
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+Keyword argument `do_sample_frames` is not a valid argument for this processor and will be ignored.
+Keyword argument `do_sample_frames` is not a valid argument for this processor and will be ignored.
+It looks like you are trying to rescale already rescaled images. If the input images have pixel values between 0 and 1, set `do_rescale=False` to avoid rescaling them again.
+[rank0]:[W727 18:06:06.134971702 reducer.cpp:1502] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank1]:[W727 18:06:06.473202663 reducer.cpp:1502] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+It looks like you are trying to rescale already rescaled images. If the input images have pixel values between 0 and 1, set `do_rescale=False` to avoid rescaling them again.
+Epoch 1 | step 20/2900 | ce=0.4319 | kd=1.5307 | agree=0.071 | kept=10.0% | t=49s
+Epoch 1 | step 40/2900 | ce=0.5083 | kd=1.3276 | agree=0.122 | kept=10.0% | t=95s
+Epoch 1 | step 60/2900 | ce=0.3728 | kd=1.2480 | agree=0.132 | kept=10.0% | t=140s
+Epoch 1 | step 80/2900 | ce=0.4962 | kd=1.1964 | agree=0.137 | kept=10.0% | t=185s
+Epoch 1 | step 100/2900 | ce=0.4869 | kd=1.1572 | agree=0.146 | kept=10.0% | t=229s
+Epoch 1 | step 120/2900 | ce=0.5038 | kd=1.1199 | agree=0.160 | kept=10.0% | t=277s
+Epoch 1 | step 140/2900 | ce=0.5309 | kd=1.0965 | agree=0.166 | kept=10.0% | t=323s
+Epoch 1 | step 160/2900 | ce=0.5103 | kd=1.0764 | agree=0.174 | kept=10.0% | t=369s
+Epoch 1 | step 180/2900 | ce=0.5349 | kd=1.0564 | agree=0.181 | kept=10.0% | t=412s
+Epoch 1 | step 200/2900 | ce=0.5611 | kd=1.0398 | agree=0.189 | kept=10.0% | t=456s
+Epoch 1 | step 220/2900 | ce=0.5523 | kd=1.0255 | agree=0.194 | kept=10.0% | t=501s
+Epoch 1 | step 240/2900 | ce=0.5367 | kd=1.0122 | agree=0.199 | kept=10.0% | t=548s
+Epoch 1 | step 260/2900 | ce=0.5494 | kd=0.9977 | agree=0.204 | kept=10.0% | t=592s
+Epoch 1 | step 280/2900 | ce=0.5359 | kd=0.9874 | agree=0.207 | kept=10.0% | t=638s
+Epoch 1 | step 300/2900 | ce=0.5458 | kd=0.9763 | agree=0.212 | kept=10.0% | t=685s
+Epoch 1 | step 320/2900 | ce=0.5302 | kd=0.9632 | agree=0.217 | kept=10.0% | t=731s
+Epoch 1 | step 340/2900 | ce=0.5264 | kd=0.9533 | agree=0.221 | kept=10.0% | t=776s
+Epoch 1 | step 360/2900 | ce=0.5201 | kd=0.9412 | agree=0.228 | kept=10.0% | t=822s
+Epoch 1 | step 380/2900 | ce=0.5250 | kd=0.9304 | agree=0.233 | kept=10.0% | t=871s
+Epoch 1 | step 400/2900 | ce=0.5427 | kd=0.9243 | agree=0.235 | kept=10.0% | t=917s
+Epoch 1 | step 420/2900 | ce=0.5421 | kd=0.9171 | agree=0.239 | kept=10.0% | t=963s
+Epoch 1 | step 440/2900 | ce=0.5559 | kd=0.9071 | agree=0.245 | kept=10.0% | t=1010s
+Epoch 1 | step 460/2900 | ce=0.5446 | kd=0.9016 | agree=0.247 | kept=10.0% | t=1057s
+Epoch 1 | step 480/2900 | ce=0.5528 | kd=0.8951 | agree=0.250 | kept=10.0% | t=1103s
+W0727 18:24:41.547000 2829409 site-packages/torch/distributed/elastic/agent/server/api.py:739] Received 15 death signal, shutting down workers
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/run.py", line 994, in <module>
+    main()
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 362, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/run.py", line 990, in main
+    run(args)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/run.py", line 981, in run
+    elastic_launch(
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 170, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/launcher/api.py", line 308, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/metrics/api.py", line 134, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 731, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/agent/server/api.py", line 908, in _invoke_run
+    time.sleep(monitor_interval)
+  File "/NHNHOME/VILAB/vilab_yj/miniconda3/envs/vgent/lib/python3.11/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 86, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 2829409 got signal: 15

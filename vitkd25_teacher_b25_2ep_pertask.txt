@@ -16,10 +16,11 @@ Avg     526    69.77%(367)    72.43%(381)    72.24%(380)    72.81%(383)    72.43
 
 re-scores of the SAME checkpoint: n=3, max 72.81% (383), mean 72.49% (381), min 72.24% (380), spread 0.57 pt
 
-The 10% ref column is v2 §8's 3-run MEAN over re-scores of identical weights
-(Overall 71.29% = 375 items, a 4-run mean). Compare it to the re-score mean
-column, not to max: max is best-of-N and v2 §8 calls that upward-biased.
-OTP has no 10% reference and its n=2 makes one question worth 50 points.
+10% ref column: 10% M1 SG-only teacher, 71.29% (375 items), 4-run mean, v2 §8.
+Compare it to the re-score mean column, not to max: max is best-of-N and
+v2 §8 calls that an upward-biased estimator.
+Tasks shown as -- have no 10% reference on record.
+n<=5 columns (OTP): one question moves them by >=20 points.
 
 item-count check: every per-task percentage lands on an integer and the
 per-task counts sum to each run's own Overall count.

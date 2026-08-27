@@ -1,0 +1,106 @@
+{
+  "protocol": {
+    "device": "NVIDIA B200",
+    "items_timed": 24,
+    "warmup_items": 3,
+    "vlm_gaze_overlay": "0",
+    "gaze_overlay": "1",
+    "ratios": {
+      "content": 0.07,
+      "traj": 0.03,
+      "dominant": 0.065,
+      "contextual": 0.035
+    },
+    "kept_tokens_mean": 1381
+  },
+  "params": {
+    "backbone": 8302259200,
+    "llm_lora_trainable": 10092544,
+    "teacher_tas_encoder": 35795606,
+    "student_predictor": 3950593,
+    "vitkd_adapter_trained": 61440,
+    "vitkd_adapter_at_inference": 0,
+    "note": "ViT-KD's adapter is rank-8 LoRA on visual.blocks[31] and folds into the ViT weights, so nothing is added at inference. Report the 0 as 'folded', not as 'no module'."
+  },
+  "extra_mb": {
+    "teacher_tas_encoder": 143.182424,
+    "student_predictor": 15.802372,
+    "vitkd": 0.0
+  },
+  "per_stage_ms": {
+    "shared_vit": {
+      "n": 24,
+      "mean_ms": 1579.1072735834557,
+      "median_ms": 1578.8456200389192,
+      "stdev_ms": 35.87083995258237,
+      "peak_gb": 19.901679616
+    },
+    "shared_build_inputs": {
+      "n": 24,
+      "mean_ms": 0.3300722358593096,
+      "median_ms": 0.32925151754170656,
+      "stdev_ms": 0.00850391317687308,
+      "peak_gb": 16.94069504
+    },
+    "shared_llm_forward": {
+      "n": 24,
+      "mean_ms": 45.44265519749994,
+      "median_ms": 45.54510745219886,
+      "stdev_ms": 1.8238655452352552,
+      "peak_gb": 17.40959232
+    },
+    "teacher_content_split": {
+      "n": 24,
+      "mean_ms": 1.094251647979642,
+      "median_ms": 1.0960776126012206,
+      "stdev_ms": 0.04196407863353422,
+      "peak_gb": 17.342754304
+    },
+    "teacher_extra_tas": {
+      "n": 24,
+      "mean_ms": 57.98095049491773,
+      "median_ms": 59.46071806829423,
+      "stdev_ms": 6.1711136736006065,
+      "peak_gb": 17.069971456
+    },
+    "teacher_topk_union": {
+      "n": 24,
+      "mean_ms": 0.20356031988436976,
+      "median_ms": 0.20357896573841572,
+      "stdev_ms": 0.0053361955389944,
+      "peak_gb": 16.949677056
+    },
+    "student_extra_predictor": {
+      "n": 24,
+      "mean_ms": 1.6401885853459437,
+      "median_ms": 1.6398390289396048,
+      "stdev_ms": 0.004538668032184271,
+      "peak_gb": 17.354427904
+    },
+    "student_topk_union": {
+      "n": 24,
+      "mean_ms": 0.18074962038857242,
+      "median_ms": 0.18153595738112926,
+      "stdev_ms": 0.00555067909228086,
+      "peak_gb": 16.949677056
+    },
+    "vitkd_select": {
+      "n": 24,
+      "mean_ms": 0.8891999799137315,
+      "median_ms": 0.8867793949320912,
+      "stdev_ms": 0.013194683125681584,
+      "peak_gb": 17.330719232
+    }
+  },
+  "shared_ms_per_item": 1624.880001016815,
+  "extra_ms_per_item": {
+    "teacher": 57.98095049491773,
+    "student": 1.6401885853459437,
+    "vitkd": 0.0
+  },
+  "extra_pct_of_shared": {
+    "teacher": 3.5683219966172572,
+    "student": 0.10094213630049904,
+    "vitkd": 0.0
+  }
+}
